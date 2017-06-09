@@ -1,0 +1,18 @@
+{
+  "name": "intent",
+  "version": "0.0.1",
+  "description": "Intent language compiler core",
+  "main": "build/index.js",
+  "scripts": {
+
+  },
+  "keywords": [
+    "intent",
+    "intent-core"
+  ],
+  "author": "ankhzet@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "intent-watchdog": "^0.0.1"
+  }
+}
