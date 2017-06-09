@@ -15,5 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "intent-watchdog": "^0.0.1"
+  },
+  "bin": {
+    "intent": "./bin/intent.js"
   }
 }

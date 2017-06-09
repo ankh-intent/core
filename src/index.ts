@@ -1,27 +1,44 @@
 
-import { Watchdog, WatchItem, WatchMatcher } from 'intent-watchdog';
+import { UnitMatcher, Watchdog, WatchItem } from 'intent-watchdog';
 
 export interface WatchOptions {
-  files: WatchMatcher[]
+  debounce: number;
 }
 
 export interface CoreOptions {
-  watch: WatchOptions;
+  files: UnitMatcher[]
+  watch?: WatchOptions;
 }
 
 export class Core {
   private watchdog: Watchdog;
-
   private watches: WatchItem[];
 
-  public constructor(options: CoreOptions) {
-    this.watchdog = new Watchdog();
+  private files: UnitMatcher[];
 
-    this.watch(options.watch);
+  public constructor() {
+    this.watchdog = new Watchdog();
+    this.watches = [];
   }
 
-  public watch(options: WatchOptions) {
-    for (let file of options.files) {
+  public bootstrap(options: CoreOptions): Core {
+    let watch;
+
+    this.files = options.files;
+
+    if (watch = options.watch) {
+      if (watch.debounce) {
+        this.watchdog.debounce(watch.debounce)
+      }
+
+      this.watch(this.files);
+    }
+
+    return this;
+  }
+
+  protected watch(files: UnitMatcher[]) {
+    for (let file of files) {
       this.watches.push(
         this.watchdog.watch(file)
       );
