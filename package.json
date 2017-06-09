@@ -2,7 +2,8 @@
   "name": "intent",
   "version": "0.0.1",
   "description": "Intent language compiler core",
-  "main": "build/index.js",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "scripts": {
 
   },

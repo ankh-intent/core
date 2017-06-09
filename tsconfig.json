@@ -1,12 +1,14 @@
 {
-	"compilerOptions": {
-		"rootDir": "./src",
-		"outDir": "./build",
-		"module": "es6",
-		"target": "es6",
-		"sourceMap": true
-	},
-	"exclude": [
-		"node_modules"
-	]
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./src",
+    "module": "es6",
+    "target": "es6",
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
