@@ -4,7 +4,7 @@ import { UseNode } from '../ast/UseNode';
 import { BaseBuilder } from './BaseBuilder';
 import { QualifierBuilder } from './QualifierBuilder';
 
-interface UseChildren {
+export interface UseChildren {
   qualifier: QualifierBuilder;
 }
 

@@ -4,7 +4,7 @@ import { TypeNode } from '../ast/TypeNode';
 import { QualifierBuilder } from './QualifierBuilder';
 import { BaseBuilder } from './BaseBuilder';
 
-interface TypeChildren {
+export interface TypeChildren {
   qualifier: QualifierBuilder;
 }
 

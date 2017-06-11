@@ -7,7 +7,7 @@ import { UseBuilder } from "./UseBuilder";
 import { CanBuilder } from './CanBuilder';
 import { DomainBuilder } from './DomainBuilder';
 
-interface ChipChildren {
+export interface ChipChildren {
   use: UseBuilder;
   domain: DomainBuilder;
   can: CanBuilder;

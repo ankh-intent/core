@@ -4,7 +4,7 @@ import { DomainNode } from '../ast/DomainNode';
 import { TypeDefBuilder } from './TypeDefBuilder';
 import { BaseBuilder } from './BaseBuilder';
 
-interface DomainChildren {
+export interface DomainChildren {
   typedef: TypeDefBuilder;
 }
 

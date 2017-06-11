@@ -3,7 +3,7 @@ import { Tokens } from '../../parser/Tokens';
 import { QualifierNode } from '../ast/QualifierNode';
 import { BaseBuilder } from './BaseBuilder';
 
-interface QualifierChildren {
+export interface QualifierChildren {
 
 }
 

@@ -5,7 +5,7 @@ import { BaseBuilder } from './BaseBuilder';
 import { PropertyBuilder } from './PropertyBuilder';
 import { TypeBuilder } from './TypeBuilder';
 
-interface TypeDefChildren {
+export interface TypeDefChildren {
   property: PropertyBuilder;
   type: TypeBuilder;
 }

@@ -3,7 +3,7 @@ import { Tokens } from '../../parser/Tokens';
 import { BaseBuilder } from './BaseBuilder';
 import { CanNode } from '../ast/CanNode';
 
-interface CanChildren {
+export interface CanChildren {
 }
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {

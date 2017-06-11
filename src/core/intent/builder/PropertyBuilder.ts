@@ -4,7 +4,7 @@ import { PropertyNode } from '../ast/PropertyNode';
 import { TypeBuilder } from './TypeBuilder';
 import { BaseBuilder } from './BaseBuilder';
 
-interface PropertyChildren {
+export interface PropertyChildren {
   type: TypeBuilder;
 }
 
