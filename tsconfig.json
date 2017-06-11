@@ -6,7 +6,10 @@
     "target": "es6",
     "sourceMap": true,
     "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es2015"
+    ]
   },
   "files": [
     "./bin/intent.ts"
