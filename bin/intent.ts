@@ -3,7 +3,6 @@
 import { Core, CoreOptions } from '../src/Core';
 import { ErrorEvent } from '../src/core/flow/events/ErrorEvent';
 import { SyntaxError } from '../src/core/parser/SyntaxError';
-import { StatEvent } from '../src/core/flow/events/StatEvent';
 import { InterpretedEvent } from '../src/core/flow/events/InterpretedEvent';
 
 let report = (error) => {
@@ -32,10 +31,6 @@ let report = (error) => {
   switch (type) {
     case InterpretedEvent.type():
       console.log(data.content);
-      break;
-
-    case StatEvent.type():
-      // console.log(`[INTENT/${type}]:`, JSON.stringify(data.stat.type));
       break;
 
     case ErrorEvent.type():

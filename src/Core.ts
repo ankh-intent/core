@@ -16,6 +16,7 @@ import { CoreEvent } from './core/flow/CoreEvent';
 import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
 import { Emitter } from './intent-utils/Emitter';
 import { InterpretConsumer } from './core/flow/consumers/InterpretConsumer';
+import { StatConsumer } from './core/flow/consumers/StatConsumer';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -42,6 +43,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new ParsedConsumer(this.events))
       .add(new CompiledConsumer(this.events))
       .add(new InterpretConsumer(this.events))
+      .add(new StatConsumer(this.events))
       .add({
         consume: (event) => {
           this.emit(event);
