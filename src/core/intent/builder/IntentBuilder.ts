@@ -10,6 +10,7 @@ import { TypeDefBuilder, TypeDefChildren } from './TypeDefBuilder';
 import { CanBuilder, CanChildren } from './CanBuilder';
 import { DomainBuilder, DomainChildren } from './DomainBuilder';
 import { ChipBuilder, ChipChildren } from './ChipBuilder';
+import { ConstraintBuilder, ConstraintChildren } from './ConstraintBuilder';
 
 export class IntentBuilder implements ASTBuilder<ChipNode> {
   private builders:
@@ -19,6 +20,7 @@ export class IntentBuilder implements ASTBuilder<ChipNode> {
     TypeDefChildren &
     PropertyChildren &
     CanChildren &
+    ConstraintChildren &
     DomainChildren &
     ChipChildren &
     {
@@ -32,6 +34,7 @@ export class IntentBuilder implements ASTBuilder<ChipNode> {
     this.builders.property = new PropertyBuilder(this.builders);
     this.builders.use = new UseBuilder(this.builders);
     this.builders.can = new CanBuilder(this.builders);
+    this.builders.constraint = new ConstraintBuilder(this.builders);
     this.builders.typedef = new TypeDefBuilder(this.builders);
     this.builders.domain = new DomainBuilder(this.builders);
     this.builders.chip = new ChipBuilder(this.builders);
