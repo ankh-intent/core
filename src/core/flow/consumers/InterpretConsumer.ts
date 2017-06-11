@@ -10,6 +10,7 @@ import { PropertyNode } from '../../intent/ast/PropertyNode';
 import { TypeDefNode } from '../../intent/ast/TypeDefNode';
 import { TypeNode } from '../../intent/ast/TypeNode';
 import { InterpretedEvent } from '../events/InterpretedEvent';
+import { CanNode } from '../../intent/ast/CanNode';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   public supports(event: CoreEvent<any>): boolean {
@@ -36,6 +37,8 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
         ${chip.name}: {
           ${this.domains(chip.domains).join("\n          ")}
         }
+        
+        ${this.can(chip.can)}
       }))();
     `;
   }
@@ -77,7 +80,10 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
 
   protected typedef(typedef: TypeDefNode): string {
     return `class ${typedef.name}${typedef.parent ? ` extends ${typedef.parent.qualifier.path('.')}` : ``} {
-              ${this.properties(typedef.properties).join("\n              ")}
+              ${
+      this.properties(typedef.properties)
+        .map((l) => l + ';')
+        .concat(this.cans(typedef.can)).join(";\n              ")}
             }`;
   }
 
@@ -89,7 +95,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   protected property(property: PropertyNode): string {
-    return `${property.name}: ${this.type(property.type)};`;
+    return `${property.name}: ${this.type(property.type)}`;
   }
 
   protected type(type: TypeNode): string {
@@ -98,5 +104,18 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
         ? `<${this.type(type.generic)}>`
         : ``
     );
+  }
+
+  protected cans(cans: {[name: string]: CanNode}): string[] {
+    return Object.keys(cans)
+      .map((name) => cans[name])
+      .map((can: CanNode) => this.can(can))
+
+  }
+
+  protected can(can: CanNode): string {
+    return `${can.name}(${this.properties(can.args).join(", ")})${can.returns ? ': ' + this.type(can.returns) : ''} {
+                ${can.body}
+              }`;
   }
 }

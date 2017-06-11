@@ -16,11 +16,11 @@ export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren>
       return null;
     }
 
-    tokens.ensure({type: 'symbol', value: ':'});
+    if (tokens.not({type: 'symbol', value: ':'})) {
+      return null;
+    }
 
     let type = this.child.type.build(tokens);
-
-    tokens.ensure({type: 'symbol', value: ';'});
 
     let property = new PropertyNode();
     property.name = name.value;

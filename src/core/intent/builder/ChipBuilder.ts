@@ -21,6 +21,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
     let uses = {};
     let domains = {};
+    let can = null;
 
     tokens.ensure({value: '{'});
 
@@ -33,7 +34,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
       if (use) {
         if (uses[use.alias]) {
-          throw new Error(`Use with same alias "${use.alias}" already present`);
+          throw tokens.error(`Use with same alias "${use.alias}" already present`);
         }
 
         uses[use.alias] = use;
@@ -42,7 +43,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
         if (domain) {
           if (domains[domain.identifier]) {
-            throw new Error(`Use with same alias "${domain.identifier}" already present`);
+            throw tokens.error(`Use with same alias "${domain.identifier}" already present`);
           }
 
           domains[domain.identifier] = domain;
@@ -52,7 +53,9 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
       }
     }
 
-    let can = this.child.can.build(tokens);
+    if (tokens.peek({type: 'identifier', value: 'can'})) {
+      can = this.child.can.build(tokens);
+    }
 
     tokens.ensure({value: '}'});
 

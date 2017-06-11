@@ -41,11 +41,10 @@ export class Intent {
     let char = source.at(index);
     let token;
 
-    switch (char) {
-      case "\"":
-        if (token = this.string(source, context)) {
-          return token;
-        }
+    if (char.match(/['"`]/)) {
+      if (token = this.string(source, context)) {
+        return token;
+      }
     }
 
     if (char.match(/\s/)) {
@@ -79,13 +78,13 @@ export class Intent {
 
   public static string(source: Source, context: Context): string {
     let index = context.pos;
-    let char = source.at(index++);
+    let char = source.at(index++), start = char;
 
-    if (char !== "\"") {
+    if (!char.match(/['"`]/)) {
       return;
     }
 
-    while (source.at(index) !== "\"") {
+    while (source.at(index) !== start) {
       index++;
     }
 

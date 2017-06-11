@@ -8,6 +8,12 @@ export class Token {
   public end: number;
 
   public get value(): string {
+    if (this.type === 'string') {
+      let value = this.source.extract(this.start + 1, this.end - 1);
+
+      return `"${value}"`;
+    }
+
     return this.source.extract(this.start, this.end);
   }
 }
