@@ -117,7 +117,7 @@ export class Tokens {
     this.index++;
   }
 
-  public error(reason: string): SyntaxError {
+  public error(reason: string, parent?: Error): SyntaxError {
     let error = new SyntaxError(reason, this.context.source, this.last);
     let stack = (error.stack || "").split("\n").slice(2);
     let commons = stack
@@ -145,6 +145,7 @@ export class Tokens {
 
       return line;
     }).join("\n");
+    error.parent = parent;
 
     return error;
   }

@@ -26,7 +26,11 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     if (error instanceof SyntaxError) {
       let loc = error.source.location(error.pos);
       console.error(`[INTENT/SYNTAX]: ${error.source.reference}:${loc.line}:${loc.column}: ${error.toString()}`);
-      console.error(error.stack);
+      if (!error.parent) {
+        console.error(error.stack);
+      } else {
+        this.report(error.parent);
+      }
     } else {
       console.error(`[INTENT/ERROR]:`, error);
     }

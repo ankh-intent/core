@@ -37,7 +37,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
 
       if (constraint) {
         if (constraints[constraint.can.name]) {
-          throw new Error(`Property with the same name "${constraint.can.name}" already present`);
+          throw tokens.error(`Constraint with the same name "${constraint.can.name}" already present`);
         }
 
         constraints[constraint.can.name] = constraint;
@@ -48,7 +48,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
 
       if (property) {
         if (properties[property.name]) {
-          throw new Error(`Property with the same name "${property.name}" already present`);
+          throw tokens.error(`Property with the same name "${property.name}" already present`);
         }
 
         properties[property.name] = property;
@@ -60,7 +60,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
 
       if (can) {
         if (cans[can.name]) {
-          throw new Error(`Method with the same name "${can.name}" already present`);
+          throw tokens.error(`Method with the same name "${can.name}" already present`);
         }
 
         cans[can.name] = can;

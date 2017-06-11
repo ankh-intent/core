@@ -22,7 +22,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
       if (type) {
         if (types[type.name]) {
-          throw new Error(`Type with the same name "${type.name}" already present in current domain`);
+          throw tokens.error(`Type with the same name "${type.name}" already present in current domain`);
         }
 
         types[type.name] = type;
