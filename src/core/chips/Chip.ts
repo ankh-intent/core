@@ -1,5 +1,6 @@
 
 import { TreeNode } from '../tree/TreeNode';
+import { ChipNode } from '../ast/ChipNode';
 
 export class Chip implements TreeNode {
   public static TYPE_CHIP = 'chip';
@@ -7,6 +8,7 @@ export class Chip implements TreeNode {
   public type: string = Chip.TYPE_CHIP;
   public path: string;
   public linked: {[name: string]: Chip} = {};
+  public ast: ChipNode;
 
   public constructor(path: string) {
     this.path = path;

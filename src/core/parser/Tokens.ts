@@ -93,13 +93,11 @@ export class Tokens {
       if (token) {
         let { value, type } = matcher;
 
-        console.log(token);
-
         if (value && (token.value !== value)) {
           reason = `Expected "${value}", but got "${token.value}"`;
         } else {
           if (type && (token.type !== type)) {
-            reason = `Expected @${value}, but got @${token.type}`;
+            reason = `Expected @${type}, but got @${token.type}`;
           } else {
             this.next();
 

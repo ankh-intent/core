@@ -1,4 +1,4 @@
-chip 'test' {
+chip "test" {
 
   use Intent.Types as I;
 

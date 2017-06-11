@@ -5,6 +5,14 @@ import { WatchItem } from './intent-watchdog/core/WatchItem';
 import { UnitInterface } from './intent-watchdog/core/Unit';
 import { Chip } from './core/chips/Chip';
 import { TreeNodeWalker } from './core/tree/TreeNodeVisitor';
+import { StringSource } from './core/source/StringSource';
+import { Compiler } from './core/Compiler';
+import { ASTBuilder } from "./core/ASTBuilder";
+import { Source } from './core/source/Source';
+import { Emitter } from './intent-utils/Emitter';
+import { ChipNode } from './core/ast/ChipNode';
+import { Watch } from './intent-watchdog/core/aggregator/Watch';
+import { FileReader } from './core/source/FileReader';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -64,8 +72,32 @@ export class Core {
 
   private files: UnitMatcher[];
 
+  private compiler: Compiler;
+  private sources: {
+    [path: string]: {
+      source: Source;
+      chip: Chip;
+    }
+  } = {
+    'bin/test.int': {
+      source: new StringSource(`
+      chip "aaa" {
+        use Intent.Types as I;
+        use Intent.Env as E;
+      }
+      `),
+      chip: null,
+    }
+  };
+  private queue: CompilationQueue;
+
   public constructor() {
     this.watches = [];
+    this.compiler = new Compiler(new ASTBuilder());
+    this.queue = new CompilationQueue(this.compiler);
+    this.queue.and((path, ast) => {
+      this.bind(path, ast);
+    });
   }
 
   public bootstrap(options: CoreOptions): Core {
@@ -115,47 +147,109 @@ export class Core {
   }
 
   protected changed(path) {
-    console.log('changed:', path);
+    this.queue.enqueue(path);
+  }
 
-    let walker = new TreeNodeWalker<Chip>();
-    let visitors = {
-      chip(node: Chip, { name, queue }: { name: string, queue: {name: string, chip: Chip}[] }) {
-        let children = [];
+  protected bind(path, ast: ChipNode) {
+    console.log('parsed', path, ast);
 
-        for (let name in node.linked) {
-          walker.walk(node.linked[name], visitors, {
-            name,
-            queue: children,
-          });
+    // let walker = new TreeNodeWalker<Chip>();
+    // let visitors = {
+    //   chip(node: Chip, { name, queue }: { name: string, queue: {name: string, chip: Chip}[] }) {
+    //     let children = [];
+    //
+    //     for (let name in node.linked) {
+    //       walker.walk(node.linked[name], visitors, {
+    //         name,
+    //         queue: children,
+    //       });
+    //     }
+    //
+    //     queue.push(...children);
+    //
+    //     if (node.path === path) {
+    //       queue.push({
+    //         chip: node,
+    //         name,
+    //       });
+    //     } else {
+    //       if (children.length) {
+    //         queue.push({
+    //           chip: node,
+    //           name,
+    //         });
+    //       }
+    //     }
+    //   },
+    // };
+    //
+    // let queue = [];
+    // walker.walk(root, visitors, {
+    //   name: 'root',
+    //   queue,
+    // });
+    //
+    // console.log('queue:', queue.map(({ chip, name }) => ({
+    //   name,
+    //   path: chip.path,
+    // })));
+  }
+}
+
+class CompilationQueue extends Emitter<(path: string, ast: ChipNode) => any> {
+  private queue: string[];
+  private compiler: Compiler;
+  private watch: Watch;
+  private reader: FileReader;
+
+  public constructor(compiler: Compiler) {
+    super();
+    this.queue = [];
+    this.compiler = compiler;
+    this.reader = new FileReader();
+    this.watch = new Watch(this.process.bind(this));
+  }
+
+  private bounce() {
+    return this.watch.bounce(50);
+  }
+
+  public enqueue(path: string): number {
+    let idx = (this.queue.indexOf(path) < 0)
+      ? this.queue.push(path)
+      : 0;
+
+    if (idx) {
+      this.bounce();
+    }
+
+    return idx;
+  }
+
+  public process() {
+    if (!this.queue.length) {
+      return;
+    }
+
+    let path = this.queue.shift();
+
+    console.log('processing:', path);
+
+    this.reader.read(path)
+      .then((source: Source) => {
+        this.emit(
+          path,
+          this.compiler.compile(source)
+        );
+      })
+      .catch((error) => {
+        console.log('failed:', path, error);
+      })
+      .then(() => {
+        if (this.queue.length) {
+          this.bounce();
         }
-
-        queue.push(...children);
-
-        if (node.path === path) {
-          queue.push({
-            chip: node,
-            name,
-          });
-        } else {
-          if (children.length) {
-            queue.push({
-              chip: node,
-              name,
-            });
-          }
-        }
-      },
-    };
-
-    let queue = [];
-    walker.walk(root, visitors, {
-      name: 'root',
-      queue,
-    });
-
-    console.log('queue:', queue.map(({ chip, name }) => ({
-      name,
-      path: chip.path,
-    })));
+      })
+    ;
   }
 }
