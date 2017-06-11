@@ -1,0 +1,95 @@
+chip "test" {
+
+  use Intent.Types as I;
+
+  domain Objects {
+
+    type Name extends I.String {
+      :disallow() {
+        return !length;
+      }
+    }
+
+    type Object {
+      name: Name;
+    }
+
+  }
+
+  domain Alchemist {
+    use Objects as O;
+
+    type Ingredient extends O.Object {
+      value: I.Number;
+    }
+
+    type Formula extends O.Object {
+      value: I.Number;
+      ingredients: I.Collection<Ingredient>;
+
+      :disallow() {
+        return !ingredients.count;
+      }
+    }
+
+    type Environment {
+      formulae: Formulae;
+
+      preferred(ingredients: Ingredients, from: I.Collection<Formula>): Formula {
+
+      }
+    }
+
+    type Brew {
+      formula: Formula;
+      environment: Environment;
+    }
+
+    type Formulae {
+      all: I.Collection<Formula>;
+
+      find(ingredients: Ingredients): I.Collection<Formula> {
+
+      }
+    }
+
+    type Cauldron extends O.Object {
+      environment: Environment;
+
+      put(ingredients: Ingredients) {
+        formulas = environment.formulae.find(ingredients);
+
+        return formulas
+          ? environment.preferred(ingredients, formulas)
+          : none;
+      }
+
+      brew(formula: Formula): Brew {
+        return Brew(formula, environment);
+      }
+    }
+
+  }
+
+  use Intent.Env as E;
+
+  can (console: E.ConsoleEmitter) {
+    let cauldron = Alchemist.Cauldron('Profound tier cauldron');
+
+    emit console.log(`Cauldron: ${cauldron}`);
+
+    let ingredient1 = Alchemist.Ingredient('Zhenshen', 1);
+    let ingredient2 = Alchemist.Ingredient('Lotus');
+    let ingredients = Alchemist.Ingredients(ingredient1, ingredient2);
+
+    emit console.log(`Ingredients: ${ingredients}`);
+
+    let formula = cauldron.put(ingredients);
+
+    emit console.log(`Formula: ${formula}`);
+
+    let brew = cauldron.brew(formula);
+
+    emit console.log(`Brew: ${brew}`);
+  }
+}

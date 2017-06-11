@@ -4,8 +4,9 @@
 node_modules
 ncp-debug.log
 npm-debug.log
-bin/**/*.js.map
-bin/**/*.d.ts
-src/**/*.js*
-tests/**/*.js*
+/build
+/bin/**/*.js.map
+/bin/**/*.d.ts
+/src/**/*.js*
+/tests/**/*.js*
 !webpack.config.js

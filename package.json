@@ -4,9 +4,7 @@
   "description": "Intent language compiler core",
   "main": "src/index.js",
   "types": "src/index.d.ts",
-  "scripts": {
-
-  },
+  "scripts": {},
   "keywords": [
     "intent",
     "intent-core"
@@ -14,7 +12,8 @@
   "author": "ankhzet@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "intent-watchdog": "^0.0.1"
+    "@types/node": "^7.0.29",
+    "chokidar": "^1.7.0"
   },
   "bin": {
     "intent": "./bin/intent.js"

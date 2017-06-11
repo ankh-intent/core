@@ -1,0 +1,84 @@
+
+// module
+
+chip
+  ::= 'chip' @string '{' (use | domain)* can? '}'
+
+qualifier
+  ::= @identifier ('.' @identifier)*
+
+use
+  ::= 'use' qualifier ('as' @identifier)? ';'
+
+domain
+  ::= 'domain' @identifier ('extends' qualifier)? '{' typedef* '}'
+
+// domain
+typedef
+  ::= 'type' @identifier ('extends' type)? {' property* can* constraint* '}'
+
+property
+  ::= @identifier ':' type ';'
+
+type
+  ::= qualifier generic?
+
+generic
+  ::= '<' type (',' type)* '>'
+
+// methods
+constraint
+  ::= ':' can
+
+can
+  ::= @identifier '(' inargs? ')' '{' (statement ';')* '}'
+
+inargs
+  ::= inarg (',' inarg)*
+
+inarg
+  // no defaults thus far
+  ::= @identifier ':' type
+
+// statements
+statement
+  ::= assignment | expression
+
+assignment
+  ::= 'let' qualifier '=' expression
+
+expression
+  ::= basic (property | comparision | indexed | call)
+
+basic
+  ::= ('(' expression ')') | literal
+
+literal
+  :: @string | @number
+
+property
+  ::= '.' expression
+
+indexed
+  :: '[' expression ']'
+
+call
+  ::= expression '(' outargs? ')'
+
+outargs
+  ::= expression (',' expression)*
+
+comparision
+  ::=  (('>' | '<' | '>=' | '<=' | '!=' | '==') boolean)*
+
+boolean
+  ::= arithmetic1 (('&' | '|' | '^') expression)*
+
+arithmetic1
+  ::= arithmetic2 (('+' | '-') expression)*
+
+arithmetic2
+  ::= accessor (('*' | '/' | '%' | '**') expression)*
+
+accessor
+  ::= @identifier
