@@ -1,6 +1,8 @@
 
 import { Token } from './Token';
-import { Context } from './Tokenizer';
+import { Context, Tokenizer } from './Tokenizer';
+import { SyntaxError } from './SyntaxError';
+import { Source } from '../source/Source';
 
 export class Range {
   from: number;
@@ -10,16 +12,17 @@ export class Range {
 export class Tokens {
   private index: number;
   private last: number;
-  private tokenizer: (context: Context) => Token;
+  private tokenizer: Tokenizer;
 
   private context: Context;
 
   private tokens: {[index: number]: Token} = {};
 
-  public constructor(tokenizer: (context: Context) => Token, range: Range) {
+  public constructor(tokenizer: Tokenizer, source: Source, range: Range) {
     this.index = 0;
     this.last = range.from;
     this.context = {
+      source,
       range,
       pos: range.from,
     };
@@ -110,7 +113,7 @@ export class Tokens {
       }
     }
 
-    throw new Error(`[${this.last}] ${reason}`);
+    throw new SyntaxError(reason, this.context.source, this.last);
   }
 
   public next() {

@@ -14,7 +14,7 @@ export interface TreeNodeVisitors<N extends TreeNode> {
 export class TreeNodeWalker<N extends TreeNode> {
 
   public walk(node: N, visitors: TreeNodeVisitors<N>, context?: any): boolean {
-    let visitor = visitors[node.type];
+    let visitor = visitors[node.node];
 
     if (visitor) {
       let result = visitor(node, context);

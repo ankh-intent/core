@@ -4,19 +4,20 @@ import { Range } from './Tokens';
 import { Source } from '../source/Source';
 
 export interface Context {
+  source: Source;
   range: Range;
   pos: number;
 }
 
 export interface Tokenizer {
 
-  (source: Source, context: Context): string;
+  (context: Context): Token;
 
 }
 
 export class Intent {
 
-  public static wrapped(source: Source, context: Context): Token {
+  public static wrapped(context: Context): Token {
     let was = context.pos;
     let type;
 
@@ -24,9 +25,9 @@ export class Intent {
       return;
     }
 
-    if (type = this.base(source, context)) {
+    if (type = this.base(context.source, context)) {
       let token = new Token();
-      token.source = source;
+      token.source = context.source;
       token.start = was;
       token.end = context.pos;
       token.type = type;

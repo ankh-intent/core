@@ -10,4 +10,10 @@ export class QualifierNode extends AbstractNode {
       ? this.child.deepest()
       : this.name;
   }
+
+  public path(join: string = '.'): string {
+    return this.child
+      ? this.name + join + this.child.path(join)
+      : this.name;
+  }
 }

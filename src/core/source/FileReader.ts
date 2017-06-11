@@ -10,7 +10,7 @@ export class FileReader {
       fs.readFile(path, encoding, function (err, data) {
         return err
           ? rj(err)
-          : rs(new StringSource(data));
+          : rs(new StringSource(data, path));
       });
     });
   }

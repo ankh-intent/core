@@ -5,8 +5,9 @@ import { ChipNode } from '../ast/ChipNode';
 export class Chip implements TreeNode {
   public static TYPE_CHIP = 'chip';
 
-  public type: string = Chip.TYPE_CHIP;
+  public node: string = Chip.TYPE_CHIP;
   public path: string;
+  public name: string;
   public linked: {[name: string]: Chip} = {};
   public ast: ChipNode;
 
