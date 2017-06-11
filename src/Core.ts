@@ -17,6 +17,9 @@ import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
 import { Emitter } from './intent-utils/Emitter';
 import { InterpretConsumer } from './core/flow/consumers/InterpretConsumer';
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
+import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
+import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
+import { FatalEvent } from './core/flow/events/FatalEvent';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -43,9 +46,15 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new ParsedConsumer(this.events))
       .add(new CompiledConsumer(this.events))
       .add(new InterpretConsumer(this.events))
+      .add(new InterpretedConsumer(this.events))
+      .add(new ErrorConsumer(this.events))
       .add(new StatConsumer(this.events))
       .add({
         consume: (event) => {
+          if (event instanceof FatalEvent) {
+            this.stop();
+          }
+
           this.emit(event);
         }
       })
