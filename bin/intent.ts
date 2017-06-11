@@ -2,7 +2,6 @@
 
 import { Core, CoreOptions } from '../src/Core';
 
-
 (new Core()).bootstrap(<CoreOptions>{
   files: [
     {

@@ -31,8 +31,8 @@ export class Watchdog<U extends UnitInterface> {
     return Object.keys(this.watches).map((key) => this.watches[key]);
   }
 
-  public start(items: WatchItem<U>[]) {
-    for (let item of items) {
+  public start(items?: WatchItem<U>[]) {
+    for (let item of items || this.all()) {
       item.watch(this.options);
     }
   }

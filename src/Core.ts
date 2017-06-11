@@ -1,7 +1,6 @@
 
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
-import { WatchItem } from './intent-watchdog/core/WatchItem';
 import { UnitInterface } from './intent-watchdog/core/Unit';
 
 import { IntentBuilder } from './core/intent/builder/IntentBuilder';
@@ -27,17 +26,14 @@ export interface CoreOptions {
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
-  private watchdog: Watchdog<UnitInterface>;
-  private watches: WatchItem<UnitInterface>[];
-
   private files: UnitMatcher[];
+  private watchdog: Watchdog<UnitInterface>;
 
   private parser: IntentBuilder;
   private events: CoreEventBus;
 
   public constructor() {
     super();
-    this.watches = [];
     this.parser = new IntentBuilder();
 
     this.events = new CoreEventBus();
@@ -74,7 +70,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     }
 
     if (this.watchdog) {
-      this.watchdog.start(this.watches);
+      this.watchdog.start();
     }
 
     return this;
@@ -93,8 +89,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       watcher.emitter
         .and(this.event.bind(this))
       ;
-
-      this.watches.push(watcher);
     }
   }
 
