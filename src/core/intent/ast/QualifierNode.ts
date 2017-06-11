@@ -1,5 +1,5 @@
 
-import { AbstractNode } from './AbstractNode';
+import { AbstractNode } from '../../tree/AbstractNode';
 
 export class QualifierNode extends AbstractNode {
   public name: string;

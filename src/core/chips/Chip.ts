@@ -1,6 +1,6 @@
 
 import { TreeNode } from '../tree/TreeNode';
-import { ChipNode } from '../ast/ChipNode';
+import { ChipNode } from '../intent/ast/ChipNode';
 
 export class Chip implements TreeNode {
   public static TYPE_CHIP = 'chip';

@@ -1,5 +1,5 @@
 
-import { AbstractNode } from './AbstractNode';
+import { AbstractNode } from '../../tree/AbstractNode';
 import { UseNode } from './UseNode';
 import { DomainNode } from './DomainNode';
 import { CanNode } from './CanNode';

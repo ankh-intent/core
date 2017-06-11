@@ -7,7 +7,7 @@ import { AbstractConsumer } from '../AbstractConsumer';
 import { Context, Intent } from '../../parser/Tokenizer';
 import { Tokens } from '../../parser/Tokens';
 
-import { ChipNode } from '../../ast/ChipNode';
+import { ChipNode } from '../../intent/ast/ChipNode';
 import { ASTBuilder } from '../../ASTBuilder';
 import { CoreEventBus } from '../CoreEventBus';
 

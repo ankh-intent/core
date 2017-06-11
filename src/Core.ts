@@ -3,7 +3,7 @@ import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { WatchItem } from './intent-watchdog/core/WatchItem';
 import { UnitInterface } from './intent-watchdog/core/Unit';
-import { ChipNode } from './core/ast/ChipNode';
+import { ChipNode } from './core/intent/ast/ChipNode';
 import { ASTBuilder } from './core/ASTBuilder';
 import { IntentASTBuilder } from './core/intent/IntentASTBuilder';
 

@@ -3,12 +3,12 @@ import { CoreEvent } from '../CoreEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
 import { CompiledEvent } from '../events/CompiledEvent';
-import { ChipNode } from '../../ast/ChipNode';
-import { UseNode } from '../../ast/UseNode';
-import { DomainNode } from '../../ast/DomainNode';
-import { PropertyNode } from '../../ast/PropertyNode';
-import { TypeDefNode } from '../../ast/TypeDefNode';
-import { TypeNode } from '../../ast/TypeNode';
+import { ChipNode } from '../../intent/ast/ChipNode';
+import { UseNode } from '../../intent/ast/UseNode';
+import { DomainNode } from '../../intent/ast/DomainNode';
+import { PropertyNode } from '../../intent/ast/PropertyNode';
+import { TypeDefNode } from '../../intent/ast/TypeDefNode';
+import { TypeNode } from '../../intent/ast/TypeNode';
 import { InterpretedEvent } from '../events/InterpretedEvent';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{

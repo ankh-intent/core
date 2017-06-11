@@ -1,5 +1,5 @@
 
-import { AbstractNode } from './AbstractNode';
+import { AbstractNode } from '../../tree/AbstractNode';
 import { TypeNode } from './TypeNode';
 
 export class TypeDefNode extends AbstractNode {

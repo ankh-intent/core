@@ -1,5 +1,5 @@
 
-import { TreeNode } from '../tree/TreeNode';
+import { TreeNode } from './TreeNode';
 
 export class AbstractNode implements TreeNode {
 

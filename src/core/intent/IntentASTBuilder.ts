@@ -2,14 +2,14 @@
 import { Tokens } from '../parser/Tokens';
 import { ASTBuilder } from '../ASTBuilder';
 
-import { ChipNode } from '../ast/ChipNode';
-import { CanNode } from '../ast/CanNode';
-import { UseNode } from '../ast/UseNode';
-import { DomainNode } from '../ast/DomainNode';
-import { QualifierNode } from '../ast/QualifierNode';
-import { TypeNode } from '../ast/TypeNode';
-import { TypeDefNode } from '../ast/TypeDefNode';
-import { PropertyNode } from '../ast/PropertyNode';
+import { ChipNode } from './ast/ChipNode';
+import { CanNode } from './ast/CanNode';
+import { UseNode } from './ast/UseNode';
+import { DomainNode } from './ast/DomainNode';
+import { QualifierNode } from './ast/QualifierNode';
+import { TypeNode } from './ast/TypeNode';
+import { TypeDefNode } from './ast/TypeDefNode';
+import { PropertyNode } from './ast/PropertyNode';
 
 export class IntentASTBuilder implements ASTBuilder<ChipNode> {
 
