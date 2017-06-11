@@ -3,6 +3,7 @@ import { Token } from './Token';
 import { Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
 import { Source } from '../source/Source';
+import { Strings } from '../../intent-utils/Strings';
 
 export class Range {
   from: number;
@@ -85,39 +86,67 @@ export class Tokens {
   public ensure(matcher: Matcher): Token {
     let { range: { to } } = this.context;
 
-    let reason = null;
-
     if (this.index >= to) {
       let string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
-      reason = `Unexpected end of stream, expected token with ${string}`;
-    } else {
-      let token = this.at(this.index + 1);
-
-      if (token) {
-        let { value, type } = matcher;
-
-        if (value && (token.value !== value)) {
-          reason = `Expected "${value}", but got "${token.value}"`;
-        } else {
-          if (type && (token.type !== type)) {
-            reason = `Expected @${type}, but got @${token.type}`;
-          } else {
-            this.next();
-
-            return token;
-          }
-        }
-      } else {
-        let string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
-        reason = `Expected token with ${string}, but stream seems empty`;
-      }
+      throw this.error(`Unexpected end of stream, expected token with ${string}`);
     }
 
-    throw new SyntaxError(reason, this.context.source, this.last);
+    let token = this.at(this.index + 1);
+
+    if (!token) {
+      let string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
+      throw this.error(`Expected token with ${string}, but stream seems empty`);
+    }
+
+    let { value, type } = matcher;
+
+    if (value && (token.value !== value)) {
+      throw this.error(`Expected "${value}", but got "${token.value}"`);
+    }
+
+    if (type && (token.type !== type)) {
+      throw this.error(`Expected @${type}, but got @${token.type}`);
+    }
+
+    this.next();
+
+    return token;
   }
 
   public next() {
     this.index++;
+  }
+
+  public error(reason: string): SyntaxError {
+    let error = new SyntaxError(reason, this.context.source, this.last);
+    let stack = (error.stack || "").split("\n").slice(2);
+    let commons = stack
+      .map((line) => line.match(/at [^(]*\((.+?)(:\d+)*\)/))
+      .filter((match) => match)
+      .map((match) => match[1])
+    ;
+    let intersect = Strings.longestCommon(commons).map((line) => line.replace(/\/$/, ''));
+    let max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
+
+    error.stack = stack.map((line) => {
+      for (let idx in intersect) {
+        let sub = intersect[idx];
+        let com = Strings.longestCommon([sub, __filename]).pop();
+
+        if (line.indexOf(com) >= 0) {
+          return line
+            .replace(/(.*?)\s*\(([^)]+)\)/, (m, ref, loc) => {
+              return `${Strings.pad(ref, max, ' ')} -> ${loc}`;
+            })
+            .replace(com, `{${+idx + 1}}`)
+          ;
+        }
+      }
+
+      return line;
+    }).join("\n");
+
+    return error;
   }
 }
 

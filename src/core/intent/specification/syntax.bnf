@@ -11,13 +11,13 @@ use
   ::= 'use' qualifier ('as' @identifier)? ';'
 
 domain
-  ::= 'domain' @identifier ('extends' qualifier)? '{' type* '}'
+  ::= 'domain' @identifier ('extends' qualifier)? '{' typedef* '}'
 
 // domain
-type
-  ::= 'type' @identifier '{' has* can* constraint* '}'
+typedef
+  ::= 'type' @identifier ('extends' type)? {' property* can* constraint* '}'
 
-has
+property
   ::= @identifier ':' type ';'
 
 type
