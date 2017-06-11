@@ -10,14 +10,16 @@ export interface DomainChildren {
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
   public build(tokens: Tokens): DomainNode {
-    tokens.ensure({value: 'domain'});
+    if (tokens.not({value: 'domain'})) {
+      return null;
+    }
 
     let { value: identifier } = tokens.get({type: 'identifier'});
     let types = {};
 
     tokens.ensure({value: '{'});
 
-    while (tokens.peek({value: 'type'})) {
+    while (true) {
       let type = this.child.typedef.build(tokens);
 
       if (type) {
@@ -26,7 +28,11 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         }
 
         types[type.name] = type;
+
+        continue;
       }
+
+      break;
     }
 
     tokens.ensure({value: '}'});

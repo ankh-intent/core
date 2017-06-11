@@ -83,6 +83,12 @@ export class Tokens {
     return !this.get(matcher);
   }
 
+  public but(matcher: Matcher): Token {
+    return this.peek(matcher)
+      ? null
+      : this.get({});
+  }
+
   public ensure(matcher: Matcher): Token {
     let { range: { to } } = this.context;
 
@@ -115,6 +121,27 @@ export class Tokens {
 
   public next() {
     this.index++;
+  }
+
+  public push(): number {
+    return this.index;
+  }
+
+  public pop(mark: number): number {
+    let old = this.index;
+    this.index = mark;
+
+    for (let i in this.tokens) {
+      if ((+i) === mark) {
+        this.context.pos = this.tokens[i].end;
+      }
+
+      if ((+i) > mark) {
+        delete this.tokens[i];
+      }
+    }
+
+    return old;
   }
 
   public error(reason: string, parent?: Error): SyntaxError {

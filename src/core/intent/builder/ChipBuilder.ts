@@ -21,6 +21,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
     let uses = {};
     let domains = {};
+    let can = null;
 
     tokens.ensure({value: '{'});
 
@@ -52,7 +53,9 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
       }
     }
 
-    let can = this.child.can.build(tokens);
+    if (tokens.peek({type: 'identifier', value: 'can'})) {
+      can = this.child.can.build(tokens);
+    }
 
     tokens.ensure({value: '}'});
 

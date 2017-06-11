@@ -51,6 +51,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
           throw tokens.error(`Property with the same name "${property.name}" already present`);
         }
 
+        tokens.ensure({type: 'symbol', value: ';'});
         properties[property.name] = property;
 
         continue;

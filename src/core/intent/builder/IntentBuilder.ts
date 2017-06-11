@@ -38,6 +38,29 @@ export class IntentBuilder implements ASTBuilder<ChipNode> {
     this.builders.typedef = new TypeDefBuilder(this.builders);
     this.builders.domain = new DomainBuilder(this.builders);
     this.builders.chip = new ChipBuilder(this.builders);
+
+    for (let name in this.builders) {
+      let builder = this.builders[name];
+      let old = builder.build.bind(builder);
+
+      builder.build = (tokens: Tokens) => {
+        let mark = tokens.push();
+
+        try {
+          let node = old(tokens);
+
+          if (!node) {
+            tokens.pop(mark);
+          }
+
+          return node;
+        } catch (e) {
+          tokens.pop(mark);
+
+          throw tokens.error(`Failed @${name}`, e);
+        }
+      };
+    }
   }
 
   public build(tokens: Tokens): ChipNode {
