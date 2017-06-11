@@ -1,6 +1,6 @@
 
 import { AbstractNode } from '../../tree/AbstractNode';
-import { TypeDefNode } from './TypeNode';
+import { TypeDefNode } from './TypeDefNode';
 import { UseNode } from './UseNode';
 
 export class DomainNode extends AbstractNode {
