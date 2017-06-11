@@ -21,7 +21,7 @@ export class IntentBuilder implements ASTBuilder<ChipNode> {
     can: CanBuilder;
     domain: DomainBuilder;
     chip: ChipBuilder;
-  };
+  } = <any>{};
 
   public constructor() {
     this.builders.qualifier = new QualifierBuilder(this.builders);
