@@ -5,7 +5,6 @@ import { WatchItem } from './intent-watchdog/core/WatchItem';
 import { UnitInterface } from './intent-watchdog/core/Unit';
 import { ChipNode } from './core/intent/ast/ChipNode';
 import { ASTBuilder } from './core/ASTBuilder';
-import { IntentASTBuilder } from './core/intent/IntentASTBuilder';
 
 import { SubmitConsumer } from './core/flow/consumers/SubmitConsumer';
 import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
@@ -20,6 +19,7 @@ import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { FatalEvent } from './core/flow/events/FatalEvent';
+import { IntentBuilder } from './core/intent/builder/IntentBuilder';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -38,7 +38,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   public constructor() {
     super();
     this.watches = [];
-    this.parser = new IntentASTBuilder();
+    this.parser = new IntentBuilder();
     this.events = new CoreEventBus();
     this.events
       .add(new UpdateConsumer(this.events))
