@@ -3,23 +3,23 @@ import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { WatchItem } from './intent-watchdog/core/WatchItem';
 import { UnitInterface } from './intent-watchdog/core/Unit';
-import { ChipNode } from './core/intent/ast/ChipNode';
-import { ASTBuilder } from './core/ASTBuilder';
+
+import { IntentBuilder } from './core/intent/builder/IntentBuilder';
+
+import { CoreEventBus } from './core/flow/CoreEventBus';
+import { UpdateEvent } from './core/flow/events/UpdateEvent';
+import { CoreEvent } from './core/flow/CoreEvent';
+import { Emitter } from './intent-utils/Emitter';
 
 import { SubmitConsumer } from './core/flow/consumers/SubmitConsumer';
 import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
 import { CompiledConsumer } from './core/flow/consumers/CompiledConsumer';
-import { CoreEventBus } from './core/flow/CoreEventBus';
-import { UpdateEvent } from './core/flow/events/UpdateEvent';
-import { CoreEvent } from './core/flow/CoreEvent';
 import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
-import { Emitter } from './intent-utils/Emitter';
 import { InterpretConsumer } from './core/flow/consumers/InterpretConsumer';
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { FatalEvent } from './core/flow/events/FatalEvent';
-import { IntentBuilder } from './core/intent/builder/IntentBuilder';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -32,13 +32,14 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
 
   private files: UnitMatcher[];
 
-  private parser: ASTBuilder<ChipNode>;
+  private parser: IntentBuilder;
   private events: CoreEventBus;
 
   public constructor() {
     super();
     this.watches = [];
     this.parser = new IntentBuilder();
+
     this.events = new CoreEventBus();
     this.events
       .add(new UpdateConsumer(this.events))
