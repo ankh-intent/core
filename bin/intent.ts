@@ -8,7 +8,7 @@ import config from './config';
 import { Core } from '../src/Core';
 
 ((core: Core) => {
-  core.bootstrap({...config(core), ...{
+  let options = core.bootstrap({...config(core), ...{
     watch: {
       aggregation: 0,
     },
@@ -23,5 +23,5 @@ import { Core } from '../src/Core';
     }
   });
 
-  return core;
-})(new Core()).start();
+  return core.start(options);
+})(new Core());

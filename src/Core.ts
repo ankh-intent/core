@@ -23,6 +23,7 @@ import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { ResolverOptions } from './core/chips/UseResolver';
 import { OptionsResolver } from './OptionsResolver';
 import { FileWriter } from './core/source/FileWriter';
+import { Finder } from './core/source/Finder';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -80,7 +81,18 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     return resolved;
   }
 
-  public start(): this {
+  public start(options: CoreOptions): this {
+    let finder = new Finder();
+    let root = options.resolver.paths.project;
+
+    for (let matcher of options.files) {
+      let found = finder.find(root, matcher, (path) => new UpdateEvent({path}));
+
+      if (found) {
+        this.events.emit(found);
+      }
+    }
+
     if (this.watchdog) {
       this.watchdog.start();
     }
