@@ -29,7 +29,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    if (!chip.name) {
+    if (!this.nodes[chip.path]) {
       chip = this.add(chip);
     }
 
@@ -74,6 +74,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
         continue;
       }
 
+      chip.link(link);
       if (!link.name) {
         console.log('  requesting', link.path);
 
@@ -83,5 +84,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
         }))
       }
     }
+
+    return event;
   }
 }
