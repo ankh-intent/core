@@ -1,7 +1,20 @@
 
 export class Strings {
-  public static pad(string: string, to: number, pattern: string = ' ') {
-    return string + pattern.repeat(to - string.length);
+
+  public static shrink(string: string, to: number, left: boolean = false) {
+    return (string.length > to)
+      ? string.substr(0, to - 3) + '...'
+      : this.pad(string, to, ' ', left);
+  }
+
+  public static pad(string: string, to: number, pattern: string = ' ', left: boolean = false) {
+    if (to <= string.length) {
+      return string;
+    }
+
+    return left
+      ? pattern.repeat(to - string.length) + string
+      : string + pattern.repeat(to - string.length);
   }
 
   public static max(strings: string[]): number {

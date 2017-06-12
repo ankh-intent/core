@@ -16,11 +16,11 @@ export class Chip implements TreeNode {
   }
 
   public link(chip: Chip) {
-    this.linked[chip.name] = chip;
+    this.linked[chip.path] = chip;
   }
 
   public unlink(chip: Chip) {
-    delete this.linked[chip.name];
+    delete this.linked[chip.path];
   }
 
   public has(chip: Chip) {
@@ -44,8 +44,8 @@ export class Chip implements TreeNode {
 
     let found;
 
-    for (let name in this.linked) {
-      if (found = this.linked[name].byPath(path)) {
+    for (let link in this.linked) {
+      if (found = this.linked[link].byPath(path)) {
         return found;
       }
     }

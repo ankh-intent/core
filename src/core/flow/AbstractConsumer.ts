@@ -4,7 +4,7 @@ import { ErrorEvent } from './events/ErrorEvent';
 import { CoreEventBus } from './CoreEventBus';
 
 export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements CoreEventConsumer<T, E> {
-  protected bus: CoreEventBus;
+  private bus: CoreEventBus;
 
   public abstract supports(event: CoreEvent<any>): boolean;
   public abstract process(event: E): CoreEvent<any>|void;
@@ -30,5 +30,9 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
 
   public emit(event: CoreEvent<any>): CoreEvent<any> {
     return this.bus.emit(event);
+  }
+
+  public stat(parent: CoreEvent<any>, data: any): CoreEvent<any> {
+    return this.bus.stat(data, parent);
   }
 }

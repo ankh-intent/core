@@ -1,6 +1,6 @@
 
 import { CoreEvent } from '../CoreEvent';
-import { ParsedEvent, ParsedEventProps } from '../events/ParsedEvent';
+import { ParsedEvent } from '../events/ParsedEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 import { CompiledEvent } from '../events/CompiledEvent';
 import { Chip } from '../../chips/Chip';
@@ -13,8 +13,8 @@ export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>
   }
 
   public process(event: ParsedEvent<ChipNode>) {
-    let { source, ast }: ParsedEventProps<ChipNode> = event.data;
-    this.bus.stat({
+    let { source, ast } = event.data;
+    this.stat(event, {
       type: 'compile',
       path: source,
     });

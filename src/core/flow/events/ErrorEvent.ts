@@ -1,9 +1,8 @@
 
-import { BaseCoreEvent, CoreEvent } from '../CoreEvent';
+import { BaseCoreEvent } from '../CoreEvent';
 
 export interface ErrorEventProps {
   error: any;
-  parent?: CoreEvent<any>;
 }
 
 export class ErrorEvent extends BaseCoreEvent<ErrorEventProps> {

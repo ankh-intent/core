@@ -8,12 +8,12 @@ export class Token {
   public end: number;
 
   public get value(): string {
-    if (this.type === 'string') {
-      let value = this.source.extract(this.start + 1, this.end - 1);
+    return (this.type === 'string')
+      ? this.source.extract(this.start + 1, this.end - 1)
+      : this.source.extract(this.start, this.end);
+  }
 
-      return `"${value}"`;
-    }
-
+  public get raw(): string {
     return this.source.extract(this.start, this.end);
   }
 }

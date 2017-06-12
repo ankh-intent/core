@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^7.0.29",
-    "chokidar": "^1.7.0"
+    "chokidar": "^1.7.0",
+    "source-map-support": "^0.4.15"
   },
   "bin": {
     "intent": "./bin/intent.js"

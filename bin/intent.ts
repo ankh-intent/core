@@ -1,28 +1,27 @@
 #!/usr/bin/env node
 
-import path = require('path');
+if (process.env.ENV === 'development') {
+  require('source-map-support').install();
+}
+
+import config from './config';
 import { Core } from '../src/Core';
 
-(new Core()).bootstrap({
-  files: [
-    {
-      event: 'change',
-      pattern: /\.int$/ig,
-    }
-  ],
-  resolver: {
-    paths: {
-      project: __dirname,
+((core: Core) => {
+  let options = core.bootstrap({...config(core), ...{
+    watch: {
+      aggregation: 0,
     },
-  },
-  watch: {
-    aggregation: 400,
-  },
-}).and((event) => {
-  let { type, data} = event;
+  }});
 
-  switch (type) {
-    default:
-      console.log(`[INTENT/UNCAUGHT/${type}]:`, JSON.stringify(data));
-  }
-});
+  core.and((event) => {
+    let { type, data} = event;
+
+    switch (type) {
+      default:
+        console.log(event, JSON.stringify(data));
+    }
+  });
+
+  return core.start(options);
+})(new Core());
