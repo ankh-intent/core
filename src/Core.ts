@@ -95,11 +95,13 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
 
     if (this.watchdog) {
       this.watchdog.start();
-    }
 
-    this.events.stat({
-      type: 'ready',
-    });
+      setTimeout(() => {
+        this.events.stat({
+          type: 'ready',
+        });
+      }, 100);
+    }
 
     return this;
   }
