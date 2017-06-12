@@ -65,7 +65,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new InterpretConsumer(this.events))
       .add(new InterpretedConsumer(this.events, new FileWriter()))
       .add(new ErrorConsumer(this.events))
-      .add(new StatConsumer(this.events))
+      .add(new StatConsumer(this.events, resolved))
       .add({
         consume: (event) => {
           if (event instanceof FatalEvent) {
@@ -85,9 +85,9 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       this.watchdog.start();
     }
 
-    this.events.emit(new StatEvent({
-      stat: 'ready',
-    }));
+    this.events.stat({
+      type: 'ready',
+    });
 
     return this;
   }
