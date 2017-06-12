@@ -1,28 +1,23 @@
 #!/usr/bin/env node
 
-import path = require('path');
+import config from './config';
 import { Core } from '../src/Core';
 
-(new Core()).bootstrap({
-  files: [
-    {
-      event: 'change',
-      pattern: /\.int$/ig,
-    }
-  ],
-  resolver: {
-    paths: {
-      project: __dirname,
+((core: Core) => {
+  let options = core.bootstrap({...config(core), ...{
+    watch: {
+      aggregation: 0,
     },
-  },
-  watch: {
-    aggregation: 400,
-  },
-}).and((event) => {
-  let { type, data} = event;
+  }});
 
-  switch (type) {
-    default:
+  core.and((event) => {
+    let { type, data} = event;
+
+    switch (type) {
+      default:
       console.log(`[INTENT/UNCAUGHT/${type}]:`, JSON.stringify(data));
-  }
-});
+    }
+  });
+
+  return core;
+})(new Core()).start();

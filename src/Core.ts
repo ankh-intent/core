@@ -1,6 +1,4 @@
 
-import path = require('path');
-
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { UnitInterface } from './intent-watchdog/core/Unit';
@@ -22,6 +20,7 @@ import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { FatalEvent } from './core/flow/events/FatalEvent';
 import { ResolverOptions } from './core/chips/UseResolver';
+import { OptionsResolver } from './OptionsResolver';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -33,26 +32,24 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private files: UnitMatcher[];
   private watchdog: Watchdog<UnitInterface>;
 
+  private options: OptionsResolver;
   private parser: IntentBuilder;
   private events: CoreEventBus;
 
   public constructor() {
     super();
+    this.options= new OptionsResolver();
     this.parser = new IntentBuilder();
     this.events = new CoreEventBus();
   }
 
-  public bootstrap(options: CoreOptions): Core {
-    if (!options.resolver.paths.intent) {
-      options.resolver.paths.intent = path.resolve(
-        path.join(__dirname.replace('/build/', '/'), 'core/intent/specification/lib/')
-      );
-    }
+  public bootstrap(options: CoreOptions): CoreOptions {
+    let resolved = this.options.resolve(options);
 
-    this.files = options.files;
+    this.files = resolved.files;
     let watch;
 
-    if (watch = options.watch) {
+    if (watch = resolved.watch) {
       this.watchdog = new Watchdog(watch);
 
       this.watch(this.files);
@@ -62,7 +59,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new UpdateConsumer(this.events))
       .add(new SubmitConsumer(this.events, this.parser))
       .add(new ParsedConsumer(this.events))
-      .add(new CompiledConsumer(this.events, options.resolver))
+      .add(new CompiledConsumer(this.events, resolved.resolver))
       .add(new InterpretConsumer(this.events))
       .add(new InterpretedConsumer(this.events))
       .add(new ErrorConsumer(this.events))
@@ -78,6 +75,10 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       })
     ;
 
+    return resolved;
+  }
+
+  public start(): this {
     if (this.watchdog) {
       this.watchdog.start();
     }
