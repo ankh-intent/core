@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 
-import { Core, CoreOptions } from '../src/Core';
+import path = require('path');
+import { Core } from '../src/Core';
 
-(new Core()).bootstrap(<CoreOptions>{
+(new Core()).bootstrap({
   files: [
     {
       event: 'change',
       pattern: /\.int$/ig,
     }
   ],
+  resolver: {
+    paths: {
+      project: __dirname,
+    },
+  },
   watch: {
     aggregation: 400,
   },

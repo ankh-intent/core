@@ -4,13 +4,19 @@ import { CompiledEvent } from '../events/CompiledEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
 import { Chip } from '../../chips/Chip';
-import { BaseUseResolver, UseResolver } from '../../chips/UseResolver';
+import { BaseUseResolver, ResolverOptions, UseResolver } from '../../chips/UseResolver';
 import { UpdateEvent } from '../events/UpdateEvent';
 import { ErrorEvent } from '../events/ErrorEvent'
+import { CoreEventBus } from '../CoreEventBus';
 
 export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private nodes: {[path: string]: Chip} = {};
-  private resolver: UseResolver = new BaseUseResolver();
+  private resolver: UseResolver;
+
+  public constructor(bus: CoreEventBus, resolverOptions: ResolverOptions) {
+    super(bus);
+    this.resolver = new BaseUseResolver(resolverOptions);
+  }
 
   public supports(event: CoreEvent<any>): boolean {
     return event.type === CompiledEvent.type();
