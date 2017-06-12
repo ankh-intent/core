@@ -70,7 +70,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         body.push('\n  ');
       }
 
-      body.push(token.value);
+      body.push(token.raw);
 
       if (breakAfter.indexOf(token.value) >= 0) {
         body.push('\n');
