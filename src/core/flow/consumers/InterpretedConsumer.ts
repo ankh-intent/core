@@ -19,7 +19,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
   }
 
   public process(event: InterpretedEvent) {
-    let {data: {chip, content}} = event;
+    let { chip, content } = event.data;
     this.bus.stat({
       type: 'emit',
       chip,

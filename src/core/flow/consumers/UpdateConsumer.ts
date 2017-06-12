@@ -23,12 +23,13 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
   }
 
   public process(event: UpdateEvent) {
+    let { path } = event.data;
     this.bus.stat({
       type: 'update',
-      path: event.data.path,
+      path: path,
     });
 
-    this.reader.read(event.data.path)
+    this.reader.read(path)
       .then((source: Source) => {
         this.emit(new SubmitEvent({
           source,

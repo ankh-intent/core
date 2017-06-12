@@ -44,5 +44,4 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       console.error(`[INTENT/ERROR]:`, error);
     }
   }
-
 }

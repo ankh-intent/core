@@ -23,7 +23,8 @@ export class SubmitConsumer extends AbstractConsumer<SubmitEvent, any>{
     return event.type === SubmitEvent.type();
   }
 
-  public process({type, data: { source }}: SubmitEvent) {
+  public process(event: SubmitEvent) {
+    let { source } = event.data;
     this.bus.stat({
       type: 'parse',
       source,
