@@ -1,9 +1,10 @@
 
 import { BaseCoreEvent } from '../CoreEvent';
 import { Chip } from '../../chips/Chip';
+import { Source } from '../../source/Source';
 
 export interface InterpretedEventProps {
-  content: string;
+  content: Source;
   chip: Chip;
 }
 

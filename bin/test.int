@@ -23,9 +23,13 @@ chip "test" {
       value: I.Number;
     }
 
+    type Ingredients extends I.Collection<Ingredient> {
+      value: I.Number;
+    }
+
     type Formula extends O.Object {
       value: I.Number;
-      ingredients: I.Collection<Ingredient>;
+      ingredients: Ingredients;
 
       :disallow() {
         return !ingredients.count;
