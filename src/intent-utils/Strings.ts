@@ -1,5 +1,12 @@
 
 export class Strings {
+
+  public static shrink(string: string, to: number, left: boolean = false) {
+    return (string.length > to)
+      ? string.substr(0, to - 3) + '...'
+      : this.pad(string, to, ' ', left);
+  }
+
   public static pad(string: string, to: number, pattern: string = ' ', left: boolean = false) {
     if (to <= string.length) {
       return string;

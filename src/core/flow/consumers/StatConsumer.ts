@@ -89,9 +89,9 @@ class EmittedStat extends BaseStat {
 
     this.logger.log(
       `${Strings.pad(String(index), 5, ' ', true)} ` +
-      `[${Strings.pad(cause, 10, ' ', true)}] ` +
-      `${Strings.pad(path.replace(new RegExp(`^${common}`), '@'), 60)} ` +
-      `~${(end - start)} ms`
+      `[${Strings.shrink(cause, 10, true)}] ` +
+      `${Strings.shrink(path.replace(new RegExp(`^${common}`), '@'), 60)} ` +
+      `${Strings.shrink(`~${String(end - start)}`, 6, true)} ms`
     );
   }
 }
