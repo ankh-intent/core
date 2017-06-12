@@ -1,4 +1,7 @@
 
+import { ResolverOptions } from './core/chips/UseResolver';
+import { OptionsResolver } from './OptionsResolver';
+
 import { Emitter } from './intent-utils/Emitter';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
@@ -10,7 +13,8 @@ import { CoreEventBus } from './core/flow/CoreEventBus';
 import { UpdateEvent } from './core/flow/events/UpdateEvent';
 import { CoreEvent } from './core/flow/CoreEvent';
 import { FatalEvent } from './core/flow/events/FatalEvent';
-import { StatEvent } from './core/flow/events/StatEvent';
+import { FileWriter } from './core/source/FileWriter';
+import { Finder } from './core/source/Finder';
 
 import { SubmitConsumer } from './core/flow/consumers/SubmitConsumer';
 import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
@@ -20,10 +24,6 @@ import { InterpretConsumer } from './core/flow/consumers/InterpretConsumer';
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
-import { ResolverOptions } from './core/chips/UseResolver';
-import { OptionsResolver } from './OptionsResolver';
-import { FileWriter } from './core/source/FileWriter';
-import { Finder } from './core/source/Finder';
 
 export interface CoreOptions {
   files: UnitMatcher[]

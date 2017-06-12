@@ -64,6 +64,16 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   protected update(event: CompiledEvent, chip: Chip) {
+    let old = this.nodes[chip.path];
+
+    if (old) {
+      for (let path in old.linked) {
+        if (old.linked[path] && !chip.linked[path]) {
+          chip.link(old.linked[path])
+        }
+      }
+    }
+
     for (let alias in chip.ast.uses) {
       let use = chip.ast.uses[alias];
       let link = this.resolver.resolve(chip, use.qualifier);
