@@ -3,11 +3,14 @@ import { CoreEvent } from '../CoreEvent';
 import { CompiledEvent } from '../events/CompiledEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
-import { TreeNodeWalker } from '../../tree/TreeNodeVisitor';
 import { Chip } from '../../chips/Chip';
+import { BaseUseResolver, UseResolver } from '../../chips/UseResolver';
+import { UpdateEvent } from '../events/UpdateEvent';
+import { ErrorEvent } from '../events/ErrorEvent'
 
 export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private nodes: {[path: string]: Chip} = {};
+  private resolver: UseResolver = new BaseUseResolver();
 
   public supports(event: CoreEvent<any>): boolean {
     return event.type === CompiledEvent.type();
@@ -20,48 +23,59 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    let walker = new TreeNodeWalker<Chip>();
+    if (!chip.name) {
+      chip = this.add(chip);
+    }
 
-    let visitors = {
-      chip(node: Chip, { name, queue }: { name: string, queue: {name: string, chip: Chip}[] }) {
-        let children = [];
+    return this.update(event, chip);
+  }
 
-        for (let name in node.linked) {
-          walker.walk(node.linked[name], visitors, {
-            name,
-            queue: children,
-          });
+  protected add(chip: Chip): Chip {
+    console.log('new chip', chip.path);
+
+    for (let key in this.nodes) {
+      let node = this.nodes[key];
+      let has = node.byPath(chip.path);
+
+      if (has && (has !== chip)) {
+        if (node.has(has)) {
+          node.link(chip);
+          console.log('  linked to', node.path, 'as', chip.name);
+
+          break;
         }
+      }
+    }
 
-        queue.push(...children);
+    return this.nodes[chip.path] = chip;
+  }
 
-        if (node.path === chip.path) {
-          queue.push({
-            chip: node,
-            name,
-          });
-        } else {
-          if (children.length) {
-            queue.push({
-              chip: node,
-              name,
-            });
-          }
-        }
-      },
-    };
+  protected update(event: CompiledEvent, chip: Chip) {
+    for (let alias in chip.ast.uses) {
+      let use = chip.ast.uses[alias];
+      let link = this.resolver.resolve(chip, use.qualifier);
+      console.log('resolving', use, link);
 
-    let queue = [];
-    walker.walk(chip, visitors, {
-      name: 'root',
-      queue,
-    });
+      if (!link) {
+        return new ErrorEvent({
+          error: new Error(`Can't resolve chip "${use.qualifier.path('.')}"`),
+          parent: event,
+        });
+      }
 
-    console.log('queue:', queue.map(({ chip, name }) => ({
-      name,
-      path: chip.path,
-    })));
+      if (chip.byPath(link.path)) {
+        console.log('  already done');
+        continue;
+      }
 
-    return event;
+      if (!link.name) {
+        console.log('  requesting', link.path);
+
+        this.emit(new UpdateEvent({
+          path: link.path,
+          parent: event,
+        }))
+      }
+    }
   }
 }

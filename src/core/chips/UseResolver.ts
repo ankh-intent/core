@@ -47,7 +47,7 @@ export class IntentUseResolver implements UseResolver {
     }
 
     return new Chip(
-      `~/dev/js/intent/intent-core/src/core/specification/${identifier.path('/').toLowerCase()}.int`
+      `~/dev/js/intent/intent-core/src/core/intent/specification/${identifier.path('/').toLowerCase().replace(/^intent\//, 'lib/')}.int`
     );
   }
 }
