@@ -40,7 +40,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
           2
         ) +
         `\n}\n` +
-        `return ` + this.can(chip.can),
+        (chip.can ? `return ` + this.can(chip.can) : ''),
         2) +
       `\n}))();\n`;
   }
