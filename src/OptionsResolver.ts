@@ -12,6 +12,10 @@ export class OptionsResolver {
       );
     }
 
+    if (!resolved.resolver.paths.output) {
+      resolved.resolver.paths.output = resolved.resolver.paths.project;
+    }
+
     return resolved;
   }
 }

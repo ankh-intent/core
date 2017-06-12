@@ -11,6 +11,7 @@ import { TypeDefNode } from '../../intent/ast/TypeDefNode';
 import { TypeNode } from '../../intent/ast/TypeNode';
 import { InterpretedEvent } from '../events/InterpretedEvent';
 import { CanNode } from '../../intent/ast/CanNode';
+import { StringSource } from '../../source/StringSource';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   public supports(event: CoreEvent<any>): boolean {
@@ -24,9 +25,11 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
+    let resolved = chip.path.replace(/\.int$/, '.js');
+
     return new InterpretedEvent({
       chip,
-      content: this.chip(chip.ast),
+      content: new StringSource(this.chip(chip.ast), resolved),
     });
   }
 

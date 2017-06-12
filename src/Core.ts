@@ -22,6 +22,7 @@ import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { ResolverOptions } from './core/chips/UseResolver';
 import { OptionsResolver } from './OptionsResolver';
+import { FileWriter } from './core/source/FileWriter';
 
 export interface CoreOptions {
   files: UnitMatcher[]
@@ -62,7 +63,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new ParsedConsumer(this.events))
       .add(new CompiledConsumer(this.events, resolved.resolver))
       .add(new InterpretConsumer(this.events))
-      .add(new InterpretedConsumer(this.events))
+      .add(new InterpretedConsumer(this.events, new FileWriter()))
       .add(new ErrorConsumer(this.events))
       .add(new StatConsumer(this.events))
       .add({
