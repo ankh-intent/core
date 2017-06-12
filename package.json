@@ -4,7 +4,10 @@
   "description": "Intent language compiler core",
   "main": "src/index.js",
   "types": "src/index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "executable": "chmod +x bin/intent.js",
+    "intent": "bin/intent.js"
+  },
   "keywords": [
     "intent",
     "intent-core"
