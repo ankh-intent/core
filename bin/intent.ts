@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.env.ENV === 'development') {
+  require('source-map-support').install();
+}
+
 import config from './config';
 import { Core } from '../src/Core';
 import { StatEvent } from '../src/core/flow/events/StatEvent';
