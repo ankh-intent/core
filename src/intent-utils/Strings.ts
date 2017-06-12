@@ -1,11 +1,13 @@
 
 export class Strings {
-  public static pad(string: string, to: number, pattern: string = ' ') {
+  public static pad(string: string, to: number, pattern: string = ' ', left: boolean = false) {
     if (to <= string.length) {
       return string;
     }
 
-    return string + pattern.repeat(to - string.length);
+    return left
+      ? pattern.repeat(to - string.length) + string
+      : string + pattern.repeat(to - string.length);
   }
 
   public static max(strings: string[]): number {
