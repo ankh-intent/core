@@ -6,7 +6,6 @@ import { AbstractConsumer } from '../AbstractConsumer';
 import { Chip } from '../../chips/Chip';
 import { BaseUseResolver, ResolverOptions, UseResolver } from '../../chips/UseResolver';
 import { UpdateEvent } from '../events/UpdateEvent';
-import { ErrorEvent } from '../events/ErrorEvent'
 import { CoreEventBus } from '../CoreEventBus';
 
 export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
@@ -37,7 +36,10 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   protected add(chip: Chip): Chip {
-    console.log('new chip', chip.path);
+    this.bus.stat({
+      type: 'trace',
+      chip,
+    });
 
     for (let key in this.nodes) {
       let node = this.nodes[key];
@@ -46,7 +48,12 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       if (has && (has !== chip)) {
         if (node.has(has)) {
           node.link(chip);
-          console.log('  linked to', node.path, 'as', chip.name);
+
+          this.bus.stat({
+            type: 'link',
+            chip,
+            parent: node,
+          });
 
           break;
         }
@@ -60,24 +67,18 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
     for (let alias in chip.ast.uses) {
       let use = chip.ast.uses[alias];
       let link = this.resolver.resolve(chip, use.qualifier);
-      console.log('resolving', use, link);
 
       if (!link) {
-        return new ErrorEvent({
-          error: new Error(`Can't resolve chip "${use.qualifier.path('.')}"`),
-          parent: event,
-        });
+        throw new Error(`Can't resolve chip "${use.qualifier.path('.')}"`);
       }
 
       if (chip.byPath(link.path)) {
-        console.log('  already done');
         continue;
       }
 
       chip.link(link);
-      if (!link.name) {
-        console.log('  requesting', link.path);
 
+      if (!link.name) {
         this.emit(new UpdateEvent({
           path: link.path,
           parent: event,
