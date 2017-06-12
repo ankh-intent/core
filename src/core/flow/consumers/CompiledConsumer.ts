@@ -7,9 +7,10 @@ import { Chip } from '../../chips/Chip';
 import { BaseUseResolver, ResolverOptions, UseResolver } from '../../chips/UseResolver';
 import { UpdateEvent } from '../events/UpdateEvent';
 import { CoreEventBus } from '../CoreEventBus';
+import { NodeCache } from '../../intent/ast/NodeCache';
 
 export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
-  private nodes: {[path: string]: Chip} = {};
+  private nodes: NodeCache = new NodeCache();
   private resolver: UseResolver;
 
   public constructor(bus: CoreEventBus, resolverOptions: ResolverOptions) {
@@ -28,7 +29,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    if (!this.nodes[chip.path]) {
+    if (!this.nodes.has(chip)) {
       chip = this.add(event, chip);
     }
 
@@ -41,8 +42,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    for (let key in this.nodes) {
-      let node = this.nodes[key];
+    for (let node of this.nodes.all()) {
       let has = node.byPath(chip.path);
 
       if (has && (has !== chip)) {
@@ -60,11 +60,11 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       }
     }
 
-    return this.nodes[chip.path] = chip;
+    return this.nodes.set(chip);
   }
 
   protected update(event: CompiledEvent, chip: Chip) {
-    let old = this.nodes[chip.path];
+    let old = this.nodes.get(chip.path);
 
     if (old) {
       for (let path in old.linked) {
