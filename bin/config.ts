@@ -14,8 +14,5 @@ export default (core: Core) => {
         project: __dirname.replace('/build/', '/'),
       },
     },
-    watch: {
-      aggregation: 400,
-    },
   };
 };
