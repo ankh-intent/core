@@ -1,6 +1,10 @@
 
 export class Strings {
   public static pad(string: string, to: number, pattern: string = ' ') {
+    if (to <= string.length) {
+      return string;
+    }
+
     return string + pattern.repeat(to - string.length);
   }
 
