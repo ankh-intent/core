@@ -15,12 +15,12 @@ export class Chip implements TreeNode {
     this.path = path;
   }
 
-  public link(name: string, chip: Chip) {
-    if (chip) {
-      this.linked[name] = chip;
-    } else {
-      delete this.linked[name];
-    }
+  public link(chip: Chip) {
+    this.linked[chip.name] = chip;
+  }
+
+  public unlink(chip: Chip) {
+    delete this.linked[chip.name];
   }
 
   public has(chip: Chip) {
@@ -35,5 +35,21 @@ export class Chip implements TreeNode {
     }
 
     return false;
+  }
+
+  public byPath(path: string): Chip {
+    if (this.path === path) {
+      return this;
+    }
+
+    let found;
+
+    for (let name in this.linked) {
+      if (found = this.linked[name].byPath(path)) {
+        return found;
+      }
+    }
+
+    return null;
   }
 }

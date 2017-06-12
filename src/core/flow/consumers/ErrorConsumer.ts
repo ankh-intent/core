@@ -13,26 +13,33 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
 
   public process(event: ErrorEvent) {
     while (event) {
-      if (event.type === ErrorEvent.type()) {
-        this.report(event.data.error);
-        event = event.data.parent;
+      let { type, data } = event;
+      event = data.parent;
+
+      if (type === ErrorEvent.type()) {
+        this.report(data.error);
       } else {
-        break;
+        console.log(` caused by: ${type} ${(<any>data).path ? (<any>data).path : null}`);
       }
     }
   }
 
   protected report(error) {
     if (error instanceof SyntaxError) {
-      let loc = error.source.location(error.pos);
-      console.error(`[INTENT/SYNTAX]: ${error.source.reference}:${loc.line}:${loc.column}: ${error.toString()}`);
+      let msg = error.toString();
+
+      if (error.source) {
+        let loc = error.source.location(error.pos);
+        msg = `${error.source.reference}:${loc.line}:${loc.column}: ${msg}`;
+      }
+
+      console.error(`[INTENT/SYNTAX]: ${msg}`);
+
       if (!error.parent) {
         console.error(error.stack);
       } else {
         this.report(error.parent);
       }
-    } else {
-      console.error(`[INTENT/ERROR]:`, error);
     }
   }
 

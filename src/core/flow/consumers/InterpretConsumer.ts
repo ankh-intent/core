@@ -31,16 +31,18 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   protected chip(chip: ChipNode): string {
-    return `
-      ${this.uses(chip.uses).join("\n      ")}
-      (() => ({
-        ${chip.name}: {
-          ${this.domains(chip.domains).join("\n          ")}
-        }
-        
-        ${this.can(chip.can)}
-      }))();
-    `;
+    return this.uses(chip.uses).join("\n") +
+      `\n(() => ({\n` +
+      this.tab(
+        `${chip.name}: {\n` +
+        this.tab(
+          this.domains(chip.domains).join("\n"),
+          2
+        ) +
+        `\n}\n` +
+        `return ` + this.can(chip.can),
+        2) +
+      `\n}))();\n`;
   }
 
   protected uses(uses: {[name: string]: UseNode}): string[] {
@@ -66,25 +68,36 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   protected domain(domain: DomainNode): string {
-    return `${domain.identifier}: {
-            ${this.typedefs(domain.types).join("\n            ")}
-          }`;
+    return `${domain.identifier}: {\n` +
+      this.tab(
+        this.typedefs(domain.types).join("\n"),
+        2
+      ) +
+      `\n}`;
   }
 
   protected typedefs(typedefs: {[name: string]: TypeDefNode}): string[] {
     return Object.keys(typedefs)
       .map((name) => typedefs[name])
       .map((typedef: TypeDefNode) => `${typedef.name}: ${this.typedef(typedef)},`)
-
+    ;
   }
 
   protected typedef(typedef: TypeDefNode): string {
-    return `class ${typedef.name}${typedef.parent ? ` extends ${typedef.parent.qualifier.path('.')}` : ``} {
-              ${
-      this.properties(typedef.properties)
-        .map((l) => l + ';')
-        .concat(this.cans(typedef.can)).join(";\n              ")}
-            }`;
+    return this.tab(
+      `class ${typedef.name}` +
+      (typedef.parent ? ` extends ${typedef.parent.qualifier.path('.')}` : ``) +
+      ` {\n` +
+      this.tab(
+        this.properties(typedef.properties)
+          .map((l) => `public ${l};`)
+          .concat(this.cans(typedef.can))
+          .join("\n"),
+        2
+      ) +
+      `\n}`,
+      0
+    );
   }
 
   protected properties(properties: {[name: string]: PropertyNode}): string[] {
@@ -110,12 +123,18 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     return Object.keys(cans)
       .map((name) => cans[name])
       .map((can: CanNode) => this.can(can))
-
+    ;
   }
 
   protected can(can: CanNode): string {
-    return `${can.name}(${this.properties(can.args).join(", ")})${can.returns ? ': ' + this.type(can.returns) : ''} {
-                ${can.body}
-              }`;
+    return `${can.name}(${this.properties(can.args).join(", ")})` +
+      (can.returns ? ': ' + this.type(can.returns) : '') +
+      ` {\n` +
+      this.tab(can.body, 2) +
+      `\n}`;
+  }
+
+  public tab(text: string, len: number): string {
+    return text.trim().split('\n').map((line) => ' '.repeat(len) + line).join('\n');
   }
 }

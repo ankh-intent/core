@@ -1,4 +1,6 @@
 
+import path = require('path');
+
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { UnitInterface } from './intent-watchdog/core/Unit';
@@ -19,10 +21,12 @@ import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { FatalEvent } from './core/flow/events/FatalEvent';
+import { ResolverOptions } from './core/chips/UseResolver';
 
 export interface CoreOptions {
   files: UnitMatcher[]
   watch?: WatchdogOptions;
+  resolver: ResolverOptions;
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
@@ -35,13 +39,30 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   public constructor() {
     super();
     this.parser = new IntentBuilder();
-
     this.events = new CoreEventBus();
+  }
+
+  public bootstrap(options: CoreOptions): Core {
+    if (!options.resolver.paths.intent) {
+      options.resolver.paths.intent = path.resolve(
+        path.join(__dirname.replace('/build/', '/'), 'core/intent/specification/lib/')
+      );
+    }
+
+    this.files = options.files;
+    let watch;
+
+    if (watch = options.watch) {
+      this.watchdog = new Watchdog(watch);
+
+      this.watch(this.files);
+    }
+
     this.events
       .add(new UpdateConsumer(this.events))
       .add(new SubmitConsumer(this.events, this.parser))
       .add(new ParsedConsumer(this.events))
-      .add(new CompiledConsumer(this.events))
+      .add(new CompiledConsumer(this.events, options.resolver))
       .add(new InterpretConsumer(this.events))
       .add(new InterpretedConsumer(this.events))
       .add(new ErrorConsumer(this.events))
@@ -56,18 +77,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
         }
       })
     ;
-  }
-
-  public bootstrap(options: CoreOptions): Core {
-    let watch;
-
-    this.files = options.files;
-
-    if (watch = options.watch) {
-      this.watchdog = new Watchdog(watch);
-
-      this.watch(this.files);
-    }
 
     if (this.watchdog) {
       this.watchdog.start();

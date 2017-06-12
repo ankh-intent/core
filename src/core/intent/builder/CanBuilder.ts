@@ -49,10 +49,38 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
     tokens.ensure({type: 'symbol', value: '{'});
 
-    let token, body = [];
+    let token, body = [], prev = null;
+    let wrapBefore = ['='];
+    let wrapAfter = [',', '=', ':', '?'];
+    let breakBefore = ['?', ':'];
+    let breakAfter = [';'];
 
     while (token = tokens.but({type: 'symbol', value: '}'})) {
+      if (prev === 'identifier') {
+        if (token.type === prev) {
+          body.push(' ');
+        }
+      }
+
+      if (wrapBefore.indexOf(token.value) >= 0) {
+        body.push(' ');
+      }
+
+      if (breakBefore.indexOf(token.value) >= 0) {
+        body.push('\n  ');
+      }
+
       body.push(token.value);
+
+      if (breakAfter.indexOf(token.value) >= 0) {
+        body.push('\n');
+      }
+
+      if (wrapAfter.indexOf(token.value) >= 0) {
+        body.push(' ');
+      }
+
+      prev = token.type;
     }
 
     tokens.ensure({type: 'symbol', value: '}'});
@@ -61,7 +89,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     can.name = name.value;
     can.args = args;
     can.returns = returns;
-    can.body = body.join(' ');
+    can.body = body.join('');
 
     return can;
   }

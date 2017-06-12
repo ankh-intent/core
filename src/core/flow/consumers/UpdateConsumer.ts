@@ -8,6 +8,7 @@ import { UpdateEvent } from '../events/UpdateEvent';
 import { FileReader } from "../../source/FileReader";
 import { Source } from '../../source/Source';
 import { ErrorEvent } from "../events/ErrorEvent";
+import { SyntaxError } from '../../parser/SyntaxError';
 
 export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
   private reader: FileReader;
@@ -33,9 +34,12 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
           source,
         }));
       })
-      .catch((error) => {
+      .catch((error: Error) => {
+        let e = new SyntaxError(error.message, null, 0);
+        e.parent = error;
+
         this.emit(new ErrorEvent({
-          error,
+          error: e,
           parent: event,
         }));
       })
