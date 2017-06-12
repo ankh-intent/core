@@ -8,6 +8,7 @@ import { ErrorEvent } from '../events/ErrorEvent';
 
 export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>{
   private writer: FileWriter;
+  private total: number = 0;
 
   public constructor(bus: CoreEventBus, writer: FileWriter) {
     super(bus);
@@ -20,9 +21,11 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
 
   public process(event: InterpretedEvent) {
     let { chip, content } = event.data;
+    let start = +new Date();
     this.bus.stat({
       type: 'emit',
       chip,
+      start,
     });
 
     this.writer.write(content)
@@ -30,6 +33,10 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
         this.bus.stat({
           type: 'emitted',
           chip,
+          content,
+          start,
+          end: +new Date(),
+          index: ++this.total,
         });
       })
       .catch((err) => {
