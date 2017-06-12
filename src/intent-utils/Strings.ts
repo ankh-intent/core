@@ -59,4 +59,18 @@ export class Strings {
       ? this.longestCommon(intersect)
       : intersect;
   }
+
+  public static lookup(line, p, s) {
+    while (p < line.length) {
+      p = line.indexOf(s, p);
+
+      if ((p > 0) && (line[p - 1] === '\\')) {
+        p++;
+
+        continue;
+      }
+
+      return p;
+    }
+  }
 }
