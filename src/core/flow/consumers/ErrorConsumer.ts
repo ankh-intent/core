@@ -19,7 +19,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       if (type === ErrorEvent.type()) {
         this.report(data.error);
       } else {
-        console.log(` caused by: ${type} ${(<any>data).path ? (<any>data).path : null}`);
+        console.log(' caused by:', type, (<any>data).path ? ' ' + (<any>data).path : '');
       }
     }
   }
@@ -40,6 +40,8 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       } else {
         this.report(error.parent);
       }
+    } else {
+      console.error(`[INTENT/ERROR]:`, error);
     }
   }
 
