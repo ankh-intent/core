@@ -14,7 +14,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   public process(event: ErrorEvent) {
     while (event) {
       let { type, data } = event;
-      event = data.parent;
+      event = event.parent;
 
       if (type === ErrorEvent.type()) {
         this.report(data.error);

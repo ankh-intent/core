@@ -2,15 +2,18 @@
 export interface CoreEvent<T> {
   type: string;
   data: T;
+  parent: CoreEvent<any>;
 }
 
 export abstract class BaseCoreEvent<T> implements CoreEvent<T> {
   public type: string;
   public data: T;
+  public parent: CoreEvent<any>;
 
-  public constructor(data: T) {
+  public constructor(data: T, parent?: CoreEvent<any>) {
     this.data = data;
     this.type = (<typeof BaseCoreEvent>this.constructor).type();
+    this.parent = parent;
   }
 
   public static type(): string {

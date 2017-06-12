@@ -23,20 +23,20 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
 
   public process(event: CompiledEvent) {
     let { chip } = event.data;
-    this.bus.stat({
+    this.stat(event, {
       type: 'synchronize',
       chip,
     });
 
     if (!this.nodes[chip.path]) {
-      chip = this.add(chip);
+      chip = this.add(event, chip);
     }
 
     return this.update(event, chip);
   }
 
-  protected add(chip: Chip): Chip {
-    this.bus.stat({
+  protected add(event: CompiledEvent, chip: Chip): Chip {
+    this.stat(event, {
       type: 'trace',
       chip,
     });
@@ -49,10 +49,10 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
         if (node.has(has)) {
           node.link(chip);
 
-          this.bus.stat({
+          this.stat(event, {
             type: 'link',
             chip,
-            parent: node,
+            node: node,
           });
 
           break;
@@ -81,8 +81,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
       if (!link.name) {
         this.emit(new UpdateEvent({
           path: link.path,
-          parent: event,
-        }))
+        }, event))
       }
     }
 

@@ -71,13 +71,19 @@ class EmittedStat extends BaseStat {
       this.options.resolver.paths.project,
       this.options.resolver.paths.intent
     ]).pop();
-    let cause = chip.hane;
+    let cause = '<root>';
+    let parent = event;
 
-    while (event) {
-      event = event.data.parent;
+    while (parent) {
+      parent = parent.parent;
 
-      if (event) {
+      if (parent) {
+        let data: any = parent.data;
 
+        if (data.chip && (data.chip !== chip)) {
+          cause = data.chip.name;
+          break;
+        }
       }
     }
 

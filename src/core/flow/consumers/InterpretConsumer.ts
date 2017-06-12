@@ -20,7 +20,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
 
   public process(event: CompiledEvent) {
     let { chip } = event.data;
-    this.bus.stat({
+    this.stat(event, {
       type: 'interpret',
       chip,
     });

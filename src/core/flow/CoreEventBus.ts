@@ -15,6 +15,10 @@ export class CoreEventBus {
 
       if (event !== processed) {
         if (processed) {
+          if (!processed.parent) {
+            processed.parent = event;
+          }
+
           event = this.emit(processed);
         }
 
@@ -27,8 +31,7 @@ export class CoreEventBus {
 
   public stat(data: any, parent?: CoreEvent<any>): CoreEvent<any> {
     return this.emit(new StatEvent({
-      parent,
       stat: data,
-    }));
+    }, parent));
   }
 }

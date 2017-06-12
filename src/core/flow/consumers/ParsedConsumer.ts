@@ -14,7 +14,7 @@ export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>
 
   public process(event: ParsedEvent<ChipNode>) {
     let { source, ast } = event.data;
-    this.bus.stat({
+    this.stat(event, {
       type: 'compile',
       path: source,
     });

@@ -25,7 +25,7 @@ export class SubmitConsumer extends AbstractConsumer<SubmitEvent, any>{
 
   public process(event: SubmitEvent) {
     let { source } = event.data;
-    this.bus.stat({
+    this.stat(event, {
       type: 'parse',
       source,
     });

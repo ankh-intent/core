@@ -22,7 +22,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
   public process(event: InterpretedEvent) {
     let { chip, content } = event.data;
     let start = +new Date();
-    this.bus.stat({
+    this.stat(event, {
       type: 'emit',
       chip,
       start,
@@ -30,7 +30,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
 
     this.writer.write(content)
       .then(() => {
-        this.bus.stat({
+        this.stat(event, {
           type: 'emitted',
           chip,
           content,
@@ -42,8 +42,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
       .catch((err) => {
         this.emit(new ErrorEvent({
           error: err,
-          parent: event,
-        }))
+        }, event))
       })
     ;
   }
