@@ -11,7 +11,7 @@ export default (core: Core) => {
     ],
     resolver: {
       paths: {
-        project: __dirname,
+        project: __dirname.replace('/build/', '/'),
       },
     },
     watch: {
