@@ -21,7 +21,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    let resolved = chip.path.replace(/\.int$/, '.js');
+    let resolved = chip.path.replace(/\.int$/, '.i.js');
 
     return new InterpretedEvent({
       chip,
