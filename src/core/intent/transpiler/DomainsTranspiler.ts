@@ -7,8 +7,4 @@ export class DomainsTranspiler extends AbstractCompoundTemplate<Container<Domain
   public get code(): string {
     return `{%*domain%}`;
   }
-
-  public resolve(data: Container<DomainNode>, property: string) {
-    return data[property];
-  }
 }

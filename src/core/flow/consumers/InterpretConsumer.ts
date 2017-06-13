@@ -16,7 +16,6 @@ import { CanTranspiler } from '../../intent/transpiler/CanTranspiler';
 import { ArgsTranspiler } from '../../intent/transpiler/ArgsTranspiler';
 import { ArrayHeadTranspiler } from '../../intent/transpiler/ArrayHeadTranspiler';
 import { ArrayTailTranspiler } from '../../intent/transpiler/ArrayTailTranspiler';
-import { DirectTranspiler } from '../../intent/transpiler/DirectTranspiler';
 import { DomainsTranspiler } from '../../intent/transpiler/DomainsTranspiler';
 import { TypeTranspiler } from '../../intent/transpiler/TypeTranspiler';
 import { TypesTranspiler } from "../../intent/transpiler/TypesTranspiler";
@@ -43,8 +42,6 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     parent: ParentTranspiler;
     can: CanTranspiler;
     args: ArgsTranspiler,
-    name: DirectTranspiler;
-    body: DirectTranspiler;
     "a.head": ArrayHeadTranspiler;
     "a.tail": ArrayTailTranspiler;
   };
@@ -110,16 +107,6 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       "a.tail": new ArrayTailTranspiler(
         this.substitutor,
         this.visitors
-      ),
-      name: new DirectTranspiler(
-        this.substitutor,
-        this.visitors,
-        "body"
-      ),
-      body: new DirectTranspiler(
-        this.substitutor,
-        this.visitors,
-        "body"
       ),
     };
 
