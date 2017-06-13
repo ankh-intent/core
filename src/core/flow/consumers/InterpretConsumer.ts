@@ -146,10 +146,8 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     let content = this.visitors.visit(
       "chip",
       new TemplateContext(
-        this.visitors,
-        {
-          chip: chip.ast,
-        }
+        this.templates.chip,
+        chip.ast
       )
     );
 

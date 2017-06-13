@@ -1,21 +1,21 @@
 
 import { ContextInterface } from '../Context';
-import { TemplateVisitors } from './TemplateVisitors';
+import { AbstractTemplate } from './Template';
 
-export class TemplateContext<D, T = string[]> implements ContextInterface<D, T> {
-  private visitors: TemplateVisitors<D>;
+export class TemplateContext<D, T = string> implements ContextInterface<D, T[]> {
   public code: string;
   public data: D;
+  public template: AbstractTemplate<D, T>;
 
-  public constructor(visitors: TemplateVisitors<D>, data: D, code?: string) {
-    this.visitors = visitors;
+  public constructor(template: AbstractTemplate<D, T>, data: D, code?: string) {
+    this.template = template;
     this.code = code;
     this.data = data;
   }
 
   public apply<K extends keyof D>(ref: K): ContextInterface<D[K], any> {
     if (this.data && this.data.hasOwnProperty(ref)) {
-      return new TemplateContext<D[K]>(<any>this.visitors, this.data[ref], this.code);
+      return new TemplateContext<D[K]>(<any>this.template, this.data[ref], this.code);
     }
 
     return this;

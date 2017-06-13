@@ -12,7 +12,7 @@ export class Substitutor<D, T extends AbstractTemplate<D, string> = any> extends
     this.visitors = visitors;
   }
 
-  public substitute(context: TemplateContext<D, string[]>): string[] {
+  public substitute(context: TemplateContext<D, string>): string[] {
     let match, found = 0, lines = [context.code], line, done = [];
     let inner, open, close;
 
@@ -35,12 +35,12 @@ export class Substitutor<D, T extends AbstractTemplate<D, string> = any> extends
 
           if (this.visitors.has(prop)) {
             switch (inner[0]) {
-              case '*':
-                line = this.handleEnum(line, context, inner, prop);
+              case '=':
+                line = this.handleResolve(line, context, inner, prop);
                 break;
-              case '.':
-                line = this.handleProp(line, context, inner, prop);
-                break;
+            }
+          } else {
+            switch (inner[0]) {
               case '=':
                 line = this.handleResolve(line, context, inner, prop);
                 break;
@@ -66,7 +66,7 @@ export class Substitutor<D, T extends AbstractTemplate<D, string> = any> extends
     return done;
   }
 
-  protected handleEnum(line: string, context: TemplateContext<D, string[]>, placeholder: string, entry: keyof D): string[] {
+  protected handleEnum(line: string, context: TemplateContext<D, string>, placeholder: string, entry: keyof D): string[] {
     let keys = <(keyof D)[]>Object.keys(context.data);
     let all = new Array(keys.length);
 
@@ -87,7 +87,7 @@ export class Substitutor<D, T extends AbstractTemplate<D, string> = any> extends
     return all;
   }
 
-  protected handleProp(line: string, context: TemplateContext<D, string[]>, placeholder: string, entry: keyof D, ref: keyof D = entry): string[] {
+  protected handleProp(line: string, context: TemplateContext<D, string>, placeholder: string, entry: keyof D, ref: keyof D = entry): string[] {
     return this.replace(
       line,
       placeholder,
@@ -98,13 +98,17 @@ export class Substitutor<D, T extends AbstractTemplate<D, string> = any> extends
     );
   }
 
-  protected handleResolve(line: string, context: TemplateContext<D, string[]>, placeholder: string, entry: keyof D): string[] {
+  protected handleResolve(line: string, context: TemplateContext<D, string>, placeholder: string, entry: keyof D): string[] {
+    if (!this.visitors.has(entry)) {
+      this.visitors.bridge(context.template, entry);
+    }
+
     return this.replace(
       line,
       placeholder,
       this.visitors.visit(
         entry,
-        context.apply(ref)
+        context.apply(entry)
       )
     );
   }

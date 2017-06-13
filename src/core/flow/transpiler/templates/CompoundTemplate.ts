@@ -41,7 +41,7 @@ export abstract class AbstractCompoundTemplate<D, R = string> extends AbstractTe
           return line;
         }
 
-        this.sub[index] = new Template<D, R>(this.substitutor, this.visitors, line);
+        this.sub[index] = new Template<D, R>(this, line);
 
         return false;
       })

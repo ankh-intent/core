@@ -1,8 +1,6 @@
 
 import { ChipNode } from '../ast/ChipNode';
 import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/CompoundTemplate';
-import { Substitutor } from '../../flow/transpiler/templates/Substitutor';
-import { TemplateVisitors } from "../../flow/transpiler/templates/TemplateVisitors";
 
 export class ChipTranspiler extends AbstractCompoundTemplate<ChipNode> {
   public get code(): string {
@@ -17,13 +15,6 @@ export class ChipTranspiler extends AbstractCompoundTemplate<ChipNode> {
       })();
       `;
   }
-
-  public constructor(substitutor: Substitutor<ChipNode>, visitors: TemplateVisitors<ChipNode>) {
-    super(substitutor, visitors);
-
-    visitors.bridge(this, ["names"]);
-  }
-
 
   public resolve(data: ChipNode, property: string) {
     switch (property) {
