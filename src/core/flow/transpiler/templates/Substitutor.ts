@@ -35,8 +35,11 @@ export class Substitutor<D, T extends AbstractTemplate<D, string> = any> extends
 
           if (this.visitors.has(prop)) {
             switch (inner[0]) {
-              case '=':
-                line = this.handleResolve(line, context, inner, prop);
+              case '.':
+                line = this.handleProp(line, context, inner, prop);
+                break;
+              case '*':
+                line = this.handleEnum(line, context, inner, prop);
                 break;
             }
           } else {
