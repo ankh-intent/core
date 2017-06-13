@@ -24,6 +24,7 @@ import { TypeDefsTranspiler } from '../../intent/transpiler/TypeDefsTranspiler';
 import { ParentTranspiler } from '../../intent/transpiler/ParentTranspiler';
 import { PropertiesTranspiler } from '../../intent/transpiler/PropertiesTranspiler';
 import { PropertyTranspiler } from '../../intent/transpiler/PropertyTranspiler';
+import { DirectTranspiler } from '../../intent/transpiler/DirectTranspiler';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   private visitors: TemplateVisitors<any>;
@@ -44,6 +45,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     args: ArgsTranspiler;
     "a.head": ArrayHeadTranspiler;
     "a.tail": ArrayTailTranspiler;
+    name: DirectTranspiler;
   };
 
   public constructor(bus: CoreEventBus) {
@@ -107,6 +109,11 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       "a.tail": new ArrayTailTranspiler(
         this.substitutor,
         this.visitors
+      ),
+      name: new DirectTranspiler(
+        this.substitutor,
+        this.visitors,
+        "name"
       ),
     };
 
