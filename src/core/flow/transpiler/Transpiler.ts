@@ -24,7 +24,7 @@ export class SampleCompiler implements SampleCompilerInterface {
     let processed = {};
 
     let optimized = template
-      .replace(/((^[\n\r]|\s+$))/, '')
+      .replace(/(^[\n\r]|\s+$)/, '')
       .split('\n')
       .map((line, index) => {
         if ("" !== line.trim()) {
