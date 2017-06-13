@@ -1,11 +1,11 @@
 
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
+import { AbstractTranspiler } from '../../flow/transpiler/AbstractTranspiler';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { PropertiesTranspiler } from './PropertiesTranspiler';
 import { CansTranspiler } from './CansTranspiler';
 
-export class TypeDefTranspiler extends Transpiler<TypeDefNode, string> {
+export class TypeDefTranspiler extends AbstractTranspiler<TypeDefNode, string> {
   private properties: PropertiesTranspiler = new PropertiesTranspiler();
   private cans: CansTranspiler = new CansTranspiler();
 

@@ -1,18 +1,25 @@
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
 import { CanNode } from "../ast/CanNode";
-import { PropertiesTranspiler } from './PropertiesTranspiler';
-import { TypeTranspiler } from "./TypeTranspiler";
+import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/CompoundTemplate';
+import { Substitutor } from '../../flow/transpiler/templates/Substitutor';
+import { TemplateVisitors } from '../../flow/transpiler/templates/TemplateVisitors';
 
-export class CanTranspiler extends Transpiler<CanNode, string> {
-  private properties: PropertiesTranspiler = new PropertiesTranspiler();
-  private type: TypeTranspiler = new TypeTranspiler();
+export class CanTranspiler extends AbstractCompoundTemplate<CanNode> {
+  public get code(): string {
+    return `
+      {%name%}({%args%})/*: {%returns%}*/ {
+        {%body%} 
+      }`;
+  }
 
-  public process(can: CanNode) {
-    return `${can.name}(${this.properties.process(can.args).join(", ")})` +
-      (can.returns ? `/*: ${this.type.process(can.returns)}*/` : '') +
-      ` {\n` +
-      this.nested.format(can.body) +
-      `\n}`;
+  public constructor(substitutor: Substitutor<CanNode>, visitors: TemplateVisitors<CanNode>) {
+    super(substitutor, visitors);
+
+    visitors.bridge(this, ["returns"]);
+  }
+
+
+  public resolve(data: CanNode, property: string) {
+    return data[property];
   }
 }

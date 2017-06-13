@@ -1,8 +1,8 @@
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
+import { AbstractTranspiler } from '../../flow/transpiler/AbstractTranspiler';
 import { UseNode } from '../ast/UseNode';
 
-export class UseTranspiler extends Transpiler<UseNode, string> {
+export class UseTranspiler extends AbstractTranspiler<UseNode, string> {
   public process(use: UseNode) {
     let full = use.qualifier.path('.');
 

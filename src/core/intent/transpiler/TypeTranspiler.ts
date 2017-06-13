@@ -1,8 +1,8 @@
 
 import { TypeNode } from '../ast/TypeNode';
-import { Transpiler } from '../../flow/transpiler/Transpiler';
+import { AbstractTranspiler } from '../../flow/transpiler/AbstractTranspiler';
 
-export class TypeTranspiler extends Transpiler<TypeNode, string> {
+export class TypeTranspiler extends AbstractTranspiler<TypeNode, string> {
   public process(type: TypeNode) {
     return type.qualifier.path('.') + (
       type.generic

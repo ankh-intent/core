@@ -1,16 +1,14 @@
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
+import { DomainNode } from '../ast/DomainNode';
+import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/CompoundTemplate';
 import { Container } from '../../flow/transpiler/Container';
-import { DomainNode } from "../ast/DomainNode";
-import { DomainTranspiler } from './DomainTranspiler';
 
-export class DomainsTranspiler extends Transpiler<Container<DomainNode>, string[]> {
-  private domain: DomainTranspiler = new DomainTranspiler();
+export class DomainsTranspiler extends AbstractCompoundTemplate<Container<DomainNode>> {
+  public get code(): string {
+    return `{%domain*%};`;
+  }
 
-  public process(domains: Container<DomainNode>) {
-    return Object.keys(domains)
-      .map((name) => domains[name])
-      .map((domain: DomainNode) => this.domain.process(domain))
-    ;
+  public resolve(data: Container<DomainNode>, property: string) {
+    return data[property];
   }
 }

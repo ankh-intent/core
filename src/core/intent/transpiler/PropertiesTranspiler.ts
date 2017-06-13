@@ -1,10 +1,10 @@
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
+import { AbstractTranspiler } from '../../flow/transpiler/AbstractTranspiler';
 import { Container } from "../../flow/transpiler/Container";
 import { PropertyNode } from '../ast/PropertyNode';
 import { PropertyTranspiler } from './PropertyTranspiler';
 
-export class PropertiesTranspiler extends Transpiler<Container<PropertyNode>, string[]> {
+export class PropertiesTranspiler extends AbstractTranspiler<Container<PropertyNode>, string[]> {
   private property: PropertyTranspiler = new PropertyTranspiler();
 
   public process(properties: Container<PropertyNode>) {

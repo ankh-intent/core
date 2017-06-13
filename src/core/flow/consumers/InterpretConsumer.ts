@@ -5,10 +5,89 @@ import { AbstractConsumer } from '../AbstractConsumer';
 import { CompiledEvent } from '../events/CompiledEvent';
 import { InterpretedEvent } from '../events/InterpretedEvent';
 import { StringSource } from '../../source/StringSource';
+import { Substitutor } from '../transpiler/templates/Substitutor';
+import { TemplateVisitor } from '../transpiler/templates/Visitors';
+import { CoreEventBus } from '../CoreEventBus';
+import { TemplateContext } from '../transpiler/templates/TemplateContext';
 import { ChipTranspiler } from '../../intent/transpiler/ChipTranspiler';
+import { DomainTranspiler } from '../../intent/transpiler/DomainTranspiler';
+import { TemplateVisitors } from "../transpiler/templates/TemplateVisitors";
+import { CanTranspiler } from '../../intent/transpiler/CanTranspiler';
+import { ArgsTranspiler } from '../../intent/transpiler/ArgsTranspiler';
+import { ArrayHeadTranspiler } from '../../intent/transpiler/ArrayHeadTranspiler';
+import { ArrayTailTranspiler } from '../../intent/transpiler/ArrayTailTranspiler';
+import { DirectTranspiler } from '../../intent/transpiler/DirectTranspiler';
+import { DomainsTranspiler } from '../../intent/transpiler/DomainsTranspiler';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
-  private transpiler: ChipTranspiler = new ChipTranspiler();
+  private visitors: TemplateVisitors<any>;
+  private substitutor: Substitutor<any, any>;
+
+  private templates: {
+    chip: ChipTranspiler;
+    domains: DomainsTranspiler;
+    domain: DomainTranspiler;
+    can: CanTranspiler;
+    args: ArgsTranspiler,
+    name: DirectTranspiler;
+    body: DirectTranspiler;
+    "a.head": ArrayHeadTranspiler;
+    "a.tail": ArrayTailTranspiler;
+  };
+
+  public constructor(bus: CoreEventBus) {
+    super(bus);
+    this.visitors = new TemplateVisitors();
+    this.substitutor = new Substitutor(this.visitors);
+
+    this.templates = {
+      chip: new ChipTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      domain: new DomainTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      domains: new DomainsTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      can: new CanTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      args: new ArgsTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      "a.head": new ArrayHeadTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      "a.tail": new ArrayTailTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      name: new DirectTranspiler(
+        this.substitutor,
+        this.visitors,
+        "body"
+      ),
+      body: new DirectTranspiler(
+        this.substitutor,
+        this.visitors,
+        "body"
+      ),
+    };
+
+    for (let name of Object.keys(this.templates)) {
+      this.visitors.register(
+        name,
+        new TemplateVisitor(this.templates[name])
+      );
+    }
+  }
 
   public supports(event: CoreEvent<any>): boolean {
     return event.type === CompiledEvent.type();
@@ -22,11 +101,20 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     });
 
     let resolved = chip.path.replace(/\.int$/, '.i.js');
+    let content = this.visitors.visit(
+      "chip",
+      new TemplateContext(
+        this.visitors,
+        {
+          chip: chip.ast,
+        }
+      )
+    );
 
     return new InterpretedEvent({
       chip,
       content: new StringSource(
-        this.transpiler.process(chip.ast),
+        content.join("\n"),
         resolved
       ),
     });

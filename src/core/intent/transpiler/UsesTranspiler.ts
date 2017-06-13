@@ -1,10 +1,10 @@
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
+import { AbstractTranspiler } from '../../flow/transpiler/AbstractTranspiler';
 import { UseTranspiler } from './UseTranspiler';
 import { Container } from '../../flow/transpiler/Container';
 import { UseNode } from "../ast/UseNode";
 
-export class UsesTranspiler extends Transpiler<Container<UseNode>, string[]> {
+export class UsesTranspiler extends AbstractTranspiler<Container<UseNode>, string[]> {
   private use: UseTranspiler = new UseTranspiler();
 
   public process(uses: Container<UseNode>) {
