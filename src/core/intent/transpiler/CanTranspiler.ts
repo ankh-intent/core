@@ -5,7 +5,7 @@ import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/Compou
 export class CanTranspiler extends AbstractCompoundTemplate<CanNode> {
   public get code(): string {
     return `
-      {%name%}({%args%})/*: {%=returns%}*/ {
+      {%.name%}({%args%})/*: {%=returns%}*/ {
         {%body%} 
       }`;
   }
