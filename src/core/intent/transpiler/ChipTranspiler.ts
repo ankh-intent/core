@@ -5,7 +5,7 @@ import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/Compou
 export class ChipTranspiler extends AbstractCompoundTemplate<ChipNode> {
   public get code(): string {
     return `
-      (() => {
+      (() => { 
         {%domains%}
         {%can%}
       

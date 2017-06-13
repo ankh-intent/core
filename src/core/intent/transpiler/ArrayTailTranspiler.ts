@@ -4,7 +4,7 @@ import { Container } from '../../flow/transpiler/Container';
 
 export class ArrayTailTranspiler extends AbstractCompoundTemplate<Container<any>> {
   public get code(): string {
-    return `{%,{%*}%}`;
+    return `,{%*head%}`;
   }
 
   public resolve(data: Container<any>, property: string) {
