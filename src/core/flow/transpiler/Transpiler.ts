@@ -1,31 +1,63 @@
 
-import { NestedFormatter } from './NestedFormatter';
-import { Formatter } from "./Formatter";
 import { Strings } from '../../../intent-utils/Strings';
+import { Container } from './Container';
 
 export class Transpiler<N, T> {
-  protected nested: Formatter = new NestedFormatter();
-  protected sampler: Sampler = new Sampler('{%', '%}');
+  protected sampler: Sampler;
 
   public process(node: N): T {
     throw new Error(`Doesn't know how to transpile "${node.constructor.name}"`);
   }
 
-  protected transform(template: string, data: any): string[] {
-    return template.split('\n')
-      .map((line) => {
-        return ("" === line.trim())
-          ? line
-          : this.sampler.substitute(line, data);
+  protected template(template: string, resolver: (data) => any): (data: any) => string[] {
+    let processed = {};
+
+    let optimized = template
+      .replace(/(\s+$)/, '')
+      .split('\n')
+      .map((line, index) => {
+        if ("" !== line.trim()) {
+          if (this.sampler.next(line, 0)) {
+            processed[index] = false;
+          }
+        }
+
+        return String(line);
       })
-      .reduce((lines: string[], line: string|string[]) => (
+    ;
+
+    return (data) => {
+      let resolved = resolver(data);
+
+      return optimized.map((line, index) => {
+        return processed[index]
+          ? this.sampler.substitute(line, resolved)
+          : line;
+      }).reduce((lines: string[], line: string|string[]) => (
         lines.concat(
           (line instanceof Array)
             ? line
             : line.split("\n")
         )
       ), [])
-    ;
+    };
+  }
+
+  protected container<T>(child: string): (data: any) => string[] {
+    return this.template(
+      '{%' + child + '%}',
+      (container: Container<T>) => ({[child]: container})
+    );
+  }
+
+  protected transform(template: (data) => string[], data: any): string[] {
+    return template(data);
+  }
+
+  protected map<T>(container: Container<T>, consumer: (i: T) => string[]): string[] {
+    return this.sampler.transform(
+      Object.keys(container).map((name) => consumer(container[name]))
+    );
   }
 }
 
@@ -42,11 +74,13 @@ interface KeyAcceptor {
   next: number|boolean;
 }
 
-class Sampler {
+export class Sampler {
   public opener: string;
   public closer: string;
+  private transformers: any;
 
-  public constructor(opener: string = '{%', closer: string = '%}') {
+  public constructor(transformers: any, opener: string = '{%', closer: string = '%}') {
+    this.transformers = transformers;
     this.opener = opener;
     this.closer = closer;
   }
@@ -57,7 +91,7 @@ class Sampler {
 
       if (!(next && (next < open))) {
         return {
-          line: line.replace(sample, this.transform(line, data, inner)),
+          line: line.replace(sample, this.transformKey(line, data, inner)),
           next: 0,
         };
       }
@@ -81,7 +115,7 @@ class Sampler {
     });
   }
 
-  protected expand(line: string, data: any, inner: string, outer: string, insert: number) {
+  protected expand(line: string, data: any, inner: string, outer: string, insert: number): string {
     let elemental = '-' + inner;
     let raw = [outer.substring(0, insert), outer.substring(insert)];
     let sample = this.wrap(inner);
@@ -92,18 +126,18 @@ class Sampler {
       }))
     ;
 
-    return this.transform(
+    return this.transformKey(
       line.replace(this.wrap(raw.join(sample)), sample),
       data,
       inner
     );
   }
 
-  protected wrap(key: string): string {
+  public wrap(key: string): string {
     return this.opener + key + this.closer;
   }
 
-  protected match(line: string, consumer: (match: KeyMatch) => KeyAcceptor): string {
+  public match(line: string, consumer: (match: KeyMatch) => KeyAcceptor): string {
     let m, next: number|boolean = 0, r: KeyAcceptor = {line, next};
 
     while (m = this.next(line, <number>next)) {
@@ -119,7 +153,7 @@ class Sampler {
     return line;
   }
 
-  protected next(line: string, start: number): KeyMatch {
+  public next(line: string, start: number): KeyMatch {
     let found = undefined;
     let open = Strings.lookup(line, start, this.opener);
 
@@ -150,7 +184,7 @@ class Sampler {
     }
   }
 
-  protected transform(line, data, key) {
+  public transformKey(line, data, key) {
     let has = data.hasOwnProperty(key);
     let code = this.wrap(key);
 
@@ -172,10 +206,26 @@ class Sampler {
       let glue = (tab.length >= offset) ? tab : "";
 
       transformed = this.flatten(transformed);
-      transformed = transformed.map((line) => glue + line).join("\n");
+      transformed = transformed.map((line) => glue + line);
     }
 
-    return transformed;
+    return this.transform(transformed).join("\n");
+  }
+
+  public transform(data: any): string[] {
+    if (data instanceof Array) {
+      data = this.flatten(data);
+    } else {
+      let string = String(data);
+
+      if (string === '[object Object]') {
+        string = JSON.stringify(data);
+      }
+
+      data = string.split("\n");
+    }
+
+    return data;
   }
 
   private flatten(array: string|string[]) {
@@ -192,8 +242,6 @@ class Sampler {
   }
 
   protected supports(transformer: string): (data: any) => string[] {
-    return this[transformer]
-      ? this[transformer].bind(this)
-      : null;
+    return this.transformers[transformer];
   }
 }
