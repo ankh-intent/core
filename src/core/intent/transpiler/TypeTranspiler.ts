@@ -1,13 +1,13 @@
 
+import { AbstractCompoundTemplate } from "../../flow/transpiler/templates/CompoundTemplate";
 import { TypeNode } from '../ast/TypeNode';
-import { AbstractTranspiler } from '../../flow/transpiler/AbstractTranspiler';
 
-export class TypeTranspiler extends AbstractTranspiler<TypeNode, string> {
-  public process(type: TypeNode) {
-    return type.qualifier.path('.') + (
-      type.generic
-        ? `<${this.process(type.generic)}>`
-        : ``
-    );
+export class TypeTranspiler extends AbstractCompoundTemplate<TypeNode> {
+  public get code(): string {
+    return `{%.qualifier%}<{%.generic%}>`;
+  }
+
+  public resolve(data: TypeNode, property: string) {
+    return data[property];
   }
 }

@@ -7,15 +7,15 @@ import { TemplateVisitors } from '../../flow/transpiler/templates/TemplateVisito
 export class DomainTranspiler extends AbstractCompoundTemplate<DomainNode> {
   public get code(): string {
     return `
-      let {%identifier%} = () => {
-        {%types%}
+      let {%.identifier%} = () => {
+        {%typedefs%}
       
         const I = {
           ingredient: intent.type(Ingredient),
         };
       
         return {
-          {%typerefs*%},
+          {%*typeref%},
         };
       };`;
   }
@@ -23,13 +23,13 @@ export class DomainTranspiler extends AbstractCompoundTemplate<DomainNode> {
   public constructor(substitutor: Substitutor<DomainNode>, visitors: TemplateVisitors<DomainNode>) {
     super(substitutor, visitors);
 
-    visitors.bridge(this, ["typerefs"]);
+    // visitors.bridge(this, ["typeref"]);
   }
 
 
   public resolve(data: DomainNode, property: string) {
     switch (property) {
-      case "typerefs":
+      case "typeref":
         return data.types;
     }
 

@@ -7,8 +7,4 @@ export class ArgsTranspiler extends AbstractCompoundTemplate<Container<PropertyN
   public get code(): string {
     return `{%a.head%}{%,{%a.tail}%}`;
   }
-
-  public resolve(data: Container<PropertyNode>, property: string) {
-    return data[property];
-  }
 }

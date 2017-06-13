@@ -18,6 +18,13 @@ import { ArrayHeadTranspiler } from '../../intent/transpiler/ArrayHeadTranspiler
 import { ArrayTailTranspiler } from '../../intent/transpiler/ArrayTailTranspiler';
 import { DirectTranspiler } from '../../intent/transpiler/DirectTranspiler';
 import { DomainsTranspiler } from '../../intent/transpiler/DomainsTranspiler';
+import { TypeTranspiler } from '../../intent/transpiler/TypeTranspiler';
+import { TypesTranspiler } from "../../intent/transpiler/TypesTranspiler";
+import { TypeDefTranspiler } from '../../intent/transpiler/TypeDefTranspiler';
+import { TypeDefsTranspiler } from '../../intent/transpiler/TypeDefsTranspiler';
+import { ParentTranspiler } from '../../intent/transpiler/ParentTranspiler';
+import { PropertiesTranspiler } from '../../intent/transpiler/PropertiesTranspiler';
+import { PropertyTranspiler } from '../../intent/transpiler/PropertyTranspiler';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   private visitors: TemplateVisitors<any>;
@@ -27,6 +34,13 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     chip: ChipTranspiler;
     domains: DomainsTranspiler;
     domain: DomainTranspiler;
+    typedefs: TypeDefsTranspiler;
+    typedef: TypeDefTranspiler;
+    types: TypesTranspiler;
+    type: TypeTranspiler;
+    properties: PropertiesTranspiler;
+    property: PropertyTranspiler;
+    parent: ParentTranspiler;
     can: CanTranspiler;
     args: ArgsTranspiler,
     name: DirectTranspiler;
@@ -50,6 +64,34 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
         this.visitors
       ),
       domains: new DomainsTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      typedefs: new TypeDefsTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      typedef: new TypeDefTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      types: new TypesTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      type: new TypeTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      properties: new PropertiesTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      property: new PropertyTranspiler(
+        this.substitutor,
+        this.visitors
+      ),
+      parent: new ParentTranspiler(
         this.substitutor,
         this.visitors
       ),

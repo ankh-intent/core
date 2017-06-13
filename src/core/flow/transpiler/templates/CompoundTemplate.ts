@@ -2,8 +2,6 @@
 
 import { AbstractTemplate, Template } from './Template';
 import { Strings } from '../../../../intent-utils/Strings';
-import { Substitutor } from './Substitutor';
-import { TemplateVisitors } from "./TemplateVisitors";
 
 export abstract class AbstractCompoundTemplate<D, R = string> extends AbstractTemplate<D, R> {
   private _lines: (string|false)[];
@@ -15,6 +13,10 @@ export abstract class AbstractCompoundTemplate<D, R = string> extends AbstractTe
     }
 
     return this._lines;
+  }
+
+  public resolve<K extends keyof D>(data: D, property: K): D[K] {
+    return data[property];
   }
 
   protected cleanup(code: string) {

@@ -12,7 +12,7 @@ export class ChipTranspiler extends AbstractCompoundTemplate<ChipNode> {
         {%can%}
       
         return {
-          {%names%},
+          {%=names%},
         };
       })();
       `;
@@ -21,7 +21,7 @@ export class ChipTranspiler extends AbstractCompoundTemplate<ChipNode> {
   public constructor(substitutor: Substitutor<ChipNode>, visitors: TemplateVisitors<ChipNode>) {
     super(substitutor, visitors);
 
-    visitors.bridge(this, ["domains", "names"]);
+    visitors.bridge(this, ["names"]);
   }
 
 

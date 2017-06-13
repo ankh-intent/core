@@ -5,7 +5,7 @@ import { Container } from '../../flow/transpiler/Container';
 
 export class DomainsTranspiler extends AbstractCompoundTemplate<Container<DomainNode>> {
   public get code(): string {
-    return `{%domain*%};`;
+    return `{%*domain%};`;
   }
 
   public resolve(data: Container<DomainNode>, property: string) {
