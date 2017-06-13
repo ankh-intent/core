@@ -17,7 +17,8 @@
   "dependencies": {
     "@types/node": "^7.0.29",
     "chokidar": "^1.7.0",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "typescript": "^2.3.4"
   },
   "bin": {
     "intent": "./bin/intent.js"
