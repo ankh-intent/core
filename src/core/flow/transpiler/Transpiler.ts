@@ -3,22 +3,33 @@ import { Strings } from '../../../intent-utils/Strings';
 import { Container } from './Container';
 
 export class Transpiler<N, T> {
-  protected sampler: Sampler;
+  protected samples: SampleCompiler = new SampleCompiler();
 
   public process(node: N): T {
     throw new Error(`Doesn't know how to transpile "${node.constructor.name}"`);
   }
+}
 
-  protected template(template: string, resolver: (data) => any): (data: any) => string[] {
+export interface Template {
+  (data: any): string[];
+}
+
+export interface SampleCompilerInterface {
+  template(sampler: Sampler, template: string, resolver: (data) => any): Template;
+  container(sampler: Sampler, child: string): Template;
+}
+
+export class SampleCompiler implements SampleCompilerInterface {
+  public template(sampler: Sampler, template: string, resolver: (data) => any): Template {
     let processed = {};
 
     let optimized = template
-      .replace(/(\s+$)/, '')
+      .replace(/((^[\n\r]|\s+$))/, '')
       .split('\n')
       .map((line, index) => {
         if ("" !== line.trim()) {
-          if (this.sampler.next(line, 0)) {
-            processed[index] = false;
+          if (sampler.next(line, 0)) {
+            processed[index] = true;
           }
         }
 
@@ -26,37 +37,44 @@ export class Transpiler<N, T> {
       })
     ;
 
+    let first = optimized[0], m;
+
+    if (m = first.match(/^(\s*)/)) {
+      let tab = m[1];
+      let rep = new RegExp('^' + tab);
+      optimized = optimized.map((line) => line.replace(rep, ''));
+    }
+
+    let apply = (data: any) => optimized.map((line, index) => {
+      return processed[index]
+        ? sampler.substitute(line, data)
+        : line;
+    });
+
     return (data) => {
       let resolved = resolver(data);
 
-      return optimized.map((line, index) => {
-        return processed[index]
-          ? this.sampler.substitute(line, resolved)
-          : line;
-      }).reduce((lines: string[], line: string|string[]) => (
+      if (resolved instanceof Array) {
+        resolved = resolved.map(apply);
+      } else {
+        resolved = apply(resolved);
+      }
+
+      return resolved.reduce((lines: string[], line: string|string[]) => (
         lines.concat(
           (line instanceof Array)
             ? line
             : line.split("\n")
         )
-      ), [])
+      ), []);
     };
   }
 
-  protected container<T>(child: string): (data: any) => string[] {
+  public container<T>(sampler: Sampler, child: string): Template {
     return this.template(
+      sampler,
       '{%' + child + '%}',
       (container: Container<T>) => ({[child]: container})
-    );
-  }
-
-  protected transform(template: (data) => string[], data: any): string[] {
-    return template(data);
-  }
-
-  protected map<T>(container: Container<T>, consumer: (i: T) => string[]): string[] {
-    return this.sampler.transform(
-      Object.keys(container).map((name) => consumer(container[name]))
     );
   }
 }
@@ -77,10 +95,9 @@ interface KeyAcceptor {
 export class Sampler {
   public opener: string;
   public closer: string;
-  private transformers: any;
+  public transformers: Container<(data: any) => string[]>;
 
-  public constructor(transformers: any, opener: string = '{%', closer: string = '%}') {
-    this.transformers = transformers;
+  public constructor(opener: string = '{%', closer: string = '%}') {
     this.opener = opener;
     this.closer = closer;
   }
@@ -186,10 +203,9 @@ export class Sampler {
 
   public transformKey(line, data, key) {
     let has = data.hasOwnProperty(key);
-    let code = this.wrap(key);
 
     if (!has) {
-      return code;
+      return `<!-${key}>`;
     }
 
     let transformer = this.supports(key);
@@ -200,6 +216,7 @@ export class Sampler {
     }
 
     if (transformed instanceof Array) {
+      let code = this.wrap(key);
       let offset = line.indexOf(code);
       let lookup = line.match(/^(\s*)/);
       let tab = (lookup && lookup[1]) || "";

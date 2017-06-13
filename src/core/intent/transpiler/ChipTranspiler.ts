@@ -1,5 +1,5 @@
 
-import { Sampler, Transpiler } from '../../flow/transpiler/Transpiler';
+import { SampleCompiler, Sampler, Template, Transpiler } from '../../flow/transpiler/Transpiler';
 import { ChipNode } from '../ast/ChipNode';
 import { Container } from '../../flow/transpiler/Container';
 import { DomainNode } from '../ast/DomainNode';
@@ -8,76 +8,10 @@ import { CanNode } from '../ast/CanNode';
 import { PropertyNode } from '../ast/PropertyNode';
 
 export class ChipTranspiler extends Transpiler<ChipNode, string> {
-  private _sampler: Sampler;
-  private templators;
-
-  public constructor() {
-    super();
-
-    this.templators = {
-      chip: this.template(
-        '(() => {\n' +
-        '  {%domains%}\n' +
-        '  {%can%}\n' +
-        '\n' +
-        '  return {\n' +
-        '    {%{%names%},%}\n' +
-        '  };\n' +
-        '})();',
-        (chip: ChipNode) => ({
-          ...chip,
-          names: Object.keys(chip.domains),
-        })),
-      domains: this.container<DomainNode>('domain'),
-      domain: this.template(
-        'let {%identifier%} = () => {\n' +
-        '  {%types%}\n' +
-        '\n' +
-        '  const I = {\n' +
-        '    ingredient: intent.type(Ingredient),\n' +
-        '  };\n' +
-        '\n' +
-        '  return {\n' +
-        '    {%{%typerefs%},%}\n' +
-        '  };\n' +
-        '};',
-        (domain: DomainNode) => {
-          return {
-            ...domain,
-            // typerefs: this.map(domain.types, (typedef) => this.typeref(typedef)),
-          };
-        }
-      ),
-      typerefs: this.container<TypeDefNode>('typeref'),
-      typeref: this.template(
-        '{%name%}: intent.bind(I.{%lowercase%})',
-        (typedef: TypeDefNode) => {
-          return {
-            ...typedef,
-            lowercase: typedef.name.toLowerCase(),
-          };
-        }
-      ),
-    };
-  }
-
-  protected get sampler() {
-    if (!this._sampler) {
-      let templates = Object.keys(this.templators);
-      let handlers = {};
-
-      for (let name of templates) {
-        handlers[name] = ((template) => (...args) => template(...args))(this.templators[name]);
-      }
-
-      this._sampler = new Sampler(handlers);
-    }
-
-    return this._sampler;
-  }
+  private sampler: Sampler = new ChipSampler(this.samples);
 
   public process(chip: ChipNode) {
-    return this.transform(this.templators.chip, chip).join("\n");
+    return this.sampler.transformers.chip(chip).join("\n");
   }
 //
 //   protected types(typedefs: Container<TypeDefNode>): string[] {
@@ -122,4 +56,54 @@ export class ChipTranspiler extends Transpiler<ChipNode, string> {
 //       }
 //     );
 //   }
+}
+
+class ChipSampler extends Sampler {
+  public transformers: {
+    chip: Template,
+    domain: Template,
+    typeref: Template,
+    domains: Template,
+    typerefs: Template,
+  } = <any>{};
+
+  public constructor(compiler: SampleCompiler) {
+    super();
+
+    this.transformers.chip = compiler.template(this, `
+      (() => {
+        {%domains%}
+        {%can%}
+      
+        return {
+          {%{%names%},%}
+        };
+      })();`,
+      (chip: ChipNode) => ({ ...chip, names: Object.keys(chip.domains), })
+    );
+
+    this.transformers.domain = compiler.template(this, `
+      let {%identifier%} = () => {
+        {%types%}
+      
+        const I = {
+          ingredient: intent.type(Ingredient),
+        };
+      
+        return {
+          {%{%typerefs%},%}
+        };
+      };`,
+      (domain: DomainNode) => ({ ...domain, typerefs: domain.types, })
+    );
+
+    this.transformers.typeref = compiler.template(this,
+      '{%name%}: intent.bind(I.{%lowercase%})',
+      (typedef: TypeDefNode) => ({ ...typedef, lowercase: typedef.name.toLowerCase(), })
+    );
+
+    this.transformers.domains = compiler.container<DomainNode>(this, 'domain');
+
+    this.transformers.typerefs = compiler.container<TypeDefNode>(this, 'typeref');
+  }
 }
