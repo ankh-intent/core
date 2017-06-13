@@ -74,7 +74,7 @@ export class SampleCompiler implements SampleCompilerInterface {
     return this.template(
       sampler,
       '{%' + child + '%}',
-      (container: Container<T>) => ({[child]: container})
+      (container: Container<T>) => Object.keys(container).map((name) => ({[child]: container[name]}))
     );
   }
 }
