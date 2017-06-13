@@ -1,7 +1,7 @@
 
-
-import { AbstractTemplate, Template } from './Template';
 import { Strings } from '../../../../intent-utils/Strings';
+import { AbstractTemplate } from './AbstractTemplate';
+import { BareTemplate } from './BareTemplate';
 
 export abstract class AbstractCompoundTemplate<D, R = string> extends AbstractTemplate<D, R> {
   private _lines: (string|false)[];
@@ -41,7 +41,7 @@ export abstract class AbstractCompoundTemplate<D, R = string> extends AbstractTe
           return line;
         }
 
-        this.sub[index] = new Template<D, R>(this, line);
+        this.sub[index] = new BareTemplate<D, R>(this, line);
 
         return false;
       })

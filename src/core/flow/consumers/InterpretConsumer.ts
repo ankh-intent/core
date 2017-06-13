@@ -41,7 +41,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     property: PropertyTranspiler;
     parent: ParentTranspiler;
     can: CanTranspiler;
-    args: ArgsTranspiler,
+    args: ArgsTranspiler;
     "a.head": ArrayHeadTranspiler;
     "a.tail": ArrayTailTranspiler;
   };

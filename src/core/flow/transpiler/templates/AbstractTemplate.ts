@@ -15,14 +15,6 @@ export abstract class AbstractTemplate<D, R = string> {
     this.visitors = visitors;
   }
 
-  public getVisitors(): TemplateVisitors<D, any> {
-    return this.visitors;
-  }
-
-  public getSubstitutor(): Substitutor<D, any> {
-    return this.substitutor;
-  }
-
   public apply(data: D): R[] {
     return this.flatten(
       this.substitutor.substitute(
@@ -43,20 +35,5 @@ export abstract class AbstractTemplate<D, R = string> {
           : <any>String(line).split("\n")
       )
     ), <R[]>[]);
-  }
-}
-
-export class Template<D, R = string> extends AbstractTemplate<D, R> {
-  public code: string;
-  public parent: AbstractTemplate<D, R>;
-
-  public constructor(parent: AbstractTemplate<D, R>, code: string) {
-    super(parent.getSubstitutor(), parent.getVisitors());
-    this.parent = parent;
-    this.code = code;
-  }
-
-  public resolve(data: D, property: string) {
-    return this.parent.resolve(data, property);
   }
 }

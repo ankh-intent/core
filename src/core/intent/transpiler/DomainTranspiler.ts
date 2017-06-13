@@ -5,7 +5,7 @@ import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/Compou
 export class DomainTranspiler extends AbstractCompoundTemplate<DomainNode> {
   public get code(): string {
     return `
-      let {%.identifier%} = () => {
+      let {%=identifier%} = () => {
         {%typedefs%}
       
         const I = {
