@@ -73,4 +73,25 @@ export class Strings {
       return p;
     }
   }
+
+  public static unindent(lines: string[]): string[] {
+    let first = lines[0], m;
+
+    if (m = first.match(/^(\s*)/)) {
+      let tab = m[1];
+      let len = tab.length;
+
+      lines = lines.map((line) => {
+        return line.startsWith(tab)
+          ? line.substr(len)
+          : line;
+      });
+    }
+
+    return lines;
+  }
+
+  static indent(lines: string[], pad: string): string[] {
+    return lines.map((line) => pad + line);
+  }
 }
