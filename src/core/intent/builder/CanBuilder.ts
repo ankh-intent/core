@@ -70,7 +70,11 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         body.push('\n  ');
       }
 
-      body.push(token.raw);
+      if ((token.type === 'identifier') && (token.value === 'emit')) {
+        body.push('yield');
+      } else {
+        body.push(token.raw);
+      }
 
       if (breakAfter.indexOf(token.value) >= 0) {
         body.push('\n');

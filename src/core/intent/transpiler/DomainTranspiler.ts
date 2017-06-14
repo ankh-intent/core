@@ -1,12 +1,29 @@
 
-import { Transpiler } from '../../flow/transpiler/Transpiler';
 import { DomainNode } from '../ast/DomainNode';
-import { TypeDefsTranspiler } from './TypeDefsTranspiler';
+import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/CompoundTemplate';
 
-export class DomainTranspiler extends Transpiler<DomainNode, string> {
-  private typedefs: TypeDefsTranspiler = new TypeDefsTranspiler();
+export class DomainTranspiler extends AbstractCompoundTemplate<DomainNode> {
+  public get code(): string {
+    return `
+      let {%=identifier%} = () => {
+        {%typedefs%}
+      
+        const I = {
+          ingredient: intent.type(Ingredient),
+        };
+      
+        return {
+          {%=typeref%},
+        };
+      };`;
+  }
 
-  public process(domain: DomainNode): string {
-    return this.typedefs.process(domain.types).join("\n");
+  public resolve(data: DomainNode, property: string) {
+    switch (property) {
+      case "typeref":
+        return data.types;
+    }
+
+    return data[property];
   }
 }

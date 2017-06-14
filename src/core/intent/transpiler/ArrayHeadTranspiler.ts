@@ -1,10 +1,9 @@
 
 import { AbstractCompoundTemplate } from '../../flow/transpiler/templates/CompoundTemplate';
 import { Container } from '../../flow/transpiler/Container';
-import { TypeDefNode } from "../ast/TypeDefNode";
 
-export class TypeDefsTranspiler extends AbstractCompoundTemplate<Container<TypeDefNode>> {
+export class ArrayHeadTranspiler extends AbstractCompoundTemplate<Container<any>> {
   public get code(): string {
-    return `{%*typedef%}`;
+    return `{%.0%}`;
   }
 }

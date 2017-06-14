@@ -59,4 +59,39 @@ export class Strings {
       ? this.longestCommon(intersect)
       : intersect;
   }
+
+  public static lookup(line, p, s) {
+    while (p < line.length) {
+      p = line.indexOf(s, p);
+
+      if ((p > 0) && (line[p - 1] === '\\')) {
+        p++;
+
+        continue;
+      }
+
+      return p;
+    }
+  }
+
+  public static unindent(lines: string[]): string[] {
+    let first = lines[0], m;
+
+    if (m = first.match(/^(\s*)/)) {
+      let tab = m[1];
+      let len = tab.length;
+
+      lines = lines.map((line) => {
+        return line.startsWith(tab)
+          ? line.substr(len)
+          : line;
+      });
+    }
+
+    return lines;
+  }
+
+  static indent(lines: string[], pad: string): string[] {
+    return lines.map((line) => pad + line);
+  }
 }

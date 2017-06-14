@@ -23,7 +23,6 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     } catch (e) {
       return new ErrorEvent({
         error: e,
-        parent: event,
       });
     }
   }
