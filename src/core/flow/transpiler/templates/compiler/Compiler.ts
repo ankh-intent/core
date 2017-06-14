@@ -1,3 +1,4 @@
+
 import { Sampler } from "../../Sampler";
 import { TemplateInterface } from './TemplateInterface';
 
@@ -8,7 +9,7 @@ export class Compiler {
     this.sampler = sampler;
   }
 
-  public compile(code: string): string[] {
+  public compile(code: string): (string|TemplateInterface)[] {
     let cleaned = this.cleanup(code);
 
     let compiled = cleaned.map((line) => {

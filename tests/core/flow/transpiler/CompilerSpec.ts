@@ -7,16 +7,12 @@ import { Compiler } from '../../../../src/core/flow/transpiler/templates/compile
 
 describe('Compiler', () => {
 
-  describe('constructor()', () => {
-
-  });
-
   describe('compile()', () => {
-    let compiler, sampler;
+    let compiler;
 
     describe('plain per-line split', () => {
       beforeEach(() => {
-        compiler = new Compiler(null);
+        compiler = new Compiler(new Sampler());
       });
 
       let sample1 = () => [
@@ -53,16 +49,18 @@ describe('Compiler', () => {
     });
 
     describe('with placeholders', () => {
-      let key1;
+      let key1, compiler;
 
       beforeEach(() => {
-        sampler = new Sampler();
+        let sampler = new Sampler();
         compiler = new Compiler(sampler);
         key1 = sampler.wrap('key1');
       });
 
 
       let sample1 = () => [
+        () => ({code: "no", expect: ["no"]}),
+        () => ({code: "{ %no%}", expect: ["{ %no%}"]}),
         () => ({code: key1, expect: [jasmine.any(TemplateInterface)]}),
       ];
 
