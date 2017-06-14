@@ -1,15 +1,9 @@
 
+import { pit } from '../../../util/spec-extensions';
+
 import { Sampler } from '../../../../src/core/flow/transpiler/Sampler';
 import { TemplateInterface } from '../../../../src/core/flow/transpiler/templates/compiler/TemplateInterface';
 import { Compiler } from '../../../../src/core/flow/transpiler/templates/compiler/Compiler';
-
-let pit = (text, provider, block) => {
-  for (let test of provider) {
-    it(text, () => {
-      return block(test());
-    });
-  }
-};
 
 describe('Compiler', () => {
 
@@ -25,12 +19,12 @@ describe('Compiler', () => {
         compiler = new Compiler(null);
       });
 
-      let sample1 = [
+      let sample1 = () => [
         () => ({code: null, expect: []}),
         () => ({code: "", expect: []}),
       ];
 
-      let sample2 = [
+      let sample2 = () => [
         () => ({code: "", expect: 0}),
         () => ({code: "abc\n", expect: 1}),
         () => ({code: "a{b}c\n1\n1", expect: 3}),
@@ -39,7 +33,7 @@ describe('Compiler', () => {
         () => ({code: "\n1\n1\n\n", expect: 2}),
       ];
 
-      let sample3 = [
+      let sample3 = () => [
         () => ({code: "abc", expect: ["abc"]}),
         () => ({code: "a{b}c", expect: ["a{b}c"]}),
       ];
@@ -68,7 +62,7 @@ describe('Compiler', () => {
       });
 
 
-      let sample1 = [
+      let sample1 = () => [
         () => ({code: key1, expect: [jasmine.any(TemplateInterface)]}),
       ];
 
