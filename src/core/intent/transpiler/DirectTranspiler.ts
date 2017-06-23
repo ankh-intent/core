@@ -1,6 +1,6 @@
 
 import { AbstractCompoundTemplate } from "../../flow/transpiler/templates/CompoundTemplate";
-import { Substitutor } from '../../flow/transpiler/templates/Substitutor';
+import { Substitutor } from '../../flow/consumers/transpiling/Substitutor';
 import { TemplateVisitors } from '../../flow/transpiler/templates/TemplateVisitors';
 
 export class DirectTranspiler extends AbstractCompoundTemplate<any> {

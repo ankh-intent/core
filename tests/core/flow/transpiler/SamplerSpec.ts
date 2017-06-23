@@ -1,6 +1,6 @@
 
 import { pit } from '../../../util/spec-extensions';
-import { Sampler } from '../../../../src/core/flow/transpiler/templates/compiler/Sampler';
+import { Sampler } from '../../../../src/core/flow/consumers/transpiling/compiler/Sampler';
 
 describe('Sampler', () => {
 

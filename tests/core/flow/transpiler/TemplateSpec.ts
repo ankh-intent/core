@@ -1,8 +1,8 @@
 
 import { pit } from '../../../util/spec-extensions';
-import { Template } from '../../../../src/core/flow/transpiler/templates/Template';
-import { Sampler } from '../../../../src/core/flow/transpiler/templates/compiler/Sampler';
-import { Substitutor } from '../../../../src/core/flow/transpiler/templates/Substitutor';
+import { Template } from '../../../../src/core/flow/consumers/transpiling/Template';
+import { Sampler } from '../../../../src/core/flow/consumers/transpiling/compiler/Sampler';
+import { Substitutor } from '../../../../src/core/flow/consumers/transpiling/Substitutor';
 
 describe('Template', () => {
 

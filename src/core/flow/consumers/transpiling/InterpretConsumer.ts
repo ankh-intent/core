@@ -1,34 +1,34 @@
 
-import { CoreEvent } from '../CoreEvent';
-import { AbstractConsumer } from '../AbstractConsumer';
+import { CoreEvent } from '../../CoreEvent';
+import { AbstractConsumer } from '../../AbstractConsumer';
 
-import { CompiledEvent } from '../events/CompiledEvent';
-import { InterpretedEvent } from '../events/InterpretedEvent';
-import { StringSource } from '../../source/StringSource';
-import { Substitutor } from '../transpiler/templates/Substitutor';
-import { TemplateVisitor } from '../transpiler/templates/Visitors';
-import { CoreEventBus } from '../CoreEventBus';
-import { TemplateContext } from '../transpiler/templates/TemplateContext';
-import { ChipTranspiler } from '../../intent/transpiler/ChipTranspiler';
-import { DomainTranspiler } from '../../intent/transpiler/DomainTranspiler';
-import { TemplateVisitors } from "../transpiler/templates/TemplateVisitors";
-import { CanTranspiler } from '../../intent/transpiler/CanTranspiler';
-import { ArgsTranspiler } from '../../intent/transpiler/ArgsTranspiler';
-import { ArrayHeadTranspiler } from '../../intent/transpiler/ArrayHeadTranspiler';
-import { ArrayTailTranspiler } from '../../intent/transpiler/ArrayTailTranspiler';
-import { DomainsTranspiler } from '../../intent/transpiler/DomainsTranspiler';
-import { TypeTranspiler } from '../../intent/transpiler/TypeTranspiler';
-import { TypesTranspiler } from "../../intent/transpiler/TypesTranspiler";
-import { TypeDefTranspiler } from '../../intent/transpiler/TypeDefTranspiler';
-import { TypeDefsTranspiler } from '../../intent/transpiler/TypeDefsTranspiler';
-import { ParentTranspiler } from '../../intent/transpiler/ParentTranspiler';
-import { PropertiesTranspiler } from '../../intent/transpiler/PropertiesTranspiler';
-import { PropertyTranspiler } from '../../intent/transpiler/PropertyTranspiler';
-import { DirectTranspiler } from '../../intent/transpiler/DirectTranspiler';
+import { CompiledEvent } from '../../events/CompiledEvent';
+import { InterpretedEvent } from '../../events/InterpretedEvent';
+import { StringSource } from '../../../source/StringSource';
+import { Substitutor } from './Substitutor';
+// import { TemplateVisitor } from '../../transpiler/templates/Visitors';
+import { CoreEventBus } from '../../CoreEventBus';
+// import { TemplateContext } from '../../transpiler/templates/TemplateContext';
+import { ChipTranspiler } from '../../../intent/transpiler/ChipTranspiler';
+import { DomainTranspiler } from '../../../intent/transpiler/DomainTranspiler';
+// import { TemplateVisitors } from "../../transpiler/templates/TemplateVisitors";
+import { CanTranspiler } from '../../../intent/transpiler/CanTranspiler';
+import { ArgsTranspiler } from '../../../intent/transpiler/ArgsTranspiler';
+import { ArrayHeadTranspiler } from '../../../intent/transpiler/ArrayHeadTranspiler';
+import { ArrayTailTranspiler } from '../../../intent/transpiler/ArrayTailTranspiler';
+import { DomainsTranspiler } from '../../../intent/transpiler/DomainsTranspiler';
+import { TypeTranspiler } from '../../../intent/transpiler/TypeTranspiler';
+import { TypesTranspiler } from '../../../intent/transpiler/TypesTranspiler';
+import { TypeDefTranspiler } from '../../../intent/transpiler/TypeDefTranspiler';
+import { TypeDefsTranspiler } from '../../../intent/transpiler/TypeDefsTranspiler';
+import { ParentTranspiler } from '../../../intent/transpiler/ParentTranspiler';
+import { PropertiesTranspiler } from '../../../intent/transpiler/PropertiesTranspiler';
+import { PropertyTranspiler } from '../../../intent/transpiler/PropertyTranspiler';
+import { DirectTranspiler } from '../../../intent/transpiler/DirectTranspiler';
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   private visitors: TemplateVisitors<any>;
-  private substitutor: Substitutor<any, any>;
+  private substitutor: Substitutor<any>;
 
   private templates: {
     chip: ChipTranspiler;
