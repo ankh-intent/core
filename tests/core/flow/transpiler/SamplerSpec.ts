@@ -93,6 +93,7 @@ describe('Sampler', () => {
     let sample3 = () => [
       () => sample3Gen(`te${opener}xt $1 text`, 'placeholder'),
       () => sample3Gen(`text $1 te${opener}xt`, 'placeholder'),
+      () => sample3Gen(`te${opener}xt $1 te${closer}xt`, 'placeholder'),
     ];
 
     pit('should return void on input without placeholders', sample1, (data) => {
