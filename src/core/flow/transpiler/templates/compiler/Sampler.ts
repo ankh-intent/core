@@ -71,4 +71,40 @@ export class Sampler implements SamplerInterface {
       };
     }
   }
+
+  public prev(subject: string, from: number = subject.length): MatchedPlaceholder {
+    if (!subject) {
+      return;
+    }
+
+    let found = undefined;
+    let close = Strings.lookback(subject, from, this.closer);
+
+    while (close > this.opener.length) {
+      let inner = Strings.lookback(subject, close - 1, this.closer);
+      let open = Strings.lookback(subject, close, this.opener);
+
+      if (open < 0) {
+        return;
+      }
+
+      if (inner > open) {
+        console.log(open);
+        console.log(found);
+        found = close;
+        close = inner;
+
+        continue;
+      }
+
+      close += this.closer.length;
+
+      return {
+        open,
+        close,
+        key : subject.substring(open + this.opener.length, close - this.closer.length),
+        next: (found === undefined) ? open : found,
+      };
+    }
+  }
 }
