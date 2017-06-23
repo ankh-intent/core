@@ -5,10 +5,11 @@ module.exports = function (wallaby) {
 
     files: [
       'src/**/*.ts',
+      'tests/util/**/*.ts',
     ],
 
     tests: [
-      'tests/**/*.ts',
+      'tests/**/*Spec.ts',
     ],
 
     compilers: {

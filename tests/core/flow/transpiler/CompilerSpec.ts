@@ -1,22 +1,18 @@
 
 import { pit } from '../../../util/spec-extensions';
 
-import { Sampler } from '../../../../src/core/flow/transpiler/Sampler';
 import { TemplateInterface } from '../../../../src/core/flow/transpiler/templates/compiler/TemplateInterface';
 import { Compiler } from '../../../../src/core/flow/transpiler/templates/compiler/Compiler';
+import { Sampler } from '../../../../src/core/flow/transpiler/templates/compiler/Sampler';
 
 describe('Compiler', () => {
 
-  describe('constructor()', () => {
-
-  });
-
   describe('compile()', () => {
-    let compiler, sampler;
+    let compiler;
 
     describe('plain per-line split', () => {
       beforeEach(() => {
-        compiler = new Compiler(null);
+        compiler = new Compiler(new Sampler('{', '}'));
       });
 
       let sample1 = () => [
@@ -35,7 +31,7 @@ describe('Compiler', () => {
 
       let sample3 = () => [
         () => ({code: "abc", expect: ["abc"]}),
-        () => ({code: "a{b}c", expect: ["a{b}c"]}),
+        () => ({code: "a[b]c", expect: ["a[b]c"]}),
       ];
 
       pit('should compile empty template to no-op', sample1, (data) => {
@@ -53,29 +49,46 @@ describe('Compiler', () => {
     });
 
     describe('with placeholders', () => {
-      let key1;
+      let key1, compiler;
+
+      class Template implements TemplateInterface<any, any> {
+        public apply(data: any): any {
+          return undefined;
+        }
+      }
 
       beforeEach(() => {
-        sampler = new Sampler();
-        compiler = new Compiler(sampler);
-        key1 = sampler.wrap('key1');
+        let sampler = new Sampler('{%', '%}');
+        compiler = new Compiler(sampler, () => new Template());
+        key1 = sampler.placeholder('key1');
       });
 
 
       let sample1 = () => [
-        () => ({code: key1, expect: [jasmine.any(TemplateInterface)]}),
+        () => ({code: "no", expect: ["no"]}),
+        () => ({code: "{ %no%}", expect: ["{ %no%}"]}),
+        () => ({code: key1, expect: [jasmine.any(Template)]}),
       ];
 
       pit('should emit template instead of lines with placeholders', sample1, (data) => {
         expect(compiler.compile(data.code)).toEqual(data.expect);
       });
-
     });
 
-  });
+    describe('factory', () => {
+      it('should invoke template factory on template detection', () => {
+        let factory = jasmine.createSpy('factory', () => {});
+        let sampler = new Sampler('{', '}');
+        let compiler = new Compiler(
+          sampler,
+          factory
+        );
 
-  describe('apply()', () => {
+        compiler.compile(sampler.placeholder('key'));
 
+        expect(factory).toHaveBeenCalled();
+      });
+    });
   });
 
 });
