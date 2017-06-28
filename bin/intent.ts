@@ -8,8 +8,13 @@ import config from './config';
 import { Core } from '../src/Core';
 
 ((core: Core) => {
-  let options = core.bootstrap({...config(core), ...{
-  }});
+  let options = core.bootstrap(
+    {
+      ...config(core),
+      ...{
+      },
+    }
+  );
 
   core.and((event) => {
     let { type, data} = event;
