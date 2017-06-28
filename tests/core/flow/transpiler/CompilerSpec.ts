@@ -7,7 +7,7 @@ import { Sampler } from '../../../../src/core/flow/consumers/transpiling/compile
 
 describe('Compiler', () => {
 
-  describe('compile()', () => {
+  describe('compileLines()', () => {
     let compiler;
 
     describe('plain per-line split', () => {
@@ -35,15 +35,15 @@ describe('Compiler', () => {
       ];
 
       pit('should compile empty template to no-op', sample1, (data) => {
-        expect(compiler.compile(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code)).toEqual(data.expect);
       });
 
       pit('should split code by lines', sample2, (data) => {
-        expect(compiler.compile(data.code).length).toEqual(data.expect);
+        expect(compiler.compileLines(data.code).length).toEqual(data.expect);
       });
 
       pit('plaintext should be left as is', sample3, (data) => {
-        expect(compiler.compile(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code)).toEqual(data.expect);
       });
 
     });
@@ -71,7 +71,7 @@ describe('Compiler', () => {
       ];
 
       pit('should emit template instead of lines with placeholders', sample1, (data) => {
-        expect(compiler.compile(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code)).toEqual(data.expect);
       });
     });
 

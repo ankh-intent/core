@@ -5,50 +5,74 @@ import { MatchedPlaceholder } from './compiler/SamplerInterface';
 
 export class Template<S> implements TemplateInterface<S, string[]> {
   private substitutor: SubstitutorInterface<S, string[]>;
-  private lines: string[];
+  private line: string;
 
-  public constructor(lines: string[], substitutor: SubstitutorInterface<S, string[]>) {
-    this.lines = lines;
+  public constructor(line: string, substitutor: SubstitutorInterface<S, string[]>) {
+    this.line = line;
     this.substitutor = substitutor;
   }
 
   public apply(data: S): string[] {
-    return this.substitute(this.lines, data);
+    return this.substitute(this.line, data);
   }
 
-  protected substitute(lines: string[], data: any): string[] {
+  protected substitute(line: string, data: any): string[] {
     return this.fold(
-      lines.map((line: string) => (
-        this.substitutor.substitute(line, data, (line: any, match: MatchedPlaceholder, data: S[keyof S]) => {
-          let multi = typeof line !== 'string';
+      this.substitutor.substitute(line, data, (line: any, match: MatchedPlaceholder, data: S[keyof S]) => {
+        let multi = typeof line !== 'string';
 
-          if (typeof data === 'object') {
-            return this.fold(
-              Object.keys(data).map((key) => {
-                return this.substitute(multi ? line : [line], {
-                  [match.key]: data[key],
-                });
-              })
-            );
-          }
+        if ((data !== null) && (typeof data === 'object')) {
+          return this.fold(
+            Object.keys(data).map((key) => {
+              let mapped = {
+                [match.key]: data[key],
+              };
 
-          return multi
-            ? line.map((line) => (
-              line.substr(0, match.open) + String(data) + line.substr(match.close)
-            ))
-            : line.substr(0, match.open) + String(data) + line.substr(match.close);
-        })
-      ))
+              return (
+                multi
+                  ? this.multiple(line, mapped)
+                  : this.substitute(line, mapped)
+              );
+            })
+          );
+        }
+
+        let str = (data !== null) ? String(data) : '';
+
+        if (multi) {
+          return line.map((line) => (
+            line.substr(0, match.open) + str + line.substr(match.close)
+          ));
+        }
+
+        return line.substr(0, match.open) + str + line.substr(match.close);
+      })
+    );
+  }
+
+  protected multiple(lines: string[], data: any): string[] {
+    return this.fold(
+      lines.map((line: string) => this.substitute(line, data))
     )
   }
 
   protected fold(a: (string|string[])[]): string[] {
-    return a.reduce((r: any[], element: string|string[]) => {
-      return r.concat(
-        (typeof element === 'string')
-          ? [element]
-          : element
-      );
-    }, [])
+    if (typeof a === 'string') {
+      return [a];
+    }
+
+    let result = [];
+
+    for (let element of a) {
+      if (typeof element === 'string') {
+        result.push(element);
+      } else {
+        result = result.concat(
+          this.fold(element)
+        );
+      }
+    }
+
+    return result;
   }
 }

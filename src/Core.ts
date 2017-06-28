@@ -20,7 +20,7 @@ import { SubmitConsumer } from './core/flow/consumers/SubmitConsumer';
 import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
 import { CompiledConsumer } from './core/flow/consumers/CompiledConsumer';
 import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
-import { InterpretConsumer } from './core/flow/consumers/InterpretConsumer';
+import { InterpretConsumer } from './core/flow/consumers/transpiling/InterpretConsumer';
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';

@@ -20,6 +20,8 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
     while (match = seeker.next()) {
       if (data.hasOwnProperty(match.key)) {
         result = consumer(result, match, data[match.key]);
+      } else {
+        console.log(data, match.key)
       }
     }
 
