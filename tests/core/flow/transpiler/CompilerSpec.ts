@@ -89,6 +89,38 @@ describe('Compiler', () => {
         expect(factory).toHaveBeenCalled();
       });
     });
+
+    describe('normalization', () => {
+
+      it('should leave as is with no leading space', () => {
+        let compiler = new Compiler(null, null);
+
+        expect(compiler.normalize([
+          'a',
+          '  b',
+          ' c',
+        ])).toEqual([
+          'a',
+          '  b',
+          ' c',
+        ]);
+      });
+
+      it('should remove leading whitespace', () => {
+        let compiler = new Compiler(null, null);
+
+        expect(compiler.normalize([
+          '  a',
+          '    b',
+          '   c',
+        ])).toEqual([
+          'a',
+          '  b',
+          ' c',
+        ]);
+      });
+
+    });
   });
 
 });

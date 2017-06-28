@@ -33,11 +33,37 @@ export class Compiler<S, R> {
 
   private cleanup(code: string): string[] {
     return code
-      ? code
-        .replace(/(^[\n\r]|\s+$)/g, '')
-        .split('\n')
-        .map(String)
+      ? this.normalize(
+          code
+            .replace(/(^[\n\r]+|\s+$)/g, '')
+            .split('\n')
+            .map(String)
+        )
       : []
     ;
+  }
+
+  public normalize(lines: string[]): string[] {
+    for (let line of lines) {
+      if (line.trim() === "") {
+        continue;
+      }
+
+      let match = line.match(/^(\s+)/);
+
+      if (!match) {
+        break;
+      }
+
+      let whitespace = match[1];
+
+      return lines.map((line: string) => (
+        line.startsWith(whitespace)
+          ? line.substr(whitespace.length)
+          : line
+      ));
+    }
+
+    return lines;
   }
 }
