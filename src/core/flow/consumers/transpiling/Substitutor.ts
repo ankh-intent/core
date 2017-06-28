@@ -2,7 +2,7 @@
 import { MatchedPlaceholder, SamplerInterface } from './compiler/SamplerInterface';
 
 export type MatchConsumer<S> = (result: any, match: MatchedPlaceholder, data: S[keyof S]) => any;
-export type DataResolver<S, K extends keyof S> = (data: S, key: K) => S[K];
+export type DataResolver<S, K extends keyof S = keyof S> = (data: S, key: K) => S[K];
 
 export interface SubstitutorInterface<S, R> {
   substitute(line: string, data: S, consumer: MatchConsumer<S>, resolver: DataResolver<S, keyof S>): any;

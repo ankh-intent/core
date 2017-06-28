@@ -23,7 +23,9 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     this.substitutor = new Substitutor(this.sampler);
     this.compiler = new Compiler(
       this.sampler,
-      (code) => new Template(code, this.substitutor)
+      (code, resolver) => (
+        new Template(code, this.substitutor, resolver)
+      )
     )
   }
 

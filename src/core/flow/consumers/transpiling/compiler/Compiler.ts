@@ -1,7 +1,12 @@
 
-import { TemplateFactoryInterface, TemplateInterface } from './TemplateInterface';
+import { TemplateInterface } from './TemplateInterface';
 import { Sampler } from './Sampler';
 import { CompoundTemplate } from '../CompoundTemplate';
+import { DataResolver } from '../Substitutor';
+
+export interface TemplateFactoryInterface<S, R> {
+  (code: string, resolver: DataResolver<S>): TemplateInterface<S, R>;
+}
 
 export class Compiler<S, R> {
   private sampler: Sampler;
@@ -12,12 +17,12 @@ export class Compiler<S, R> {
     this.factory = factory;
   }
 
-  public compileLines(code: string): (string|TemplateInterface<S, R>)[] {
+  public compileLines(code: string, resolver: DataResolver<S>): (string|TemplateInterface<S, R>)[] {
     let cleaned = this.cleanup(code);
     let compiled = cleaned.map((line) => {
 
       return (this.sampler.next(line, 0) && this.factory)
-        ? this.factory(line)
+        ? this.factory(line, resolver)
         : line;
 
     });
@@ -25,9 +30,9 @@ export class Compiler<S, R> {
     return compiled;
   }
 
-  public compile(code: string): TemplateInterface<S, R> {
+  public compile(code: string, resolver: DataResolver<S>): TemplateInterface<S, R> {
     return new CompoundTemplate<S, R>(
-      this.compileLines(code)
+      this.compileLines(code, resolver)
     );
   }
 

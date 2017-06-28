@@ -1,15 +1,17 @@
 
 import { TemplateInterface } from './compiler/TemplateInterface';
-import { SubstitutorInterface } from './Substitutor';
+import { DataResolver, SubstitutorInterface } from './Substitutor';
 import { MatchedPlaceholder } from './compiler/SamplerInterface';
 
 export class Template<S> implements TemplateInterface<S, string[]> {
   private substitutor: SubstitutorInterface<S, string[]>;
+  private resolver: DataResolver<S>;
   private line: string;
 
-  public constructor(line: string, substitutor: SubstitutorInterface<S, string[]>) {
+  public constructor(line: string, substitutor: SubstitutorInterface<S, string[]>, resolver: DataResolver<S>) {
     this.line = line;
     this.substitutor = substitutor;
+    this.resolver = resolver;
   }
 
   public apply(data: S): string[] {
@@ -22,15 +24,9 @@ export class Template<S> implements TemplateInterface<S, string[]> {
         line,
         data,
         this.consume.bind(this),
-        this.resolve.bind(this)
+        this.resolver
       )
     );
-  }
-
-  protected resolve(data: any, key): any {
-    return (data && data.hasOwnProperty(key))
-      ? data[key]
-      : null;
   }
 
   protected multiple(lines: string[], data: any): string[] {
@@ -42,31 +38,37 @@ export class Template<S> implements TemplateInterface<S, string[]> {
   private consume(line: any, match: MatchedPlaceholder, data: S[keyof S]): any {
     let multi = typeof line !== 'string';
 
-    if ((data !== null) && (typeof data === 'object')) {
-      return this.fold(
-        Object.keys(data).map((key) => {
-          let mapped = {
-            [match.key]: data[key],
-          };
+    return this.replace(
+      multi ? line : [line],
+      data,
+      match
+    );
+  }
 
-          return (
-            multi
-              ? this.multiple(line, mapped)
-              : this.substitute(line, mapped)
-          );
-        })
+  protected replace(lines: string[], data: any, match: MatchedPlaceholder): string[] {
+    if (data instanceof Array) {
+      return this.fold(
+        data.map((data) => this.replace(lines, data, match))
       );
     }
 
-    let str = (data !== null) ? String(data) : '';
+    let str;
 
-    if (multi) {
-      return line.map((line) => (
-        line.substr(0, match.open) + str + line.substr(match.close)
-      ));
+    if (data !== null) {
+      if (typeof data === 'object') {
+        let name = (data.constructor !== Object) ? data.constructor.name : '<Unresolved>';
+
+        str = `{{ Object(${name}) }}`;
+      } else {
+        str = String(data);
+      }
+    } else {
+      str = '{{ null }}';
     }
 
-    return line.substr(0, match.open) + str + line.substr(match.close);
+    return lines.map((line) => (
+      line.substr(0, match.open) + str + line.substr(match.close)
+    ));
   }
 
   protected fold(a: (string|string[])[]): string[] {
