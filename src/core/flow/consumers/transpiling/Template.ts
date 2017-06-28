@@ -18,42 +18,55 @@ export class Template<S> implements TemplateInterface<S, string[]> {
 
   protected substitute(line: string, data: any): string[] {
     return this.fold(
-      this.substitutor.substitute(line, data, (line: any, match: MatchedPlaceholder, data: S[keyof S]) => {
-        let multi = typeof line !== 'string';
-
-        if ((data !== null) && (typeof data === 'object')) {
-          return this.fold(
-            Object.keys(data).map((key) => {
-              let mapped = {
-                [match.key]: data[key],
-              };
-
-              return (
-                multi
-                  ? this.multiple(line, mapped)
-                  : this.substitute(line, mapped)
-              );
-            })
-          );
-        }
-
-        let str = (data !== null) ? String(data) : '';
-
-        if (multi) {
-          return line.map((line) => (
-            line.substr(0, match.open) + str + line.substr(match.close)
-          ));
-        }
-
-        return line.substr(0, match.open) + str + line.substr(match.close);
-      })
+      this.substitutor.substitute(
+        line,
+        data,
+        this.consume.bind(this),
+        this.resolve.bind(this)
+      )
     );
+  }
+
+  protected resolve(data: any, key): any {
+    return (data && data.hasOwnProperty(key))
+      ? data[key]
+      : null;
   }
 
   protected multiple(lines: string[], data: any): string[] {
     return this.fold(
       lines.map((line: string) => this.substitute(line, data))
     )
+  }
+
+  private consume(line: any, match: MatchedPlaceholder, data: S[keyof S]): any {
+    let multi = typeof line !== 'string';
+
+    if ((data !== null) && (typeof data === 'object')) {
+      return this.fold(
+        Object.keys(data).map((key) => {
+          let mapped = {
+            [match.key]: data[key],
+          };
+
+          return (
+            multi
+              ? this.multiple(line, mapped)
+              : this.substitute(line, mapped)
+          );
+        })
+      );
+    }
+
+    let str = (data !== null) ? String(data) : '';
+
+    if (multi) {
+      return line.map((line) => (
+        line.substr(0, match.open) + str + line.substr(match.close)
+      ));
+    }
+
+    return line.substr(0, match.open) + str + line.substr(match.close);
   }
 
   protected fold(a: (string|string[])[]): string[] {

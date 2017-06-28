@@ -1,8 +1,11 @@
 
 import { MatchedPlaceholder, SamplerInterface } from './compiler/SamplerInterface';
 
+export type MatchConsumer<S> = (result: any, match: MatchedPlaceholder, data: S[keyof S]) => any;
+export type DataResolver<S, K extends keyof S> = (data: S, key: K) => S[K];
+
 export interface SubstitutorInterface<S, R> {
-  substitute(line: string, data: S, consumer: (result: any, match: MatchedPlaceholder, data: S[keyof S]) => any): any;
+  substitute(line: string, data: S, consumer: MatchConsumer<S>, resolver: DataResolver<S, keyof S>): any;
 }
 
 export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
@@ -12,16 +15,14 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
     this.sampler = sampler;
   }
 
-  public substitute(line: string, data: S, consumer: (result: any, match: MatchedPlaceholder, data: S[keyof S]) => any): any {
+  public substitute(line: string, data: S, consumer: MatchConsumer<S>, resolver: DataResolver<S, keyof S>): any {
     let seeker = new ReverseSeeker(this.sampler, line);
-    let match;
+    let match, resolved;
     let result = line;
 
     while (match = seeker.next()) {
-      if (data.hasOwnProperty(match.key)) {
-        result = consumer(result, match, data[match.key]);
-      } else {
-        console.log(data, match.key)
+      if (resolved = resolver(data, match.key)) {
+        result = consumer(result, match, resolved);
       }
     }
 
