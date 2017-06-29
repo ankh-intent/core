@@ -12,13 +12,23 @@ import { Sampler } from './compiler/Sampler';
 import { Template } from './Template';
 import { Substitutor } from './Substitutor';
 
+export interface EmitOptions {
+  extension: string;
+}
+
+export interface InterpreterOptions {
+  emit: EmitOptions;
+}
+
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   private compiler: Compiler<any, string[]>;
   private sampler: Sampler;
   private substitutor: Substitutor<any>;
+  private options: InterpreterOptions;
 
-  public constructor(bus: CoreEventBus) {
+  public constructor(bus: CoreEventBus, options: InterpreterOptions) {
     super(bus);
+    this.options = options;
     this.sampler = new Sampler('{%', '%}');
     this.substitutor = new Substitutor(this.sampler);
     this.compiler = new Compiler(
@@ -40,7 +50,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    let resolved = chip.path.replace(/\.int$/, '.i.js');
+    let resolved = chip.path.replace(/\.int$/, this.options.emit.extension);
     let content = (new ChipTranspiler(
       this.compiler
     )).transpile(chip.ast);

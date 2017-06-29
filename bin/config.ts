@@ -5,6 +5,7 @@ import { Core, CoreOptions } from '../src/Core';
 import { WatchdogOptions } from '../src/intent-watchdog/core/Watchdog';
 import { UnitMatcher } from '../src/intent-watchdog/core/matcher/UnitMatcher';
 import { ResolverOptions } from '../src/core/chips/UseResolver';
+import { InterpreterOptions } from '../src/core/flow/consumers/transpiling/InterpretConsumer';
 
 abstract class AbstractOptions<O> {
   private yargs;
@@ -94,6 +95,12 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
           "default": defaults.files.map((e) => regexp(e.pattern)),
           "requiresArg": true,
         },
+        "output-extension": {
+          "type": "string",
+          "describe": "Extension to emit files with",
+          "default": defaults.interpreter.emit.extension,
+          "requiresArg": true,
+        },
       },
       "Watchdog options": {
         "watch": {
@@ -148,11 +155,20 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
     };
   }
 
+  protected interpreter(core: Core): InterpreterOptions {
+    return {
+      emit: {
+        extension: this.get("output-extension"),
+      },
+    };
+  }
+
   public build(core: Core): CoreOptions {
     return {
       files: this.files(core),
       watch: this.watch(core),
       resolver: this.resolver(core),
+      interpreter: this.interpreter(core),
     };
   }
 
@@ -176,6 +192,11 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
           ),
           project: null,
           output: null,
+        }
+      },
+      interpreter: {
+        emit: {
+          extension: '.i.js',
         }
       },
     };
