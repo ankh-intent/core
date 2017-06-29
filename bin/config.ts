@@ -5,7 +5,7 @@ import { WatchdogOptions } from '../src/intent-watchdog/core/Watchdog';
 import { UnitMatcher } from '../src/intent-watchdog/core/matcher/UnitMatcher';
 import { ResolverOptions } from '../src/core/chips/UseResolver';
 
-class Options {
+abstract class AbstractOptions<O> {
   private yargs;
   private _argv;
 
@@ -46,16 +46,8 @@ class Options {
     return built.argv;
   }
 
-  public usage(): string {
-    return '';
-  }
-
   protected strict(): boolean {
     return true;
-  }
-
-  protected options() {
-    return {};
   }
 
   public get(option?: string) {
@@ -67,10 +59,13 @@ class Options {
       ? argv[option]
       : argv;
   }
+
+  protected abstract usage(): string;
+  protected abstract options(def: O): any;
 }
 
-class IntentOptions extends Options {
-  public usage(): string {
+class IntentOptions extends AbstractOptions<CoreOptions> {
+  protected usage(): string {
     const pckg = require("../../package.json");
 
     return `
@@ -129,7 +124,7 @@ class IntentOptions extends Options {
   }
 
   protected resolver(core: Core): ResolverOptions {
-    return{
+    return {
       paths: {
         project: __dirname.replace('/build/', '/'),
       },
