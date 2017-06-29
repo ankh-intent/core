@@ -20,7 +20,7 @@ import { SubmitConsumer } from './core/flow/consumers/SubmitConsumer';
 import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
 import { CompiledConsumer } from './core/flow/consumers/CompiledConsumer';
 import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
-import { InterpretConsumer } from './core/flow/consumers/InterpretConsumer';
+import { InterpretConsumer, InterpreterOptions } from './core/flow/consumers/transpiling/InterpretConsumer';
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
@@ -29,6 +29,7 @@ export interface CoreOptions {
   files: UnitMatcher[]
   watch?: WatchdogOptions;
   resolver: ResolverOptions;
+  interpreter: InterpreterOptions;
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
@@ -63,7 +64,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new SubmitConsumer(this.events, this.parser))
       .add(new ParsedConsumer(this.events))
       .add(new CompiledConsumer(this.events, resolved.resolver))
-      .add(new InterpretConsumer(this.events))
+      .add(new InterpretConsumer(this.events, resolved.interpreter))
       .add(new InterpretedConsumer(this.events, new FileWriter()))
       .add(new ErrorConsumer(this.events))
       .add(new StatConsumer(this.events, resolved))

@@ -1,14 +1,13 @@
 
-import * as process from 'process';
 
 import { UnitMatcher } from './matcher/UnitMatcher';
 import { UnitInterface } from './Unit';
 import { WatchItem } from './WatchItem';
 
 export interface WatchdogOptions {
-  root?: string;
-  ignore?: RegExp;
-  aggregation?: number;
+  root: string;
+  ignore: RegExp;
+  aggregation: number;
 }
 
 export class Watchdog<U extends UnitInterface> {
@@ -16,15 +15,9 @@ export class Watchdog<U extends UnitInterface> {
   private options: WatchdogOptions;
   private watches: {[index: number]: WatchItem<U>};
 
-  public constructor(options: WatchdogOptions = {}) {
+  public constructor(options: WatchdogOptions) {
     this.watches = {};
     this.options = options;
-    if (!this.options.root) {
-      this.options.root = process.cwd();
-    }
-    if (!this.options.ignore) {
-      this.options.ignore = /[\/\\]\./;
-    }
   }
 
   public all(): WatchItem<U>[] {

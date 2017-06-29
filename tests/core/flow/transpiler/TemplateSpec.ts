@@ -1,8 +1,8 @@
 
 import { pit } from '../../../util/spec-extensions';
-import { Template } from '../../../../src/core/flow/transpiler/templates/Template';
-import { Sampler } from '../../../../src/core/flow/transpiler/templates/compiler/Sampler';
-import { Substitutor } from '../../../../src/core/flow/transpiler/templates/Substitutor';
+import { Template } from '../../../../src/core/flow/consumers/transpiling/Template';
+import { Sampler } from '../../../../src/core/flow/consumers/transpiling/compiler/Sampler';
+import { Substitutor } from '../../../../src/core/flow/consumers/transpiling/Substitutor';
 
 describe('Template', () => {
 
@@ -24,35 +24,35 @@ describe('Template', () => {
     });
 
     let sample1 = () => [
-      () => ({code: ["a"], data: {}, expected: ["a"]}),
-      () => ({code: ["a", "b"], data: {}, expected: ["a", "b"]}),
-      () => ({code: ["a{b}c"], data: {}, expected: ["a{b}c"]}),
+      () => ({code: "a", data: {}, expected: ["a"]}),
+      () => ({code: "a\nb", data: {}, expected: ["a\nb"]}),
+      () => ({code: "a{b}c", data: {}, expected: ["a{b}c"]}),
     ];
 
     let sample2 = () => [
-      () => ({code: ["a{b}c"], data: {b: "d"}, expected: ["adc"]}),
+      () => ({code: "a{b}c", data: {b: "d"}, expected: ["adc"]}),
     ];
 
     let sample3 = () => [
-      () => ({code: ["a{b}c"], data: {b: ["d", "e"]}, expected: ["adc", "aec"]}),
+      () => ({code: "a{b}c", data: {b: ["d", "e"]}, expected: ["adc", "aec"]}),
     ];
 
     let sample4 = () => [
-      () => ({code: ["a{b}c"], data: {b: {"g": 1, "h": 2}}, expected: ["a1c", "a2c"]}),
+      () => ({code: "a{b}c", data: {b: {"g": 1, "h": 2}}, expected: ["a1c", "a2c"]}),
     ];
 
     let sample5 = () => [
-      () => ({code: ["a{b}c{d}"], data: {b: 0, d: [1, 2]}, expected: ["a0c1", "a0c2"]}),
+      () => ({code: "a{b}c{d}", data: {b: 0, d: [1, 2]}, expected: ["a0c1", "a0c2"]}),
     ];
 
     let sample6 = () => [
-      () => ({code: ["a{b}c{d}"], data: {b: [1, 2], d: 0}, expected: ["a1c0", "a2c0"]}),
-      () => ({code: ["a{b}c{d}e{f}"], data: {b: [1, 2], d: 0, f: 10}, expected: ["a1c0e10", "a2c0e10"]}),
+      () => ({code: "a{b}c{d}", data: {b: [1, 2], d: 0}, expected: ["a1c0", "a2c0"]}),
+      () => ({code: "a{b}c{d}e{f}", data: {b: [1, 2], d: 0, f: 10}, expected: ["a1c0e10", "a2c0e10"]}),
     ];
 
     let sample7 = () => [
       () => ({
-        code: ["a{b}c{d}"],
+        code: "a{b}c{d}",
         data: {
           b: [1, 2, 3],
           d: [4, 5]
@@ -108,6 +108,12 @@ describe('Template', () => {
       let template = new Template(data.code, substitutor);
 
       expect(template.apply(data.data)).toEqual(data.expected);
+    });
+
+    it('should properly handle null data', () => {
+      let template = new Template("a{b}c", substitutor);
+
+      expect(template.apply({b: null})).toEqual(["ac"]);
     });
 
   });

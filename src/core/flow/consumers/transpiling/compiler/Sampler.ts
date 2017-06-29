@@ -72,9 +72,13 @@ export class Sampler implements SamplerInterface {
     }
   }
 
-  public prev(subject: string, from: number = subject.length): MatchedPlaceholder {
+  public prev(subject: string, from?: number): MatchedPlaceholder {
     if (!subject) {
       return;
+    }
+
+    if (from === undefined) {
+      from = subject.length;
     }
 
     let found = undefined;
@@ -89,8 +93,6 @@ export class Sampler implements SamplerInterface {
       }
 
       if (inner > open) {
-        console.log(open);
-        console.log(found);
         found = close;
         close = inner;
 

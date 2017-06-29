@@ -1,13 +1,13 @@
 
 import { pit } from '../../../util/spec-extensions';
 
-import { TemplateInterface } from '../../../../src/core/flow/transpiler/templates/compiler/TemplateInterface';
-import { Compiler } from '../../../../src/core/flow/transpiler/templates/compiler/Compiler';
-import { Sampler } from '../../../../src/core/flow/transpiler/templates/compiler/Sampler';
+import { TemplateInterface } from '../../../../src/core/flow/consumers/transpiling/compiler/TemplateInterface';
+import { Compiler } from '../../../../src/core/flow/consumers/transpiling/compiler/Compiler';
+import { Sampler } from '../../../../src/core/flow/consumers/transpiling/compiler/Sampler';
 
 describe('Compiler', () => {
 
-  describe('compile()', () => {
+  describe('compileLines()', () => {
     let compiler;
 
     describe('plain per-line split', () => {
@@ -35,15 +35,15 @@ describe('Compiler', () => {
       ];
 
       pit('should compile empty template to no-op', sample1, (data) => {
-        expect(compiler.compile(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code)).toEqual(data.expect);
       });
 
       pit('should split code by lines', sample2, (data) => {
-        expect(compiler.compile(data.code).length).toEqual(data.expect);
+        expect(compiler.compileLines(data.code).length).toEqual(data.expect);
       });
 
       pit('plaintext should be left as is', sample3, (data) => {
-        expect(compiler.compile(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code)).toEqual(data.expect);
       });
 
     });
@@ -71,7 +71,7 @@ describe('Compiler', () => {
       ];
 
       pit('should emit template instead of lines with placeholders', sample1, (data) => {
-        expect(compiler.compile(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code)).toEqual(data.expect);
       });
     });
 
@@ -88,6 +88,38 @@ describe('Compiler', () => {
 
         expect(factory).toHaveBeenCalled();
       });
+    });
+
+    describe('normalization', () => {
+
+      it('should leave as is with no leading space', () => {
+        let compiler = new Compiler(null, null);
+
+        expect(compiler.normalize([
+          'a',
+          '  b',
+          ' c',
+        ])).toEqual([
+          'a',
+          '  b',
+          ' c',
+        ]);
+      });
+
+      it('should remove leading whitespace', () => {
+        let compiler = new Compiler(null, null);
+
+        expect(compiler.normalize([
+          '  a',
+          '    b',
+          '   c',
+        ])).toEqual([
+          'a',
+          '  b',
+          ' c',
+        ]);
+      });
+
     });
   });
 
