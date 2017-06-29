@@ -18,6 +18,10 @@ class Options {
     let options = {};
 
     for (let group in map) {
+      if (!map.hasOwnProperty(group)) {
+        continue;
+      }
+
       for (let option of Object.keys(map[group])) {
         options[option] = Object.assign(
           {group},
