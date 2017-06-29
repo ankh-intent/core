@@ -1,23 +1,27 @@
 
-import { AbstractTranspiler } from './AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
 import { TypeDefNode } from '../../../../../intent/ast/TypeDefNode';
 import { TypeNode } from '../../../../../intent/ast/TypeNode';
 import { CanTranspiler } from './CanTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
 import { ConstraintTranspiler } from './ConstraintTranspiler';
+import { Container } from '../../../../transpiler/Container';
 
 export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
-  private extend = new TypeExtendTranspiler(this.compiler);
-  private can = new CanTranspiler(this.compiler);
-  private constraints = new ConstraintTranspiler(this.compiler);
-  private property = new PropertyTranspiler(this.compiler);
+  protected visitors: Container<TranspilerInterface<any>> = {
+    extends    : new TypeExtendTranspiler(this.compiler),
+    can        : new CanTranspiler(this.compiler),
+    constraints: new ConstraintTranspiler(this.compiler),
+    properties : new PropertyTranspiler(this.compiler),
+  };
 
   protected get code(): string {
     return `
-      class {%name%}{%extends%}{
-        public {%properties%};
-        {%constraints%}
-        {%can%}
+      class {%name%} {%extends%}{
+        public {%*properties%};
+        
+        {%*constraints%}
+        {%*can%}
       }
     `;
   }
@@ -25,21 +29,7 @@ export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
   public resolve(data: TypeDefNode, key: string): any {
     switch (key) {
       case 'extends':
-        return data.parent ? ` ${this.extend.transpile(data.parent)} ` : ' ';
-
-      case 'properties':
-        return Object.keys(data.properties)
-          .map((name) => this.property.transpile(data.properties[name]))
-        ;
-
-      case 'constraints':
-        return Object.keys(data.constraints)
-          .map((name) => this.constraints.transpile(data.constraints[name]))
-        ;
-      case 'can':
-        return Object.keys(data.can)
-          .map((name) => this.can.transpile(data.can[name]))
-        ;
+        return data.parent;
     }
 
     return super.resolve(data, key);

@@ -9,7 +9,7 @@ export interface TranspilerInterface<S> {
   keyed(data: any): string[];
 }
 
-export abstract class AbstractTranspiler<S> {
+export abstract class AbstractTranspiler<S> implements TranspilerInterface<S> {
   private _template: TemplateInterface<S, string[]>;
   protected compiler: Compiler<any, string[]>;
   protected visitors: Container<TranspilerInterface<any>> = {};
@@ -25,22 +25,29 @@ export abstract class AbstractTranspiler<S> {
       this._template = this.compiler.compile(
         this.code,
         (data: S, key: string) => {
-          let [property, modifier] = this.modifiers(key);
-          let resolved = this.resolve(data, property);
-
-          let transpiler = this.visitors[key];
+          let [property, modifier, filters] = this.modifiers(key);
+          let resolved = data && this.resolve(data, property);
+          let transpiler = this.visitors[property];
 
           if (!transpiler) {
             return resolved;
           }
 
-          switch (modifier) {
-            case '*':
-              return transpiler.keyed(resolved);
-
-            default:
-              return transpiler.transpile(resolved);
+          if (modifier) {
+            if (modifier.indexOf('*') < 0) {
+              resolved = transpiler.transpile(resolved);
+            } else {
+              resolved = transpiler.keyed(resolved);
+            }
+          } else {
+            resolved = transpiler.transpile(resolved);
           }
+
+          if (filters) {
+            resolved = eval('resolved' + filters);
+          }
+
+          return resolved;
         }
       );
     }
@@ -72,15 +79,23 @@ export abstract class AbstractTranspiler<S> {
       : null;
   }
 
-  protected modifiers(key: string): [string, string] {
+  protected modifiers(key: string): [string, string, string] {
     let m = key.match(/^([+\-*.=?]+)/);
     let modifiers: string = null;
+    let filters: string = null;
 
     if (m) {
       modifiers = m[1];
       key = key.substr(modifiers.length);
     }
 
-    return [key, modifiers];
+    m = key.match(/\|(.*)$/);
+
+    if (m) {
+      filters = m[1];
+      key = key.substr(0, key.length - filters.length - 1);
+    }
+
+    return [key, modifiers, filters];
   }
 }

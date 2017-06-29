@@ -1,20 +1,23 @@
 
-import { AbstractTranspiler } from './AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
 import { ChipNode } from '../../../../../intent/ast/ChipNode';
 import { DomainTranspiler } from './DomainTranspiler';
 import { CanTranspiler } from './CanTranspiler';
 import { UseTranspiler } from './UseTranspiler';
+import { Container } from '../../../../transpiler/Container';
 
 export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
-  private domain = new DomainTranspiler(this.compiler);
-  private use = new UseTranspiler(this.compiler);
-  private can = new CanTranspiler(this.compiler);
+  protected visitors: Container<TranspilerInterface<any>> = {
+    uses: new UseTranspiler(this.compiler),
+    domains: new DomainTranspiler(this.compiler),
+    can: new CanTranspiler(this.compiler),
+  };
 
   protected get code(): string {
     return `
       ((intent) => { 
-        {%uses%}
-        {%domains%}
+        {%*uses%}
+        {%*domains%}
         {%can%}
       
         return {
@@ -26,19 +29,8 @@ export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
 
   public resolve(data: ChipNode, key: string): any {
     switch (key) {
-      case 'uses':
-        return this.use.keyed(data.uses);
-
       case 'names':
         return Object.keys(data.domains);
-
-      case 'domains':
-        return Object.keys(data.domains)
-          .map((name) => this.domain.transpile(data.domains[name]))
-        ;
-
-      case 'can':
-        return data.can && this.can.transpile(data.can);
     }
 
     return super.resolve(data, key);
