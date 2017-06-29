@@ -92,7 +92,7 @@ export class Strings {
   public static unindent(lines: string[]): string[] {
     let first = lines[0], m;
 
-    if (m = first.match(/^(\s*)/)) {
+    if (m = first.match(/^(\s+)/)) {
       let tab = m[1];
       let len = tab.length;
 
