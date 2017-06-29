@@ -1,4 +1,5 @@
 
+import * as path from 'path';
 import * as yargs from 'yargs';
 import { Core, CoreOptions } from '../src/Core';
 import { WatchdogOptions } from '../src/intent-watchdog/core/Watchdog';
@@ -14,7 +15,9 @@ abstract class AbstractOptions<O> {
   }
 
   protected argv() {
-    let map = this.options();
+    let map = this.options(
+      this.defaults()
+    );
     let options = {};
 
     for (let group in map) {
@@ -61,6 +64,7 @@ abstract class AbstractOptions<O> {
   }
 
   protected abstract usage(): string;
+  protected abstract defaults(): O;
   protected abstract options(def: O): any;
 }
 
@@ -74,7 +78,13 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
   `.trim();
   }
 
-  protected options() {
+  protected options(defaults: CoreOptions): any {
+    let regexp = (r: RegExp|string) => {
+        return (typeof r === 'string')
+          ? r
+          : String(r).replace('\\\\', '\\');
+    };
+
     return {
       "Watchdog options:": {
         "watch": {
@@ -87,19 +97,19 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
         "watch-root": {
           "type": "string",
           "describe": "Set root directory to watch for changes",
-          "default": process.cwd(),
+          "default": defaults.watch.root,
           "requiresArg": true,
         },
         "watch-ignore": {
           "type": "string",
           "describe": "Set pattern for files to ignore",
-          "default": "[/\\]\\.",
+          "default": regexp(defaults.watch.ignore),
           "requiresArg": true,
         },
         "watch-aggregation": {
           "type": "number",
           "describe": "Set changes debounce time interval",
-          "default": 200,
+          "default": defaults.watch.aggregation,
           "requiresArg": true,
         },
       },
@@ -107,12 +117,10 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
   }
 
   protected files(core: Core): UnitMatcher[] {
-    return [
-      {
-        event: 'change',
-        pattern: /\.int$/ig,
-      }
-    ];
+    return this.get('entry').map((pattern) => ({
+      event: 'change',
+      pattern: eval(pattern),
+    }));
   }
 
   protected watch(core: Core): WatchdogOptions {
@@ -136,7 +144,32 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
       files: this.files(core),
       watch: this.watch(core),
       resolver: this.resolver(core),
-    }
+    };
+  }
+
+  protected defaults(): CoreOptions {
+    return {
+      files: [
+        {
+          event: '',
+          pattern: /\\.int$/ig,
+        }
+      ],
+      watch: {
+        root: process.cwd(),
+        aggregation: 200,
+        ignore: /[\\/]\./,
+      },
+      resolver: {
+        paths: {
+          intent: path.resolve(
+            path.join(__dirname.replace('/build/', '/'), 'core/intent/specification/lib/')
+          ),
+          project: null,
+          output: null,
+        }
+      },
+    };
   }
 }
 
