@@ -27,7 +27,7 @@ abstract class AbstractOptions<O> {
 
       for (let option of Object.keys(map[group])) {
         options[option] = Object.assign(
-          {group},
+          { group: group + ':', },
           map[group][option]
         );
       }
@@ -86,7 +86,16 @@ class IntentOptions extends AbstractOptions<CoreOptions> {
     };
 
     return {
-      "Watchdog options:": {
+      "Basic options": {
+        "entry": {
+          "type": "array",
+          "alias": "e",
+          "describe": "Patterns to capture entry files to process",
+          "default": defaults.files.map((e) => regexp(e.pattern)),
+          "requiresArg": true,
+        },
+      },
+      "Watchdog options": {
         "watch": {
           "type": "boolean",
           "alias": "w",
