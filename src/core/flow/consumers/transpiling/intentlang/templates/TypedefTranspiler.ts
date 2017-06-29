@@ -3,10 +3,12 @@ import { AbstractTranspiler } from './AbstractTranspiler';
 import { TypeDefNode } from '../../../../../intent/ast/TypeDefNode';
 import { TypeNode } from '../../../../../intent/ast/TypeNode';
 import { CanTranspiler } from './CanTranspiler';
+import { PropertyTranspiler } from './PropertyTranspiler';
 
 export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
   private extend = new TypeExtendTranspiler(this.compiler);
   private can = new CanTranspiler(this.compiler);
+  private property = new PropertyTranspiler(this.compiler);
 
   protected get code(): string {
     return `
@@ -21,6 +23,11 @@ export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
     switch (key) {
       case 'extends':
         return data.parent ? ` ${this.extend.transpile(data.parent)} ` : ' ';
+
+      case 'properties':
+        return Object.keys(data.properties)
+          .map((name) => this.property.transpile(data.properties[name]))
+        ;
 
       case 'can':
         return Object.keys(data.can)
