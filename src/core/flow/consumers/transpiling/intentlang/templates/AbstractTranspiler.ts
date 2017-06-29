@@ -32,16 +32,4 @@ export abstract class AbstractTranspiler<S> {
       ? data[key]
       : null;
   }
-
-  protected modifiers(key: string): [string, string] {
-    let m = key.match(/^([+\-*.=]+)/);
-    let modifiers: string = null;
-
-    if (m) {
-      modifiers = m[1];
-      key = key.substr(modifiers.length);
-    }
-
-    return [key, modifiers];
-  }
 }

@@ -106,7 +106,27 @@ export class Strings {
     return lines;
   }
 
-  static indent(lines: string[], pad: string): string[] {
+  public static indent(lines: string[], pad: string): string[] {
     return lines.map((line) => pad + line);
+  }
+
+  public static fold(a: (string|string[])[]): string[] {
+    if (typeof a === 'string') {
+      return [a];
+    }
+
+    let result = [];
+
+    for (let element of a) {
+      if (typeof element === 'string') {
+        result.push(element);
+      } else {
+        result = result.concat(
+          this.fold(element)
+        );
+      }
+    }
+
+    return result;
   }
 }

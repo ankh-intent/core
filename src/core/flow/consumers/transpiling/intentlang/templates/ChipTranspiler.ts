@@ -9,22 +9,22 @@ export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
   protected get code(): string {
     return `
       ((intent) => { 
-        {%*domains%}
+        {%domains%}
         {%can%}
       
         return {
-          {%*names%},
+          {%names%},
         };
       })(window.Intent);
     `;
   }
 
-  public resolve(data: any, key: string): any {
+  public resolve(data: ChipNode, key: string): any {
     switch (key) {
-      case '*names':
+      case 'names':
         return Object.keys(data.domains);
 
-      case '*domains':
+      case 'domains':
         return Object.keys(data.domains)
           .map((name) => this.domain.transpile(data.domains[name]))
         ;

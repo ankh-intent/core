@@ -25,7 +25,7 @@ export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
     `;
   }
 
-  public resolve(data: any, key: string): any {
+  public resolve(data: DomainNode, key: string): any {
     switch (key) {
       case 'names': return Object.keys(data.types);
 
