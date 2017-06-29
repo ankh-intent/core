@@ -57,6 +57,10 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     domain.types = types;
     domain.uses = uses;
 
+    for (let t in types) {
+      types[t].domain = domain;
+    }
+
     return domain;
   }
 }

@@ -4,16 +4,19 @@ import { TypeDefNode } from '../../../../../intent/ast/TypeDefNode';
 import { TypeNode } from '../../../../../intent/ast/TypeNode';
 import { CanTranspiler } from './CanTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
+import { ConstraintTranspiler } from './ConstraintTranspiler';
 
 export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
   private extend = new TypeExtendTranspiler(this.compiler);
   private can = new CanTranspiler(this.compiler);
+  private constraints = new ConstraintTranspiler(this.compiler);
   private property = new PropertyTranspiler(this.compiler);
 
   protected get code(): string {
     return `
       class {%name%}{%extends%}{
         public {%properties%};
+        {%constraints%}
         {%can%}
       }
     `;
@@ -29,6 +32,10 @@ export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
           .map((name) => this.property.transpile(data.properties[name]))
         ;
 
+      case 'constraints':
+        return Object.keys(data.constraints)
+          .map((name) => this.constraints.transpile(data.constraints[name]))
+        ;
       case 'can':
         return Object.keys(data.can)
           .map((name) => this.can.transpile(data.can[name]))

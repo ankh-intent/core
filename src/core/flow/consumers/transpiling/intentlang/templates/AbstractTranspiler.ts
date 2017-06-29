@@ -1,6 +1,7 @@
 
 import { Compiler } from '../../compiler/Compiler';
 import { TemplateInterface } from '../../compiler/TemplateInterface';
+import { Strings } from '../../../../../../intent-utils/Strings';
 
 export abstract class AbstractTranspiler<S> {
   private _template: TemplateInterface<S, string[]>;
@@ -25,6 +26,14 @@ export abstract class AbstractTranspiler<S> {
 
   public transpile(data: S): string[] {
     return this.template.apply(data);
+  }
+
+  public keyed(data): string[] {
+    return Strings.fold(
+      Object
+        .keys(data)
+        .map((name: string) => this.transpile(data[name]))
+    );
   }
 
   protected resolve(data: any, key): any {
