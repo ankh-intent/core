@@ -9,4 +9,5 @@ npm-debug.log
 /bin/**/*.i.js
 /src/**/*.js*
 /tests/**/*.js*
+/**/*.i.*
 !webpack.config.js

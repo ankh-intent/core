@@ -79,6 +79,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
     type.parent = parent;
     type.properties = properties;
     type.can = cans;
+    type.constraints = constraints;
 
     return type;
   }

@@ -21,7 +21,7 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
     let result = line;
 
     while (match = seeker.next()) {
-      if (resolved = resolver(data, match.key)) {
+      if (undefined !== (resolved = resolver(data, match.key))) {
         result = consumer(result, match, resolved);
       }
     }

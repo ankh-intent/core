@@ -1,48 +1,46 @@
 
-import { AbstractTranspiler } from './AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
 import { DomainNode } from '../../../../../intent/ast/DomainNode';
 import { TypedefTranspiler } from './TypedefTranspiler';
 import { TypeDefNode } from '../../../../../intent/ast/TypeDefNode';
+import { UseTranspiler } from './UseTranspiler';
+import { Container } from '../../../../transpiler/Container';
 
 export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
-  private typedef = new TypedefTranspiler(this.compiler);
-  private init = new TypeInitTranspiler(this.compiler);
-  private construct = new TypeConstructorTranspiler(this.compiler);
+  protected visitors: Container<TranspilerInterface<any>> = {
+    types: new TypedefTranspiler(this.compiler),
+    init: new TypeInitTranspiler(this.compiler),
+    construct: new TypeConstructorTranspiler(this.compiler),
+    uses: new UseTranspiler(this.compiler),
+  };
 
   protected get code(): string {
     return `
       let {%identifier%} = () => {
-        {%typedefs%}
+        {%*uses%}
+        {%*types%}
       
-        const I = {
-          {%init%},
+        const I{%identifier%} = {
+          {%*init%},
         };
       
         return {
-          {%construct%},
+          {%*construct%},
         };
       };
     `;
   }
 
-  public resolve(data: any, key: string): any {
+  public resolve(data: DomainNode, key: string): any {
     switch (key) {
-      case 'names': return Object.keys(data.types);
+      case 'names':
+        return Object.keys(data.types);
 
-      case 'typedefs':
-        return Object.keys(data.types)
-          .map((name) => this.typedef.transpile(data.types[name]))
-        ;
-
-      case 'init':
-        return Object.keys(data.types)
-          .map((name) => this.init.transpile(data.types[name]))
-        ;
+      case 'init' :
+        return this.values(data.types);
 
       case 'construct':
-        return Object.keys(data.types)
-          .map((name) => this.construct.transpile(data.types[name]))
-        ;
+        return this.values(data.types);
     }
 
     return super.resolve(data, key);
@@ -65,12 +63,13 @@ export class TypeInitTranspiler extends AbstractTranspiler<TypeDefNode> {
 
 export class TypeConstructorTranspiler extends AbstractTranspiler<TypeDefNode> {
   protected get code(): string {
-    return `{%name%}: intent.constructor(I.{%lower%})`;
+    return `{%name%}: intent.constructor(I{%domain%}.{%lower%})`;
   }
 
   public resolve(data: TypeDefNode, key: string): any {
     switch (key) {
       case 'lower': return data.name.toLowerCase();
+      case 'domain': return data.domain.identifier;
     }
 
     return super.resolve(data, key);
