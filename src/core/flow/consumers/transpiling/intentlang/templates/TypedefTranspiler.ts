@@ -29,7 +29,7 @@ export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
   public resolve(data: TypeDefNode, key: string): any {
     switch (key) {
       case 'extends':
-        return data.parent;
+        return data.parent || undefined;
     }
 
     return super.resolve(data, key);

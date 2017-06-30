@@ -29,15 +29,15 @@ export abstract class AbstractTranspiler<S> implements TranspilerInterface<S> {
           let resolved = data && this.resolve(data, property);
           let transpiler = this.visitors[property];
 
-          if (!transpiler) {
-            return resolved;
+          if (!(transpiler && resolved !== undefined)) {
+            return resolved !== undefined ? resolved : null;
           }
 
           if (modifier) {
             if (modifier.indexOf('*') < 0) {
               resolved = transpiler.transpile(resolved);
             } else {
-              resolved = transpiler.keyed(resolved);
+              resolved = resolved ? transpiler.keyed(resolved) : [];
             }
           } else {
             resolved = transpiler.transpile(resolved);

@@ -13,16 +13,13 @@ export class CanTranspiler extends AbstractTranspiler<CanNode> {
 
   protected get code(): string {
     return `
-      public {%name%}({%args|.join(", ")%}): {%returns|.pop()||'any'%} {
+      public {%name%}({%*args|.join(", ")%}): {%returns|.pop()||'any'%} {
         {%body%} 
       }`;
   }
 
   public resolve(data: CanNode, key: string): any {
     switch (key) {
-      case 'args':
-        return this.values(data.args);
-
       case 'body':
         return data.body.split("\n");
     }
