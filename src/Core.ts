@@ -73,7 +73,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new SubmitConsumer(this.events, this.parser))
       .add(new ParsedConsumer(this.events))
       .add(new CompiledConsumer(this.events, resolved.resolver))
-      .add(new InterpretConsumer(this.events, resolved.interpreter))
+      .add(new InterpretConsumer(this.events, resolved))
       .add(new InterpretedConsumer(this.events, new FileWriter()))
       .add(new ErrorConsumer(this.events))
       .add(new StatConsumer(this.events, resolved))
