@@ -25,6 +25,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   private sampler: Sampler;
   private substitutor: Substitutor<any>;
   private options: InterpreterOptions;
+  private transpiler: ChipTranspiler;
 
   public constructor(bus: CoreEventBus, options: InterpreterOptions) {
     super(bus);
@@ -36,7 +37,8 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       (code, resolver) => (
         new Template(code, this.substitutor, resolver)
       )
-    )
+    );
+    this.transpiler = new ChipTranspiler(this.compiler);
   }
 
   public supports(event: CoreEvent<any>): boolean {
@@ -51,9 +53,7 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
     });
 
     let resolved = chip.path.replace(/\.int$/, this.options.emit.extension);
-    let content = (new ChipTranspiler(
-      this.compiler
-    )).transpile(chip.ast);
+    let content = this.transpiler.transpile(chip.ast);
 
     return new InterpretedEvent({
       chip,

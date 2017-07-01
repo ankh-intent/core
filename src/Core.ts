@@ -24,6 +24,9 @@ import { InterpretConsumer, InterpreterOptions } from './core/flow/consumers/tra
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
+import { WatchdogReadyConsumer } from './core/flow/consumers/WatchdogReadyConsumer';
+import { ReadyEvent } from './core/flow/events/ReadyEvent';
+import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consumers/EventChainMonitor';
 
 export interface CoreOptions {
   emitStats: boolean;
@@ -40,6 +43,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private options: OptionsResolver;
   private parser: IntentBuilder;
   private events: CoreEventBus;
+
+  private eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
 
   public constructor() {
     super();
@@ -60,7 +65,10 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       this.watch(this.files);
     }
 
+    this.eventChainMonitor = new EventChainMonitor(this.events);
+
     this.events
+      .add(this.eventChainMonitor)
       .add(new UpdateConsumer(this.events))
       .add(new SubmitConsumer(this.events, this.parser))
       .add(new ParsedConsumer(this.events))
@@ -69,6 +77,34 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new InterpretedConsumer(this.events, new FileWriter()))
       .add(new ErrorConsumer(this.events))
       .add(new StatConsumer(this.events, resolved))
+      .add(this.eventChainMonitor)
+    ;
+
+    return resolved;
+  }
+
+  public start(options: CoreOptions): this {
+    let updates = this.matched(
+      options.resolver.paths.project,
+      options.files
+    ).map((path) => {
+      return new UpdateEvent({path})
+    });
+
+    this.eventChainMonitor
+      .monitor(updates)
+      .once((data: EventChainMonitoringData) => {
+        this.events.emit(new ReadyEvent(data))
+      })
+    ;
+
+    if (this.watchdog) {
+      this.events
+        .add(new WatchdogReadyConsumer(this.events, this.watchdog))
+      ;
+    }
+
+    this.events
       .add({
         consume: (event) => {
           if (event instanceof FatalEvent) {
@@ -80,29 +116,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       })
     ;
 
-    return resolved;
-  }
-
-  public start(options: CoreOptions): this {
-    let finder = new Finder();
-    let root = options.resolver.paths.project;
-
-    for (let matcher of options.files) {
-      let found = finder.find(root, matcher, (path) => new UpdateEvent({path}));
-
-      if (found) {
-        this.events.emit(found);
-      }
-    }
-
-    if (this.watchdog) {
-      this.watchdog.start();
-
-      setTimeout(() => {
-        this.events.stat({
-          type: 'ready',
-        });
-      }, 100);
+    for (let update of updates) {
+      this.events.emit(update);
     }
 
     return this;
@@ -112,6 +127,21 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     if (this.watchdog) {
       this.watchdog.stop();
     }
+  }
+
+  protected matched(root: string, matchers: UnitMatcher[]) {
+    let finder = new Finder();
+    let paths = [];
+
+    for (let matcher of matchers) {
+      let found = finder.find(root, matcher, (path) => path);
+
+      if (found) {
+        paths.push(found);
+      }
+    }
+
+    return paths;
   }
 
   protected watch(files: UnitMatcher[]) {
