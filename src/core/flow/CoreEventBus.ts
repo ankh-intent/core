@@ -9,21 +9,42 @@ export class CoreEventBus {
     return this.consumers.push(consumer), this;
   }
 
+  public off(consumer: CoreEventConsumer<any, any>): number {
+    let index, n = 0;
+
+    while ((index = this.consumers.indexOf(consumer)) >= 0) {
+      delete this.consumers[index];
+      n++;
+    }
+
+    return n;
+  }
+
   public emit(event: CoreEvent<any>): CoreEvent<any> {
     for (let consumer of this.consumers) {
       let processed = consumer.consume(event);
 
-      if (event !== processed) {
-        if (processed) {
-          if (!processed.parent) {
-            processed.parent = event;
-          }
-
-          event = this.emit(processed);
+      if (event === processed) {
+        if (!event.bubble) {
+          break;
         }
 
+        continue;
+      }
+
+      if (!processed) {
         break;
       }
+
+      if (processed.bubble) {
+        if (!processed.parent) {
+          processed.parent = event;
+        }
+
+        event = this.emit(processed);
+      }
+
+      break;
     }
 
     return event;

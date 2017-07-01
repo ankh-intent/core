@@ -13,6 +13,10 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     this.bus = bus;
   }
 
+  public detach(): boolean {
+    return !!this.bus.off(this);
+  }
+
   public consume(event: E): CoreEvent<any>|void {
     if (!this.supports(event)) {
       return event;
