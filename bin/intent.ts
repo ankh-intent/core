@@ -5,13 +5,18 @@ if (process.env.ENV !== 'production') {
 }
 
 import config from './config';
+import { CoreOptionsProvider } from '../src/CoreOptionsProvider';
 import { Core } from '../src/Core';
 
 ((core: Core) => {
+  let provider = new CoreOptionsProvider(
+    config(process.env.ENV)
+  );
   let options = core.bootstrap(
     {
-      ...config(core),
+      ...provider.build(core),
       ...{
+        // ... default options override here
       },
     }
   );
