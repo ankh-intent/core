@@ -12,7 +12,7 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
   private options: CoreOptions;
   private logger;
   private processors: {
-    ready: ReadyStat;
+    log: LogStat;
     emitted: EmittedStat;
   };
 
@@ -21,8 +21,8 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
     this.options = options;
     this.logger = new Logger();
     this.processors = {
-      ready: new ReadyStat(this, this.logger, options),
-      emitted: new EmittedStat(this, this.logger, options),
+      log: new LogStat(this, options, this.logger),
+      emitted: new EmittedStat(this, options),
     };
   }
 
@@ -43,11 +43,9 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
 class BaseStat {
   protected consumer: StatConsumer;
   protected options: CoreOptions;
-  protected logger: Logger;
 
-  public constructor(consumer: StatConsumer, logger: Logger, options: CoreOptions) {
+  public constructor(consumer: StatConsumer, options: CoreOptions) {
     this.consumer = consumer;
-    this.logger = logger;
     this.options = options;
   }
 
@@ -55,10 +53,23 @@ class BaseStat {
   }
 }
 
-class ReadyStat extends BaseStat {
+class LogStat extends BaseStat {
+  private logger: Logger;
+
+  public constructor(consumer: StatConsumer, options: CoreOptions, logger: Logger) {
+    super(consumer, options);
+    this.logger = logger;
+  }
+
   public process(event: StatEvent) {
-    if (this.options.watch) {
-      this.logger.log(event, 'Watching...');
+    let { data: { stat: { message } } } = event;
+
+    for (let type of Object.keys(message)) {
+      this.logger[type].call(
+        this.logger,
+        event,
+        message[type]
+      );
     }
   }
 }
@@ -72,7 +83,7 @@ class EmittedStat extends BaseStat {
       this.options.resolver.paths.intent
     ]).pop();
     let cause = '<root>';
-    let parent = event;
+    let parent: CoreEvent<any> = event;
 
     while (parent) {
       parent = parent.parent;
@@ -87,12 +98,18 @@ class EmittedStat extends BaseStat {
       }
     }
 
-    this.logger.log(
-      `${Strings.pad(String(index), 5, ' ', true)} ` +
-      `[${Strings.shrink(cause, 10, true)}] ` +
-      `${Strings.shrink(path.replace(new RegExp(`^${common}`), '@'), 60)} ` +
-      `${Strings.shrink(`~${String(end - start)}`, 6, true)} ms`
-    );
+    let indexS = Strings.pad(String(index), 5, ' ', true);
+    let causeS = Strings.shrink(cause, 10, true);
+    let pathS  = Strings.shrink(path.replace(new RegExp(`^${common}`), '@'), 60);
+    let timeS  = Strings.shrink(`~${String(end - start)}`, 6, true);
+
+    this.consumer.stat(event, {
+      type: 'log',
+      message: {
+        log:
+          `${indexS} [${causeS}] ${pathS} ${timeS} ms`,
+      },
+    });
   }
 }
 

@@ -26,6 +26,7 @@ import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 
 export interface CoreOptions {
+  emitStats: boolean;
   files: UnitMatcher[];
   watch?: WatchdogOptions;
   resolver: ResolverOptions;

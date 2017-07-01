@@ -39,6 +39,12 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "default": defaults.files.map((e) => regexp(e.pattern)),
           "requiresArg": true,
         },
+        "output-emit-stat": {
+          "type": "boolean",
+          "describe": "Emit compilation stat event to console output",
+          "default": defaults.emitStats,
+          "requiresArg": false,
+        },
         "output-extension": {
           "type": "string",
           "describe": "Extension to emit files with",
@@ -111,6 +117,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
       {},
       this.defaults(),
       {
+        emitStats: this.get("output-emit-stat"),
         files: this.files(),
         watch: this.watch(),
         resolver: this.resolver(),
