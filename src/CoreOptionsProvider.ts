@@ -5,6 +5,7 @@ import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { ResolverOptions } from "./core/chips/UseResolver";
 import { InterpreterOptions } from './core/flow/consumers/transpiling/InterpretConsumer';
+import * as path from 'path';
 
 export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
   private _defaults: CoreOptions;
@@ -37,6 +38,19 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "alias": "e",
           "describe": "Patterns to capture entry files to process",
           "default": defaults.files.map((e) => regexp(e.pattern)),
+          "requiresArg": true,
+        },
+        "work-dir": {
+          "type": "string",
+          "alias": "d",
+          "describe": "Working directory to resolve as root for namespaces",
+          "default": defaults.resolver.paths.project,
+          "requiresArg": true,
+        },
+        "output-dir": {
+          "type": "string",
+          "describe": "Directory to output emitted files to",
+          "default": defaults.resolver.paths.output,
           "requiresArg": true,
         },
         "output-emit-stat": {
@@ -100,6 +114,8 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
   protected resolver(): ResolverOptions {
     return {
       paths: {
+        project: path.resolve(this.get("work-dir")),
+        output: path.resolve(this.get("output-dir")),
       },
     };
   }

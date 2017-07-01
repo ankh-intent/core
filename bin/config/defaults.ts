@@ -20,8 +20,8 @@ const options: CoreOptions = {
       intent: path.resolve(
         path.join(__dirname.replace('/build/', '/'), 'core/intent/specification/lib/')
       ),
-      project: null,
-      output: null,
+      project: process.cwd(),
+      output: process.cwd(),
     }
   },
   interpreter: {
