@@ -11,20 +11,22 @@ export class Emitter<F extends Function> {
     return this.eventable.emit(Emitter.EMIT, ...args);
   }
 
-  public and(handler: F): number {
-    return this.eventable.on(Emitter.EMIT, (...args) => {
+  public and(handler: F, once = false): number {
+    let shifter = (...args) => {
       args.pop(); // remove event from top
 
       return handler(...args);
-    });
+    };
+
+    return (
+      once
+        ? this.eventable.once(Emitter.EMIT, shifter)
+        : this.eventable.on(Emitter.EMIT, shifter)
+    );
   }
 
   public once(handler: F): number {
-    return this.eventable.once(Emitter.EMIT, (...args) => {
-      args.pop();
-
-      return handler(...args);
-    });
+    return this.and(handler, true);
   }
 
   public off(uid?: number): void {
