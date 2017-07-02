@@ -49,7 +49,6 @@ export interface CoreOptions {
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
-  private files: UnitMatcher[];
   private watchdog: Watchdog<UnitInterface>;
 
   private options: OptionsResolver;
@@ -73,12 +72,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     let resolved = this.options.resolve(options);
     let writer = resolved.emit.files ? new FileWriter() : new DummyWriter();
 
-    this.files = resolved.files;
-
     if (resolved.watch) {
       this.watchdog = new Watchdog(resolved.watch);
-
-      this.watch(this.files);
     }
 
     this.eventChainMonitor = new EventChainMonitor(this.events);
@@ -94,6 +89,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new InterpretedConsumer(this.events, new FileEmitResolver(resolved), writer))
       .add(new ErrorConsumer(this.events, this.logger))
       .add(new StatConsumer(this.events, resolved, this.logger))
+      .add(new WatchdogReadyConsumer(this.events, this.watchdog, this.dependencyTree))
       .add(this.eventChainMonitor)
     ;
 
@@ -114,12 +110,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
         this.events.emit(new ReadyEvent(data))
       })
     ;
-
-    if (this.watchdog) {
-      this.events
-        .add(new WatchdogReadyConsumer(this.events, this.watchdog))
-      ;
-    }
 
     this.events
       .add({
@@ -159,29 +149,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     }
 
     return paths;
-  }
-
-  protected watch(files: UnitMatcher[]) {
-    let watchers = files.map((file) => this.watchdog.watch(file));
-
-    for (let watcher of watchers) {
-      watcher.emitter
-        .and(this.event.bind(this))
-      ;
-    }
-  }
-
-  protected event(data) {
-    for (let { event, path } of data) {
-      switch (event) {
-
-        case 'change':
-          return this.events.emit(new UpdateEvent({
-            path,
-          }));
-
-      }
-    }
   }
 }
 
