@@ -3,7 +3,7 @@ import { AbstractOptionsProvider } from './AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
-import { ResolverOptions } from "./core/chips/UseResolver";
+import { ResolverOptions } from "./core/chips/use/ResolverOptions";
 import { InterpreterOptions } from './core/flow/consumers/transpiling/InterpretConsumer';
 import * as path from 'path';
 

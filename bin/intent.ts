@@ -23,6 +23,7 @@ import { Core } from '../src/Core';
       },
     }
   );
+
   if (options.emit.options) {
     core.logger.log(Logger.INFO, util.inspect(options, {depth: null}));
 
