@@ -30,8 +30,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
 
     this.writer.write(content)
       .then(() => {
-        event.stopPropagation();
-        this.emit(event);
+        this.emit(event, false);
 
         this.stat(event, {
           type: 'emitted',

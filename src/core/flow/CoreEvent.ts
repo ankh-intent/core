@@ -6,6 +6,7 @@ export interface CoreEvent<T> {
   bubble: boolean;
 
   hasParent(event: CoreEvent<any>): CoreEvent<any>;
+  stopPropagation(stop?: boolean);
 }
 
 export abstract class BaseCoreEvent<T> implements CoreEvent<T> {
@@ -21,8 +22,8 @@ export abstract class BaseCoreEvent<T> implements CoreEvent<T> {
     this.bubble = true;
   }
 
-  public stopPropagation() {
-    this.bubble = false;
+  public stopPropagation(stop: boolean = true) {
+    this.bubble = !stop;
   }
 
   public hasParent(event: CoreEvent<any>): CoreEvent<any> {
