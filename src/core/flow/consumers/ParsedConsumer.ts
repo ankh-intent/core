@@ -6,7 +6,7 @@ import { AbstractConsumer } from '../AbstractConsumer';
 import { CompiledEvent } from '../events/CompiledEvent';
 import { Chip } from '../../chips/Chip';
 import { ChipNode } from '../../intent/ast/ChipNode';
-import { DependencyManager } from '../../watchdog/dependencies/DependecyManager';
+import { DependencyManager } from '../../watchdog/dependencies/DependencyManager';
 
 export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>{
   private tree: DependencyManager;

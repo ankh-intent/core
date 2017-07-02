@@ -31,7 +31,7 @@ import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consume
 import { FileEmitResolver } from './core/chips/FileEmitResolver';
 import { IntentLogger } from './core/IntentLogger';
 import { DummyWriter } from "./core/source/DummyWriter";
-import { DependencyManager } from './core/watchdog/dependencies/DependecyManager';
+import { DependencyManager } from './core/watchdog/dependencies/DependencyManager';
 
 export interface EmitOptions {
   files: boolean;

@@ -1,12 +1,13 @@
 {
   "name": "intent",
-  "version": "0.0.1",
+  "version": "0.0.9",
   "description": "Intent language compiler core",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
     "executable": "chmod +x bin/intent.js",
-    "intent": "bin/intent.js"
+    "intent": "bin/intent.js",
+    "bump": "bin/bump.sh"
   },
   "keywords": [
     "intent",

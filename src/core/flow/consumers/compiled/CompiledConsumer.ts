@@ -4,7 +4,7 @@ import { AbstractConsumer } from '../../AbstractConsumer';
 import { CompiledEvent } from '../../events/CompiledEvent';
 import { UseResolverInterface } from '../../../chips/use/UseResolverInterface';
 import { CoreEventBus } from "../../CoreEventBus";
-import { DependencyManager } from '../../../watchdog/dependencies/DependecyManager';
+import { DependencyManager } from '../../../watchdog/dependencies/DependencyManager';
 import { ResolverOptions } from '../../../chips/ResolverOptions';
 import { BaseUseResolver } from "../../../chips/use/BaseUseResolver";
 import { CoreEvent } from '../../CoreEvent';
