@@ -5,7 +5,7 @@ Intent language compiler.
 ### Progress
 
   - [x] Watchdog
-    - [x] Watch FS events by path or regexp (use chokidar)
+    - [x] Watch FS events by path or regexp (use [chokidar](https://github.com/paulmillr/chokidar))
     - [x] Debounce
     - [x] Easy attach/listen/detach
     - [x] CLI options
