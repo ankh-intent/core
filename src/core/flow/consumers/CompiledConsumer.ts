@@ -4,8 +4,8 @@ import { CompiledEvent } from '../events/CompiledEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
 import { Chip } from '../../chips/Chip';
+import { ResolverOptions } from '../../chips/ResolverOptions';
 import { UseResolverInterface } from '../../chips/use/UseResolverInterface';
-import { ResolverOptions } from '../../chips/use/ResolverOptions';
 import { BaseUseResolver } from '../../chips/use/BaseUseResolver';
 import { UpdateEvent } from '../events/UpdateEvent';
 import { CoreEventBus } from '../CoreEventBus';

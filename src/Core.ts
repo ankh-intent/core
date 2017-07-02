@@ -1,5 +1,5 @@
 
-import { ResolverOptions } from './core/chips/use/ResolverOptions';
+import { ResolverOptions } from './core/chips/ResolverOptions';
 import { OptionsResolver } from './OptionsResolver';
 
 import { Emitter } from './intent-utils/Emitter';
