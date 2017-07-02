@@ -82,7 +82,11 @@ export class DependencyManager extends Eventable {
     let released = +(delete this.roots[node.chip.path]);
 
     for (let root of Objects.iterate(this.roots)) {
-      released += root.release(node);
+      released += +root.release(node);
+    }
+
+    for (let dependency of node) {
+      this.dereference(node, dependency);
     }
 
     this.emit(DependencyManager.RELEASE, node);
