@@ -8,7 +8,7 @@ import { CoreEventBus } from '../CoreEventBus';
 import { Watchdog } from '../../../intent-watchdog/core/Watchdog';
 import { UnitInterface } from '../../../intent-watchdog/core/Unit';
 
-export class WatchdogReadyConsumer extends AbstractConsumer<UpdateEvent, any>{
+export class WatchdogReadyConsumer extends AbstractConsumer<ReadyEvent, any> {
   private watchdog: Watchdog<UnitInterface>;
 
   public constructor(bus: CoreEventBus, watchdog: Watchdog<UnitInterface>) {
@@ -17,11 +17,12 @@ export class WatchdogReadyConsumer extends AbstractConsumer<UpdateEvent, any>{
   }
 
   public supports(event: CoreEvent<any>): boolean {
-    return event.type === ReadyEvent.type();
+    return this.watchdog && (event.type === ReadyEvent.type());
   }
 
-  public process(event: CoreEvent<any>) {
+  public process(event: ReadyEvent) {
     this.watchdog.start();
+
     this.stat(event, {
       type: 'log',
       message: {
