@@ -1,10 +1,10 @@
 
 import { BaseCoreEvent } from '../CoreEvent';
-import { Chip } from '../../chips/Chip';
+import { DependencyNode } from '../../watchdog/dependencies/DependencyNode';
 
 export interface InterpretedEventProps {
   content: string;
-  chip: Chip;
+  dependency: DependencyNode;
 }
 
 export class InterpretedEvent extends BaseCoreEvent<InterpretedEventProps> {

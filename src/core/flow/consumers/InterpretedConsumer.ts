@@ -24,15 +24,15 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
   }
 
   public process(event: InterpretedEvent) {
-    let { chip, content } = event.data;
+    let { dependency, content } = event.data;
     let start = +new Date();
     this.stat(event, {
       type: 'emit',
-      chip,
+      chip: dependency.chip,
       start,
     });
 
-    let resolved = this.resolver.resolve(chip);
+    let resolved = this.resolver.resolve(dependency.chip);
     let source = new StringSource(content, resolved);
 
     this.writer
@@ -42,7 +42,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
 
         this.stat(event, {
           type: 'emitted',
-          chip,
+          chip: dependency.chip,
           source,
           start,
           end: +new Date(),
