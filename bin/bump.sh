@@ -17,7 +17,13 @@ case ${1:-minor} in
 esac
 
 diff=(${diff//./ })
-tag=${2:-$(git tag)}
+tag=$2
+
+if [[ -z $tag ]]; then
+  tag=$(git tag)
+  lines=(${tag//\n/ })
+  tag=${lines[@]:1}
+fi
 
 portions=(${tag//./ })
 base=()
