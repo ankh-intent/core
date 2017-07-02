@@ -79,12 +79,13 @@ describe('Compiler', () => {
       it('should invoke template factory on template detection', () => {
         let factory = jasmine.createSpy('factory', () => {});
         let sampler = new Sampler('{', '}');
+        let resolver = (data, key) => data[key];
         let compiler = new Compiler(
           sampler,
           factory
         );
 
-        compiler.compile(sampler.placeholder('key'));
+        compiler.compile(sampler.placeholder('key'), resolver);
 
         expect(factory).toHaveBeenCalled();
       });

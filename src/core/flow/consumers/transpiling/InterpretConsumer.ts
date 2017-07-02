@@ -4,29 +4,25 @@ import { AbstractConsumer } from '../../AbstractConsumer';
 
 import { CompiledEvent } from '../../events/CompiledEvent';
 import { InterpretedEvent } from '../../events/InterpretedEvent';
-import { StringSource } from '../../../source/StringSource';
 import { CoreEventBus } from '../../CoreEventBus';
 import { ChipTranspiler } from './intentlang/templates/ChipTranspiler';
 import { Compiler } from './compiler/Compiler';
 import { Sampler } from './compiler/Sampler';
 import { Template } from './Template';
 import { Substitutor } from './Substitutor';
-
-export interface EmitOptions {
-  extension: string;
-}
+import { CoreOptions } from '../../../../Core';
 
 export interface InterpreterOptions {
-  emit: EmitOptions;
 }
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   private compiler: Compiler<any, string[]>;
   private sampler: Sampler;
   private substitutor: Substitutor<any>;
-  private options: InterpreterOptions;
+  private options: CoreOptions;
+  private transpiler: ChipTranspiler;
 
-  public constructor(bus: CoreEventBus, options: InterpreterOptions) {
+  public constructor(bus: CoreEventBus, options: CoreOptions) {
     super(bus);
     this.options = options;
     this.sampler = new Sampler('{%', '%}');
@@ -36,7 +32,8 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       (code, resolver) => (
         new Template(code, this.substitutor, resolver)
       )
-    )
+    );
+    this.transpiler = new ChipTranspiler(this.compiler);
   }
 
   public supports(event: CoreEvent<any>): boolean {
@@ -50,17 +47,11 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
       chip,
     });
 
-    let resolved = chip.path.replace(/\.int$/, this.options.emit.extension);
-    let content = (new ChipTranspiler(
-      this.compiler
-    )).transpile(chip.ast);
+    let content = this.transpiler.transpile(chip.ast);
 
-    return new InterpretedEvent({
+    this.emit(new InterpretedEvent({
       chip,
-      content: new StringSource(
-        content.join("\n"),
-        resolved
-      ),
-    });
+      content: content.join("\n"),
+    }));
   }
 }

@@ -1,5 +1,5 @@
 
-import { BaseCoreEvent, CoreEvent } from '../CoreEvent';
+import { CoreEvent } from '../CoreEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
 import { StatEvent } from '../events/StatEvent';
@@ -7,22 +7,23 @@ import { CoreOptions } from '../../../Core';
 import { CoreEventBus } from '../CoreEventBus';
 import { Strings } from "../../../intent-utils/Strings";
 import { Source } from '../../source/Source';
+import { Logger } from '../../../intent-utils/Logger';
 
 export class StatConsumer extends AbstractConsumer<StatEvent, any>{
   private options: CoreOptions;
-  private logger;
+  private logger: Logger;
   private processors: {
-    ready: ReadyStat;
+    log: LogStat;
     emitted: EmittedStat;
   };
 
-  public constructor(bus: CoreEventBus, options: CoreOptions) {
+  public constructor(bus: CoreEventBus, options: CoreOptions, logger: Logger) {
     super(bus);
     this.options = options;
-    this.logger = new Logger();
+    this.logger = logger;
     this.processors = {
-      ready: new ReadyStat(this, this.logger, options),
-      emitted: new EmittedStat(this, this.logger, options),
+      log: new LogStat(this, options, this.logger),
+      emitted: new EmittedStat(this, options),
     };
   }
 
@@ -39,15 +40,12 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
   }
 }
 
-
 class BaseStat {
   protected consumer: StatConsumer;
   protected options: CoreOptions;
-  protected logger: Logger;
 
-  public constructor(consumer: StatConsumer, logger: Logger, options: CoreOptions) {
+  public constructor(consumer: StatConsumer, options: CoreOptions) {
     this.consumer = consumer;
-    this.logger = logger;
     this.options = options;
   }
 
@@ -55,24 +53,33 @@ class BaseStat {
   }
 }
 
-class ReadyStat extends BaseStat {
+class LogStat extends BaseStat {
+  private logger: Logger;
+
+  public constructor(consumer: StatConsumer, options: CoreOptions, logger: Logger) {
+    super(consumer, options);
+    this.logger = logger;
+  }
+
   public process(event: StatEvent) {
-    if (this.options.watch) {
-      this.logger.log(event, 'Watching...');
+    let { data: { stat: { message } } } = event;
+
+    for (let type of Object.keys(message)) {
+      this.logger.log(Logger.strToLevel(type), event, message[type]);
     }
   }
 }
 
 class EmittedStat extends BaseStat {
-  public process(event: StatEvent, { chip, index, content, start, end }) {
-    let path = (<Source>content).reference;
+  public process(event: StatEvent, { chip, index, source, start, end }) {
+    let path = (<Source>source).reference;
     let common = Strings.longestCommon([
       path,
       this.options.resolver.paths.project,
       this.options.resolver.paths.intent
     ]).pop();
     let cause = '<root>';
-    let parent = event;
+    let parent: CoreEvent<any> = event;
 
     while (parent) {
       parent = parent.parent;
@@ -87,23 +94,17 @@ class EmittedStat extends BaseStat {
       }
     }
 
-    this.logger.log(
-      `${Strings.pad(String(index), 5, ' ', true)} ` +
-      `[${Strings.shrink(cause, 10, true)}] ` +
-      `${Strings.shrink(path.replace(new RegExp(`^${common}`), '@'), 60)} ` +
-      `${Strings.shrink(`~${String(end - start)}`, 6, true)} ms`
-    );
-  }
-}
+    let indexS = Strings.pad(String(index), 5, ' ', true);
+    let causeS = Strings.shrink(cause, 10, true);
+    let pathS  = Strings.shrink(path.replace(new RegExp(`^${common}`), '@'), 60);
+    let timeS  = Strings.shrink(`~${String(end - start)}`, 6, true);
 
-class Logger {
-  log(event, ...args) {
-    console.log((event instanceof BaseCoreEvent) ? `[INTENT/${event.type}]:` : event, ...args);
-  }
-  warn(event, ...args) {
-    console.warn((event instanceof BaseCoreEvent) ? `[INTENT/WARN/${event.type}]:` : event, ...args);
-  }
-  error(event, ...args) {
-    console.error((event instanceof BaseCoreEvent) ? `[INTENT/UNCAUGHT/${event.type}]:` : event, ...args);
+    this.consumer.stat(event, {
+      type: 'log',
+      message: {
+        log:
+          `${indexS} [${causeS}] ${pathS} ${timeS} ms`,
+      },
+    });
   }
 }

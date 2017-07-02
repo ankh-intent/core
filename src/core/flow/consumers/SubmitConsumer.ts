@@ -10,6 +10,7 @@ import { Tokens } from '../../parser/Tokens';
 import { ChipNode } from '../../intent/ast/ChipNode';
 import { ASTBuilder } from '../../ASTBuilder';
 import { CoreEventBus } from '../CoreEventBus';
+import { ErrorEvent } from '../events/ErrorEvent';
 
 export class SubmitConsumer extends AbstractConsumer<SubmitEvent, any>{
   private parser: ASTBuilder<ChipNode>;
@@ -30,23 +31,29 @@ export class SubmitConsumer extends AbstractConsumer<SubmitEvent, any>{
       source,
     });
 
-    return new ParsedEvent({
-      source: source,
-      ast: this.parser.build(new Tokens(
-        (context: Context) => {
-          let token;
+    try {
+      return new ParsedEvent({
+        source: source,
+        ast: this.parser.build(new Tokens(
+          (context: Context) => {
+            let token;
 
-          while (token = Intent.wrapped(context)) {
-            if (token.type !== 'whitespace') {
-              break;
+            while (token = Intent.wrapped(context)) {
+              if (token.type !== 'whitespace') {
+                break;
+              }
             }
-          }
 
-          return token;
-        },
-        source,
-        source.range()
-      )),
-    });
+            return token;
+          },
+          source,
+          source.range()
+        )),
+      })
+    } catch (e) {
+      return new ErrorEvent({
+        error: e,
+      }, event);
+    }
   }
 }

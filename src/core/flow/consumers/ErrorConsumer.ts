@@ -1,25 +1,35 @@
 
+import { Logger } from '../../../intent-utils/Logger';
 import { CoreEvent } from '../CoreEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
 import { ErrorEvent } from '../events/ErrorEvent';
 import { SyntaxError } from '../../parser/SyntaxError';
+import { CoreEventBus } from '../CoreEventBus';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
+  private logger: Logger;
+
+  public constructor(bus: CoreEventBus, logger: Logger) {
+    super(bus);
+    this.logger = logger;
+  }
 
   public supports(event: CoreEvent<any>): boolean {
     return event.type === ErrorEvent.type();
   }
 
   public process(event: ErrorEvent) {
-    while (event) {
-      let { type, data } = event;
-      event = event.parent;
+    let parent: CoreEvent<any> = event;
+
+    while (parent) {
+      let { type, data } = parent;
+      parent = parent.parent;
 
       if (type === ErrorEvent.type()) {
         this.report(data.error);
       } else {
-        console.log(' caused by:', type, (<any>data).path ? ' ' + (<any>data).path : '');
+        this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).path ? ' ' + (<any>data).path : '');
       }
     }
   }
@@ -33,15 +43,16 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
         msg = `${error.source.reference}:${loc.line}:${loc.column}: ${msg}`;
       }
 
-      console.error(`[INTENT/SYNTAX]: ${msg}`);
+      this.logger.log(Logger.ERROR, msg);
 
-      if (!error.parent) {
-        console.error(error.stack);
-      } else {
+      if (error.parent) {
+        this.logger.log(Logger.ERROR, ' caused by:');
         this.report(error.parent);
+      } else {
+        this.logger.log(Logger.ERROR, error.stack);
       }
     } else {
-      console.error(`[INTENT/ERROR]:`, error);
+      this.logger.log(Logger.ERROR, error);
     }
   }
 }
