@@ -63,6 +63,13 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
 
     node.relate(known);
 
+    for (let dependency of node) {
+      if (known.indexOf(dependency) < 0) {
+        // detach old nodes
+        this.tree.dereference(node, dependency);
+      }
+    }
+
     for (let dependency of unknown) {
       this.emit(new UpdateEvent({
         path: dependency.chip.path,

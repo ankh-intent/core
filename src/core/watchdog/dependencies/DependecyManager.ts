@@ -55,4 +55,34 @@ export class DependencyManager {
         : nodes.map((node, index) => node || names[index])
     );
   }
+
+  public remove(node: DependencyNode): number {
+    let released = +(delete this.roots[node.chip.path]);
+
+    for (let root of Objects.iterate(this.roots)) {
+      released += root.release(node);
+    }
+
+    return released;
+  }
+
+  public dereference(parent: DependencyNode, dependency: DependencyNode): boolean {
+    if (!parent.release(dependency)) {
+      return false;
+    }
+
+    let name = dependency.chip.path;
+
+    for (let root of Objects.iterate(this.roots)) {
+      if (root === dependency) {
+        continue;
+      }
+
+      if (root.related(name)) {
+        return false;
+      }
+    }
+
+    return !!this.remove(dependency);
+  }
 }

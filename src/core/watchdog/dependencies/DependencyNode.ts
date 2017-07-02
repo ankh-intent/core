@@ -42,4 +42,20 @@ export class DependencyNode implements Iterable<DependencyNode> {
 
     return null;
   }
+
+  public release(node: DependencyNode): number {
+    let released = 0;
+    let index = this._related.indexOf(node);
+
+    if (index >= 0) {
+      this._related = this._related.filter((e) => e !== node);
+      released++;
+    }
+
+    for (let child of this._related) {
+      released += child.release(node);
+    }
+
+    return released;
+  }
 }
