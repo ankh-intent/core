@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { Logger } from '../src/intent-utils/Logger';
 if (process.env.ENV !== 'production') {
   require('source-map-support').install();
 }
@@ -28,8 +29,8 @@ import { Core } from '../src/Core';
 
     switch (type) {
       case StatEvent.type():
-        if (options.emitStats) {
-          console.log('[INTENT/stat]: ', util.inspect(data, {
+        if (options.emit.stats) {
+          core.logger.log(Logger.INFO, event, util.inspect(data, {
             depth: null,
           }));
         }

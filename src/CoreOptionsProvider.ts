@@ -1,6 +1,6 @@
 
 import { AbstractOptionsProvider } from './AbstractOptionsProvider';
-import { Core, CoreOptions } from './Core';
+import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { ResolverOptions } from "./core/chips/UseResolver";
@@ -53,10 +53,12 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "default": defaults.resolver.paths.output,
           "requiresArg": true,
         },
+      },
+      "Emit options": {
         "output-emit-stat": {
           "type": "boolean",
           "describe": "Emit compilation stat event to console output",
-          "default": defaults.emitStats,
+          "default": defaults.emit.stats,
           "requiresArg": false,
         },
         "output-extension": {
@@ -96,6 +98,12 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
+  protected emit(): EmitOptions {
+    return {
+      stats: this.get("output-emit-stats"),
+    };
+  }
+
   protected files(): UnitMatcher[] {
     return this.get('entry').map((pattern) => ({
       event: 'change',
@@ -132,8 +140,8 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     return Object.assign(
       {},
       this.defaults(),
-      {
-        emitStats: this.get("output-emit-stat"),
+      <CoreOptions> {
+        emit: this.emit(),
         files: this.files(),
         watch: this.watch(),
         resolver: this.resolver(),

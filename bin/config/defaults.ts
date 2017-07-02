@@ -3,7 +3,9 @@ import * as path from 'path';
 import { CoreOptions } from '../../src/Core';
 
 const options: CoreOptions = {
-  emitStats: false,
+  emit: {
+    stats: false,
+  },
   files: [
     {
       event: '',

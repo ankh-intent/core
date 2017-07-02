@@ -1,5 +1,5 @@
 
-import { BaseCoreEvent, CoreEvent } from '../CoreEvent';
+import { CoreEvent } from '../CoreEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
 import { StatEvent } from '../events/StatEvent';
@@ -7,19 +7,20 @@ import { CoreOptions } from '../../../Core';
 import { CoreEventBus } from '../CoreEventBus';
 import { Strings } from "../../../intent-utils/Strings";
 import { Source } from '../../source/Source';
+import { Logger } from '../../../intent-utils/Logger';
 
 export class StatConsumer extends AbstractConsumer<StatEvent, any>{
   private options: CoreOptions;
-  private logger;
+  private logger: Logger;
   private processors: {
     log: LogStat;
     emitted: EmittedStat;
   };
 
-  public constructor(bus: CoreEventBus, options: CoreOptions) {
+  public constructor(bus: CoreEventBus, options: CoreOptions, logger: Logger) {
     super(bus);
     this.options = options;
-    this.logger = new Logger();
+    this.logger = logger;
     this.processors = {
       log: new LogStat(this, options, this.logger),
       emitted: new EmittedStat(this, options),
@@ -38,7 +39,6 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
     }
   }
 }
-
 
 class BaseStat {
   protected consumer: StatConsumer;
@@ -65,11 +65,7 @@ class LogStat extends BaseStat {
     let { data: { stat: { message } } } = event;
 
     for (let type of Object.keys(message)) {
-      this.logger[type].call(
-        this.logger,
-        event,
-        message[type]
-      );
+      this.logger.log(Logger.strToLevel(type), event, message[type]);
     }
   }
 }
@@ -110,17 +106,5 @@ class EmittedStat extends BaseStat {
           `${indexS} [${causeS}] ${pathS} ${timeS} ms`,
       },
     });
-  }
-}
-
-class Logger {
-  log(event, ...args) {
-    console.log((event instanceof BaseCoreEvent) ? `[INTENT/${event.type}]:` : event, ...args);
-  }
-  warn(event, ...args) {
-    console.warn((event instanceof BaseCoreEvent) ? `[INTENT/WARN/${event.type}]:` : event, ...args);
-  }
-  error(event, ...args) {
-    console.error((event instanceof BaseCoreEvent) ? `[INTENT/UNCAUGHT/${event.type}]:` : event, ...args);
   }
 }

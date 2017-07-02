@@ -3,6 +3,7 @@ import { ResolverOptions } from './core/chips/UseResolver';
 import { OptionsResolver } from './OptionsResolver';
 
 import { Emitter } from './intent-utils/Emitter';
+import { Logger } from './intent-utils/Logger';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { UnitInterface } from './intent-watchdog/core/Unit';
@@ -11,7 +12,7 @@ import { IntentBuilder } from './core/intent/builder/IntentBuilder';
 
 import { CoreEventBus } from './core/flow/CoreEventBus';
 import { UpdateEvent } from './core/flow/events/UpdateEvent';
-import { CoreEvent } from './core/flow/CoreEvent';
+import { BaseCoreEvent, CoreEvent } from './core/flow/CoreEvent';
 import { FatalEvent } from './core/flow/events/FatalEvent';
 import { FileWriter } from './core/source/FileWriter';
 import { Finder } from './core/source/Finder';
@@ -28,12 +29,31 @@ import { WatchdogReadyConsumer } from './core/flow/consumers/WatchdogReadyConsum
 import { ReadyEvent } from './core/flow/events/ReadyEvent';
 import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consumers/EventChainMonitor';
 
+export interface EmitOptions {
+  stats: boolean
+}
+
 export interface CoreOptions {
-  emitStats: boolean;
+  emit: EmitOptions;
   files: UnitMatcher[];
   watch?: WatchdogOptions;
   resolver: ResolverOptions;
   interpreter: InterpreterOptions;
+}
+
+class IntentLogger extends Logger {
+  public classify(args: any[]): [string, any[]] {
+    let event = args[0];
+    let classified;
+
+    if (event instanceof BaseCoreEvent) {
+      classified = [event.type, args.slice(1)];
+    } else {
+      classified = super.classify(args);
+    }
+
+    return [`INTENT${classified[0] ? '/' + classified[0] : ''}`, classified[1]];
+  }
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
@@ -46,8 +66,11 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
 
   private eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
 
+  public logger: Logger;
+
   public constructor() {
     super();
+    this.logger = new IntentLogger();
     this.options= new OptionsResolver();
     this.parser = new IntentBuilder();
     this.events = new CoreEventBus();
@@ -75,8 +98,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new CompiledConsumer(this.events, resolved.resolver))
       .add(new InterpretConsumer(this.events, resolved))
       .add(new InterpretedConsumer(this.events, new FileWriter()))
-      .add(new ErrorConsumer(this.events))
-      .add(new StatConsumer(this.events, resolved))
+      .add(new ErrorConsumer(this.events, this.logger))
+      .add(new StatConsumer(this.events, resolved, this.logger))
       .add(this.eventChainMonitor)
     ;
 
