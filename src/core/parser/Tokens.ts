@@ -158,14 +158,16 @@ export class Tokens {
     error.stack = stack.map((line) => {
       for (let idx in intersect) {
         let sub = intersect[idx];
-        let com = Strings.longestCommon([sub, __filename]).pop();
+        let com = Strings.longestCommon([
+          sub,
+          __filename.replace('/build/', '/')
+        ]).pop();
 
         if (line.indexOf(com) >= 0) {
           return line
             .replace(/(.*?)\s*\(([^)]+)\)/, (m, ref, loc) => {
-              return `${Strings.pad(ref, max, ' ')} -> ${loc}`;
+              return `${Strings.pad(ref, max, ' ')} (${loc})`;
             })
-            .replace(com, `{${+idx + 1}}`)
           ;
         }
       }
