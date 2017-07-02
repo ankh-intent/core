@@ -8,7 +8,7 @@ import { CoreEventBus } from '../CoreEventBus';
 import { Watchdog } from '../../../intent-watchdog/core/Watchdog';
 import { UnitInterface } from '../../../intent-watchdog/core/Unit';
 import { WatchItem } from '../../../intent-watchdog/core/WatchItem';
-import { DependencyManager } from '../../watchdog/dependencies/DependecyManager';
+import { DependencyManager } from '../../watchdog/dependencies/DependencyManager';
 import { DependencyNode } from '../../watchdog/dependencies/DependencyNode';
 
 interface RetainedWatch {
