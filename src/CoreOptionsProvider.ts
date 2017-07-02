@@ -18,10 +18,9 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
   protected usage(): string {
     const pckg = require("../../package.json");
 
-    return `
-      intent ${pckg.version}
-      Usage: intent [<options>] [<entry>]
-  `.trim();
+    return `intent ${pckg.version}\n` +
+      `Usage: intent [<options>] [<entry>]`
+    ;
   }
 
   protected options(defaults: CoreOptions): any {

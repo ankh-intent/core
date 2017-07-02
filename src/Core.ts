@@ -67,10 +67,9 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     let resolved = this.options.resolve(options);
 
     this.files = resolved.files;
-    let watch;
 
-    if (watch = resolved.watch) {
-      this.watchdog = new Watchdog(watch);
+    if (resolved.watch) {
+      this.watchdog = new Watchdog(resolved.watch);
 
       this.watch(this.files);
     }

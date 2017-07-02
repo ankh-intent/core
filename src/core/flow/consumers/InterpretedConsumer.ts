@@ -7,8 +7,8 @@ import { FileWriter } from '../../source/FileWriter';
 import { ErrorEvent } from '../events/ErrorEvent';
 
 export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>{
-  private writer: FileWriter;
   private total: number = 0;
+  private writer: FileWriter;
 
   public constructor(bus: CoreEventBus, writer: FileWriter) {
     super(bus);
@@ -28,7 +28,8 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
       start,
     });
 
-    this.writer.write(content)
+    this.writer
+      .write(source)
       .then(() => {
         this.emit(event, false);
 
