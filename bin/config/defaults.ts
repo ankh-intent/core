@@ -4,6 +4,7 @@ import { CoreOptions } from '../../src/Core';
 
 const options: CoreOptions = {
   emit: {
+    files: true,
     stats: false,
     options: false,
     extension: '.i.js',

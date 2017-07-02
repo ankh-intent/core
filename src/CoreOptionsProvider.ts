@@ -55,6 +55,12 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
         },
       },
       "Emit options": {
+        "output-emit-files": {
+          "type": "boolean",
+          "describe": "Emit files",
+          "default": defaults.emit.files,
+          "requiresArg": false,
+        },
         "output-emit-stat": {
           "type": "boolean",
           "describe": "Emit compilation stat event to console output",
@@ -106,6 +112,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
 
   protected emit(): EmitOptions {
     return {
+      files: this.get("output-emit-files"),
       stats: this.get("output-emit-stats"),
       options: this.get("output-emit-options"),
       extension: this.get("output-extension"),
