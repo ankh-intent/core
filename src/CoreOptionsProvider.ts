@@ -61,7 +61,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "default": defaults.emit.files,
           "requiresArg": false,
         },
-        "output-emit-stat": {
+        "output-emit-stats": {
           "type": "boolean",
           "describe": "Emit compilation stat event to console output",
           "default": defaults.emit.stats,
