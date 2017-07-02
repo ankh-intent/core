@@ -1,11 +1,11 @@
 
 case ${1:-minor} in
   major)
-    diff="1.-x.!"
+    diff="1.-x.-x.!"
     ;;
 
   minor)
-    diff="0.1.!"
+    diff="0.1.-x.!"
     ;;
 
   patch)
@@ -19,10 +19,12 @@ esac
 diff=(${diff//./ })
 tag=$2
 
-if [[ -z $tag ]]; then
+if [[ -z $tag || $tag == '--probe' ]]; then
   tag=$(git tag)
   lines=(${tag//\n/ })
-  tag=${lines[@]:1}
+  IFS=$'\n' sorted=($(sort -r <<<"${tag[*]}"))
+  unset IFS
+  tag=${sorted[@]::1}
 fi
 
 portions=(${tag//./ })
@@ -62,6 +64,12 @@ result=${result[@]}
 
 bumped="${result// /.}$3"
 
-if $(git tag $bumped); then
-  git commit --allow-empty -m "Bump version to $bumped"
+if [[ $2 == '--probe' ]]; then
+  echo $bumped
+
+  exit
 fi
+
+git stash
+npm version ${bumped} -m "Bump version to $bumped"
+git stash pop
