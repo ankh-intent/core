@@ -1,4 +1,5 @@
 
+import { Logger } from '../../../intent-utils/Logger';
 import { CoreEvent } from '../CoreEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
 
