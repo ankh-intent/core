@@ -22,7 +22,7 @@ import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
 import { CompiledConsumer } from './core/flow/consumers/compiled/CompiledConsumer';
 import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
 import { DependencyModifiedConsumer, InterpreterOptions } from './core/flow/consumers/transpiling/DependencyModifiedConsumer';
-import { StatConsumer } from './core/flow/consumers/StatConsumer';
+import { StatConsumer } from './core/flow/consumers/stat/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { WatchdogReadyConsumer } from './core/flow/consumers/WatchdogReadyConsumer';

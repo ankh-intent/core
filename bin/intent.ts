@@ -36,9 +36,9 @@ import { Core } from '../src/Core';
     switch (type) {
       case StatEvent.type():
         if (options.emit.stats) {
-          core.logger.log(Logger.INFO, event, util.inspect(data, {
+          core.logger.log(Logger.INFO, event, JSON.stringify(util.inspect(data.stat, {
             depth: null,
-          }));
+          })));
         }
         break;
 
