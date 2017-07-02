@@ -55,6 +55,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
       .watch(strict ? pattern : options.root, {
         ignored: options.ignore,
         persistent: true,
+        ignoreInitial: true,
       })
       .on(event, handler);
 
