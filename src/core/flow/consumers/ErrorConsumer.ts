@@ -7,6 +7,7 @@ import { ErrorEvent } from '../events/ErrorEvent';
 import { SyntaxError } from '../../parser/SyntaxError';
 import { CoreEventBus } from '../CoreEventBus';
 import { Strings } from '../../../intent-utils/Strings';
+import { StatEvent } from '../events/StatEvent';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   private logger: Logger;
@@ -33,9 +34,21 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
         this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).path ? `(${(<any>data).path})` : '');
       }
     }
+
+    return new StatEvent({
+      parent: event,
+      stat: {
+        type: 'error',
+        error: this.describeError(event.data.error).join("\n"),
+      },
+    });
   }
 
   protected report(error) {
+    this.logger.log(Logger.ERROR, ...this.describeError(error));
+  }
+
+  private describeError(error: Error) {
     if (error instanceof SyntaxError) {
       let stack;
 
@@ -47,9 +60,9 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
 
       let msg = stack.shift().toString();
 
-      this.logger.log(Logger.ERROR, msg, "\n", stack.join("\n"));
+      return [msg, "\n", stack.join("\n")];
     } else {
-      this.logger.log(Logger.ERROR, error);
+      return [error];
     }
   }
 

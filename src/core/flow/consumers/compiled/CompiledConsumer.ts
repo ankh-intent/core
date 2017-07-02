@@ -46,24 +46,29 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private synchronize(node: DependencyNode, event: CoreEvent<any>) {
     let uses = this.uses(node.chip);
 
-    let names = Object.keys(uses);
-    let nodes = this.tree.all(names, false);
+    let nodes = this.tree.all(Object.keys(uses), false);
     let unknown: DependencyNode[] = [];
     let known = [];
 
     for (let dependency of nodes) {
       if (typeof dependency === 'string') {
+        // attach new nodes
         unknown.push(
-          this.tree.add(uses[dependency])
+          dependency = this.tree.add(uses[dependency])
         );
-      } else {
-        known.push(dependency);
       }
+
+      known.push(dependency);
     }
 
-    node.relate(
-      known.concat(unknown)
-    );
+    node.relate(known);
+
+    for (let dependency of node) {
+      if (known.indexOf(dependency) < 0) {
+        // detach old nodes
+        this.tree.dereference(node, dependency);
+      }
+    }
 
     for (let dependency of unknown) {
       this.emit(new UpdateEvent({

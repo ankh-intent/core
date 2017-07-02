@@ -4,7 +4,7 @@ import { ChipNode } from '../../../../../intent/ast/ChipNode';
 import { DomainTranspiler } from './DomainTranspiler';
 import { CanTranspiler } from './CanTranspiler';
 import { UseTranspiler } from './UseTranspiler';
-import { Container } from '../../../../transpiler/Container';
+import { Container } from '../../../../../../intent-utils/Container';
 
 export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

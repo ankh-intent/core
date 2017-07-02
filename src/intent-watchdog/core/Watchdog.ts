@@ -15,9 +15,12 @@ export class Watchdog<U extends UnitInterface> {
   private options: WatchdogOptions;
   private watches: {[index: number]: WatchItem<U>};
 
+  public active: boolean;
+
   public constructor(options: WatchdogOptions) {
     this.watches = {};
     this.options = options;
+    this.active = false;
   }
 
   public all(): WatchItem<U>[] {
@@ -25,12 +28,18 @@ export class Watchdog<U extends UnitInterface> {
   }
 
   public start(items?: WatchItem<U>[]) {
+    this.active = true;
+
     for (let item of items || this.all()) {
       item.watch(this.options);
     }
   }
 
   public stop() {
+    if (!this.active) {
+      return;
+    }
+
     for (let item of this.all()) {
       item.detach();
     }
