@@ -4,7 +4,7 @@ import { DomainNode } from '../../../../../intent/ast/DomainNode';
 import { TypedefTranspiler } from './TypedefTranspiler';
 import { TypeDefNode } from '../../../../../intent/ast/TypeDefNode';
 import { UseTranspiler } from './UseTranspiler';
-import { Container } from '../../../../transpiler/Container';
+import { Container } from '../../../../../../intent-utils/Container';
 
 export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

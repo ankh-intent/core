@@ -1,10 +1,11 @@
 
+import { Container } from '../../../intent-utils/Container';
 import { Objects } from '../../../intent-utils/Objects';
 import { Chip } from '../../chips/Chip';
 import { DependencyNode } from './DependencyNode';
 
 export class DependencyManager {
-  public roots: {[name: string]: DependencyNode} = {};
+  public roots: Container<DependencyNode> = {};
 
   public find(name: string): DependencyNode {
     for (let root of Objects.iterate(this.roots)) {

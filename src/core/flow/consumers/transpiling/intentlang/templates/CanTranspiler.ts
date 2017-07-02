@@ -3,7 +3,7 @@ import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
 import { CanNode } from '../../../../../intent/ast/CanNode';
 import { TypeTranspiler } from './TypeTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
-import { Container } from '../../../../transpiler/Container';
+import { Container } from '../../../../../../intent-utils/Container';
 
 export class CanTranspiler extends AbstractTranspiler<CanNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

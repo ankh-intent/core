@@ -5,7 +5,7 @@ import { TypeNode } from '../../../../../intent/ast/TypeNode';
 import { CanTranspiler } from './CanTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
 import { ConstraintTranspiler } from './ConstraintTranspiler';
-import { Container } from '../../../../transpiler/Container';
+import { Container } from '../../../../../../intent-utils/Container';
 
 export class TypedefTranspiler extends AbstractTranspiler<TypeDefNode> {
   protected visitors: Container<TranspilerInterface<any>> = {
