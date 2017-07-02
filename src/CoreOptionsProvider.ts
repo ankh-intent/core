@@ -61,6 +61,12 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "default": defaults.emit.stats,
           "requiresArg": false,
         },
+        "output-emit-options": {
+          "type": "boolean",
+          "describe": "Emit to console the options, reconciled form command-line",
+          "default": defaults.emit.options,
+          "requiresArg": false,
+        },
         "output-extension": {
           "type": "string",
           "describe": "Extension to emit files with",
@@ -101,6 +107,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
   protected emit(): EmitOptions {
     return {
       stats: this.get("output-emit-stats"),
+      options: this.get("output-emit-options"),
     };
   }
 

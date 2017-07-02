@@ -5,6 +5,7 @@ import { CoreOptions } from '../../src/Core';
 const options: CoreOptions = {
   emit: {
     stats: false,
+    options: false,
   },
   files: [
     {

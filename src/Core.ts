@@ -31,6 +31,7 @@ import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consume
 
 export interface EmitOptions {
   stats: boolean
+  options: boolean;
 }
 
 export interface CoreOptions {

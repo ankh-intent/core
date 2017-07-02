@@ -23,6 +23,11 @@ import { Core } from '../src/Core';
       },
     }
   );
+  if (options.emit.options) {
+    core.logger.log(Logger.INFO, util.inspect(options, {depth: null}));
+
+    process.exit(0);
+  }
 
   core.and((event) => {
     let { type, data} = event;
