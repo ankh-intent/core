@@ -6,7 +6,8 @@
   "types": "src/index.d.ts",
   "scripts": {
     "executable": "chmod +x bin/intent.js",
-    "intent": "bin/intent.js"
+    "intent": "bin/intent.js",
+    "bump": "bin/bump.sh"
   },
   "keywords": [
     "intent",
