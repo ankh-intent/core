@@ -17,6 +17,7 @@ describe('Template', () => {
   describe('apply()', () => {
     let sampler;
     let substitutor;
+    let resolver = (data, key) => data[key];
 
     beforeEach(() => {
       sampler = new Sampler('{', '}');
@@ -69,49 +70,49 @@ describe('Template', () => {
     ];
 
     pit('should return unchanged code if no matched data in substitutor', sample1, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     pit('should replace placeholders with data', sample2, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     pit('should turn array data to multiline', sample3, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     pit('should turn object data to multiline by key', sample4, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     pit('should properly substitute multiline before multiplying', sample5, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     pit('should properly substitute multiline after multiplying', sample6, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     pit('should properly substitute multiple multiplying', sample7, (data) => {
-      let template = new Template(data.code, substitutor);
+      let template = new Template(data.code, substitutor, resolver);
 
       expect(template.apply(data.data)).toEqual(data.expected);
     });
 
     it('should properly handle null data', () => {
-      let template = new Template("a{b}c", substitutor);
+      let template = new Template("a{b}c", substitutor, resolver);
 
       expect(template.apply({b: null})).toEqual(["ac"]);
     });
