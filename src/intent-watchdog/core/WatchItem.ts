@@ -27,7 +27,15 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     this.matcher = matcher;
   }
 
-  public watch(options: WatchdogOptions) {
+  public get active(): boolean {
+    return !!this.watcher;
+  }
+
+  public watch(options: WatchdogOptions): this {
+    if (this.active) {
+      return this;
+    }
+
     let { pattern, event } = this.matcher;
     let strict = !(pattern instanceof RegExp);
     let bound = this.event.bind(this, event);
