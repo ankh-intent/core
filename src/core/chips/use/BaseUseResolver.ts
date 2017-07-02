@@ -1,6 +1,6 @@
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { ResolverOptions } from './ResolverOptions';
+import { ResolverOptions } from '../ResolverOptions';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../intent/ast/QualifierNode';

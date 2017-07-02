@@ -1,5 +1,5 @@
 
-import { ResolverOptions } from './core/chips/use/ResolverOptions';
+import { ResolverOptions } from './core/chips/ResolverOptions';
 import { OptionsResolver } from './OptionsResolver';
 
 import { Emitter } from './intent-utils/Emitter';
@@ -19,9 +19,9 @@ import { Finder } from './core/source/Finder';
 
 import { SubmitConsumer } from './core/flow/consumers/SubmitConsumer';
 import { ParsedConsumer } from './core/flow/consumers/ParsedConsumer';
-import { CompiledConsumer } from './core/flow/consumers/CompiledConsumer';
+import { CompiledConsumer } from './core/flow/consumers/compiled/CompiledConsumer';
 import { UpdateConsumer } from './core/flow/consumers/UpdateConsumer';
-import { InterpretConsumer, InterpreterOptions } from './core/flow/consumers/transpiling/InterpretConsumer';
+import { DependencyModifiedConsumer, InterpreterOptions } from './core/flow/consumers/transpiling/DependencyModifiedConsumer';
 import { StatConsumer } from './core/flow/consumers/StatConsumer';
 import { ErrorConsumer } from './core/flow/consumers/ErrorConsumer';
 import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
@@ -31,6 +31,7 @@ import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consume
 import { FileEmitResolver } from './core/chips/FileEmitResolver';
 import { IntentLogger } from './core/IntentLogger';
 import { DummyWriter } from "./core/source/DummyWriter";
+import { DependencyManager } from './core/watchdog/dependencies/DependecyManager';
 
 export interface EmitOptions {
   files: boolean;
@@ -56,6 +57,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private events: CoreEventBus;
 
   private eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
+  private dependencyTree: DependencyManager;
 
   public logger: Logger;
 
@@ -80,14 +82,15 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     }
 
     this.eventChainMonitor = new EventChainMonitor(this.events);
+    this.dependencyTree = new DependencyManager();
 
     this.events
       .add(this.eventChainMonitor)
       .add(new UpdateConsumer(this.events))
       .add(new SubmitConsumer(this.events, this.parser))
-      .add(new ParsedConsumer(this.events))
-      .add(new CompiledConsumer(this.events, resolved.resolver))
-      .add(new InterpretConsumer(this.events, resolved))
+      .add(new ParsedConsumer(this.events, this.dependencyTree))
+      .add(new CompiledConsumer(this.events, resolved.resolver, this.dependencyTree))
+      .add(new DependencyModifiedConsumer(this.events, resolved))
       .add(new InterpretedConsumer(this.events, new FileEmitResolver(resolved), writer))
       .add(new ErrorConsumer(this.events, this.logger))
       .add(new StatConsumer(this.events, resolved, this.logger))

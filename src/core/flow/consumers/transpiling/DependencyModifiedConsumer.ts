@@ -2,7 +2,6 @@
 import { CoreEvent } from '../../CoreEvent';
 import { AbstractConsumer } from '../../AbstractConsumer';
 
-import { CompiledEvent } from '../../events/CompiledEvent';
 import { InterpretedEvent } from '../../events/InterpretedEvent';
 import { CoreEventBus } from '../../CoreEventBus';
 import { ChipTranspiler } from './intentlang/templates/ChipTranspiler';
@@ -11,11 +10,12 @@ import { Sampler } from './compiler/Sampler';
 import { Template } from './Template';
 import { Substitutor } from './Substitutor';
 import { CoreOptions } from '../../../../Core';
+import { DependencyModifiedEvent } from '../compiled/DependencyModifiedEvent';
 
 export interface InterpreterOptions {
 }
 
-export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
+export class DependencyModifiedConsumer extends AbstractConsumer<DependencyModifiedEvent, any>{
   private compiler: Compiler<any, string[]>;
   private sampler: Sampler;
   private substitutor: Substitutor<any>;
@@ -37,21 +37,21 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   public supports(event: CoreEvent<any>): boolean {
-    return event.type === CompiledEvent.type();
+    return event.type === DependencyModifiedEvent.type();
   }
 
-  public process(event: CompiledEvent) {
-    let { chip } = event.data;
+  public process(event: DependencyModifiedEvent) {
+    let { dependency } = event.data;
     this.stat(event, {
       type: 'interpret',
-      chip,
+      dependency,
     });
 
-    let content = this.transpiler.transpile(chip.ast);
+    let content = this.transpiler.transpile(dependency.chip.ast);
 
-    this.emit(new InterpretedEvent({
-      chip,
+    return new InterpretedEvent({
+      dependency,
       content: content.join("\n"),
-    }));
+    });
   }
 }

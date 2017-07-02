@@ -3,8 +3,8 @@ import { AbstractOptionsProvider } from './AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
-import { ResolverOptions } from "./core/chips/use/ResolverOptions";
-import { InterpreterOptions } from './core/flow/consumers/transpiling/InterpretConsumer';
+import { ResolverOptions } from "./core/chips/ResolverOptions";
+import { InterpreterOptions } from './core/flow/consumers/transpiling/DependencyModifiedConsumer';
 import * as path from 'path';
 
 export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
@@ -61,7 +61,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "default": defaults.emit.files,
           "requiresArg": false,
         },
-        "output-emit-stat": {
+        "output-emit-stats": {
           "type": "boolean",
           "describe": "Emit compilation stat event to console output",
           "default": defaults.emit.stats,

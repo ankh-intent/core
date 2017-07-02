@@ -2,7 +2,7 @@
 import * as path from 'path';
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { ResolverOptions } from './ResolverOptions';
+import { ResolverOptions } from '../ResolverOptions';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../intent/ast/QualifierNode';
 

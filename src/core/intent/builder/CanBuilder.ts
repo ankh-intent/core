@@ -38,6 +38,9 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         }
 
         args[arg.name] = arg;
+      } else {
+        let token = tokens.get({});
+        throw tokens.error(`")" or method argument expected, ${token ? `"${token.value}"` : 'EOF'} found`);
       }
     }
 
