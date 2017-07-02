@@ -5,13 +5,17 @@ import { InterpretedEvent } from '../events/InterpretedEvent';
 import { CoreEventBus } from '../CoreEventBus';
 import { FileWriter } from '../../source/FileWriter';
 import { ErrorEvent } from '../events/ErrorEvent';
+import { StringSource } from '../../source/StringSource';
+import { FileEmitResolver } from '../../chips/FileEmitResolver';
 
 export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>{
   private total: number = 0;
   private writer: FileWriter;
+  private resolver: FileEmitResolver;
 
-  public constructor(bus: CoreEventBus, writer: FileWriter) {
+  public constructor(bus: CoreEventBus, resolver: FileEmitResolver, writer: FileWriter) {
     super(bus);
+    this.resolver = resolver;
     this.writer = writer;
   }
 
@@ -28,6 +32,9 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
       start,
     });
 
+    let resolved = this.resolver.resolve(chip);
+    let source = new StringSource(content, resolved);
+
     this.writer
       .write(source)
       .then(() => {
@@ -36,7 +43,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
         this.stat(event, {
           type: 'emitted',
           chip,
-          content,
+          source,
           start,
           end: +new Date(),
           index: ++this.total,

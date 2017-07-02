@@ -71,8 +71,8 @@ class LogStat extends BaseStat {
 }
 
 class EmittedStat extends BaseStat {
-  public process(event: StatEvent, { chip, index, content, start, end }) {
-    let path = (<Source>content).reference;
+  public process(event: StatEvent, { chip, index, source, start, end }) {
+    let path = (<Source>source).reference;
     let common = Strings.longestCommon([
       path,
       this.options.resolver.paths.project,

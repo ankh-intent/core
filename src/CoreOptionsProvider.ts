@@ -70,7 +70,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
         "output-extension": {
           "type": "string",
           "describe": "Extension to emit files with",
-          "default": defaults.interpreter.emit.extension,
+          "default": defaults.emit.extension,
           "requiresArg": true,
         },
       },
@@ -108,6 +108,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     return {
       stats: this.get("output-emit-stats"),
       options: this.get("output-emit-options"),
+      extension: this.get("output-extension"),
     };
   }
 
@@ -137,9 +138,6 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
 
   protected interpreter(): InterpreterOptions {
     return {
-      emit: {
-        extension: this.get("output-extension"),
-      },
     };
   }
 

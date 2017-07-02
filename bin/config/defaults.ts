@@ -6,6 +6,7 @@ const options: CoreOptions = {
   emit: {
     stats: false,
     options: false,
+    extension: '.i.js',
   },
   files: [
     {
@@ -28,9 +29,6 @@ const options: CoreOptions = {
     }
   },
   interpreter: {
-    emit: {
-      extension: '.i.js',
-    }
   },
 };
 

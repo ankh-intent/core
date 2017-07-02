@@ -28,11 +28,13 @@ import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { WatchdogReadyConsumer } from './core/flow/consumers/WatchdogReadyConsumer';
 import { ReadyEvent } from './core/flow/events/ReadyEvent';
 import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consumers/EventChainMonitor';
+import { FileEmitResolver } from './core/chips/FileEmitResolver';
 import { IntentLogger } from './core/IntentLogger';
 
 export interface EmitOptions {
   stats: boolean
   options: boolean;
+  extension: string;
 }
 
 export interface CoreOptions {
@@ -83,7 +85,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new ParsedConsumer(this.events))
       .add(new CompiledConsumer(this.events, resolved.resolver))
       .add(new InterpretConsumer(this.events, resolved))
-      .add(new InterpretedConsumer(this.events, new FileWriter()))
+      .add(new InterpretedConsumer(this.events, new FileEmitResolver(resolved), new FileWriter()))
       .add(new ErrorConsumer(this.events, this.logger))
       .add(new StatConsumer(this.events, resolved, this.logger))
       .add(this.eventChainMonitor)

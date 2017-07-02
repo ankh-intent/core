@@ -1,26 +1,18 @@
 
-import * as path from 'path';
 import { CoreEvent } from '../../CoreEvent';
 import { AbstractConsumer } from '../../AbstractConsumer';
 
 import { CompiledEvent } from '../../events/CompiledEvent';
 import { InterpretedEvent } from '../../events/InterpretedEvent';
-import { StringSource } from '../../../source/StringSource';
 import { CoreEventBus } from '../../CoreEventBus';
 import { ChipTranspiler } from './intentlang/templates/ChipTranspiler';
 import { Compiler } from './compiler/Compiler';
 import { Sampler } from './compiler/Sampler';
 import { Template } from './Template';
 import { Substitutor } from './Substitutor';
-import { Strings } from '../../../../intent-utils/Strings';
 import { CoreOptions } from '../../../../Core';
 
-export interface EmitOptions {
-  extension: string;
-}
-
 export interface InterpreterOptions {
-  emit: EmitOptions;
 }
 
 export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
@@ -57,28 +49,9 @@ export class InterpretConsumer extends AbstractConsumer<CompiledEvent, any>{
 
     let content = this.transpiler.transpile(chip.ast);
 
-    let paths = this.options.resolver.paths;
-    let emit = chip.path.replace(/\.int$/, this.options.interpreter.emit.extension);
-
-    let root = paths.project;
-    let append = "";
-
-    if (emit.indexOf(paths.intent) >= 0) {
-      root = paths.intent;
-      append = "@lib";
-    }
-
-    let base = Strings.longestCommon([emit, root])
-      .pop()
-      .replace(new RegExp(`\\${path.sep}$`), '')
-    ;
-    let resolved = emit.replace(base, path.join(paths.output, append));
     this.emit(new InterpretedEvent({
       chip,
-      content: new StringSource(
-        content.join("\n"),
-        resolved
-      ),
+      content: content.join("\n"),
     }));
   }
 }
