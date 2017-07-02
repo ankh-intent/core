@@ -33,7 +33,7 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
 
   public emit(event: CoreEvent<any>, propagated: boolean = null): CoreEvent<any> {
     if (propagated !== null) {
-      event.stopPropagation(propagated);
+      event.stopPropagation(!propagated);
     }
 
     return this.bus.emit(event);
