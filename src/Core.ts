@@ -12,7 +12,7 @@ import { IntentBuilder } from './core/intent/builder/IntentBuilder';
 
 import { CoreEventBus } from './core/flow/CoreEventBus';
 import { UpdateEvent } from './core/flow/events/UpdateEvent';
-import { BaseCoreEvent, CoreEvent } from './core/flow/CoreEvent';
+import { CoreEvent } from './core/flow/CoreEvent';
 import { FatalEvent } from './core/flow/events/FatalEvent';
 import { FileWriter } from './core/source/FileWriter';
 import { Finder } from './core/source/Finder';
@@ -28,6 +28,7 @@ import { InterpretedConsumer } from './core/flow/consumers/InterpretedConsumer';
 import { WatchdogReadyConsumer } from './core/flow/consumers/WatchdogReadyConsumer';
 import { ReadyEvent } from './core/flow/events/ReadyEvent';
 import { EventChainMonitor, EventChainMonitoringData } from './core/flow/consumers/EventChainMonitor';
+import { IntentLogger } from './core/IntentLogger';
 
 export interface EmitOptions {
   stats: boolean
@@ -40,21 +41,6 @@ export interface CoreOptions {
   watch?: WatchdogOptions;
   resolver: ResolverOptions;
   interpreter: InterpreterOptions;
-}
-
-class IntentLogger extends Logger {
-  public classify(args: any[]): [string, any[]] {
-    let event = args[0];
-    let classified;
-
-    if (event instanceof BaseCoreEvent) {
-      classified = [event.type, args.slice(1)];
-    } else {
-      classified = super.classify(args);
-    }
-
-    return [`INTENT${classified[0] ? '/' + classified[0] : ''}`, classified[1]];
-  }
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
