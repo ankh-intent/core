@@ -5,7 +5,6 @@ import * as socket from 'socket.io';
 
 import { ClientHub, Client } from './Client';
 import { Eventable } from '../intent-utils/Eventable';
-import * as util from 'util';
 
 export interface ServerOptions {
   port: number;

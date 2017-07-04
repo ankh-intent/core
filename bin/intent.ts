@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import { Logger } from '../src/intent-utils/Logger';
 if (process.env.ENV !== 'production') {
   require('source-map-support').install();
 }
 
 import * as util from 'util';
 import config from './config';
+import { Logger } from '../src/intent-utils/Logger';
 import { CoreOptionsProvider } from '../src/CoreOptionsProvider';
 import { StatEvent } from '../src/core/flow/events/StatEvent';
 import { Core } from '../src/Core';
