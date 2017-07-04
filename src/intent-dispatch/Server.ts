@@ -5,6 +5,7 @@ import * as socket from 'socket.io';
 
 import { ClientHub, Client } from './Client';
 import { Eventable } from '../intent-utils/Eventable';
+import { RoutesCollection } from './RoutesCollection';
 
 export interface ServerOptions {
   port: number;
@@ -20,10 +21,12 @@ export class Server extends Eventable implements ClientHub {
   private options: ServerOptions;
   private server: http.Server;
   private clients: Client[] = [];
+  private routes: RoutesCollection;
 
-  public constructor(options: ServerOptions) {
+  public constructor(options: ServerOptions, routes: RoutesCollection) {
     super();
     this.options = options;
+    this.routes = routes;
   }
 
   public start() {
@@ -41,10 +44,7 @@ export class Server extends Eventable implements ClientHub {
     if (!this.app) {
       this.app = express();
 
-      this.app.get('/', (req, res) => {
-        res.redirect('/index.html');
-      });
-
+      this.routes.configure(this.app);
       this.app.use(express.static(this.options.web.root));
       this.app.use(this.e404.bind(this));
       this.app.use(this.onError.bind(this));
