@@ -43,9 +43,9 @@ export interface EmitOptions {
 export interface CoreOptions {
   emit: EmitOptions;
   files: UnitMatcher[];
-  watch?: WatchdogOptions;
   resolver: ResolverOptions;
   interpreter: InterpreterOptions;
+  watch?: WatchdogOptions;
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {

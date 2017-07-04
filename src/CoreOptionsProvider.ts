@@ -110,7 +110,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected emit(): EmitOptions {
+  protected emit(defaults: CoreOptions): EmitOptions {
     return {
       files: this.get("output-emit-files"),
       stats: this.get("output-emit-stats"),
@@ -119,14 +119,14 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected files(): UnitMatcher[] {
+  protected files(defaults: CoreOptions): UnitMatcher[] {
     return this.get('entry').map((pattern) => ({
       event: 'change',
       pattern: eval(pattern),
     }));
   }
 
-  protected watch(): WatchdogOptions {
+  protected watch(defaults: CoreOptions): WatchdogOptions {
     return this.get("watch") && {
         root: this.get("watch-root"),
         ignore: new RegExp(this.get("watch-ignore").replace('\\', '\\\\')),
@@ -134,7 +134,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
       };
   }
 
-  protected resolver(): ResolverOptions {
+  protected resolver(defaults: CoreOptions): ResolverOptions {
     return {
       paths: {
         project: path.resolve(this.get("work-dir")),
@@ -143,23 +143,21 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected interpreter(): InterpreterOptions {
+  protected interpreter(defaults: CoreOptions): InterpreterOptions {
     return {
     };
   }
 
   public build(core: Core): CoreOptions {
-    return Object.assign(
-      {},
-      this.defaults(),
-      <CoreOptions> {
-        emit: this.emit(),
-        files: this.files(),
-        watch: this.watch(),
-        resolver: this.resolver(),
-        interpreter: this.interpreter(),
-      }
-    );
+    let defaults = this.defaults();
+
+    return <CoreOptions> {
+      emit: this.emit(defaults),
+      files: this.files(defaults),
+      resolver: this.resolver(defaults),
+      interpreter: this.interpreter(defaults),
+      watch: this.watch(defaults),
+    };
   }
 
   protected defaults(): CoreOptions {

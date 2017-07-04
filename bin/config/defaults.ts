@@ -2,6 +2,8 @@
 import * as path from 'path';
 import { CoreOptions } from '../../src/Core';
 
+const root = __dirname.replace('/build/', '/').replace(/\/config$/, '');
+
 const options: CoreOptions = {
   emit: {
     files: true,
@@ -23,7 +25,7 @@ const options: CoreOptions = {
   resolver: {
     paths: {
       intent: path.resolve(
-        path.join(__dirname.replace('/build/', '/'), 'core/intent/specification/lib/')
+        path.join(root, '../src/core/intent/specification/lib/')
       ),
       project: process.cwd(),
       output: process.cwd(),
