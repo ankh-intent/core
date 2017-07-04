@@ -3,8 +3,8 @@ import { AbstractOptionsProvider } from './AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
-import { ResolverOptions } from "./core/chips/ResolverOptions";
-import { InterpreterOptions } from './core/flow/consumers/transpiling/DependencyModifiedConsumer';
+import { ResolverOptions } from "./intent-core/chips/ResolverOptions";
+import { InterpreterOptions } from './intent-core/flow/consumers/transpiling/DependencyModifiedConsumer';
 import * as path from 'path';
 import { ServerOptions } from './intent-dispatch/Server';
 

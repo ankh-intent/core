@@ -31,7 +31,7 @@ const options: CoreOptions = {
   resolver: {
     paths: {
       intent: path.resolve(
-        path.join(root, '../src/core/intent/specification/lib/')
+        path.join(root, '../src/intent-core/intent/specification/lib/')
       ),
       project: process.cwd(),
       output: process.cwd(),
