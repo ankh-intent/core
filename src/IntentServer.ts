@@ -1,5 +1,4 @@
 
-import * as path from 'path';
 import { Server } from './intent-dispatch/Server';
 
 export class IntentServer extends Server {
