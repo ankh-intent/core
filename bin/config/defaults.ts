@@ -22,6 +22,12 @@ const options: CoreOptions = {
     aggregation: 200,
     ignore: /[\\/]\./,
   },
+  server: {
+    port: 3000,
+    web: {
+      root: path.resolve(path.join(root, '../src/intent-dispatch/resources/web/'))
+    },
+  },
   resolver: {
     paths: {
       intent: path.resolve(

@@ -32,6 +32,8 @@ import { FileEmitResolver } from './core/chips/FileEmitResolver';
 import { IntentLogger } from './core/IntentLogger';
 import { DummyWriter } from "./core/source/DummyWriter";
 import { DependencyManager } from './core/watchdog/dependencies/DependencyManager';
+import { ServerOptions } from './intent-dispatch/Server';
+import { IntentServer } from './IntentServer';
 
 export interface EmitOptions {
   files: boolean;
@@ -46,6 +48,7 @@ export interface CoreOptions {
   resolver: ResolverOptions;
   interpreter: InterpreterOptions;
   watch?: WatchdogOptions;
+  server?: ServerOptions;
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
@@ -59,6 +62,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private dependencyTree: DependencyManager;
 
   public logger: Logger;
+  private server: IntentServer;
 
   public constructor() {
     super();
@@ -74,6 +78,10 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
 
     if (resolved.watch) {
       this.watchdog = new Watchdog(resolved.watch);
+    }
+
+    if (resolved.server) {
+      this.server = new IntentServer(resolved.server);
     }
 
     this.eventChainMonitor = new EventChainMonitor(this.events);
@@ -97,6 +105,10 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   }
 
   public start(options: CoreOptions): this {
+    if (this.server) {
+      this.server.start();
+    }
+
     let updates = this.matched(
       options.resolver.paths.project,
       options.files
