@@ -44,9 +44,10 @@ export class Server extends Eventable implements ClientHub {
       this.app.get('/', (req, res) => {
         res.redirect('/index.html');
       });
+
+      this.app.use(express.static(this.options.web.root));
       this.app.use(this.e404.bind(this));
       this.app.use(this.onError.bind(this));
-      this.app.use(express.static(this.options.web.root));
     }
 
     return this.app;
