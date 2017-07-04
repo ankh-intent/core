@@ -73,6 +73,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   }
 
   public bootstrap(options: CoreOptions): CoreOptions {
+    this.eventChainMonitor = new EventChainMonitor(this.events);
+    this.dependencyTree = new DependencyManager();
     let resolved = this.options.resolve(options);
     let writer = resolved.emit.files ? new FileWriter() : new DummyWriter();
 
@@ -81,11 +83,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     }
 
     if (resolved.server) {
-      this.server = new IntentServer(resolved.server);
+      this.server = new IntentServer(this.dependencyTree, resolved.server);
     }
-
-    this.eventChainMonitor = new EventChainMonitor(this.events);
-    this.dependencyTree = new DependencyManager();
 
     this.events
       .add(this.eventChainMonitor)

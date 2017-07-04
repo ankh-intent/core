@@ -11,6 +11,10 @@ export class DependencyNode implements Iterable<DependencyNode> {
     this._related = related;
   }
 
+  public relations(): DependencyNode[] {
+    return this._related;
+  }
+
   public [Symbol.iterator](): IterableIterator<DependencyNode> {
     return this._related[Symbol.iterator]();
   }
