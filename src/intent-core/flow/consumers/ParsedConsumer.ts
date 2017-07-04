@@ -7,13 +7,16 @@ import { CompiledEvent } from '../events/CompiledEvent';
 import { Chip } from '../../chips/Chip';
 import { ChipNode } from '../../intent/ast/ChipNode';
 import { DependencyManager } from '../../watchdog/dependencies/DependencyManager';
+import { QualifierResolver } from '../../chips/use/QualifierResolver';
 
 export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>{
   private tree: DependencyManager;
+  private resolver: QualifierResolver;
 
-  public constructor(bus: CoreEventBus, tree: DependencyManager) {
+  public constructor(bus: CoreEventBus, resolver: QualifierResolver, tree: DependencyManager) {
     super(bus);
     this.tree = tree;
+    this.resolver = resolver;
   }
 
   public supports(event: CoreEvent<any>): boolean {
@@ -37,7 +40,7 @@ export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>
       node = this.tree.dependency(chip);
     }
 
-    chip.name = ast.name;
+    chip.name = this.resolver.resolve(chip).path('.');
     chip.ast = this.patchAST(chip, ast);
 
     return new CompiledEvent({

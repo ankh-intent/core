@@ -34,6 +34,7 @@ import { DummyWriter } from "./intent-core/source/DummyWriter";
 import { DependencyManager } from './intent-core/watchdog/dependencies/DependencyManager';
 import { ServerOptions } from './intent-dispatch/Server';
 import { IntentServer } from './IntentServer';
+import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
 
 export interface EmitOptions {
   files: boolean;
@@ -90,7 +91,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(this.eventChainMonitor)
       .add(new UpdateConsumer(this.events))
       .add(new SubmitConsumer(this.events, this.parser))
-      .add(new ParsedConsumer(this.events, this.dependencyTree))
+      .add(new ParsedConsumer(this.events, new QualifierResolver(resolved.resolver), this.dependencyTree))
       .add(new CompiledConsumer(this.events, resolved.resolver, this.dependencyTree))
       .add(new DependencyModifiedConsumer(this.events, resolved))
       .add(new InterpretedConsumer(this.events, new FileEmitResolver(resolved), writer))
