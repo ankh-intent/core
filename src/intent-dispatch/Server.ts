@@ -35,7 +35,7 @@ export class Server extends Eventable implements ClientHub {
     );
     this.buildIO();
 
-    this.app.listen(this.options.port, () => {
+    this.server.listen(this.options.port, () => {
       this.emit(Server.READY, this);
     });
   }
@@ -84,6 +84,7 @@ export class Server extends Eventable implements ClientHub {
   }
 
   protected returnPrintout(res, title: string, message: string = null, code: number = 500) {
+    // todo: more appropriate handler
     res
       .status(code)
       .send(`
@@ -106,9 +107,9 @@ export class Server extends Eventable implements ClientHub {
     );
   }
 
-  public broadcast(data) {
+  public broadcast(...data) {
     for (let client of this.clients) {
-      client.emit(data);
+      client.emit(...data);
     }
   }
 
