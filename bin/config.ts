@@ -9,11 +9,11 @@ export default (env) => {
 
   switch ((env || PRODUCTION).toLowerCase()) {
     case PRODUCTION:
-      options = require("./config/production");
+      options = require("./config/production").default;
       break;
 
     case DEVELOPMENT:
-      options = require("./config/development");
+      options = require("./config/development").default;
       break;
 
     default:

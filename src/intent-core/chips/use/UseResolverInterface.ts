@@ -1,6 +1,4 @@
 
-import path = require('path');
-
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../intent/ast/QualifierNode';
 

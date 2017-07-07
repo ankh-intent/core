@@ -29,9 +29,10 @@ Intent language compiler.
       - [ ] Emit to virtual filesystem + different filesystems implementation (emit to real fs, no-emit, emit to output stream, emit as socket events etc.)
   - [ ] Todo:
     - [ ] Server
-      - [ ] Socket listener
+      - [x] Socket listener
       - [ ] Event processor
     - [ ] Web-app
+      - [x] SPA scaffold
       - [ ] Chip dependency tree visualizer
       - [ ] AST visualizer
       - [ ] Transpiling pipeline visualizer
