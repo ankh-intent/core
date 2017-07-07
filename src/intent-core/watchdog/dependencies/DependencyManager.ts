@@ -27,6 +27,16 @@ export class DependencyManager extends Eventable {
     );
   }
 
+  public contains(filter: (nodes: DependencyNode) => boolean): DependencyNode {
+    for (let node of Objects.iterate(this.roots)) {
+      if (filter(node)) {
+        return node;
+      }
+    }
+
+    return null;
+  }
+
   public find(name: string): DependencyNode {
     for (let root of Objects.iterate(this.roots)) {
       let found = root.related(name);
@@ -68,7 +78,13 @@ export class DependencyManager extends Eventable {
     return node;
   }
 
-  public all(names: string[], filter: boolean = true): (DependencyNode|string)[] {
+  public all(names: string[] = null, filter: boolean = true): (DependencyNode|string)[] {
+    if (!names) {
+      return Object.keys(this.roots)
+        .map((name) => this.roots[name])
+      ;
+    }
+
     let nodes = names.map((name) => this.roots[name]);
 
     return (

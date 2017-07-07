@@ -3,9 +3,10 @@ import { AbstractOptionsProvider } from './AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
-import { ResolverOptions } from "./core/chips/ResolverOptions";
-import { InterpreterOptions } from './core/flow/consumers/transpiling/DependencyModifiedConsumer';
+import { ResolverOptions } from "./intent-core/chips/ResolverOptions";
+import { InterpreterOptions } from './intent-core/flow/consumers/transpiling/DependencyModifiedConsumer';
 import * as path from 'path';
+import { ServerOptions } from './intent-dispatch/Server';
 
 export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
   private _defaults: CoreOptions;
@@ -107,10 +108,25 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "requiresArg": true,
         },
       },
+      "Server options": {
+        "serve": {
+          "type": "boolean",
+          "alias": "s",
+          "describe": "Run local dev-app server",
+          "default": false,
+          "requiresArg": false,
+        },
+        "server-port": {
+          "type": "number",
+          "describe": "Port to listen for connection on",
+          "default": defaults.server.port,
+          "requiresArg": true,
+        },
+      },
     };
   }
 
-  protected emit(): EmitOptions {
+  protected emit(defaults: CoreOptions): EmitOptions {
     return {
       files: this.get("output-emit-files"),
       stats: this.get("output-emit-stats"),
@@ -119,14 +135,14 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected files(): UnitMatcher[] {
+  protected files(defaults: CoreOptions): UnitMatcher[] {
     return this.get('entry').map((pattern) => ({
       event: 'change',
       pattern: eval(pattern),
     }));
   }
 
-  protected watch(): WatchdogOptions {
+  protected watch(defaults: CoreOptions): WatchdogOptions {
     return this.get("watch") && {
         root: this.get("watch-root"),
         ignore: new RegExp(this.get("watch-ignore").replace('\\', '\\\\')),
@@ -134,7 +150,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
       };
   }
 
-  protected resolver(): ResolverOptions {
+  protected resolver(defaults: CoreOptions): ResolverOptions {
     return {
       paths: {
         project: path.resolve(this.get("work-dir")),
@@ -143,23 +159,31 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected interpreter(): InterpreterOptions {
+  protected interpreter(defaults: CoreOptions): InterpreterOptions {
     return {
     };
   }
 
+  protected server(defaults: CoreOptions): ServerOptions {
+    return this.get("serve") && {
+        port: this.get("server-port"),
+        web: {
+          root: defaults.server.web.root,
+        },
+      };
+  }
+
   public build(core: Core): CoreOptions {
-    return Object.assign(
-      {},
-      this.defaults(),
-      <CoreOptions> {
-        emit: this.emit(),
-        files: this.files(),
-        watch: this.watch(),
-        resolver: this.resolver(),
-        interpreter: this.interpreter(),
-      }
-    );
+    let defaults = this.defaults();
+
+    return <CoreOptions> {
+      emit: this.emit(defaults),
+      files: this.files(defaults),
+      resolver: this.resolver(defaults),
+      interpreter: this.interpreter(defaults),
+      watch: this.watch(defaults),
+      server: this.server(defaults),
+    };
   }
 
   protected defaults(): CoreOptions {

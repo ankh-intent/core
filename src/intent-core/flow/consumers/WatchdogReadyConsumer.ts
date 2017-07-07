@@ -24,13 +24,16 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
   public constructor(bus: CoreEventBus, watchdog: Watchdog<U>, tree: DependencyManager) {
     super(bus);
     this.watchdog = watchdog;
-    this.tree = tree;
-    this.tree.onretain((node: DependencyNode) => {
-      this.watch(node);
-    });
-    this.tree.onrelease((node: DependencyNode) => {
-      this.unwatch(node);
-    })
+
+    if (this.watchdog) {
+      this.tree = tree;
+      this.tree.onretain((node: DependencyNode) => {
+        this.watch(node);
+      });
+      this.tree.onrelease((node: DependencyNode) => {
+        this.unwatch(node);
+      })
+    }
   }
 
   public supports(event: CoreEvent<any>): boolean {

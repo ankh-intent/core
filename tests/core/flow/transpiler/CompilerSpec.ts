@@ -1,9 +1,9 @@
 
 import { pit } from '../../../util/spec-extensions';
 
-import { TemplateInterface } from '../../../../src/core/flow/consumers/transpiling/compiler/TemplateInterface';
-import { Compiler } from '../../../../src/core/flow/consumers/transpiling/compiler/Compiler';
-import { Sampler } from '../../../../src/core/flow/consumers/transpiling/compiler/Sampler';
+import { TemplateInterface } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/TemplateInterface';
+import { Compiler } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/Compiler';
+import { Sampler } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/Sampler';
 
 describe('Compiler', () => {
 

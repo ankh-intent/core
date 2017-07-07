@@ -19,8 +19,10 @@
     "@types/jasmine": "^2.5.52",
     "@types/node": "^7.0.29",
     "chokidar": "^1.7.0",
+    "express": "^4.15.3",
     "jasmine": "^2.6.0",
     "lodash": "^4.17.4",
+    "socket.io": "^2.0.3",
     "source-map-support": "^0.4.15",
     "typescript": "^2.3.4",
     "yargs": "^8.0.2"
