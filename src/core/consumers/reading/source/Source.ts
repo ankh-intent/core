@@ -1,5 +1,6 @@
 
 import { Range } from '../../parsing/parser/Tokens';
+import { Origin } from './Origin';
 
 export class Source {
   public readonly content: string;
@@ -17,7 +18,7 @@ export class Source {
     return { from: 0, to: this.content.length };
   }
 
-  public location(pos: number): {line: number, column: number} {
+  public location(pos: number): Origin {
     let line = 1;
     let col = 0;
     let i = 0;
@@ -31,9 +32,10 @@ export class Source {
       }
     }
 
-    return {
-      line: line,
-      column: col,
-    };
+    return new Origin(
+      this,
+      line,
+      col,
+    );
   }
 }

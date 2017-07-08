@@ -29,6 +29,10 @@ export class Tokens {
     this.tokenizer = tokenizer;
   }
 
+  public get source(): Source {
+    return this.context.source;
+  }
+
   public at(index: number): Token {
     let token = this.tokens[index];
 
