@@ -42,7 +42,7 @@ export class Tokens {
       this.tokens[index] = token;
     }
 
-    this.last = token.start;
+    this.last = token ? token.start : this.context.pos;
 
     return token;
   }
