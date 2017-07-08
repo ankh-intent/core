@@ -87,7 +87,7 @@ export class Tokens {
     return !this.get(matcher);
   }
 
-  public but(matcher: MatcherInterface): Token {
+  public except(matcher: MatcherInterface): Token {
     return this.peek(matcher)
       ? null
       : this.get({});

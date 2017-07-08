@@ -59,7 +59,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     let breakBefore = ['?', ':'];
     let breakAfter = [';'];
 
-    while (token = tokens.but({type: 'symbol', value: '}'})) {
+    while (token = tokens.except({type: 'symbol', value: '}'})) {
       if (prev === 'identifier') {
         if (token.type === prev) {
           body.push(' ');

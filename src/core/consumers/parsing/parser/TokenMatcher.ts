@@ -8,15 +8,18 @@ export interface MatchInvoker<T> {
   (match?: MatcherInterface|string): T;
 }
 
-export interface TypeMatcherInterface<T> {
-  [name: string]: MatchInvoker<T>;
+type TokenTypes = 'string' | 'number' | 'boolean' | 'symbol' | 'identifier' | 'eof' | 'any';
+
+export type TypeMatcherInterface<T> = {
+  [name in TokenTypes]?: MatchInvoker<T>;
 }
 
 export interface TokenMatcherInterface {
   peek: TypeMatcherInterface<Token>;
   get: TypeMatcherInterface<Token>;
-  ensure: TypeMatcherInterface<Token>;
+  except: TypeMatcherInterface<Token>;
   not: TypeMatcherInterface<boolean>;
+  ensure: TypeMatcherInterface<Token>;
 }
 
 export class TokenMatcher implements TokenMatcherInterface {
@@ -24,6 +27,7 @@ export class TokenMatcher implements TokenMatcherInterface {
   private _peek: TypeMatcherInterface<Token>;
   private _get: TypeMatcherInterface<Token>;
   private _ensure: TypeMatcherInterface<Token>;
+  private _except: TypeMatcherInterface<Token>;
   private _not: TypeMatcherInterface<boolean>;
 
   public constructor(tokens: Tokens) {
@@ -47,7 +51,7 @@ export class TokenMatcher implements TokenMatcherInterface {
     for (let type of types) {
       let base = type ? {type: type} : null;
 
-      result[type] = (match?: MatcherInterface|string) => {
+      result[type || 'any'] = (match?: MatcherInterface|string) => {
         return method(
           (match && base)
             ? this.reconcile(base, match)
@@ -61,14 +65,20 @@ export class TokenMatcher implements TokenMatcherInterface {
 
   public get peek(): TypeMatcherInterface<Token> {
     return this._peek || (this._peek = this.types<Token>(
-      this.tokens.peek.bind(this.tokens)
-    ));
+        this.tokens.peek.bind(this.tokens)
+      ));
   }
 
   public get get(): TypeMatcherInterface<Token> {
     return this._get || (this._get = this.types<Token>(
-      this.tokens.get.bind(this.tokens)
-    ));
+        this.tokens.get.bind(this.tokens)
+      ));
+  }
+
+  public get except(): TypeMatcherInterface<Token> {
+    return this._except || (this._except = this.types<Token>(
+        this.tokens.except.bind(this.tokens)
+      ));
   }
 
   public get not(): TypeMatcherInterface<boolean> {
