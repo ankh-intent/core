@@ -149,7 +149,7 @@ export class Tokens {
 
   public error(reason: string, parent?: Error): SyntaxError {
     let error = new SyntaxError(reason, this.context.source, this.last);
-    let stack = (error.stack || "").split("\n").slice(2);
+    let stack = (error.stack || '').split('\n').slice(2);
     let commons = stack
       .map((line) => line.match(/at [^(]*\((.+?)(:\d+)*\)/))
       .filter((match) => match)
@@ -176,7 +176,7 @@ export class Tokens {
       }
 
       return line;
-    }).join("\n");
+    }).join('\n');
     error.parent = parent;
 
     return error;
