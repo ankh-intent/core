@@ -4,6 +4,7 @@ import { Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
 import { Source } from '../../reading/source/Source';
 import { Strings } from '../../../../intent-utils/Strings';
+import { MatcherInterface } from './TokenMatcher';
 
 export class Range {
   from: number;
@@ -47,7 +48,7 @@ export class Tokens {
     return token;
   }
 
-  public peek(matcher: Matcher): Token {
+  public peek(matcher: MatcherInterface): Token {
     let { range: { to } } = this.context;
 
     if (this.index >= to) {
@@ -71,7 +72,7 @@ export class Tokens {
     return token;
   }
 
-  public get(matcher: Matcher): Token {
+  public get(matcher: MatcherInterface): Token {
     let token = this.peek(matcher);
 
     if (token) {
@@ -81,17 +82,17 @@ export class Tokens {
     return token;
   }
 
-  public not(matcher: Matcher): boolean {
+  public not(matcher: MatcherInterface): boolean {
     return !this.get(matcher);
   }
 
-  public but(matcher: Matcher): Token {
+  public but(matcher: MatcherInterface): Token {
     return this.peek(matcher)
       ? null
       : this.get({});
   }
 
-  public ensure(matcher: Matcher): Token {
+  public ensure(matcher: MatcherInterface): Token {
     let { range: { to } } = this.context;
 
     if (this.index >= to) {
@@ -180,9 +181,18 @@ export class Tokens {
 
     return error;
   }
-}
 
-interface Matcher {
-  value?: string;
-  type?: string;
+  public peekIdentifier(identifier: string): Token {
+    return this.peek({
+      type: 'identifier',
+      value: identifier,
+    });
+  }
+
+  public peekSymbol(symbol: string): Token {
+    return this.peek({
+      type: 'symbol',
+      value: symbol,
+    });
+  }
 }

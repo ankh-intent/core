@@ -26,7 +26,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
     tokens.ensure({value: '{'});
 
     while (true) {
-      if (tokens.peek({type: 'symbol', value: '}'})) {
+      if (tokens.peekSymbol('}')) {
         break;
       }
 
@@ -53,7 +53,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
       }
     }
 
-    if (tokens.peek({type: 'identifier', value: 'can'})) {
+    if (tokens.peekIdentifier('can')) {
       can = this.child.can.build(tokens);
     }
 
