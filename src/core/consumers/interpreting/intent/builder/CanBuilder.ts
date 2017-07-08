@@ -4,6 +4,7 @@ import { BaseBuilder } from './BaseBuilder';
 import { CanNode } from '../ast/CanNode';
 import { PropertyBuilder } from './PropertyBuilder';
 import { TypeBuilder } from './TypeBuilder';
+import { TokenMatcher } from '../../parser/TokenMatcher';
 
 export interface CanChildren {
   property: PropertyBuilder;
@@ -11,7 +12,7 @@ export interface CanChildren {
 }
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
-  public build(tokens: Tokens): CanNode {
+  protected build(tokens: Tokens, matcher: TokenMatcher): CanNode {
     let name = tokens.get({type: 'identifier'});
 
     if (!name) {
@@ -30,7 +31,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         tokens.ensure({type: 'symbol', value: ','})
       }
 
-      let arg = this.child.property.build(tokens);
+      let arg = this.child.property.visit(tokens);
 
       if (arg) {
         if (args[arg.name]) {
@@ -47,7 +48,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     tokens.ensure({type: 'symbol', value: ')'});
 
     if (tokens.get({type: 'symbol', value: ':'})) {
-      returns = this.child.type.build(tokens);
+      returns = this.child.type.visit(tokens);
     }
 
     tokens.ensure({type: 'symbol', value: '{'});

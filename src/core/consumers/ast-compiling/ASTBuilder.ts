@@ -2,8 +2,8 @@
 import { Tokens } from '../parsing/parser/Tokens';
 import { TreeNode } from './tree/TreeNode';
 
-export interface ASTBuilder<N extends TreeNode> {
+export interface TokensVisitor<N extends TreeNode> {
 
-  build(tokens: Tokens): N;
+  visit(tokens: Tokens): N;
 
 }

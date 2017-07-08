@@ -4,7 +4,7 @@ import { Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
 import { Source } from '../../reading/source/Source';
 import { Strings } from '../../../../intent-utils/Strings';
-import { MatcherInterface } from './TokenMatcher';
+import { MatcherInterface, TokenMatcher } from './TokenMatcher';
 
 export class Range {
   from: number;
@@ -15,6 +15,7 @@ export class Tokens {
   private readonly tokenizer: Tokenizer;
   private readonly context: Context;
   private readonly tokens: {[index: number]: Token} = {};
+  private _matcher: TokenMatcher;
   private index: number;
   private last: number;
 
@@ -194,5 +195,9 @@ export class Tokens {
       type: 'symbol',
       value: symbol,
     });
+  }
+
+  public get matcher(): TokenMatcher {
+    return this._matcher || (this._matcher = new TokenMatcher(this));
   }
 }

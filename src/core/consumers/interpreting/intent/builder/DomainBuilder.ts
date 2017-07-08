@@ -4,6 +4,7 @@ import { DomainNode } from '../ast/DomainNode';
 import { TypeDefBuilder } from './TypeDefBuilder';
 import { BaseBuilder } from './BaseBuilder';
 import { UseBuilder } from './UseBuilder';
+import { TokenMatcher } from '../../parser/TokenMatcher';
 
 export interface DomainChildren {
   typedef: TypeDefBuilder;
@@ -11,7 +12,7 @@ export interface DomainChildren {
 }
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
-  public build(tokens: Tokens): DomainNode {
+  protected build(tokens: Tokens, matcher: TokenMatcher): DomainNode {
     if (tokens.not({value: 'domain'})) {
       return null;
     }
@@ -23,7 +24,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     tokens.ensure({value: '{'});
 
     while (true) {
-      let use = this.child.use.build(tokens);
+      let use = this.child.use.visit(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -35,7 +36,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         continue;
       }
 
-      let type = this.child.typedef.build(tokens);
+      let type = this.child.typedef.visit(tokens);
 
       if (type) {
         if (types[type.name]) {

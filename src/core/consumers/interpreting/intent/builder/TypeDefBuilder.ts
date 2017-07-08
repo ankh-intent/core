@@ -6,6 +6,7 @@ import { PropertyBuilder } from './PropertyBuilder';
 import { TypeBuilder } from './TypeBuilder';
 import { CanBuilder } from './CanBuilder';
 import { ConstraintBuilder } from './ConstraintBuilder';
+import { TokenMatcher } from '../../parser/TokenMatcher';
 
 export interface TypeDefChildren {
   property: PropertyBuilder;
@@ -15,7 +16,7 @@ export interface TypeDefChildren {
 }
 
 export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
-  build(tokens: Tokens): TypeDefNode {
+  protected build(tokens: Tokens, matcher: TokenMatcher): TypeDefNode {
     if (tokens.not({value: 'type'})) {
       return null;
     }
@@ -27,13 +28,13 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
     let cans = {};
 
     if (tokens.get({value: 'extends'})) {
-      parent = this.child.type.build(tokens);
+      parent = this.child.type.visit(tokens);
     }
 
     tokens.ensure({value: '{'});
 
     while (true) {
-      let constraint = this.child.constraint.build(tokens);
+      let constraint = this.child.constraint.visit(tokens);
 
       if (constraint) {
         if (constraints[constraint.can.name]) {
@@ -44,7 +45,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      let property = this.child.property.build(tokens);
+      let property = this.child.property.visit(tokens);
 
       if (property) {
         if (properties[property.name]) {
@@ -57,7 +58,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      let can = this.child.can.build(tokens);
+      let can = this.child.can.visit(tokens);
 
       if (can) {
         if (cans[can.name]) {

@@ -3,13 +3,14 @@ import { Tokens } from '../../../parsing/parser/Tokens';
 import { PropertyNode } from '../ast/PropertyNode';
 import { TypeBuilder } from './TypeBuilder';
 import { BaseBuilder } from './BaseBuilder';
+import { TokenMatcher } from '../../parser/TokenMatcher';
 
 export interface PropertyChildren {
   type: TypeBuilder;
 }
 
 export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren> {
-  build(tokens: Tokens): PropertyNode {
+  protected build(tokens: Tokens, matcher: TokenMatcher): PropertyNode {
     let name = tokens.get({type: 'identifier'});
 
     if (!name) {
@@ -20,7 +21,7 @@ export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren>
       return null;
     }
 
-    let type = this.child.type.build(tokens);
+    let type = this.child.type.visit(tokens);
 
     let property = new PropertyNode();
     property.name = name.value;
