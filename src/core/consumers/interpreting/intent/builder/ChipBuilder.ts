@@ -15,19 +15,19 @@ export interface ChipChildren {
 }
 
 export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): ChipNode {
-    tokens.ensure({value: 'chip'});
+  protected build(tokens: Tokens, {peek, ensure}: TokenMatcher): ChipNode {
+    ensure.identifier('chip');
 
-    let { value: name } = tokens.ensure({type: 'string'});
+    let { value: name } = ensure.string();
 
     let uses = {};
     let domains = {};
     let can = null;
 
-    tokens.ensure({value: '{'});
+    ensure.symbol('{');
 
     while (true) {
-      if (tokens.peekSymbol('}')) {
+      if (peek.symbol('}')) {
         break;
       }
 
@@ -54,11 +54,11 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
       }
     }
 
-    if (tokens.peekIdentifier('can')) {
+    if (peek.identifier('can')) {
       can = this.child.can.visit(tokens);
     }
 
-    tokens.ensure({value: '}'});
+    ensure.symbol('}');
 
     let chip = new ChipNode();
     chip.name = name;

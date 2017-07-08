@@ -16,22 +16,22 @@ export interface TypeDefChildren {
 }
 
 export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): TypeDefNode {
-    if (tokens.not({value: 'type'})) {
+  protected build(tokens: Tokens, {not, get, ensure}: TokenMatcher): TypeDefNode {
+    if (not.identifier('type')) {
       return null;
     }
 
-    let { value: name } = tokens.get({type: 'identifier'});
+    let { value: name } = get.identifier();
     let parent = null;
     let properties = {};
     let constraints = {};
     let cans = {};
 
-    if (tokens.get({value: 'extends'})) {
+    if (get.identifier('extends')) {
       parent = this.child.type.visit(tokens);
     }
 
-    tokens.ensure({value: '{'});
+    ensure.symbol('{');
 
     while (true) {
       let constraint = this.child.constraint.visit(tokens);
@@ -52,7 +52,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
           throw tokens.error(`Property with the same name "${property.name}" already present`);
         }
 
-        tokens.ensure({type: 'symbol', value: ';'});
+        ensure.symbol(';');
         properties[property.name] = property;
 
         continue;
@@ -73,7 +73,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
       break;
     }
 
-    tokens.ensure({value: '}'});
+    ensure.symbol('}');
 
     let type = new TypeDefNode();
     type.name = name;

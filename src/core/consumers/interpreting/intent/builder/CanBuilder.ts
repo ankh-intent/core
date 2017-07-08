@@ -12,23 +12,23 @@ export interface CanChildren {
 }
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): CanNode {
-    let name = tokens.get({type: 'identifier'});
+  protected build(tokens: Tokens, {peek, not, get, except, ensure}: TokenMatcher): CanNode {
+    let name = get.identifier();
 
     if (!name) {
       return null;
     }
 
-    if (tokens.not({type: 'symbol', value: '('})) {
+    if (not.symbol('(')) {
       return null;
     }
 
     let args = {};
     let returns = null;
 
-    while (!tokens.peek({type: 'symbol', value: ')'})) {
+    while (!peek.symbol(')')) {
       if (Object.keys(args).length) {
-        tokens.ensure({type: 'symbol', value: ','})
+        ensure.symbol(',');
       }
 
       let arg = this.child.property.visit(tokens);
@@ -40,18 +40,18 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
         args[arg.name] = arg;
       } else {
-        let token = tokens.get({});
+        let token = get.any();
         throw tokens.error(`")" or method argument expected, ${token ? `"${token.value}"` : 'EOF'} found`);
       }
     }
 
-    tokens.ensure({type: 'symbol', value: ')'});
+    ensure.symbol(')');
 
-    if (tokens.get({type: 'symbol', value: ':'})) {
+    if (get.symbol(':')) {
       returns = this.child.type.visit(tokens);
     }
 
-    tokens.ensure({type: 'symbol', value: '{'});
+    ensure.symbol('{');
 
     let token, body = [], prev = null;
     let wrapBefore = ['='];
@@ -59,7 +59,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     let breakBefore = ['?', ':'];
     let breakAfter = [';'];
 
-    while (token = tokens.except({type: 'symbol', value: '}'})) {
+    while (token = except.symbol('}')) {
       if (prev === 'identifier') {
         if (token.type === prev) {
           body.push(' ');
@@ -91,7 +91,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
       prev = token.type;
     }
 
-    tokens.ensure({type: 'symbol', value: '}'});
+    ensure.symbol('}');
 
     let can = new CanNode();
     can.name = name.value;

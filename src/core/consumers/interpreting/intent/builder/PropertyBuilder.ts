@@ -10,14 +10,14 @@ export interface PropertyChildren {
 }
 
 export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): PropertyNode {
-    let name = tokens.get({type: 'identifier'});
+  protected build(tokens: Tokens, {get, not}: TokenMatcher): PropertyNode {
+    let name = get.identifier();
 
     if (!name) {
       return null;
     }
 
-    if (tokens.not({type: 'symbol', value: ':'})) {
+    if (not.symbol(':')) {
       return null;
     }
 

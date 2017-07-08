@@ -12,16 +12,16 @@ export interface DomainChildren {
 }
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): DomainNode {
-    if (tokens.not({value: 'domain'})) {
+  protected build(tokens: Tokens, {not, get, ensure}: TokenMatcher): DomainNode {
+    if (not.identifier('domain')) {
       return null;
     }
 
-    let { value: identifier } = tokens.get({type: 'identifier'});
+    let { value: identifier } = get.identifier();
     let types = {};
     let uses = {};
 
-    tokens.ensure({value: '{'});
+    ensure.symbol('{');
 
     while (true) {
       let use = this.child.use.visit(tokens);
@@ -51,7 +51,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
       break;
     }
 
-    tokens.ensure({value: '}'});
+    ensure.symbol('}');
 
     let domain = new DomainNode();
     domain.identifier = identifier;

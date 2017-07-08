@@ -10,8 +10,8 @@ export interface ConstraintChildren {
 }
 
 export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): ConstraintNode {
-    if (tokens.not({type: 'symbol', value: ':'})) {
+  protected build(tokens: Tokens, {not}: TokenMatcher): ConstraintNode {
+    if (not.symbol(':')) {
       return null;
     }
 

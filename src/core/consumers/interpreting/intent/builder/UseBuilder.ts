@@ -10,19 +10,19 @@ export interface UseChildren {
 }
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): UseNode {
-    if (tokens.not({value: 'use'})) {
+  protected build(tokens: Tokens, {not, get, ensure}: TokenMatcher): UseNode {
+    if (not.identifier('use')) {
       return null;
     }
 
     let qualifier = this.child.qualifier.visit(tokens);
     let alias = qualifier.deepest();
 
-    if (tokens.get({value: 'as'})) {
-      alias = tokens.ensure({type: 'identifier'}).value;
+    if (get.identifier('as')) {
+      alias = ensure.identifier().value;
     }
 
-    tokens.ensure({type: 'symbol', value: ';'});
+    ensure.symbol(';');
 
     let use = new UseNode();
     use.qualifier = qualifier;

@@ -9,13 +9,13 @@ export interface QualifierChildren {
 }
 
 export class QualifierBuilder extends BaseBuilder<QualifierNode, QualifierChildren> {
-  protected build(tokens: Tokens, matcher: TokenMatcher): QualifierNode {
-    let { value: name } = tokens.ensure({type: 'identifier'});
+  protected build(tokens: Tokens, {get, ensure}: TokenMatcher): QualifierNode {
+    let { value: name } = ensure.identifier();
 
     let qualifier = new QualifierNode();
     qualifier.name = name;
 
-    if (tokens.get({value: '.', type: 'symbol'})) {
+    if (get.symbol('.')) {
       qualifier.child = this.visit(tokens);
     }
 
