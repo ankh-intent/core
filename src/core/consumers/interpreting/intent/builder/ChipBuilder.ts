@@ -3,15 +3,15 @@ import { Tokens } from '../../../parsing/parser/Tokens';
 import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 
 import { ChipNode } from '../ast/ChipNode';
-import { BaseBuilder } from './BaseBuilder';
-import { UseBuilder } from './UseBuilder';
-import { CanBuilder } from './CanBuilder';
-import { DomainBuilder } from './DomainBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
+import { UseNode } from '../ast/UseNode';
+import { DomainNode } from '../ast/DomainNode';
+import { CanNode } from '../ast/CanNode';
 
 export interface ChipChildren {
-  use: UseBuilder;
-  domain: DomainBuilder;
-  can: CanBuilder;
+  use: BuildInvoker<UseNode>;
+  domain: BuildInvoker<DomainNode>;
+  can: BuildInvoker<CanNode>;
 }
 
 export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
@@ -31,7 +31,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
         break;
       }
 
-      let use = this.child.use.visit(tokens);
+      let use = this.child.use(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -40,7 +40,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
         uses[use.alias] = use;
       } else {
-        let domain = this.child.domain.visit(tokens);
+        let domain = this.child.domain(tokens);
 
         if (domain) {
           if (domains[domain.identifier]) {
@@ -55,7 +55,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
     }
 
     if (peek.identifier('can')) {
-      can = this.child.can.visit(tokens);
+      can = this.child.can(tokens);
     }
 
     ensure.symbol('}');

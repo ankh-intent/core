@@ -44,8 +44,6 @@ export class Tokens {
       this.tokens[index] = token;
     }
 
-    this.last = token ? token.start : this.context.pos;
-
     return token;
   }
 
@@ -57,6 +55,7 @@ export class Tokens {
     }
 
     let token = this.at(this.index + 1);
+    this.last = token ? token.start : this.context.pos;
 
     if (token) {
       let { value, type } = matcher;

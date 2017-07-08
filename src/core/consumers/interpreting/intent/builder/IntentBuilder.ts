@@ -1,4 +1,3 @@
-
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { TokensVisitor } from '../../../ast-compiling/ASTBuilder';
 import { ChipNode } from '../ast/ChipNode';
@@ -11,60 +10,54 @@ import { CanBuilder, CanChildren } from './CanBuilder';
 import { DomainBuilder, DomainChildren } from './DomainBuilder';
 import { ChipBuilder, ChipChildren } from './ChipBuilder';
 import { ConstraintBuilder, ConstraintChildren } from './ConstraintBuilder';
+import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
 
-export class IntentBuilder implements TokensVisitor<ChipNode> {
-  private builders:
-    QualifierChildren &
-    UseChildren &
-    TypeDefChildren &
-    TypeDefChildren &
-    PropertyChildren &
-    CanChildren &
-    ConstraintChildren &
-    DomainChildren &
-    ChipChildren &
-    {
-      chip: ChipBuilder;
-    } = <any>{}
+interface IntentChildren {
+  chip: BuildInvoker<ChipNode>;
+}
+
+type IntentGrammar =
+  QualifierChildren &
+  UseChildren &
+  TypeDefChildren &
+  TypeDefChildren &
+  PropertyChildren &
+  CanChildren &
+  ConstraintChildren &
+  DomainChildren &
+  ChipChildren &
+  IntentChildren
   ;
 
+type InvokableVisitors<T> = {[name in keyof T]: TokensVisitor<any>};
+
+export class IntentBuilder implements TokensVisitor<ChipNode> {
+  private builders: InvokableVisitors<IntentGrammar>;
+  private invokers: BuilderInvokers<IntentGrammar>;
+
   public constructor() {
-    this.builders.qualifier = new QualifierBuilder(this.builders);
-    this.builders.type = new TypeBuilder(this.builders);
-    this.builders.property = new PropertyBuilder(this.builders);
-    this.builders.use = new UseBuilder(this.builders);
-    this.builders.can = new CanBuilder(this.builders);
-    this.builders.constraint = new ConstraintBuilder(this.builders);
-    this.builders.typedef = new TypeDefBuilder(this.builders);
-    this.builders.domain = new DomainBuilder(this.builders);
-    this.builders.chip = new ChipBuilder(this.builders);
+    this.invokers = <any>{};
+    this.builders = {
+      qualifier : new QualifierBuilder(this.invokers),
+      type      : new TypeBuilder(this.invokers),
+      property  : new PropertyBuilder(this.invokers),
+      use       : new UseBuilder(this.invokers),
+      can       : new CanBuilder(this.invokers),
+      constraint: new ConstraintBuilder(this.invokers),
+      typedef   : new TypeDefBuilder(this.invokers),
+      domain    : new DomainBuilder(this.invokers),
+      chip      : new ChipBuilder(this.invokers),
+    };
 
-    for (let name in this.builders) {
-      let builder = this.builders[name];
-      let old = builder.build.bind(builder);
+    for (let builder of Object.keys(this.builders)) {
+      let visitor = this.builders[builder];
 
-      builder.build = (tokens: Tokens) => {
-        let mark = tokens.push();
-
-        try {
-          let node = old(tokens);
-
-          if (!node) {
-            tokens.pop(mark);
-          }
-
-          return node;
-        } catch (e) {
-          tokens.pop(mark);
-
-          throw tokens.error(`Failed @${name}`, e);
-        }
-      };
+      this.invokers[builder] = visitor.visit.bind(visitor);
     }
   }
 
   public visit(tokens: Tokens): ChipNode {
-    return this.builders.chip.visit(tokens);
+    return this.invokers.chip(tokens);
   }
 }
 

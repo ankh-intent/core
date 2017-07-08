@@ -1,14 +1,14 @@
 
+import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { Tokens } from '../../../parsing/parser/Tokens';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { CanNode } from '../ast/CanNode';
-import { PropertyBuilder } from './PropertyBuilder';
-import { TypeBuilder } from './TypeBuilder';
-import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TypeNode } from '../ast/TypeNode';
+import { PropertyNode } from '../ast/PropertyNode';
 
 export interface CanChildren {
-  property: PropertyBuilder;
-  type: TypeBuilder;
+  property: BuildInvoker<PropertyNode>;
+  type: BuildInvoker<TypeNode>;
 }
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
@@ -31,7 +31,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         ensure.symbol(',');
       }
 
-      let arg = this.child.property.visit(tokens);
+      let arg = this.child.property(tokens);
 
       if (arg) {
         if (args[arg.name]) {
@@ -48,7 +48,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     ensure.symbol(')');
 
     if (get.symbol(':')) {
-      returns = this.child.type.visit(tokens);
+      returns = this.child.type(tokens);
     }
 
     ensure.symbol('{');
@@ -59,7 +59,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     let breakBefore = ['?', ':'];
     let breakAfter = [';'];
 
-    while (token = except.symbol('}')) {
+    while ((token = except.symbol('}'))) {
       if (prev === 'identifier') {
         if (token.type === prev) {
           body.push(' ');

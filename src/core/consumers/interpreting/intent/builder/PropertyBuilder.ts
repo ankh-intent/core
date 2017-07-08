@@ -1,12 +1,12 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { PropertyNode } from '../ast/PropertyNode';
-import { TypeBuilder } from './TypeBuilder';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TypeNode } from '../ast/TypeNode';
 
 export interface PropertyChildren {
-  type: TypeBuilder;
+  type: BuildInvoker<TypeNode>;
 }
 
 export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren> {
@@ -21,7 +21,7 @@ export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren>
       return null;
     }
 
-    let type = this.child.type.visit(tokens);
+    let type = this.child.type(tokens);
 
     let property = new PropertyNode();
     property.name = name.value;

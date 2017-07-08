@@ -6,6 +6,10 @@ export class Strings {
     return pattern.replace(REGEXP_GUARD, '\\$&');
   }
 
+  public static camelCaseToHyphenCase(text: string) {
+    return text.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+  }
+
   public static shrink(string: string, to: number, left: boolean = false) {
     return (string.length > to)
       ? string.substr(0, to - 3) + '...'

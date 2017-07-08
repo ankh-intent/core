@@ -1,12 +1,12 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { ConstraintNode } from '../ast/ConstraintNode';
-import { CanBuilder } from './CanBuilder';
-import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
+import { CanNode } from '../ast/CanNode';
 
 export interface ConstraintChildren {
-  can: CanBuilder;
+  can: BuildInvoker<CanNode>;
 }
 
 export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChildren> {
@@ -15,7 +15,7 @@ export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChi
       return null;
     }
 
-    let can = this.child.can.visit(tokens);
+    let can = this.child.can(tokens);
 
     if (!can) {
       throw tokens.error('Expected method declaration after ":"');

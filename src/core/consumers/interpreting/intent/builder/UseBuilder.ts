@@ -1,12 +1,12 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { UseNode } from '../ast/UseNode';
-import { BaseBuilder } from './BaseBuilder';
-import { QualifierBuilder } from './QualifierBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../parser/TokenMatcher';
+import { QualifierNode } from '../ast/QualifierNode';
 
 export interface UseChildren {
-  qualifier: QualifierBuilder;
+  qualifier: BuildInvoker<QualifierNode>;
 }
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
@@ -15,7 +15,7 @@ export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
       return null;
     }
 
-    let qualifier = this.child.qualifier.visit(tokens);
+    let qualifier = this.child.qualifier(tokens);
     let alias = qualifier.deepest();
 
     if (get.identifier('as')) {

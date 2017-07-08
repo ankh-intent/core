@@ -1,14 +1,14 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { DomainNode } from '../ast/DomainNode';
-import { TypeDefBuilder } from './TypeDefBuilder';
-import { BaseBuilder } from './BaseBuilder';
-import { UseBuilder } from './UseBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TypeDefNode } from '../ast/TypeDefNode';
+import { UseNode } from '../ast/UseNode';
 
 export interface DomainChildren {
-  typedef: TypeDefBuilder;
-  use: UseBuilder;
+  typedef: BuildInvoker<TypeDefNode>;
+  use: BuildInvoker<UseNode>;
 }
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
@@ -24,7 +24,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     ensure.symbol('{');
 
     while (true) {
-      let use = this.child.use.visit(tokens);
+      let use = this.child.use(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -36,7 +36,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         continue;
       }
 
-      let type = this.child.typedef.visit(tokens);
+      let type = this.child.typedef(tokens);
 
       if (type) {
         if (types[type.name]) {

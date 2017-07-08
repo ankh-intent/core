@@ -1,17 +1,17 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { TypeNode } from '../ast/TypeNode';
-import { QualifierBuilder } from './QualifierBuilder';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../parser/TokenMatcher';
+import { QualifierNode } from '../ast/QualifierNode';
 
 export interface TypeChildren {
-  qualifier: QualifierBuilder;
+  qualifier: BuildInvoker<QualifierNode>;
 }
 
 export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
   protected build(tokens: Tokens, {get, ensure}: TokenMatcher): TypeNode {
-    let qualifier = this.child.qualifier.visit(tokens);
+    let qualifier = this.child.qualifier(tokens);
     let generic = null;
 
     if (get.symbol('<')) {

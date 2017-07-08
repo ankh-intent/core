@@ -1,18 +1,18 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { TypeDefNode } from '../ast/TypeDefNode';
-import { BaseBuilder } from './BaseBuilder';
-import { PropertyBuilder } from './PropertyBuilder';
-import { TypeBuilder } from './TypeBuilder';
-import { CanBuilder } from './CanBuilder';
-import { ConstraintBuilder } from './ConstraintBuilder';
+import { BaseBuilder, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TypeNode } from '../ast/TypeNode';
+import { PropertyNode } from '../ast/PropertyNode';
+import { CanNode } from '../ast/CanNode';
+import { ConstraintNode } from '../ast/ConstraintNode';
 
 export interface TypeDefChildren {
-  property: PropertyBuilder;
-  type: TypeBuilder;
-  can: CanBuilder;
-  constraint: ConstraintBuilder;
+  property: BuildInvoker<PropertyNode>;
+  type: BuildInvoker<TypeNode>;
+  can: BuildInvoker<CanNode>;
+  constraint: BuildInvoker<ConstraintNode>;
 }
 
 export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
@@ -28,13 +28,13 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
     let cans = {};
 
     if (get.identifier('extends')) {
-      parent = this.child.type.visit(tokens);
+      parent = this.child.type(tokens);
     }
 
     ensure.symbol('{');
 
     while (true) {
-      let constraint = this.child.constraint.visit(tokens);
+      let constraint = this.child.constraint(tokens);
 
       if (constraint) {
         if (constraints[constraint.can.name]) {
@@ -45,7 +45,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      let property = this.child.property.visit(tokens);
+      let property = this.child.property(tokens);
 
       if (property) {
         if (properties[property.name]) {
@@ -58,7 +58,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      let can = this.child.can.visit(tokens);
+      let can = this.child.can(tokens);
 
       if (can) {
         if (cans[can.name]) {
