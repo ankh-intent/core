@@ -7,6 +7,8 @@
   "scripts": {
     "executable": "chmod +x build/bin/intent.js",
     "intent": "npm run executable && node ./build/bin/intent.js",
+    "pack": "webpack --display-modules --progress --colors",
+    "watchdog": "webpack --progress --colors --watch --watch-poll",
     "bump": "bin/bump.sh"
   },
   "keywords": [
@@ -19,8 +21,12 @@
     "@types/jasmine": "^2.5.52",
     "@types/node": "^7.0.29",
     "chokidar": "^1.7.0",
+    "express": "^4.15.3",
     "jasmine": "^2.6.0",
     "lodash": "^4.17.4",
+    "react": "^15.6.1",
+    "react-lite": "^0.15.37",
+    "serve-index": "^1.9.0",
     "socket.io": "^2.0.3",
     "source-map-support": "^0.4.15",
     "typescript": "^2.3.4",
@@ -29,5 +35,10 @@
   },
   "bin": {
     "intent": "./bin/intent.js"
+  },
+  "devDependencies": {
+    "file-loader": "^0.11.2",
+    "json-loader": "^0.5.4",
+    "webpack": "^3.1.0"
   }
 }
