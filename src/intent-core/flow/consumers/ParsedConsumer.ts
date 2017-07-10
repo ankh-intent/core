@@ -7,7 +7,7 @@ import { CompiledEvent } from '../events/CompiledEvent';
 import { Chip } from '../../chips/Chip';
 import { ChipNode } from '../../intent/ast/ChipNode';
 import { DependencyManager } from '../../watchdog/dependencies/DependencyManager';
-import { QualifierResolver } from '../../chips/use/QualifierResolver';
+import { QualifierResolver } from '../../chips/qualifier/QualifierResolver';
 
 export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>{
   private tree: DependencyManager;
