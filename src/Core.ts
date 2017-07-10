@@ -32,8 +32,6 @@ import { FileEmitResolver } from './intent-core/chips/FileEmitResolver';
 import { IntentLogger } from './intent-core/IntentLogger';
 import { DummyWriter } from "./intent-core/source/DummyWriter";
 import { DependencyManager } from './intent-core/watchdog/dependencies/DependencyManager';
-import { ServerOptions } from './intent-dispatch/Server';
-import { IntentServer } from './IntentServer';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
 
 export interface EmitOptions {
@@ -49,7 +47,6 @@ export interface CoreOptions {
   resolver: ResolverOptions;
   interpreter: InterpreterOptions;
   watch?: WatchdogOptions;
-  server?: ServerOptions;
 }
 
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
@@ -63,7 +60,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private dependencyTree: DependencyManager;
 
   public logger: Logger;
-  private server: IntentServer;
 
   public constructor() {
     super();
@@ -81,10 +77,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
 
     if (resolved.watch) {
       this.watchdog = new Watchdog(resolved.watch);
-    }
-
-    if (resolved.server) {
-      this.server = new IntentServer(this.dependencyTree, resolved.server);
     }
 
     this.events
@@ -105,10 +97,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   }
 
   public start(options: CoreOptions): this {
-    if (this.server) {
-      this.server.start();
-    }
-
     let updates = this.matched(
       options.resolver.paths.project,
       options.files

@@ -1,12 +1,12 @@
 
+import * as path from 'path';
+
 import { AbstractOptionsProvider } from './AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
 import { WatchdogOptions } from './intent-watchdog/core/Watchdog';
 import { ResolverOptions } from "./intent-core/chips/ResolverOptions";
 import { InterpreterOptions } from './intent-core/flow/consumers/transpiling/DependencyModifiedConsumer';
-import * as path from 'path';
-import { ServerOptions } from './intent-dispatch/Server';
 
 export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
   private _defaults: CoreOptions;
@@ -108,21 +108,6 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "requiresArg": true,
         },
       },
-      "Server options": {
-        "serve": {
-          "type": "boolean",
-          "alias": "s",
-          "describe": "Run local dev-app server",
-          "default": false,
-          "requiresArg": false,
-        },
-        "server-port": {
-          "type": "number",
-          "describe": "Port to listen for connection on",
-          "default": defaults.server.port,
-          "requiresArg": true,
-        },
-      },
     };
   }
 
@@ -164,15 +149,6 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected server(defaults: CoreOptions): ServerOptions {
-    return this.get("serve") && {
-        port: this.get("server-port"),
-        web: {
-          root: defaults.server.web.root,
-        },
-      };
-  }
-
   public build(core: Core): CoreOptions {
     let defaults = this.defaults();
 
@@ -182,7 +158,6 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
       resolver: this.resolver(defaults),
       interpreter: this.interpreter(defaults),
       watch: this.watch(defaults),
-      server: this.server(defaults),
     };
   }
 
