@@ -29,14 +29,9 @@ module.exports = {
 		new webpack.ProvidePlugin({
 		}),
 		new webpack.DefinePlugin({
-			// '__APP_CONFIG__': JSON.stringify(_.merge({}, require('./config/base'), require(`./config/${env}`))),
 			'process.env.NODE_ENV': `"${env}"`,
 			'__DEV__': !PRODUCTION,
 		}),
-		// new webpack.optimize.CommonsChunkPlugin({
-		// 	name: "commons",
-		// 	filename: "commons.js",
-		// }),
 		...(PRODUCTION ? [
 			new webpack.optimize.OccurenceOrderPlugin(),
 			new webpack.optimize.AggressiveMergingPlugin(),
@@ -64,7 +59,7 @@ module.exports = {
 
 
 	resolve: {
-		modules   : [SCRIPTS_ROOT, 'node_modules'],
+		modules: [SCRIPTS_ROOT, 'node_modules'],
 		extensions: ['.js', '.json'],
 		alias: {
 		},
