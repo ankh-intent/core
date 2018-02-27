@@ -24,6 +24,7 @@
     "socket.io": "^2.0.3",
     "source-map-support": "^0.4.15",
     "typescript": "^2.3.4",
+    "util": "^0.10.3",
     "yargs": "^8.0.2"
   },
   "bin": {
