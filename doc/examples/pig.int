@@ -1,0 +1,4 @@
+domain Pig {
+  use Game;
+
+}
