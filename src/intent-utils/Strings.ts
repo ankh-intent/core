@@ -77,7 +77,6 @@ export class Strings {
   public static lookback(line, p, s) {
     while (p) {
       p = line.lastIndexOf(s, p);
-      p
 
       if ((p > 0) && (line[p - 1] === '\\')) {
         p--;
