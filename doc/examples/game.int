@@ -41,9 +41,9 @@ domain Game {
   }
 
   state {
-    scores: Map<Player, Score> = new Map(players.map((player: Player) => [player, 0]));
-    withdrawn: Set<Player> = new Set();
     turn: Player = players.get(0);
+    scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
+    withdrawn: Set<Player> = Set();
     victory: Score.Winning({ max: goal });
   }
 
@@ -70,7 +70,7 @@ domain Game {
   private try(player: Player): Score {
     each (let rolled = roll()) {
       if (rolled is Score.SnakeEye) {
-        return new Score(0);
+        return Score(0);
       }
 
       if (victory.cast(rolled) || hold()) {
@@ -85,7 +85,7 @@ domain Game {
         let scored = score[turn] + gain;
 
         if (winning.cast(scored)) {
-          return new Outcome.Win({
+          return Outcome.Win({
             player: turn,
             scored,
           });
@@ -99,7 +99,7 @@ domain Game {
       }
     }
 
-    return new Outcome.Draw({
+    return Outcome.Draw({
       scores,
     });
   }

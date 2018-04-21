@@ -149,8 +149,8 @@ domain Types {
     }
 
     domain Map<K, V> extends Set<[K, V]> {{
-        keys: Set<K> = new Set(value.map(entry => entry.get(0)));
-        values: Collection<V> = new Collection(value.map(entry => entry.get(1)));
+        keys: Set<K> = Set(value.map(entry => entry.get(0)));
+        values: Collection<V> = Collection(value.map(entry => entry.get(1)));
       }
 
       get entries: Set<[K, V]> {
