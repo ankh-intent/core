@@ -32,6 +32,8 @@ domain Game {
     }}
   }
 
+  private domain MaybePlayer extends Maybe.Value<Player>;
+
   interface {
     players: Players;
     dice: PositiveNumber = 6;
@@ -49,9 +51,9 @@ domain Game {
     return scores.get(player);
   }
 
-  get next[player: Player]: Maybe<Player> {
+  get next[player: Player]: MaybePlayer {
     if (withdrawn.size === players.size) {
-      return new Maybe();
+      return new MaybePlayer();
     }
 
     let index = players.indexOf(player);
@@ -78,8 +80,6 @@ domain Game {
   }
 
   play(): Outcome {
-    let player = Maybe.Value<Player>;
-
     each (let gain = try(turn)) {
       if (gain) {
         let scored = score[turn] + gain;
@@ -92,7 +92,7 @@ domain Game {
         }
       }
 
-      if (let switch = player.cast(next[turn])) {
+      if (let switch = MaybePlayer.cast(next[turn])) {
         turn = switch;
       } else {
         break;
