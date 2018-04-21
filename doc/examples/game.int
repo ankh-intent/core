@@ -41,14 +41,14 @@ domain Game {
   }
 
   state {
-    turn: Player = players.get(0);
     scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
     withdrawn: Set<Player> = Set();
+    turn: Player = players[0];
     victory: Score.Winning({ max: goal });
   }
 
   get score[player: Player]: Score {
-    return scores.get(player);
+    return scores[player];
   }
 
   get next[player: Player]: MaybePlayer {
