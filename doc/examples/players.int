@@ -1,0 +1,15 @@
+use Intent.Types: {
+  Math: {
+    PositiveNumber,
+  },
+  Sure,
+};
+
+domain Players extends Sure.Collection<Player> {
+  with (size > 1);
+
+  domain Player {{
+    id: PositiveNumber;
+    name: Sure.String;
+  }}
+}

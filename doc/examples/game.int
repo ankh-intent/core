@@ -1,0 +1,106 @@
+use Intent.Types: {
+  Number: {
+    Random,
+  },
+  Math: {
+    NaturalNumber,
+    PositiveNumber,
+  },
+  Collections: {
+    Index,
+  },
+  Sure: {
+    Collection as SureCollection,
+    String as SureString,
+  },
+};
+
+domain Game {
+  use Players: {
+    Player,
+  };
+  use Score;
+
+  domain Outcome {
+    domain Win extends Outcome {{
+      player: Player;
+      scored: Score.Winning;
+    }}
+
+    domain Draw extends Outcome {{
+      scores: Map<Player, Score>;
+    }}
+  }
+
+  interface {
+    players: Players;
+    dice: PositiveNumber = 6;
+    goal: PositiveNumber = 100;
+  }
+
+  state {
+    scores: Map<Player, Score> = new Map(players.map((player: Player) => [player, 0]));
+    withdrawn: Set<Player> = new Set();
+    turn: Player = players.get(0);
+    victory: Score.Winning({ max: goal });
+  }
+
+  get score[player: Player]: Score {
+    return scores.get(player);
+  }
+
+  get next[player: Player]: Maybe<Player> {
+    if (withdrawn.size === players.size) {
+      return new Maybe();
+    }
+
+    let index = players.indexOf(player);
+
+    each (let next = Index.cast((index + 1) % players.size)) {
+      let candidate = players[next];
+
+      if (!withdrawn.has(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  private try(player: Player): Score {
+    each (let rolled = roll()) {
+      if (rolled is Score.SnakeEye) {
+        return new Score(0);
+      }
+
+      if (victory.cast(rolled) || hold()) {
+         return rolled;
+      }
+    }
+  }
+
+  play(): Outcome {
+    let player = Maybe.Value<Player>;
+
+    each (let gain = try(turn)) {
+      if (gain) {
+        let scored = score[turn] + gain;
+
+        if (winning.cast(scored)) {
+          return new Outcome.Win({
+            player: turn,
+            scored,
+          });
+        }
+      }
+
+      if (let switch = player.cast(next[turn])) {
+        turn = switch;
+      } else {
+        break;
+      }
+    }
+
+    return new Outcome.Draw({
+      scores,
+    });
+  }
+}

@@ -1,0 +1,68 @@
+use Intent.Types: {
+  Math: {
+    NaturalNumber,
+    PositiveNumber,
+  },
+};
+
+domain Score extends NaturalNumber {
+  trait SnakeEye = () => Math.Equal(1);
+
+  domain Answer extends String {{
+      protected prompt(question: String): self {
+        return cast(IO.question(question));
+      }
+    }
+
+    trait Hold = () => Equal(`h`);
+    trait Withdraw = () => Equal(`w`);
+
+    domain Withdraw extends Answer {{
+        cast(): self {
+          return cast(value: prompt(`Roll or withdraw? [Rw]: `));
+        }
+      }
+
+      is Withdraw;
+    }
+
+    domain Hold extends Answer {{
+        cast(): self {
+          return cast(value: prompt(`Keep or hold? [Kh]: `));
+        }
+      }
+
+      is Hold;
+    }
+  }
+
+  domain Roll extends Answer {{
+      rolled: NaturalNumber = 0;
+
+      make(dice: PositiveNumber): Roll {
+        if (let widthdrew = new Withdraw()) {
+          return withdrew;
+        }
+
+        let rolled = Random.inRange(1, dice);
+
+        return new Hold(rolled) || new Roll(rolled);
+      }
+    }
+
+    domain Withdraw extends Roll {
+      is Answer.Withdraw;
+    }
+
+    domain Hold extends Roll {
+      is Answer.Hold;
+    }
+  }
+
+  domain Winning extends Score {{
+      max: PositiveNumber;
+    }
+
+    is Math.GreaterOrEqual(max);
+  }
+}
