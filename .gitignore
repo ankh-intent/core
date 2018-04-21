@@ -6,7 +6,6 @@ ncp-debug.log
 npm-debug.log
 /build
 /bin/**/*.js.map
-/bin/**/*.i.js
 /src/**/*.js
 /src/**/*.js.map
 /tests/**/*.js
