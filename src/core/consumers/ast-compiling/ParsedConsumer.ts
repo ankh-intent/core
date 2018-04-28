@@ -1,0 +1,58 @@
+
+import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { ParsedEvent } from '../parsing/ParsedEvent';
+import { AbstractConsumer } from '../../kernel/AbstractConsumer';
+import { ConsumerStat } from '../../kernel/ConsumerStat';
+import { CompiledEvent } from './CompiledEvent';
+import { Chip } from '../../../intent-core/chips/Chip';
+import { ChipNode } from '../transpiling/intent/ast/ChipNode';
+import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
+import { QualifierResolver } from '../../../intent-core/chips/qualifier/QualifierResolver';
+import { Source } from '../reading/source/Source';
+
+export class CompileStat extends ConsumerStat {
+  public constructor(public readonly source: Source) {
+    super();
+  }
+}
+
+export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>{
+  private tree: DependencyManager;
+  private resolver: QualifierResolver;
+
+  public constructor(bus: CoreEventBus, resolver: QualifierResolver, tree: DependencyManager) {
+    super(bus);
+    this.tree = tree;
+    this.resolver = resolver;
+  }
+
+  public supports(event: CoreEvent<any>): boolean {
+    return event.type === ParsedEvent.type();
+  }
+
+  public process(event: ParsedEvent<ChipNode>) {
+    let { source, ast } = event.data;
+    this.stat(event, new CompileStat(source));
+
+    let chip;
+    let node = this.tree.find(source.reference);
+
+    if (node) {
+      chip = node.chip;
+    } else {
+      chip = new Chip(source.reference);
+      node = this.tree.dependency(chip);
+    }
+
+    chip.name = this.resolver.resolve(chip).path('.');
+    chip.ast = this.patchAST(chip, ast);
+
+    return new CompiledEvent({ dependency: node });
+  }
+
+  protected patchAST(chip: Chip, ast: ChipNode) {
+    // todo: real patching
+    return ast;
+  }
+}

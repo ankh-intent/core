@@ -1,0 +1,98 @@
+
+
+import { AbstractConsumer } from '../../kernel/AbstractConsumer';
+import { ConsumerStat } from '../../kernel/ConsumerStat';
+import { CompiledEvent } from '../ast-compiling/CompiledEvent';
+import { UseResolverInterface } from '../../../intent-core/chips/use/UseResolverInterface';
+import { CoreEventBus } from "../../kernel/CoreEventBus";
+import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
+import { ResolverOptions } from '../../../intent-core/chips/ResolverOptions';
+import { BaseUseResolver } from "../../../intent-core/chips/use/BaseUseResolver";
+import { CoreEvent } from '../../kernel/CoreEvent';
+import { Objects } from '../../../intent-utils/Objects';
+import { UpdateEvent } from './UpdateEvent';
+import { DependencyModifiedEvent } from './DependencyModifiedEvent';
+import { DependencyNode } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { Chip } from '../../../intent-core/chips/Chip';
+
+export class SynchronizeStat extends ConsumerStat {
+  public constructor(public readonly dependency: DependencyNode) {
+    super();
+  }
+}
+
+export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
+  private resolver: UseResolverInterface;
+  private tree: DependencyManager;
+
+  public constructor(bus: CoreEventBus, resolverOptions: ResolverOptions, tree: DependencyManager) {
+    super(bus);
+    this.resolver = new BaseUseResolver(resolverOptions);
+    this.tree = tree;
+  }
+
+  public supports(event: CoreEvent<any>): boolean {
+    return event.type === CompiledEvent.type();
+  }
+
+  public process(event: CompiledEvent) {
+    let { dependency } = event.data;
+
+    this.synchronize(dependency, event);
+
+    return new DependencyModifiedEvent(
+      { dependency },
+      event,
+    );
+  }
+
+  private synchronize(node: DependencyNode, event: CoreEvent<any>) {
+    this.stat(event, new SynchronizeStat(node));
+
+    let uses = this.uses(node.chip);
+
+    let nodes = this.tree.all(Object.keys(uses), false);
+    let unknown = [];
+    let known = [];
+
+    for (let dependency of nodes) {
+      if (typeof dependency === 'string') {
+        // attach new nodes
+        unknown.push(
+          dependency = this.tree.add(uses[dependency])
+        );
+      }
+
+      known.push(dependency);
+    }
+
+    node.relate(known);
+
+    for (let dependency of node) {
+      if (known.indexOf(dependency) < 0) {
+        // detach old nodes
+        this.tree.dereference(node, dependency);
+      }
+    }
+
+    for (let dependency of unknown) {
+      this.emit(new UpdateEvent({ path: dependency.chip.path }, event))
+    }
+  }
+
+  protected uses(chip: Chip): {[name: string]: Chip} {
+    let links = {};
+
+    for (let use of Objects.iterate(chip.ast.uses)) {
+      let link = this.resolver.resolve(chip, use.qualifier);
+
+      if (!link) {
+        throw new Error(`Can't resolve chip "${use.qualifier.path('.')}"`);
+      }
+
+      links[link.path] = link;
+    }
+
+    return links;
+  }
+}

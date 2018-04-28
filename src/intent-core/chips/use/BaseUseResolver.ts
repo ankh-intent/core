@@ -3,7 +3,7 @@ import { UseResolverInterface } from './UseResolverInterface';
 import { ResolverOptions } from '../ResolverOptions';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../intent/ast/QualifierNode';
+import { QualifierNode } from '../../../core/consumers/transpiling/intent/ast/QualifierNode';
 import { Strings } from '../../../intent-utils/Strings';
 
 export class BaseUseResolver implements UseResolverInterface {

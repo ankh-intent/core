@@ -1,5 +1,5 @@
 
-import { TreeNodeVisitors, TreeNodeWalker } from '../tree/TreeNodeVisitor';
+import { TreeNodeVisitors, TreeNodeWalker } from '../../core/consumers/ast-compiling/tree/TreeNodeVisitor';
 import { Chip } from './Chip';
 
 export class ChipNodeWalker extends TreeNodeWalker<Chip> {

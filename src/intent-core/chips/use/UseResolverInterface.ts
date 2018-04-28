@@ -1,6 +1,6 @@
 
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../intent/ast/QualifierNode';
+import { QualifierNode } from '../../../core/consumers/transpiling/intent/ast/QualifierNode';
 
 export interface UseResolverInterface {
 

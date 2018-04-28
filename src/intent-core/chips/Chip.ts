@@ -1,6 +1,6 @@
 
-import { TreeNode } from '../tree/TreeNode';
-import { ChipNode } from '../intent/ast/ChipNode';
+import { TreeNode } from '../../core/consumers/ast-compiling/tree/TreeNode';
+import { ChipNode } from '../../core/consumers/transpiling/intent/ast/ChipNode';
 
 export class Chip implements TreeNode {
   public static TYPE_CHIP = 'chip';

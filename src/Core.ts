@@ -4,34 +4,34 @@ import { OptionsResolver } from './OptionsResolver';
 
 import { Emitter } from './intent-utils/Emitter';
 import { Logger } from './intent-utils/Logger';
-import { UnitMatcher } from './intent-watchdog/core/matcher/UnitMatcher';
-import { Watchdog, WatchdogOptions } from './intent-watchdog/core/Watchdog';
-import { UnitInterface } from './intent-watchdog/core/Unit';
+import { UnitMatcher } from './core/kernel/watchdog/matcher/UnitMatcher';
+import { Watchdog, WatchdogOptions } from './core/kernel/watchdog/Watchdog';
+import { UnitInterface } from './core/kernel/watchdog/Unit';
 
-import { IntentBuilder } from './intent-core/intent/builder/IntentBuilder';
+import { IntentBuilder } from './core/consumers/transpiling/intent/builder/IntentBuilder';
 
-import { CoreEventBus } from './intent-core/flow/CoreEventBus';
-import { UpdateEvent } from './intent-core/flow/events/UpdateEvent';
-import { CoreEvent } from './intent-core/flow/CoreEvent';
-import { FatalEvent } from './intent-core/flow/events/FatalEvent';
-import { FileWriter } from './intent-core/source/FileWriter';
-import { Finder } from './intent-core/source/Finder';
+import { CoreEventBus } from './core/kernel/CoreEventBus';
+import { UpdateEvent } from './core/consumers/watching/UpdateEvent';
+import { CoreEvent } from './core/kernel/CoreEvent';
+import { FatalEvent } from './core/kernel/events/FatalEvent';
+import { FileWriter } from './core/consumers/reading/source/FileWriter';
+import { Finder } from './core/consumers/reading/source/Finder';
 
-import { SubmitConsumer } from './intent-core/flow/consumers/SubmitConsumer';
-import { ParsedConsumer } from './intent-core/flow/consumers/ParsedConsumer';
-import { CompiledConsumer } from './intent-core/flow/consumers/compiled/CompiledConsumer';
-import { UpdateConsumer } from './intent-core/flow/consumers/UpdateConsumer';
-import { DependencyModifiedConsumer, InterpreterOptions } from './intent-core/flow/consumers/transpiling/DependencyModifiedConsumer';
-import { StatConsumer } from './intent-core/flow/consumers/stat/StatConsumer';
-import { ErrorConsumer } from './intent-core/flow/consumers/ErrorConsumer';
-import { InterpretedConsumer } from './intent-core/flow/consumers/InterpretedConsumer';
-import { WatchdogReadyConsumer } from './intent-core/flow/consumers/WatchdogReadyConsumer';
-import { ReadyEvent } from './intent-core/flow/events/ReadyEvent';
-import { EventChainMonitor, EventChainMonitoringData } from './intent-core/flow/consumers/EventChainMonitor';
+import { SubmitConsumer } from './core/consumers/parsing/SubmitConsumer';
+import { ParsedConsumer } from './core/consumers/ast-compiling/ParsedConsumer';
+import { CompiledConsumer } from './core/consumers/watching/CompiledConsumer';
+import { UpdateConsumer } from './core/consumers/reading/UpdateConsumer';
+import { DependencyModifiedConsumer, InterpreterOptions } from './core/consumers/transpiling/DependencyModifiedConsumer';
+import { StatConsumer } from './core/consumers/stat/StatConsumer';
+import { ErrorConsumer } from './core/consumers/errors/ErrorConsumer';
+import { InterpretedConsumer } from './core/consumers/emitting/InterpretedConsumer';
+import { WatchdogReadyConsumer } from './core/consumers/watching/WatchdogReadyConsumer';
+import { ReadyEvent } from './core/kernel/events/ReadyEvent';
+import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/EventChainMonitor';
 import { FileEmitResolver } from './intent-core/chips/FileEmitResolver';
 import { IntentLogger } from './intent-core/IntentLogger';
-import { DummyWriter } from "./intent-core/source/DummyWriter";
-import { DependencyManager } from './intent-core/watchdog/dependencies/DependencyManager';
+import { DummyWriter } from "./core/consumers/reading/source/DummyWriter";
+import { DependencyManager } from './core/kernel/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
 
 export interface EmitOptions {
