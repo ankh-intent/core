@@ -24,10 +24,8 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
 
     try {
       return this.process(event);
-    } catch (e) {
-      return new ErrorEvent({
-        error: e,
-      });
+    } catch (error) {
+      return new ErrorEvent({ error }, event);
     }
   }
 

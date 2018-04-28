@@ -36,7 +36,6 @@ export class SubmitConsumer extends AbstractConsumer<ReadedEvent, any>{
     let { source } = event.data;
     this.stat(event, new ParseStat(source));
 
-    try {
       return new ParsedEvent({
         source: source,
         ast: this.parser.build(new Tokens(
@@ -55,10 +54,5 @@ export class SubmitConsumer extends AbstractConsumer<ReadedEvent, any>{
           source.range()
         )),
       })
-    } catch (e) {
-      return new ErrorEvent({
-        error: e,
-      }, event);
-    }
   }
 }
