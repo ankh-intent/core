@@ -49,7 +49,9 @@ export interface CoreOptions {
   watch?: WatchdogOptions;
 }
 
-export class Core extends Emitter<(event: CoreEvent<any>) => any> {
+type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
+
+export class Core extends Emitter<CoreEventEmitter<any>> {
   private watchdog: Watchdog<UnitInterface>;
 
   private readonly options: OptionsResolver;
