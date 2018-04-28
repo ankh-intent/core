@@ -10,10 +10,10 @@ import { UnitInterface } from './core/consumers/watching/watchdog/Unit';
 
 import { IntentBuilder } from './core/consumers/interpreting/intent/builder/IntentBuilder';
 
-import { CoreEventBus } from './core/kernel/CoreEventBus';
+import { CoreEventBus } from './core/kernel/event/CoreEventBus';
 import { UpdateEvent } from './core/consumers/watching/UpdateEvent';
-import { CoreEvent } from './core/kernel/CoreEvent';
-import { FatalEvent } from './core/kernel/events/FatalEvent';
+import { CoreEvent } from './core/kernel/event/CoreEvent';
+import { FatalEvent } from './core/kernel/event/events/FatalEvent';
 import { FileWriter } from './core/consumers/reading/source/FileWriter';
 import { Finder } from './core/consumers/reading/source/Finder';
 
@@ -26,8 +26,8 @@ import { StatConsumer } from './core/consumers/stat/StatConsumer';
 import { ErrorConsumer } from './core/consumers/errors/ErrorConsumer';
 import { InterpretedConsumer } from './core/consumers/emitting/InterpretedConsumer';
 import { WatchdogReadyConsumer } from './core/consumers/watching/WatchdogReadyConsumer';
-import { ReadyEvent } from './core/kernel/events/ReadyEvent';
-import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/EventChainMonitor';
+import { ReadyEvent } from './core/kernel/event/events/ReadyEvent';
+import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/event/EventChainMonitor';
 import { FileEmitResolver } from './intent-core/chips/FileEmitResolver';
 import { IntentLogger } from './intent-core/IntentLogger';
 import { DummyWriter } from "./core/consumers/reading/source/DummyWriter";

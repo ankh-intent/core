@@ -1,13 +1,13 @@
 
 import { Logger } from '../../../intent-utils/Logger';
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 
-import { ErrorEvent } from '../../kernel/events/ErrorEvent';
+import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../parsing/parser/SyntaxError';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Strings } from '../../../intent-utils/Strings';
-import { StatEvent } from '../../kernel/events/StatEvent';
+import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   private logger: Logger;

@@ -1,9 +1,9 @@
 
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 
 import { InterpretedEvent } from './InterpretedEvent';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { ChipTranspiler } from './intentlang/templates/ChipTranspiler';
 import { Compiler } from './transpiler/compiler/Compiler';
 import { Sampler } from './transpiler/compiler/Sampler';

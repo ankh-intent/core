@@ -1,7 +1,7 @@
 
-import { CoreEvent, CoreEventConsumer } from './CoreEvent';
-import { ErrorEvent } from './events/ErrorEvent';
-import { CoreEventBus } from './CoreEventBus';
+import { CoreEvent, CoreEventConsumer } from './event/CoreEvent';
+import { ErrorEvent } from './event/events/ErrorEvent';
+import { CoreEventBus } from './event/CoreEventBus';
 
 export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements CoreEventConsumer<T, E> {
   private bus: CoreEventBus;

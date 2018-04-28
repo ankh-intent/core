@@ -1,5 +1,5 @@
 
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ReadedEvent } from '../reading/ReadedEvent';
 import { ParsedEvent } from './ParsedEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
@@ -10,8 +10,8 @@ import { Tokens } from './parser/Tokens';
 
 import { ChipNode } from '../interpreting/intent/ast/ChipNode';
 import { ASTBuilder } from '../ast-compiling/ASTBuilder';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
-import { ErrorEvent } from '../../kernel/events/ErrorEvent';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
+import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { Source } from '../reading/source/Source';
 
 export class ParseStat extends ConsumerStat {

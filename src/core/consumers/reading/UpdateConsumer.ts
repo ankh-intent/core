@@ -1,14 +1,14 @@
 
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ReadedEvent } from './ReadedEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { UpdateEvent } from '../watching/UpdateEvent';
 import { FileReader } from "./source/FileReader";
 import { Source } from './source/Source';
-import { ErrorEvent } from "../../kernel/events/ErrorEvent";
+import { ErrorEvent } from "../../kernel/event/events/ErrorEvent";
 import { SyntaxError } from '../parsing/parser/SyntaxError';
 
 export class UpdateStat extends ConsumerStat {

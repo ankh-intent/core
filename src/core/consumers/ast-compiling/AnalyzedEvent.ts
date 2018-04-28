@@ -1,7 +1,7 @@
 
 import { Source } from '../reading/source/Source';
 import { TreeNode } from './tree/TreeNode';
-import { BaseCoreEvent } from '../../kernel/CoreEvent';
+import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
 
 export interface AnalyzedEventProps<N extends TreeNode> {
   source: Source;

@@ -1,11 +1,11 @@
 
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { InterpretedEvent } from '../interpreting/InterpretedEvent';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { FileWriter } from '../reading/source/FileWriter';
-import { ErrorEvent } from '../../kernel/events/ErrorEvent';
+import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { Source } from '../reading/source/Source';
 import { StringSource } from '../reading/source/StringSource';
 import { FileEmitResolver } from '../../../intent-core/chips/FileEmitResolver';

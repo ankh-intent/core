@@ -1,6 +1,6 @@
 
 import { Logger } from '../intent-utils/Logger';
-import { BaseCoreEvent } from '../core/kernel/CoreEvent';
+import { BaseCoreEvent } from '../core/kernel/event/CoreEvent';
 
 export class IntentLogger extends Logger {
   public classify(args: any[]): [string, any[]] {

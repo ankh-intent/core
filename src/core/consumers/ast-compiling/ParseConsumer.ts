@@ -1,12 +1,12 @@
 
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ParsedEvent } from '../parsing/ParsedEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 
 import { ChipNode } from '../interpreting/intent/ast/ChipNode';
 import { ASTBuilder } from './ASTBuilder';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Source } from '../reading/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 

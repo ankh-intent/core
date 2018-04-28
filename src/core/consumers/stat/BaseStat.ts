@@ -1,6 +1,6 @@
 
 import { CoreOptions } from '../../../Core';
-import { StatEvent } from '../../kernel/events/StatEvent';
+import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class BaseStat {
   protected options: CoreOptions;

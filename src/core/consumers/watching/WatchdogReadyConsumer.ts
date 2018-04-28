@@ -1,10 +1,10 @@
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 
 import { UpdateEvent } from './UpdateEvent';
-import { ReadyEvent } from '../../kernel/events/ReadyEvent';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { ReadyEvent } from '../../kernel/event/events/ReadyEvent';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Watchdog } from './watchdog/Watchdog';
 import { UnitInterface } from './watchdog/Unit';
 import { WatchItem } from './watchdog/WatchItem';

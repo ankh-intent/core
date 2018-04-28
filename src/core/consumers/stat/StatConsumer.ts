@@ -1,10 +1,10 @@
 
-import { CoreEvent } from '../../kernel/CoreEvent';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 
-import { StatEvent } from '../../kernel/events/StatEvent';
+import { StatEvent } from '../../kernel/event/events/StatEvent';
 import { CoreOptions } from '../../../Core';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Logger } from '../../../intent-utils/Logger';
 import { LogStat } from './LogStat';
 import { EmittedStat } from './EmittedStat';

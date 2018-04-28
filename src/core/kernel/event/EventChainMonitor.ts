@@ -1,9 +1,9 @@
 
 import { CoreEvent } from './CoreEvent';
-import { AbstractConsumer } from './AbstractConsumer';
+import { AbstractConsumer } from '../AbstractConsumer';
 
-import { UpdateEvent } from '../consumers/watching/UpdateEvent';
-import { Emitter } from '../../intent-utils/Emitter';
+import { UpdateEvent } from '../../consumers/watching/UpdateEvent';
+import { Emitter } from '../../../intent-utils/Emitter';
 import { StatEvent } from './events/StatEvent';
 
 export interface EventChainMonitoringData {

@@ -2,7 +2,7 @@
 import { BaseStat } from './BaseStat';
 import { Logger } from '../../../intent-utils/Logger';
 import { CoreOptions } from '../../../Core';
-import { StatEvent } from '../../kernel/events/StatEvent';
+import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class LogStat extends BaseStat {
   private logger: Logger;

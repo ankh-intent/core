@@ -1,6 +1,6 @@
 
-import { CoreEvent } from '../../kernel/CoreEvent';
-import { CoreEventBus } from '../../kernel/CoreEventBus';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
