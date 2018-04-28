@@ -29,7 +29,7 @@ import { WatchdogReadyConsumer } from './core/consumers/watching/WatchdogReadyCo
 import { ReadyEvent } from './core/kernel/event/events/ReadyEvent';
 import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/event/EventChainMonitor';
 import { FileEmitResolver } from './intent-core/chips/FileEmitResolver';
-import { IntentLogger } from './intent-core/IntentLogger';
+import { CoreLogger } from './core/kernel/logging/CoreLogger';
 import { DummyWriter } from "./core/consumers/reading/source/DummyWriter";
 import { DependencyManager } from './core/consumers/watching/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
@@ -63,7 +63,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
 
   public constructor() {
     super();
-    this.logger = new IntentLogger();
+    this.logger = new CoreLogger();
     this.options= new OptionsResolver();
     this.parser = new IntentBuilder();
     this.events = new CoreEventBus();
