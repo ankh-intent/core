@@ -56,10 +56,10 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private readonly parser: IntentBuilder;
   private readonly events: CoreEventBus;
 
-  private eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
-  private dependencyTree: DependencyManager;
+  private readonly eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
+  private readonly dependencyTree: DependencyManager;
 
-  public logger: Logger;
+  public readonly logger: Logger;
 
   public constructor() {
     super();
@@ -67,6 +67,8 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     this.options= new OptionsResolver();
     this.parser = new IntentBuilder();
     this.events = new CoreEventBus();
+    this.eventChainMonitor = new EventChainMonitor(this.events);
+    this.dependencyTree = new DependencyManager();
   }
 
   public bootstrap(options: CoreOptions): CoreOptions {
@@ -76,9 +78,6 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     if (resolved.watch) {
       this.watchdog = new Watchdog(resolved.watch);
     }
-
-    this.eventChainMonitor = new EventChainMonitor(this.events);
-    this.dependencyTree = new DependencyManager();
 
     this.events.reset();
     this.events.add(this.eventChainMonitor);

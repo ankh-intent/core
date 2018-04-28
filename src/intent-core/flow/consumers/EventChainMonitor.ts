@@ -17,7 +17,7 @@ export interface EventChainMonitoringData {
 export type EventChainMonitoringConsumer = (data: EventChainMonitoringData) => any;
 
 export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsumer<E, any>{
-  private chains: EventChain<E>[] = [];
+  private readonly chains: EventChain<E>[] = [];
 
   public supports(event: E): boolean {
     if (event.type === StatEvent.type()) {
@@ -39,7 +39,7 @@ export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsume
       let index = this.chains.indexOf(chain);
 
       if (index >= 0) {
-        delete this.chains[index];
+        this.chains.splice(index, 1);
       }
     });
 
@@ -64,11 +64,10 @@ export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsume
 }
 
 export class EventChain<E extends CoreEvent<any>> extends Emitter<EventChainMonitoringConsumer> {
-  private start: Date = new Date();
+  private readonly start: Date = new Date();
+  private readonly accumulated: E[] = [];
+  private readonly original: E[];
   private monitored: E[] = [];
-  private accumulated: E[] = [];
-
-  private original: E[];
 
   public constructor(original: E[]) {
     super();
