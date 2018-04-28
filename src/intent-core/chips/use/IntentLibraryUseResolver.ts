@@ -2,15 +2,15 @@
 import * as path from 'path';
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { ResolverOptions } from '../ResolverOptions';
+import { ResolverConfig } from '../ResolverConfig';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 
 export class IntentLibraryUseResolver implements UseResolverInterface {
-  private options: ResolverOptions;
+  private config: ResolverConfig;
 
-  public constructor(options: ResolverOptions) {
-    this.options = options;
+  public constructor(config: ResolverConfig) {
+    this.config = config;
   }
 
   public resolve(from: Chip, identifier: QualifierNode): Chip {
@@ -19,7 +19,7 @@ export class IntentLibraryUseResolver implements UseResolverInterface {
     }
 
     let relative = identifier.path('/').toLowerCase().replace(/^intent\//, '') + '.int';
-    let resolved = path.join(this.options.paths.intent, relative);
+    let resolved = path.join(this.config.paths.intent, relative);
 
     return new Chip(resolved);
   }

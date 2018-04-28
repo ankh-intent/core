@@ -7,7 +7,7 @@ import { Emitter } from '../../../../intent-utils/Emitter';
 
 import { UnitInterface } from './Unit';
 import { UnitMatcher } from './matcher/UnitMatcher';
-import { WatchdogOptions } from './Watchdog';
+import { WatchdogConfig } from './Watchdog';
 import { AggregatedEmitter } from './AggregatedEmitter';
 
 export class WatchItem<U extends UnitInterface> extends Eventable {
@@ -31,7 +31,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     return !!this.watcher;
   }
 
-  public watch(options: WatchdogOptions): this {
+  public watch(config: WatchdogConfig): this {
     if (this.active) {
       return this;
     }
@@ -52,8 +52,8 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     }
 
     this.watcher = chokidar
-      .watch(strict ? pattern : options.root, {
-        ignored: options.ignore,
+      .watch(strict ? pattern : config.root, {
+        ignored: config.ignore,
         persistent: true,
         ignoreInitial: true,
       })

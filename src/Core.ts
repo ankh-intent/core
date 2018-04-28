@@ -1,11 +1,11 @@
 
-import { ResolverOptions } from './intent-core/chips/ResolverOptions';
-import { OptionsResolver } from './OptionsResolver';
+import { ResolverConfig } from './intent-core/chips/ResolverConfig';
+import { ConfigResolver } from './ConfigResolver';
 
 import { Emitter } from './intent-utils/Emitter';
 import { Logger } from './intent-utils/Logger';
 import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
-import { Watchdog, WatchdogOptions } from './core/consumers/watching/watchdog/Watchdog';
+import { Watchdog, WatchdogConfig } from './core/consumers/watching/watchdog/Watchdog';
 import { UnitInterface } from './core/consumers/watching/watchdog/Unit';
 
 import { IntentBuilder } from './core/consumers/interpreting/intent/builder/IntentBuilder';
@@ -21,7 +21,7 @@ import { SubmitConsumer } from './core/consumers/parsing/SubmitConsumer';
 import { ParsedConsumer } from './core/consumers/ast-compiling/ParsedConsumer';
 import { CompiledConsumer } from './core/consumers/watching/CompiledConsumer';
 import { UpdateConsumer } from './core/consumers/reading/UpdateConsumer';
-import { DependencyModifiedConsumer, InterpreterOptions } from './core/consumers/interpreting/DependencyModifiedConsumer';
+import { DependencyModifiedConsumer, InterpreterConfig } from './core/consumers/interpreting/DependencyModifiedConsumer';
 import { StatConsumer } from './core/consumers/stat/StatConsumer';
 import { ErrorConsumer } from './core/consumers/errors/ErrorConsumer';
 import { InterpretedConsumer } from './core/consumers/emitting/InterpretedConsumer';
@@ -34,19 +34,19 @@ import { DummyWriter } from './core/consumers/reading/source/DummyWriter';
 import { DependencyManager } from './core/consumers/watching/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
 
-export interface EmitOptions {
+export interface EmitConfig {
   files: boolean;
   stats: boolean
-  options: boolean;
+  config: boolean;
   extension: string;
 }
 
-export interface CoreOptions {
-  emit: EmitOptions;
+export interface CoreConfig {
+  emit: EmitConfig;
   files: UnitMatcher[];
-  resolver: ResolverOptions;
-  interpreter: InterpreterOptions;
-  watch?: WatchdogOptions;
+  resolver: ResolverConfig;
+  interpreter: InterpreterConfig;
+  watch?: WatchdogConfig;
 }
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
@@ -54,7 +54,7 @@ type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
 export class Core extends Emitter<CoreEventEmitter<any>> {
   private watchdog: Watchdog<UnitInterface>;
 
-  private readonly options: OptionsResolver;
+  private readonly config: ConfigResolver;
   private readonly parser: IntentBuilder;
   private readonly events: CoreEventBus;
 
@@ -66,15 +66,15 @@ export class Core extends Emitter<CoreEventEmitter<any>> {
   public constructor() {
     super();
     this.logger = new CoreLogger();
-    this.options= new OptionsResolver();
+    this.config= new ConfigResolver();
     this.parser = new IntentBuilder();
     this.events = new CoreEventBus();
     this.eventChainMonitor = new EventChainMonitor(this.events);
     this.dependencyTree = new DependencyManager();
   }
 
-  public bootstrap(options: CoreOptions): CoreOptions {
-    const resolved = this.options.resolve(options);
+  public bootstrap(config: CoreConfig): CoreConfig {
+    const resolved = this.config.resolve(config);
     const writer = resolved.emit.files ? new FileWriter() : new DummyWriter();
 
     if (resolved.watch) {
@@ -104,9 +104,9 @@ export class Core extends Emitter<CoreEventEmitter<any>> {
     return resolved;
   }
 
-  public start(options: CoreOptions): this {
+  public start(config: CoreConfig): this {
     let updates = this
-      .matched(options.resolver.paths.project, options.files)
+      .matched(config.resolver.paths.project, config.files)
       .map((path) => new UpdateEvent({ path }))
     ;
 

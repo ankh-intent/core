@@ -3,7 +3,7 @@ import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { StatEvent } from '../../kernel/event/events/StatEvent';
-import { CoreOptions } from '../../../Core';
+import { CoreConfig } from '../../../Core';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Logger } from '../../../intent-utils/Logger';
 import { LogStat } from './LogStat';
@@ -16,12 +16,12 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
     emitted: EmittedStat;
   };
 
-  public constructor(bus: CoreEventBus, options: CoreOptions, logger: Logger) {
+  public constructor(bus: CoreEventBus, config: CoreConfig, logger: Logger) {
     super(bus);
     this.logger = logger;
     this.processors = {
-      log: new LogStat(options, this.logger),
-      emitted: new EmittedStat(options, this.logger),
+      log: new LogStat(config, this.logger),
+      emitted: new EmittedStat(config, this.logger),
     };
   }
 

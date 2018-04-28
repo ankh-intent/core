@@ -1,20 +1,20 @@
 
 import * as path from 'path';
 
-import { ResolverOptions } from '../ResolverOptions';
+import { ResolverConfig } from '../ResolverConfig';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 
 export class BaseQualifierResolver implements QualifierResolverInterface {
-  protected options: ResolverOptions;
+  protected config: ResolverConfig;
 
-  public constructor(options: ResolverOptions) {
-    this.options = options;
+  public constructor(config: ResolverConfig) {
+    this.config = config;
   }
 
   public resolve(from: Chip): QualifierNode {
-    return this.parse(this.options.paths.project, from.path);
+    return this.parse(this.config.paths.project, from.path);
   }
 
   protected parse(base: string, original: string): QualifierNode {

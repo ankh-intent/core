@@ -2,7 +2,7 @@
 import path = require('path');
 
 import { Strings } from '../../intent-utils/Strings';
-import { CoreOptions } from '../../Core';
+import { CoreConfig } from '../../Core';
 import { Chip } from './Chip';
 
 export interface FileEmitResolverInterface {
@@ -12,10 +12,10 @@ export interface FileEmitResolverInterface {
 }
 
 class BaseFileEmitResolver implements FileEmitResolverInterface {
-  protected options: CoreOptions;
+  protected config: CoreConfig;
 
-  public constructor(options: CoreOptions) {
-    this.options = options;
+  public constructor(config: CoreConfig) {
+    this.config = config;
   }
 
   protected getOriginalPath(chip: Chip): string {
@@ -23,11 +23,11 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
   }
 
   protected getBasePath(chip: Chip): string {
-    return this.options.resolver.paths.project;
+    return this.config.resolver.paths.project;
   }
 
   protected getOutputPath(chip: Chip): string {
-    return this.options.resolver.paths.output;
+    return this.config.resolver.paths.output;
   }
 
   public resolve(chip: Chip): string {
@@ -40,7 +40,7 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
 
   protected build(original: string, base: string, out: string) {
     let parts = path.parse(original);
-    let emit = path.join(parts.dir, parts.name + this.options.emit.extension);
+    let emit = path.join(parts.dir, parts.name + this.config.emit.extension);
     let common = Strings.longestCommon([emit, base])
       .pop()
       .replace(new RegExp(`\\${path.sep}$`), '')
@@ -54,12 +54,12 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
   static APPEND = '@lib';
 
   protected getBasePath(chip: Chip): string {
-    return this.options.resolver.paths.intent;
+    return this.config.resolver.paths.intent;
   }
 
   protected getOutputPath(chip: Chip): string {
     return path.join(
-      this.options.resolver.paths.output,
+      this.config.resolver.paths.output,
       (<typeof IntentFileEmitResolver>this.constructor).APPEND
     );
   }
@@ -79,10 +79,10 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
 export class FileEmitResolver extends BaseFileEmitResolver {
   public resolvers: FileEmitResolverInterface[];
 
-  public constructor(options: CoreOptions) {
-    super(options);
+  public constructor(config: CoreConfig) {
+    super(config);
     this.resolvers = [
-      new IntentFileEmitResolver(options),
+      new IntentFileEmitResolver(config),
     ]
   }
 

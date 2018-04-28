@@ -9,22 +9,22 @@ import { Compiler } from './transpiler/compiler/Compiler';
 import { Sampler } from './transpiler/compiler/Sampler';
 import { Template } from './transpiler/compiler/Template';
 import { Substitutor } from './transpiler/compiler/Substitutor';
-import { CoreOptions } from '../../../Core';
+import { CoreConfig } from '../../../Core';
 import { DependencyModifiedEvent } from '../watching/DependencyModifiedEvent';
 
-export interface InterpreterOptions {
+export interface InterpreterConfig {
 }
 
 export class DependencyModifiedConsumer extends AbstractConsumer<DependencyModifiedEvent, any>{
   private compiler: Compiler<any, string[]>;
   private sampler: Sampler;
   private substitutor: Substitutor<any>;
-  private options: CoreOptions;
+  private config: CoreConfig;
   private transpiler: ChipTranspiler;
 
-  public constructor(bus: CoreEventBus, options: CoreOptions) {
+  public constructor(bus: CoreEventBus, config: CoreConfig) {
     super(bus);
-    this.options = options;
+    this.config = config;
     this.sampler = new Sampler('{%', '%}');
     this.substitutor = new Substitutor(this.sampler);
     this.compiler = new Compiler(

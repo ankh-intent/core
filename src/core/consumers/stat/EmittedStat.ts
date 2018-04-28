@@ -5,13 +5,13 @@ import { StatEvent } from '../../kernel/event/events/StatEvent';
 import { Source } from '../reading/source/Source';
 import { BaseStat } from './BaseStat';
 import { Logger } from '../../../intent-utils/Logger';
-import { CoreOptions } from '../../../Core';
+import { CoreConfig } from '../../../Core';
 
 export class EmittedStat extends BaseStat {
   private logger: Logger;
 
-  public constructor(options: CoreOptions, logger: Logger) {
-    super(options);
+  public constructor(config: CoreConfig, logger: Logger) {
+    super(config);
     this.logger = logger;
   }
 
@@ -19,8 +19,8 @@ export class EmittedStat extends BaseStat {
     let path = (<Source>source).reference;
     let common = Strings.longestCommon([
       path,
-      this.options.resolver.paths.project,
-      this.options.resolver.paths.intent
+      this.config.resolver.paths.project,
+      this.config.resolver.paths.intent
     ]).pop();
     let cause = '<root>';
     let parent: CoreEvent<any> = event;

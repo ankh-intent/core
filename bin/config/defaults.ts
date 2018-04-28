@@ -1,14 +1,14 @@
 
 import * as path from 'path';
-import { CoreOptions } from '../../src/Core';
+import { CoreConfig } from '../../src/Core';
 
 const root = __dirname.replace('/build/', '/').replace(/\/config$/, '');
 
-const options: CoreOptions = {
+const config: CoreConfig = {
   emit: {
     files: true,
     stats: false,
-    options: false,
+    config: false,
     extension: '.i.js',
   },
   files: [
@@ -35,4 +35,4 @@ const options: CoreOptions = {
   },
 };
 
-export default options;
+export default config;

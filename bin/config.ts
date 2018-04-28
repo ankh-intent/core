@@ -5,15 +5,15 @@ const PRODUCTION = "production";
 const DEVELOPMENT = "development";
 
 export default (env) => {
-  let options;
+  let config;
 
   switch ((env || PRODUCTION).toLowerCase()) {
     case PRODUCTION:
-      options = require("./config/production").default;
+      config = require("./config/production").default;
       break;
 
     case DEVELOPMENT:
-      options = require("./config/development").default;
+      config = require("./config/development").default;
       break;
 
     default:
@@ -23,6 +23,6 @@ export default (env) => {
   return Object.assign(
     {},
     defaults,
-    options
+    config
   );
 };

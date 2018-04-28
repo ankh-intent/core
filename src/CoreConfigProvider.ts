@@ -1,17 +1,17 @@
 
 import * as path from 'path';
 
-import { AbstractOptionsProvider } from './core/kernel/config/AbstractOptionsProvider';
-import { Core, CoreOptions, EmitOptions } from './Core';
+import { AbstractConfigProvider } from './core/kernel/config/AbstractConfigProvider';
+import { Core, CoreConfig, EmitConfig } from './Core';
 import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
-import { WatchdogOptions } from './core/consumers/watching/watchdog/Watchdog';
-import { ResolverOptions } from './intent-core/chips/ResolverOptions';
-import { InterpreterOptions } from './core/consumers/interpreting/DependencyModifiedConsumer';
+import { WatchdogConfig } from './core/consumers/watching/watchdog/Watchdog';
+import { ResolverConfig } from './intent-core/chips/ResolverConfig';
+import { InterpreterConfig } from './core/consumers/interpreting/DependencyModifiedConsumer';
 
-export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
-  private _defaults: CoreOptions;
+export class CoreConfigProvider extends AbstractConfigProvider<CoreConfig> {
+  private _defaults: CoreConfig;
 
-  public constructor(defaults: CoreOptions) {
+  public constructor(defaults: CoreConfig) {
     super();
     this._defaults = defaults;
   }
@@ -25,7 +25,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     ;
   }
 
-  protected options(defaults: CoreOptions): any {
+  protected options(defaults: CoreConfig): any {
     let regexp = (r: RegExp|string) => {
       return (typeof r === 'string')
         ? r
@@ -69,10 +69,10 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
           "default": defaults.emit.stats,
           "requiresArg": false,
         },
-        "output-emit-options": {
+        "output-emit-config": {
           "type": "boolean",
-          "describe": "Emit to console the options, reconciled form command-line",
-          "default": defaults.emit.options,
+          "describe": "Emit to console the config, reconciled form command-line",
+          "default": defaults.emit.config,
           "requiresArg": false,
         },
         "output-extension": {
@@ -112,23 +112,23 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected emit(defaults: CoreOptions): EmitOptions {
+  protected emit(defaults: CoreConfig): EmitConfig {
     return {
       files: this.get("output-emit-files"),
       stats: this.get("output-emit-stats"),
-      options: this.get("output-emit-options"),
+      config: this.get("output-emit-config"),
       extension: this.get("output-extension"),
     };
   }
 
-  protected files(defaults: CoreOptions): UnitMatcher[] {
+  protected files(defaults: CoreConfig): UnitMatcher[] {
     return this.get('entry').map((pattern) => ({
       event: 'change',
       pattern: eval(pattern),
     }));
   }
 
-  protected watch(defaults: CoreOptions): WatchdogOptions {
+  protected watch(defaults: CoreConfig): WatchdogConfig {
     return this.get("watch") && {
         root: this.get("watch-root"),
         ignore: new RegExp(this.get("watch-ignore").replace('\\', '\\\\')),
@@ -136,7 +136,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
       };
   }
 
-  protected resolver(defaults: CoreOptions): ResolverOptions {
+  protected resolver(defaults: CoreConfig): ResolverConfig {
     return {
       paths: {
         project: path.resolve(this.get("work-dir")),
@@ -145,15 +145,15 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected interpreter(defaults: CoreOptions): InterpreterOptions {
+  protected interpreter(defaults: CoreConfig): InterpreterConfig {
     return {
     };
   }
 
-  public build(core: Core): CoreOptions {
+  public build(core: Core): CoreConfig {
     let defaults = this.defaults();
 
-    return <CoreOptions> {
+    return <CoreConfig> {
       emit: this.emit(defaults),
       files: this.files(defaults),
       resolver: this.resolver(defaults),
@@ -162,7 +162,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
     };
   }
 
-  protected defaults(): CoreOptions {
+  protected defaults(): CoreConfig {
     return this._defaults;
   }
 }

@@ -1,12 +1,12 @@
 
-import { CoreOptions } from '../../../Core';
+import { CoreConfig } from '../../../Core';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class BaseStat {
-  protected options: CoreOptions;
+  protected config: CoreConfig;
 
-  public constructor(options: CoreOptions) {
-    this.options = options;
+  public constructor(config: CoreConfig) {
+    this.config = config;
   }
 
   public process(event: StatEvent, data: any): StatEvent {

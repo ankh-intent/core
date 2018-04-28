@@ -1,14 +1,14 @@
 
 import { BaseStat } from './BaseStat';
 import { Logger } from '../../../intent-utils/Logger';
-import { CoreOptions } from '../../../Core';
+import { CoreConfig } from '../../../Core';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class LogStat extends BaseStat {
   private logger: Logger;
 
-  public constructor(options: CoreOptions, logger: Logger) {
-    super(options);
+  public constructor(config: CoreConfig, logger: Logger) {
+    super(config);
     this.logger = logger;
   }
 

@@ -1,19 +1,19 @@
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { ResolverOptions } from '../ResolverOptions';
+import { ResolverConfig } from '../ResolverConfig';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { Strings } from '../../../intent-utils/Strings';
 
 export class BaseUseResolver implements UseResolverInterface {
-  private options: ResolverOptions;
+  private config: ResolverConfig;
   public resolvers: UseResolverInterface[];
 
-  public constructor(options: ResolverOptions) {
-    this.options = options;
+  public constructor(config: ResolverConfig) {
+    this.config = config;
     this.resolvers = [
-      new IntentLibraryUseResolver(options),
+      new IntentLibraryUseResolver(config),
     ]
   }
 
@@ -36,7 +36,7 @@ export class BaseUseResolver implements UseResolverInterface {
       }
     }
 
-    let common = Strings.longestCommon([this.options.paths.project, from.path]).pop();
+    let common = Strings.longestCommon([this.config.paths.project, from.path]).pop();
     let resolved = from.path
         .replace(new RegExp(`^${common}`), '')
         .replace(/\/[^\/]+$/, '') + identifier.name + '.int'

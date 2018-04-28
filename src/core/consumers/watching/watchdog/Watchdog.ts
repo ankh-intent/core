@@ -4,7 +4,7 @@ import { UnitMatcher } from './matcher/UnitMatcher';
 import { UnitInterface } from './Unit';
 import { WatchItem } from './WatchItem';
 
-export interface WatchdogOptions {
+export interface WatchdogConfig {
   root: string;
   ignore: RegExp;
   aggregation: number;
@@ -12,14 +12,14 @@ export interface WatchdogOptions {
 
 export class Watchdog<U extends UnitInterface> {
   private uid: number = 0;
-  private options: WatchdogOptions;
+  private config: WatchdogConfig;
   private watches: {[index: number]: WatchItem<U>};
 
   public active: boolean;
 
-  public constructor(options: WatchdogOptions) {
+  public constructor(config: WatchdogConfig) {
     this.watches = {};
-    this.options = options;
+    this.config = config;
     this.active = false;
   }
 
@@ -31,7 +31,7 @@ export class Watchdog<U extends UnitInterface> {
     this.active = true;
 
     for (let item of items || this.all()) {
-      item.watch(this.options);
+      item.watch(this.config);
     }
   }
 
@@ -52,8 +52,8 @@ export class Watchdog<U extends UnitInterface> {
       delete this.watches[item.uid];
     });
 
-    if (this.options.aggregation) {
-      item.debounce(this.options.aggregation);
+    if (this.config.aggregation) {
+      item.debounce(this.config.aggregation);
     }
 
     return this.watches[item.uid] = item;

@@ -1,10 +1,10 @@
 
 import path = require('path');
-import { CoreOptions } from './Core';
+import { CoreConfig } from './Core';
 
-export class OptionsResolver {
-  public resolve(options: CoreOptions): CoreOptions {
-    let resolved = Object.assign({}, options);
+export class ConfigResolver {
+  public resolve(config: CoreConfig): CoreConfig {
+    let resolved = Object.assign({}, config);
 
     if (!resolved.resolver.paths.intent) {
       resolved.resolver.paths.intent = path.resolve(

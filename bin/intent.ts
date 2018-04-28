@@ -5,27 +5,27 @@ if (process.env.ENV !== 'production') {
 }
 
 import * as util from 'util';
-import config from './config';
+import configure from './config';
 import { Logger } from '../src/intent-utils/Logger';
-import { CoreOptionsProvider } from '../src/CoreOptionsProvider';
+import { CoreConfigProvider } from '../src/CoreConfigProvider';
 import { StatEvent } from '../src/core/kernel/event/events/StatEvent';
 import { Core } from '../src/Core';
 
 ((core: Core) => {
-  let provider = new CoreOptionsProvider(
-    config(process.env.ENV)
+  let provider = new CoreConfigProvider(
+    configure(process.env.ENV)
   );
-  let options = core.bootstrap(
+  let config = core.bootstrap(
     {
       ...provider.build(core),
       ...{
-        // ... default options override here
+        // ... default config override here
       },
     }
   );
 
-  if (options.emit.options) {
-    core.logger.log(Logger.INFO, util.inspect(options, {depth: null}));
+  if (config.emit.config) {
+    core.logger.log(Logger.INFO, util.inspect(config, {depth: null}));
 
     process.exit(0);
   }
@@ -35,7 +35,7 @@ import { Core } from '../src/Core';
 
     switch (type) {
       case StatEvent.type():
-        if (options.emit.stats) {
+        if (config.emit.stats) {
           core.logger.log(Logger.INFO, event, JSON.stringify(util.inspect(data.stat, {
             depth: null,
           })));
@@ -49,5 +49,5 @@ import { Core } from '../src/Core';
     }
   });
 
-  return core.start(options);
+  return core.start(config);
 })(new Core());

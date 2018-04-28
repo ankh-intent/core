@@ -1,7 +1,7 @@
 
 import * as yargs from 'yargs';
 
-export abstract class AbstractOptionsProvider<O> {
+export abstract class AbstractConfigProvider<O> {
   private yargs;
   private _argv;
 
