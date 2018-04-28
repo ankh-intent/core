@@ -1,7 +1,7 @@
 
 import { Logger } from '../../../intent-utils/Logger';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { AbstractConsumer } from '../../kernel/AbstractConsumer';
+import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../parsing/parser/SyntaxError';

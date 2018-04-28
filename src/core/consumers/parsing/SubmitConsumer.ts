@@ -2,8 +2,8 @@
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ReadedEvent } from '../reading/ReadedEvent';
 import { ParsedEvent } from './ParsedEvent';
-import { AbstractConsumer } from '../../kernel/AbstractConsumer';
-import { ConsumerStat } from '../../kernel/ConsumerStat';
+import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
+import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { Context, Intent } from './parser/Tokenizer';
 import { Tokens } from './parser/Tokens';

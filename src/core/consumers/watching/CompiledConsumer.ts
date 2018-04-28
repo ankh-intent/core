@@ -1,7 +1,7 @@
 
 
-import { AbstractConsumer } from '../../kernel/AbstractConsumer';
-import { ConsumerStat } from '../../kernel/ConsumerStat';
+import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
+import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { UseResolverInterface } from '../../../intent-core/chips/use/UseResolverInterface';
 import { CoreEventBus } from "../../kernel/event/CoreEventBus";

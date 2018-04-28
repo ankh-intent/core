@@ -1,6 +1,6 @@
 
 import { CoreEvent } from './CoreEvent';
-import { AbstractConsumer } from '../AbstractConsumer';
+import { AbstractConsumer } from './consumer/AbstractConsumer';
 
 import { UpdateEvent } from '../../consumers/watching/UpdateEvent';
 import { Emitter } from '../../../intent-utils/Emitter';

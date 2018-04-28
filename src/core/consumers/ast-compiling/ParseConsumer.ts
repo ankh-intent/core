@@ -1,8 +1,8 @@
 
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ParsedEvent } from '../parsing/ParsedEvent';
-import { AbstractConsumer } from '../../kernel/AbstractConsumer';
-import { ConsumerStat } from '../../kernel/ConsumerStat';
+import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
+import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { ChipNode } from '../interpreting/intent/ast/ChipNode';
 import { ASTBuilder } from './ASTBuilder';

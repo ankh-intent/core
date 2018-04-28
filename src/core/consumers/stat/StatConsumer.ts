@@ -1,6 +1,6 @@
 
 import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { AbstractConsumer } from '../../kernel/AbstractConsumer';
+import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 import { CoreOptions } from '../../../Core';

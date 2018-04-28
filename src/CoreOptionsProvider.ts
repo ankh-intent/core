@@ -1,7 +1,7 @@
 
 import * as path from 'path';
 
-import { AbstractOptionsProvider } from './core/kernel/AbstractOptionsProvider';
+import { AbstractOptionsProvider } from './core/kernel/config/AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
 import { WatchdogOptions } from './core/consumers/watching/watchdog/Watchdog';
