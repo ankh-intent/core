@@ -2,6 +2,7 @@
 import { CoreEvent } from '../CoreEvent';
 import { SubmitEvent } from '../events/SubmitEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
+import { ConsumerStat } from './ConsumerStat';
 
 import { CoreEventBus } from '../CoreEventBus';
 import { UpdateEvent } from '../events/UpdateEvent';
@@ -9,6 +10,12 @@ import { FileReader } from "../../source/FileReader";
 import { Source } from '../../source/Source';
 import { ErrorEvent } from "../events/ErrorEvent";
 import { SyntaxError } from '../../parser/SyntaxError';
+
+export class UpdateStat extends ConsumerStat {
+  public constructor(public readonly path: string) {
+    super();
+  }
+}
 
 export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
   private reader: FileReader;
@@ -24,10 +31,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
 
   public process(event: UpdateEvent) {
     let { path } = event.data;
-    this.stat(event, {
-      type: 'update',
-      path: path,
-    });
+    this.stat(event, new UpdateStat(path));
 
     this.reader.read(path)
       .then((source: Source) => {

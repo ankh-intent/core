@@ -3,11 +3,19 @@ import { CoreEvent } from '../CoreEvent';
 import { CoreEventBus } from '../CoreEventBus';
 import { ParsedEvent } from '../events/ParsedEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
+import { ConsumerStat } from './ConsumerStat';
 import { CompiledEvent } from '../events/CompiledEvent';
 import { Chip } from '../../chips/Chip';
 import { ChipNode } from '../../intent/ast/ChipNode';
 import { DependencyManager } from '../../watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from '../../chips/qualifier/QualifierResolver';
+import { Source } from '../../source/Source';
+
+export class CompileStat extends ConsumerStat {
+  public constructor(public readonly source: Source) {
+    super();
+  }
+}
 
 export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>{
   private tree: DependencyManager;
@@ -25,10 +33,7 @@ export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>
 
   public process(event: ParsedEvent<ChipNode>) {
     let { source, ast } = event.data;
-    this.stat(event, {
-      type: 'compile',
-      path: source,
-    });
+    this.stat(event, new CompileStat(source));
 
     let chip;
     let node = this.tree.find(source.reference);

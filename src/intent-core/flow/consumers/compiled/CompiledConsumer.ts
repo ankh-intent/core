@@ -13,6 +13,13 @@ import { UpdateEvent } from '../../events/UpdateEvent';
 import { DependencyModifiedEvent } from './DependencyModifiedEvent';
 import { DependencyNode } from '../../../watchdog/dependencies/DependencyNode';
 import { Chip } from '../../../chips/Chip';
+import { ConsumerStat } from '../ConsumerStat';
+
+export class SynchronizeStat extends ConsumerStat {
+  public constructor(public readonly dependency: DependencyNode) {
+    super();
+  }
+}
 
 export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private resolver: UseResolverInterface;
@@ -30,10 +37,6 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
 
   public process(event: CompiledEvent) {
     let { dependency } = event.data;
-    this.stat(event, {
-      type: 'synchronize',
-      dependency,
-    });
 
     this.synchronize(dependency, event);
 
@@ -44,6 +47,8 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   private synchronize(node: DependencyNode, event: CoreEvent<any>) {
+    this.stat(event, new SynchronizeStat(node));
+
     let uses = this.uses(node.chip);
 
     let nodes = this.tree.all(Object.keys(uses), false);

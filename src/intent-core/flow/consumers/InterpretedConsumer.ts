@@ -1,12 +1,33 @@
 
 import { AbstractConsumer } from '../AbstractConsumer';
+import { ConsumerStat } from './ConsumerStat';
 import { CoreEvent } from '../CoreEvent';
 import { InterpretedEvent } from '../events/InterpretedEvent';
 import { CoreEventBus } from '../CoreEventBus';
 import { FileWriter } from '../../source/FileWriter';
 import { ErrorEvent } from '../events/ErrorEvent';
+import { Source } from '../../source/Source';
 import { StringSource } from '../../source/StringSource';
 import { FileEmitResolver } from '../../chips/FileEmitResolver';
+import { Chip } from '../../chips/Chip';
+
+export class EmitStat extends ConsumerStat {
+  public constructor(public readonly chip: Chip, public readonly start: number) {
+    super();
+  }
+}
+
+export class EmittedStat extends EmitStat {
+  public constructor(
+    public readonly chip: Chip,
+    public readonly source: Source,
+    public readonly start: number,
+    public readonly end: number,
+    public readonly index: number,
+  ) {
+    super(chip, start);
+  }
+}
 
 export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>{
   private total: number = 0;
@@ -26,11 +47,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
   public process(event: InterpretedEvent) {
     let { dependency, content } = event.data;
     let start = +new Date();
-    this.stat(event, {
-      type: 'emit',
-      chip: dependency.chip,
-      start,
-    });
+    this.stat(event, new EmitStat(dependency.chip, start));
 
     let resolved = this.resolver.resolve(dependency.chip);
     let source = new StringSource(content, resolved);
@@ -40,14 +57,13 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
       .then(() => {
         this.emit(event, false);
 
-        this.stat(event, {
-          type: 'emitted',
-          chip: dependency.chip,
+        this.stat(event, new EmittedStat(
+          dependency.chip,
           source,
           start,
-          end: +new Date(),
-          index: ++this.total,
-        });
+          +new Date(),
+          ++this.total,
+        ));
       })
       .catch((error) => {
         this.emit(new ErrorEvent({ error }, event))

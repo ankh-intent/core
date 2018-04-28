@@ -1,6 +1,6 @@
-
 import { CoreEvent } from '../CoreEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
+import { ConsumerStat } from './ConsumerStat';
 
 import { UpdateEvent } from '../events/UpdateEvent';
 import { ReadyEvent } from '../events/ReadyEvent';
@@ -14,6 +14,17 @@ import { DependencyNode } from '../../watchdog/dependencies/DependencyNode';
 interface RetainedWatch {
   node: DependencyNode,
   watches: WatchItem<UnitInterface>[],
+}
+
+export enum WatchdogStatType {
+  WATCH,
+  UNWATCH,
+}
+
+export class WatchdogStat extends ConsumerStat {
+  public constructor(public readonly watch: WatchdogStatType, public readonly node: DependencyNode) {
+    super();
+  }
 }
 
 export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractConsumer<ReadyEvent, any> {
@@ -72,10 +83,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
     this.watched.push({ node, watches });
     this.watchdog.start(watches);
 
-    this.stat(null, {
-      type: 'watchdog',
-      watch: node.chip.path,
-    });
+    this.stat(null, new WatchdogStat(WatchdogStatType.WATCH, node));
   }
 
   private unwatch(node: DependencyNode) {
@@ -91,10 +99,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
 
     this.watched = this.watched.filter((w) => w !== retainedWatch);
 
-    this.stat(null, {
-      type: 'watchdog',
-      unwatch: node.chip.path,
-    });
+    this.stat(null, new WatchdogStat(WatchdogStatType.UNWATCH, node));
   }
 
   protected event(data) {

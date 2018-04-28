@@ -3,6 +3,7 @@ import { CoreEvent } from '../CoreEvent';
 import { SubmitEvent } from '../events/SubmitEvent';
 import { ParsedEvent } from '../events/ParsedEvent';
 import { AbstractConsumer } from '../AbstractConsumer';
+import { ConsumerStat } from './ConsumerStat';
 
 import { Context, Intent } from '../../parser/Tokenizer';
 import { Tokens } from '../../parser/Tokens';
@@ -11,6 +12,13 @@ import { ChipNode } from '../../intent/ast/ChipNode';
 import { ASTBuilder } from '../../ASTBuilder';
 import { CoreEventBus } from '../CoreEventBus';
 import { ErrorEvent } from '../events/ErrorEvent';
+import { Source } from '../../source/Source';
+
+export class ParseStat extends ConsumerStat {
+  public constructor(public readonly source: Source) {
+    super();
+  }
+}
 
 export class SubmitConsumer extends AbstractConsumer<SubmitEvent, any>{
   private parser: ASTBuilder<ChipNode>;
@@ -26,10 +34,7 @@ export class SubmitConsumer extends AbstractConsumer<SubmitEvent, any>{
 
   public process(event: SubmitEvent) {
     let { source } = event.data;
-    this.stat(event, {
-      type: 'parse',
-      source,
-    });
+    this.stat(event, new ParseStat(source));
 
     try {
       return new ParsedEvent({
