@@ -3,7 +3,7 @@ import { Tokens } from '../../../parsing/parser/Tokens';
 
 import { ChipNode } from '../ast/ChipNode';
 import { BaseBuilder } from './BaseBuilder';
-import { UseBuilder } from "./UseBuilder";
+import { UseBuilder } from './UseBuilder';
 import { CanBuilder } from './CanBuilder';
 import { DomainBuilder } from './DomainBuilder';
 

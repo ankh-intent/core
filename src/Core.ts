@@ -30,7 +30,7 @@ import { ReadyEvent } from './core/kernel/event/events/ReadyEvent';
 import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/event/EventChainMonitor';
 import { FileEmitResolver } from './intent-core/chips/FileEmitResolver';
 import { CoreLogger } from './core/kernel/logging/CoreLogger';
-import { DummyWriter } from "./core/consumers/reading/source/DummyWriter";
+import { DummyWriter } from './core/consumers/reading/source/DummyWriter';
 import { DependencyManager } from './core/consumers/watching/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
 

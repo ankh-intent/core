@@ -5,7 +5,7 @@ import { AbstractOptionsProvider } from './core/kernel/config/AbstractOptionsPro
 import { Core, CoreOptions, EmitOptions } from './Core';
 import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
 import { WatchdogOptions } from './core/consumers/watching/watchdog/Watchdog';
-import { ResolverOptions } from "./intent-core/chips/ResolverOptions";
+import { ResolverOptions } from './intent-core/chips/ResolverOptions';
 import { InterpreterOptions } from './core/consumers/interpreting/DependencyModifiedConsumer';
 
 export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {

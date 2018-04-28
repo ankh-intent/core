@@ -6,9 +6,9 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { UpdateEvent } from '../watching/UpdateEvent';
-import { FileReader } from "./source/FileReader";
+import { FileReader } from './source/FileReader';
 import { Source } from './source/Source';
-import { ErrorEvent } from "../../kernel/event/events/ErrorEvent";
+import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../parsing/parser/SyntaxError';
 
 export class UpdateStat extends ConsumerStat {
