@@ -80,6 +80,7 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
     this.eventChainMonitor = new EventChainMonitor(this.events);
     this.dependencyTree = new DependencyManager();
 
+    this.events.reset();
     this.events.add(this.eventChainMonitor);
 
     this.events

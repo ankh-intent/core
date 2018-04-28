@@ -9,6 +9,10 @@ export class CoreEventBus {
     return this.consumers.push(consumer), this;
   }
 
+  public reset() {
+    this.consumers = [];
+  }
+
   public off(consumer: CoreEventConsumer<any, any>): number {
     let index, n = 0;
 
