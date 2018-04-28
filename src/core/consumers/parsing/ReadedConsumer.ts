@@ -8,10 +8,6 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { Context, Intent } from './parser/Tokenizer';
 import { Tokens } from './parser/Tokens';
 
-import { ChipNode } from '../interpreting/intent/ast/ChipNode';
-import { ASTBuilder } from '../ast-compiling/ASTBuilder';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { Source } from '../reading/source/Source';
 
 export class ParseStat extends ConsumerStat {
@@ -20,14 +16,7 @@ export class ParseStat extends ConsumerStat {
   }
 }
 
-export class SubmitConsumer extends AbstractConsumer<ReadedEvent, any>{
-  private readonly parser: ASTBuilder<ChipNode>;
-
-  public constructor(bus: CoreEventBus, parser: ASTBuilder<ChipNode>) {
-    super(bus);
-    this.parser = parser;
-  }
-
+export class ReadedConsumer extends AbstractConsumer<ReadedEvent, any>{
   public supports(event: CoreEvent<any>): boolean {
     return event.type === ReadedEvent.type();
   }
@@ -38,22 +27,21 @@ export class SubmitConsumer extends AbstractConsumer<ReadedEvent, any>{
 
     return new ParsedEvent({
       source,
-      tokens:
-        new Tokens(
-          (context: Context) => {
-            let token;
+      tokens: new Tokens(
+        (context: Context) => {
+          let token;
 
-            while (token = Intent.wrapped(context)) {
-              if (token.type !== 'whitespace') {
-                break;
-              }
+          while (token = Intent.wrapped(context)) {
+            if (token.type !== 'whitespace') {
+              break;
             }
+          }
 
-            return token;
-          },
-          source,
-          source.range()
-        ),
+          return token;
+        },
+        source,
+        source.range()
+      ),
     });
   }
 }

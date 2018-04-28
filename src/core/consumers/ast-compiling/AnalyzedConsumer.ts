@@ -17,7 +17,7 @@ export class CompileStat extends ConsumerStat {
   }
 }
 
-export class ParsedConsumer extends AbstractConsumer<AnalyzedEvent<ChipNode>, any>{
+export class AnalyzedConsumer extends AbstractConsumer<AnalyzedEvent<ChipNode>, any>{
   private readonly tree: DependencyManager;
   private readonly resolver: QualifierResolver;
 

@@ -17,8 +17,8 @@ import { FatalEvent } from './core/kernel/event/events/FatalEvent';
 import { FileWriter } from './core/consumers/reading/source/FileWriter';
 import { Finder } from './core/consumers/reading/source/Finder';
 
-import { SubmitConsumer } from './core/consumers/parsing/SubmitConsumer';
-import { ParsedConsumer } from './core/consumers/ast-compiling/ParsedConsumer';
+import { ReadedConsumer } from './core/consumers/parsing/ReadedConsumer';
+import { AnalyzedConsumer } from './core/consumers/ast-compiling/AnalyzedConsumer';
 import { CompiledConsumer } from './core/consumers/watching/CompiledConsumer';
 import { UpdateConsumer } from './core/consumers/reading/UpdateConsumer';
 import { DependencyModifiedConsumer, InterpreterConfig } from './core/consumers/interpreting/DependencyModifiedConsumer';
@@ -33,6 +33,7 @@ import { CoreLogger } from './core/kernel/logging/CoreLogger';
 import { DummyWriter } from './core/consumers/reading/source/DummyWriter';
 import { DependencyManager } from './core/consumers/watching/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
+import { ParseConsumer } from './core/consumers/ast-compiling/ParseConsumer';
 
 export interface EmitConfig {
   files: boolean;
@@ -86,8 +87,9 @@ export class Core extends Emitter<CoreEventEmitter<any>> {
 
     this.events
       .add(new UpdateConsumer(this.events))
-      .add(new SubmitConsumer(this.events, this.parser))
-      .add(new ParsedConsumer(this.events, new QualifierResolver(resolved.resolver), this.dependencyTree))
+      .add(new ReadedConsumer(this.events))
+      .add(new ParseConsumer(this.events, this.parser))
+      .add(new AnalyzedConsumer(this.events, new QualifierResolver(resolved.resolver), this.dependencyTree))
       .add(new CompiledConsumer(this.events, resolved.resolver, this.dependencyTree))
       .add(new DependencyModifiedConsumer(this.events, resolved))
       .add(new InterpretedConsumer(this.events, new FileEmitResolver(resolved), writer))
