@@ -5,10 +5,10 @@ import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { InterpretedEvent } from './InterpretedEvent';
 import { CoreEventBus } from '../../kernel/CoreEventBus';
 import { ChipTranspiler } from './intentlang/templates/ChipTranspiler';
-import { Compiler } from './compiler/Compiler';
-import { Sampler } from './compiler/Sampler';
-import { Template } from './Template';
-import { Substitutor } from './Substitutor';
+import { Compiler } from './transpiler/compiler/Compiler';
+import { Sampler } from './transpiler/compiler/Sampler';
+import { Template } from './transpiler/compiler/Template';
+import { Substitutor } from './transpiler/compiler/Substitutor';
 import { CoreOptions } from '../../../Core';
 import { DependencyModifiedEvent } from '../watching/DependencyModifiedEvent';
 

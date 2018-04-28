@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../transpiler/AbstractTranspiler';
 import { ChipNode } from '../../intent/ast/ChipNode';
 import { DomainTranspiler } from './DomainTranspiler';
 import { CanTranspiler } from './CanTranspiler';

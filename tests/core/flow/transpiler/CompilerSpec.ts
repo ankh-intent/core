@@ -1,9 +1,9 @@
 
 import { pit } from '../../../util/spec-extensions';
 
-import { TemplateInterface } from '../../../../src/core/consumers/interpreting/compiler/TemplateInterface';
-import { Compiler } from '../../../../src/core/consumers/interpreting/compiler/Compiler';
-import { Sampler } from '../../../../src/core/consumers/interpreting/compiler/Sampler';
+import { TemplateInterface } from '../../../../src/core/consumers/interpreting/transpiler/compiler/TemplateInterface';
+import { Compiler } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Compiler';
+import { Sampler } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Sampler';
 
 describe('Compiler', () => {
 

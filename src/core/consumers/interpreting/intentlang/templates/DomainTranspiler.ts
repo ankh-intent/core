@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../transpiler/AbstractTranspiler';
 import { DomainNode } from '../../intent/ast/DomainNode';
 import { TypedefTranspiler } from './TypedefTranspiler';
 import { TypeDefNode } from '../../intent/ast/TypeDefNode';

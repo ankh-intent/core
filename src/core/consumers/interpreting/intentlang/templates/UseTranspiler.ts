@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler } from './AbstractTranspiler';
+import { AbstractTranspiler } from '../../transpiler/AbstractTranspiler';
 import { UseNode } from '../../intent/ast/UseNode';
 
 export class UseTranspiler extends AbstractTranspiler<UseNode> {

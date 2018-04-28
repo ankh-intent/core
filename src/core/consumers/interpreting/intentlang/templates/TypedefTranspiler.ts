@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from './AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../transpiler/AbstractTranspiler';
 import { TypeDefNode } from '../../intent/ast/TypeDefNode';
 import { TypeNode } from '../../intent/ast/TypeNode';
 import { CanTranspiler } from './CanTranspiler';

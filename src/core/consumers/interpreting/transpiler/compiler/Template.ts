@@ -1,8 +1,8 @@
 
-import { TemplateInterface } from './compiler/TemplateInterface';
+import { TemplateInterface } from './TemplateInterface';
 import { DataResolver, SubstitutorInterface } from './Substitutor';
-import { MatchedPlaceholder } from './compiler/SamplerInterface';
-import { Strings } from '../../../intent-utils/Strings';
+import { MatchedPlaceholder } from './SamplerInterface';
+import { Strings } from '../../../../../intent-utils/Strings';
 
 export class Template<S> implements TemplateInterface<S, string[]> {
   private substitutor: SubstitutorInterface<S, string[]>;

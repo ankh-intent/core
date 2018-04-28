@@ -1,5 +1,5 @@
 
-import { MatchedPlaceholder, SamplerInterface } from './compiler/SamplerInterface';
+import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
 
 export type MatchConsumer<S> = (result: any, match: MatchedPlaceholder, data: S[keyof S]) => any;
 export type DataResolver<S, K extends keyof S = keyof S> = (data: S, key: K) => S[K];
