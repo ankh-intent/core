@@ -2,8 +2,8 @@
 import { Range } from '../../parsing/parser/Tokens';
 
 export class Source {
-  public content: string;
-  public reference: any;
+  public readonly content: string;
+  public readonly reference: any;
 
   public extract(start: number, end: number): string {
     return this.content.substr(start, end - start);

@@ -18,8 +18,8 @@ export class CompileStat extends ConsumerStat {
 }
 
 export class ParsedConsumer extends AbstractConsumer<AnalyzedEvent<ChipNode>, any>{
-  private tree: DependencyManager;
-  private resolver: QualifierResolver;
+  private readonly tree: DependencyManager;
+  private readonly resolver: QualifierResolver;
 
   public constructor(bus: CoreEventBus, resolver: QualifierResolver, tree: DependencyManager) {
     super(bus);

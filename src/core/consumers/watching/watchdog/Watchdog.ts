@@ -12,8 +12,8 @@ export interface WatchdogConfig {
 
 export class Watchdog<U extends UnitInterface> {
   private uid: number = 0;
-  private config: WatchdogConfig;
-  private watches: {[index: number]: WatchItem<U>};
+  private readonly config: WatchdogConfig;
+  private readonly watches: {[index: number]: WatchItem<U>};
 
   public active: boolean;
 

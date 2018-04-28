@@ -5,9 +5,9 @@ import { MatchedPlaceholder } from './SamplerInterface';
 import { Strings } from '../../../../../intent-utils/Strings';
 
 export class Template<S> implements TemplateInterface<S, string[]> {
-  private substitutor: SubstitutorInterface<S, string[]>;
-  private resolver: DataResolver<S>;
-  private line: string;
+  private readonly substitutor: SubstitutorInterface<S, string[]>;
+  private readonly resolver: DataResolver<S>;
+  private readonly line: string;
 
   public constructor(line: string, substitutor: SubstitutorInterface<S, string[]>, resolver: DataResolver<S>) {
     this.line = line;

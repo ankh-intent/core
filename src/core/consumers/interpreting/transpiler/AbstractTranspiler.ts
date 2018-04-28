@@ -11,8 +11,8 @@ export interface TranspilerInterface<S> {
 
 export abstract class AbstractTranspiler<S> implements TranspilerInterface<S> {
   private _template: TemplateInterface<S, string[]>;
-  protected compiler: Compiler<any, string[]>;
-  protected visitors: Container<TranspilerInterface<any>> = {};
+  protected readonly compiler: Compiler<any, string[]>;
+  protected readonly visitors: Container<TranspilerInterface<any>> = {};
 
   public constructor(compiler: Compiler<any, string[]>) {
     this.compiler = compiler;

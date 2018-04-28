@@ -22,8 +22,8 @@ export class SynchronizeStat extends ConsumerStat {
 }
 
 export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
-  private resolver: UseResolverInterface;
-  private tree: DependencyManager;
+  private readonly resolver: UseResolverInterface;
+  private readonly tree: DependencyManager;
 
   public constructor(bus: CoreEventBus, config: ResolverConfig, tree: DependencyManager) {
     super(bus);

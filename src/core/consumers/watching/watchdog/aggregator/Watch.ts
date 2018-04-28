@@ -1,6 +1,6 @@
 
 export class Watch {
-  private callback: Function;
+  private readonly callback: Function;
   private timer: any;
   private started: number;
 

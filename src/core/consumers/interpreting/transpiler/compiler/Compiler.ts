@@ -9,8 +9,8 @@ export interface TemplateFactoryInterface<S, R> {
 }
 
 export class Compiler<S, R> {
-  private sampler: Sampler;
-  private factory: TemplateFactoryInterface<S, R>;
+  private readonly sampler: Sampler;
+  private readonly factory: TemplateFactoryInterface<S, R>;
 
   public constructor(sampler: Sampler, factory?: TemplateFactoryInterface<S, R>) {
     this.sampler = sampler;

@@ -7,7 +7,7 @@ export interface Visitor<D, R> {
 }
 
 export class Visitors<D, R, V extends Visitor<D, R> = Visitor<D, R>> {
-  private visitors: Container<V> = {};
+  private readonly visitors: Container<V> = {};
 
   public register(name: string, visitor: V): this {
     this.visitors[name] = visitor;

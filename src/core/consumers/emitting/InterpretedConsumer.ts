@@ -30,9 +30,9 @@ export class EmittedStat extends EmitStat {
 }
 
 export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>{
+  private readonly writer: FileWriter;
+  private readonly resolver: FileEmitResolver;
   private total: number = 0;
-  private writer: FileWriter;
-  private resolver: FileEmitResolver;
 
   public constructor(bus: CoreEventBus, resolver: FileEmitResolver, writer: FileWriter) {
     super(bus);

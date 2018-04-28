@@ -3,7 +3,7 @@ import { CoreConfig } from '../../../Core';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class BaseStat {
-  protected config: CoreConfig;
+  protected readonly config: CoreConfig;
 
   public constructor(config: CoreConfig) {
     this.config = config;

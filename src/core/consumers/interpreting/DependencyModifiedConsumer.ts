@@ -16,11 +16,11 @@ export interface InterpreterConfig {
 }
 
 export class DependencyModifiedConsumer extends AbstractConsumer<DependencyModifiedEvent, any>{
-  private compiler: Compiler<any, string[]>;
-  private sampler: Sampler;
-  private substitutor: Substitutor<any>;
-  private config: CoreConfig;
-  private transpiler: ChipTranspiler;
+  private readonly compiler: Compiler<any, string[]>;
+  private readonly sampler: Sampler;
+  private readonly substitutor: Substitutor<any>;
+  private readonly config: CoreConfig;
+  private readonly transpiler: ChipTranspiler;
 
   public constructor(bus: CoreEventBus, config: CoreConfig) {
     super(bus);

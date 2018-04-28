@@ -11,13 +11,11 @@ export class Range {
 }
 
 export class Tokens {
+  private readonly tokenizer: Tokenizer;
+  private readonly context: Context;
+  private readonly tokens: {[index: number]: Token} = {};
   private index: number;
   private last: number;
-  private tokenizer: Tokenizer;
-
-  private context: Context;
-
-  private tokens: {[index: number]: Token} = {};
 
   public constructor(tokenizer: Tokenizer, source: Source, range: Range) {
     this.index = 0;

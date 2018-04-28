@@ -9,7 +9,7 @@ export interface SubstitutorInterface<S, R> {
 }
 
 export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
-  private sampler: SamplerInterface;
+  private readonly sampler: SamplerInterface;
 
   public constructor(sampler: SamplerInterface) {
     this.sampler = sampler;
@@ -31,8 +31,8 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
 }
 
 export class Seeker {
-  protected sampler: SamplerInterface;
-  protected line: string;
+  protected readonly sampler: SamplerInterface;
+  protected readonly line: string;
   protected current: MatchedPlaceholder;
 
   public constructor(sampler: SamplerInterface, line: string) {

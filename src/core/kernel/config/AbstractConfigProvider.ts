@@ -2,12 +2,7 @@
 import * as yargs from 'yargs';
 
 export abstract class AbstractConfigProvider<O> {
-  private yargs;
   private _argv;
-
-  public constructor() {
-    this.yargs = yargs;
-  }
 
   protected argv() {
     let map = this.options(

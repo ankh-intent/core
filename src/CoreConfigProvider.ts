@@ -9,7 +9,7 @@ import { ResolverConfig } from './intent-core/chips/ResolverConfig';
 import { InterpreterConfig } from './core/consumers/interpreting/DependencyModifiedConsumer';
 
 export class CoreConfigProvider extends AbstractConfigProvider<CoreConfig> {
-  private _defaults: CoreConfig;
+  private readonly _defaults: CoreConfig;
 
   public constructor(defaults: CoreConfig) {
     super();

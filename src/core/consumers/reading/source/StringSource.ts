@@ -2,9 +2,7 @@
 import { Source } from './Source';
 
 export class StringSource extends Source {
-  public constructor(content: string, reference?: any) {
+  public constructor(public readonly content: string, public readonly reference: any = null) {
     super();
-    this.content = content;
-    this.reference = reference;
   }
 }

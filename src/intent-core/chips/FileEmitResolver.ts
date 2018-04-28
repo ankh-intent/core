@@ -12,7 +12,7 @@ export interface FileEmitResolverInterface {
 }
 
 class BaseFileEmitResolver implements FileEmitResolverInterface {
-  protected config: CoreConfig;
+  protected readonly config: CoreConfig;
 
   public constructor(config: CoreConfig) {
     this.config = config;
@@ -77,7 +77,7 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
 }
 
 export class FileEmitResolver extends BaseFileEmitResolver {
-  public resolvers: FileEmitResolverInterface[];
+  public readonly resolvers: FileEmitResolverInterface[];
 
   public constructor(config: CoreConfig) {
     super(config);

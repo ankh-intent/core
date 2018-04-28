@@ -9,7 +9,7 @@ export class DependencyManager extends Eventable {
   static RETAIN = 'retain';
   static RELEASE = 'release';
 
-  public roots: Container<DependencyNode> = {};
+  public readonly roots: Container<DependencyNode> = {};
 
   public onretain(handler, once?: boolean): number {
     return (

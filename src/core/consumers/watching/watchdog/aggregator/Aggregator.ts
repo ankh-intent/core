@@ -6,7 +6,7 @@ import { Watch } from './Watch';
 export class Aggregator<A, H extends ArrayConsumer<A>> {
   private aggregated: A[];
 
-  public delay: number;
+  public readonly delay: number;
   public debounced: {
     emitter: Emitter<H>,
     watch: Watch,

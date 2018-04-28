@@ -10,7 +10,7 @@ import { Strings } from '../../../intent-utils/Strings';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
-  private logger: Logger;
+  private readonly logger: Logger;
 
   public constructor(bus: CoreEventBus, logger: Logger) {
     super(bus);

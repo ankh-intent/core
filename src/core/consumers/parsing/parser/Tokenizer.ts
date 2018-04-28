@@ -26,13 +26,12 @@ export class Intent {
     }
 
     if (type = this.base(context.source, context)) {
-      let token = new Token();
-      token.source = context.source;
-      token.start = was;
-      token.end = context.pos;
-      token.type = type;
-
-      return token;
+      return new Token(
+        context.source,
+        type,
+        was,
+        context.pos,
+      );
     }
   }
 

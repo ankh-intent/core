@@ -4,7 +4,7 @@ import { Chip } from '../../../../../intent-core/chips/Chip';
 export class DependencyNode implements Iterable<DependencyNode> {
   private _related: DependencyNode[];
 
-  public chip: Chip;
+  public readonly chip: Chip;
 
   public constructor(chip: Chip, related: DependencyNode[] = []) {
     this.chip = chip;

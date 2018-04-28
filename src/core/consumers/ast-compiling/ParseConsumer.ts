@@ -17,7 +17,7 @@ export class AstStat extends ConsumerStat {
 }
 
 export class ParseConsumer extends AbstractConsumer<ParsedEvent, any>{
-  private parser: ASTBuilder<ChipNode>;
+  private readonly parser: ASTBuilder<ChipNode>;
 
   public constructor(bus: CoreEventBus, parser: ASTBuilder<ChipNode>) {
     super(bus);

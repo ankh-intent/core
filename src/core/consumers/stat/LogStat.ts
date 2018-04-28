@@ -5,7 +5,7 @@ import { CoreConfig } from '../../../Core';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class LogStat extends BaseStat {
-  private logger: Logger;
+  private readonly logger: Logger;
 
   public constructor(config: CoreConfig, logger: Logger) {
     super(config);

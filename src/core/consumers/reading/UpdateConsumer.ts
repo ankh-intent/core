@@ -18,7 +18,7 @@ export class UpdateStat extends ConsumerStat {
 }
 
 export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
-  private reader: FileReader;
+  private readonly reader: FileReader;
 
   public constructor(bus: CoreEventBus) {
     super(bus);

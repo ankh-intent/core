@@ -10,8 +10,8 @@ import { LogStat } from './LogStat';
 import { EmittedStat } from './EmittedStat';
 
 export class StatConsumer extends AbstractConsumer<StatEvent, any>{
-  private logger: Logger;
-  private processors: {
+  private readonly logger: Logger;
+  private readonly processors: {
     log: LogStat;
     emitted: EmittedStat;
   };

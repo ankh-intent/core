@@ -1,7 +1,7 @@
 
 export interface CoreEvent<T> {
-  type: string;
-  data: T;
+  readonly type: string;
+  readonly data: T;
   parent: CoreEvent<any>;
   bubble: boolean;
 
@@ -10,8 +10,8 @@ export interface CoreEvent<T> {
 }
 
 export abstract class BaseCoreEvent<T> implements CoreEvent<T> {
-  public type: string;
-  public data: T;
+  public readonly type: string;
+  public readonly data: T;
   public parent: CoreEvent<any>;
   public bubble: boolean;
 

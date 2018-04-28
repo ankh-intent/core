@@ -8,7 +8,7 @@ import { Logger } from '../../../intent-utils/Logger';
 import { CoreConfig } from '../../../Core';
 
 export class EmittedStat extends BaseStat {
-  private logger: Logger;
+  private readonly logger: Logger;
 
   public constructor(config: CoreConfig, logger: Logger) {
     super(config);

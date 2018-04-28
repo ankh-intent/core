@@ -2,10 +2,13 @@
 import { Source } from '../../reading/source/Source';
 
 export class Token {
-  public source: Source;
-  public type: string;
-  public start: number;
-  public end: number;
+  constructor(
+    public readonly source: Source,
+    public readonly type: string,
+    public readonly start: number,
+    public readonly end: number,
+  ) {
+  }
 
   public get value(): string {
     return (this.type === 'string')

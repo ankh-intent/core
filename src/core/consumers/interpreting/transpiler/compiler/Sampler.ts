@@ -3,9 +3,9 @@ import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
 import { Strings } from '../../../../../intent-utils/Strings';
 
 export class Sampler implements SamplerInterface {
-  private opener: string;
-  private closer: string;
-  private cache : {[key: string]: string} = {};
+  private readonly opener: string;
+  private readonly closer: string;
+  private readonly cache : {[key: string]: string} = {};
 
   public constructor(opener: string, closer: string) {
     if (!(opener && closer)) {
