@@ -38,7 +38,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
     this.synchronize(dependency, event);
 
     return new DependencyModifiedEvent(
-      {dependency},
+      { dependency },
       event
     );
   }
@@ -47,7 +47,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
     let uses = this.uses(node.chip);
 
     let nodes = this.tree.all(Object.keys(uses), false);
-    let unknown: DependencyNode[] = [];
+    let unknown = [];
     let known = [];
 
     for (let dependency of nodes) {

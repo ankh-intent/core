@@ -31,17 +31,13 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
 
     this.reader.read(path)
       .then((source: Source) => {
-        this.emit(new SubmitEvent({
-          source,
-        }, event));
+        this.emit(new SubmitEvent({ source }, event));
       })
-      .catch((error: Error) => {
-        let e = new SyntaxError(error.message, null, 0);
-        e.parent = error;
+      .catch((e: Error) => {
+        let error = new SyntaxError(e.message, null, 0);
+        error.parent = e;
 
-        this.emit(new ErrorEvent({
-          error: e,
-        }, event));
+        this.emit(new ErrorEvent({ error }, event));
       })
     ;
   }

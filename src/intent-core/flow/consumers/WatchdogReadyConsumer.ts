@@ -53,7 +53,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
     return event;
   }
 
-  private watching(node: DependencyNode): RetainedWatch {
+  private watching(node: DependencyNode): RetainedWatch|null {
     return this.watched.find((v) => v.node === node);
   }
 
@@ -75,10 +75,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
       return watch;
     });
 
-    this.watched.push({
-      node,
-      watches,
-    });
+    this.watched.push({ node, watches });
     this.watchdog.start(watches);
 
     this.stat(null, {

@@ -70,17 +70,19 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   }
 
   public bootstrap(options: CoreOptions): CoreOptions {
-    this.eventChainMonitor = new EventChainMonitor(this.events);
-    this.dependencyTree = new DependencyManager();
-    let resolved = this.options.resolve(options);
-    let writer = resolved.emit.files ? new FileWriter() : new DummyWriter();
+    const resolved = this.options.resolve(options);
+    const writer = resolved.emit.files ? new FileWriter() : new DummyWriter();
 
     if (resolved.watch) {
       this.watchdog = new Watchdog(resolved.watch);
     }
 
+    this.eventChainMonitor = new EventChainMonitor(this.events);
+    this.dependencyTree = new DependencyManager();
+
+    this.events.add(this.eventChainMonitor);
+
     this.events
-      .add(this.eventChainMonitor)
       .add(new UpdateConsumer(this.events))
       .add(new SubmitConsumer(this.events, this.parser))
       .add(new ParsedConsumer(this.events, new QualifierResolver(resolved.resolver), this.dependencyTree))
@@ -89,20 +91,22 @@ export class Core extends Emitter<(event: CoreEvent<any>) => any> {
       .add(new InterpretedConsumer(this.events, new FileEmitResolver(resolved), writer))
       .add(new ErrorConsumer(this.events, this.logger))
       .add(new StatConsumer(this.events, resolved, this.logger))
-      .add(new WatchdogReadyConsumer(this.events, this.watchdog, this.dependencyTree))
-      .add(this.eventChainMonitor)
     ;
+
+    if (this.watchdog) {
+      this.events.add(new WatchdogReadyConsumer(this.events, this.watchdog, this.dependencyTree));
+    }
+
+    this.events.add(this.eventChainMonitor);
 
     return resolved;
   }
 
   public start(options: CoreOptions): this {
-    let updates = this.matched(
-      options.resolver.paths.project,
-      options.files
-    ).map((path) => {
-      return new UpdateEvent({path})
-    });
+    let updates = this
+      .matched(options.resolver.paths.project, options.files)
+      .map((path) => new UpdateEvent({ path }))
+    ;
 
     this.eventChainMonitor
       .monitor(updates)

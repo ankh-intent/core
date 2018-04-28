@@ -49,10 +49,8 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
           index: ++this.total,
         });
       })
-      .catch((err) => {
-        this.emit(new ErrorEvent({
-          error: err,
-        }, event))
+      .catch((error) => {
+        this.emit(new ErrorEvent({ error }, event))
       })
     ;
   }

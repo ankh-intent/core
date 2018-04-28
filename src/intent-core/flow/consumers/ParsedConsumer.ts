@@ -43,9 +43,7 @@ export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>
     chip.name = this.resolver.resolve(chip).path('.');
     chip.ast = this.patchAST(chip, ast);
 
-    return new CompiledEvent({
-      dependency: node,
-    });
+    return new CompiledEvent({ dependency: node });
   }
 
   protected patchAST(chip: Chip, ast: ChipNode) {
