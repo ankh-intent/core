@@ -1,5 +1,10 @@
+const REGEXP_GUARD = /[|\\{}()[\]^$+*?.]/g;
 
 export class Strings {
+
+  public static escapeRegExp(pattern: string) {
+    return pattern.replace(REGEXP_GUARD, '\\$&');
+  }
 
   public static shrink(string: string, to: number, left: boolean = false) {
     return (string.length > to)

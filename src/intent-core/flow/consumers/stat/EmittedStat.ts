@@ -40,7 +40,7 @@ export class EmittedStat extends BaseStat {
 
     let indexS = Strings.pad(String(index), 5, ' ', true);
     let causeS = Strings.shrink(cause, 10, true);
-    let pathS  = Strings.shrink(path.replace(new RegExp(`^${common}`), '@'), 60);
+    let pathS  = Strings.shrink(path.replace(new RegExp(`^${Strings.escapeRegExp(common)}`), '@'), 60);
     let timeS  = Strings.shrink(`~${String(end - start)}`, 6, true);
 
     this.logger.log(Logger.INFO, `${indexS} [${causeS}] ${pathS} ${timeS} ms`);
