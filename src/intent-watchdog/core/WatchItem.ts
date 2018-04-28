@@ -16,10 +16,10 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
 
   private watcher: any;
   private debounced: number;
-
-  public uid: number;
-  public matcher: UnitMatcher;
+  private readonly matcher: UnitMatcher;
   private _emitter: Emitter<ArrayConsumer<U>>;
+
+  public readonly uid: number;
 
   public constructor(uid: number, matcher: UnitMatcher) {
     super();

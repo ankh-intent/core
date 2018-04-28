@@ -17,8 +17,8 @@ interface RetainedWatch {
 }
 
 export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractConsumer<ReadyEvent, any> {
-  private watchdog: Watchdog<U>;
-  private tree: DependencyManager;
+  private readonly watchdog: Watchdog<U>;
+  private readonly tree: DependencyManager;
   private watched: RetainedWatch[] = [];
 
   public constructor(bus: CoreEventBus, watchdog: Watchdog<U>, tree: DependencyManager) {

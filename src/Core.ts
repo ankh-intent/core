@@ -52,9 +52,9 @@ export interface CoreOptions {
 export class Core extends Emitter<(event: CoreEvent<any>) => any> {
   private watchdog: Watchdog<UnitInterface>;
 
-  private options: OptionsResolver;
-  private parser: IntentBuilder;
-  private events: CoreEventBus;
+  private readonly options: OptionsResolver;
+  private readonly parser: IntentBuilder;
+  private readonly events: CoreEventBus;
 
   private eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
   private dependencyTree: DependencyManager;
