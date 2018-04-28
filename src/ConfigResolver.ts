@@ -8,7 +8,7 @@ export class ConfigResolver {
 
     if (!resolved.resolver.paths.intent) {
       resolved.resolver.paths.intent = path.resolve(
-        path.join(__dirname.replace(/[\\/]build[\\/]/, '/'), 'intent-core/intent/specification/lib/')
+        path.join(__dirname.replace(/[\\/]build[\\/]/, '/'), 'core/consumers/interpreting/intent/specification/lib/')
       );
     }
 

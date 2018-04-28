@@ -18,7 +18,7 @@ export class IntentLibraryUseResolver implements UseResolverInterface {
       return null;
     }
 
-    let relative = identifier.path('/').toLowerCase().replace(/^intent\//, '') + '.int';
+    let relative = identifier.path('/').toLowerCase().replace(/^intent[\/\\]/, '') + '.int';
     let resolved = path.join(this.config.paths.intent, relative);
 
     return new Chip(resolved);
