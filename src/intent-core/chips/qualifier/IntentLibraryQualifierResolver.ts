@@ -1,6 +1,6 @@
 
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../../core/consumers/transpiling/intent/ast/QualifierNode';
+import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 
 export class IntentLibraryQualifierResolver extends BaseQualifierResolver {

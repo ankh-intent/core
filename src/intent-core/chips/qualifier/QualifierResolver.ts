@@ -1,7 +1,7 @@
 
 import { ResolverOptions } from '../ResolverOptions';
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../../core/consumers/transpiling/intent/ast/QualifierNode';
+import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 import { IntentLibraryQualifierResolver } from './IntentLibraryQualifierResolver';

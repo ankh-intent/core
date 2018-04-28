@@ -4,7 +4,7 @@ import * as path from 'path';
 import { UseResolverInterface } from './UseResolverInterface';
 import { ResolverOptions } from '../ResolverOptions';
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../../core/consumers/transpiling/intent/ast/QualifierNode';
+import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 
 export class IntentLibraryUseResolver implements UseResolverInterface {
   private options: ResolverOptions;

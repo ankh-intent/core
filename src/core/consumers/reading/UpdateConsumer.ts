@@ -1,6 +1,6 @@
 
 import { CoreEvent } from '../../kernel/CoreEvent';
-import { SubmitEvent } from './SubmitEvent';
+import { ReadedEvent } from './ReadedEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 
@@ -35,7 +35,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
 
     this.reader.read(path)
       .then((source: Source) => {
-        this.emit(new SubmitEvent({ source }, event));
+        this.emit(new ReadedEvent({ source }, event));
       })
       .catch((e: Error) => {
         let error = new SyntaxError(e.message, null, 0);

@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import { ResolverOptions } from '../ResolverOptions';
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../../core/consumers/transpiling/intent/ast/QualifierNode';
+import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 
 export class BaseQualifierResolver implements QualifierResolverInterface {

@@ -2,7 +2,7 @@
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 import { CoreEvent } from '../../kernel/CoreEvent';
-import { InterpretedEvent } from '../transpiling/InterpretedEvent';
+import { InterpretedEvent } from '../interpreting/InterpretedEvent';
 import { CoreEventBus } from '../../kernel/CoreEventBus';
 import { FileWriter } from '../reading/source/FileWriter';
 import { ErrorEvent } from '../../kernel/events/ErrorEvent';

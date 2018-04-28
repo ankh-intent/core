@@ -8,7 +8,7 @@ import { UnitMatcher } from './core/kernel/watchdog/matcher/UnitMatcher';
 import { Watchdog, WatchdogOptions } from './core/kernel/watchdog/Watchdog';
 import { UnitInterface } from './core/kernel/watchdog/Unit';
 
-import { IntentBuilder } from './core/consumers/transpiling/intent/builder/IntentBuilder';
+import { IntentBuilder } from './core/consumers/interpreting/intent/builder/IntentBuilder';
 
 import { CoreEventBus } from './core/kernel/CoreEventBus';
 import { UpdateEvent } from './core/consumers/watching/UpdateEvent';
@@ -21,7 +21,7 @@ import { SubmitConsumer } from './core/consumers/parsing/SubmitConsumer';
 import { ParsedConsumer } from './core/consumers/ast-compiling/ParsedConsumer';
 import { CompiledConsumer } from './core/consumers/watching/CompiledConsumer';
 import { UpdateConsumer } from './core/consumers/reading/UpdateConsumer';
-import { DependencyModifiedConsumer, InterpreterOptions } from './core/consumers/transpiling/DependencyModifiedConsumer';
+import { DependencyModifiedConsumer, InterpreterOptions } from './core/consumers/interpreting/DependencyModifiedConsumer';
 import { StatConsumer } from './core/consumers/stat/StatConsumer';
 import { ErrorConsumer } from './core/consumers/errors/ErrorConsumer';
 import { InterpretedConsumer } from './core/consumers/emitting/InterpretedConsumer';

@@ -2,10 +2,10 @@
 import { Source } from './source/Source';
 import { BaseCoreEvent } from '../../kernel/CoreEvent';
 
-export interface SubmitEventProps {
+export interface ReadedEventProps {
   source: Source;
 }
 
-export class SubmitEvent extends BaseCoreEvent<SubmitEventProps> {
+export class ReadedEvent extends BaseCoreEvent<ReadedEventProps> {
 }
 
