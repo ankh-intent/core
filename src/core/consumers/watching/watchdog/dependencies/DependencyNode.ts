@@ -1,5 +1,5 @@
 
-import { Chip } from '../../../../intent-core/chips/Chip';
+import { Chip } from '../../../../../intent-core/chips/Chip';
 
 export class DependencyNode implements Iterable<DependencyNode> {
   private _related: DependencyNode[];

@@ -5,14 +5,14 @@ import { ConsumerStat } from '../../kernel/ConsumerStat';
 import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { UseResolverInterface } from '../../../intent-core/chips/use/UseResolverInterface';
 import { CoreEventBus } from "../../kernel/CoreEventBus";
-import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
+import { DependencyManager } from './watchdog/dependencies/DependencyManager';
 import { ResolverOptions } from '../../../intent-core/chips/ResolverOptions';
 import { BaseUseResolver } from "../../../intent-core/chips/use/BaseUseResolver";
 import { CoreEvent } from '../../kernel/CoreEvent';
 import { Objects } from '../../../intent-utils/Objects';
 import { UpdateEvent } from './UpdateEvent';
 import { DependencyModifiedEvent } from './DependencyModifiedEvent';
-import { DependencyNode } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { DependencyNode } from './watchdog/dependencies/DependencyNode';
 import { Chip } from '../../../intent-core/chips/Chip';
 
 export class SynchronizeStat extends ConsumerStat {

@@ -3,8 +3,8 @@ import * as path from 'path';
 
 import { AbstractOptionsProvider } from './core/kernel/AbstractOptionsProvider';
 import { Core, CoreOptions, EmitOptions } from './Core';
-import { UnitMatcher } from './core/kernel/watchdog/matcher/UnitMatcher';
-import { WatchdogOptions } from './core/kernel/watchdog/Watchdog';
+import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
+import { WatchdogOptions } from './core/consumers/watching/watchdog/Watchdog';
 import { ResolverOptions } from "./intent-core/chips/ResolverOptions";
 import { InterpreterOptions } from './core/consumers/interpreting/DependencyModifiedConsumer';
 

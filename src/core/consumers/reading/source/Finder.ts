@@ -2,7 +2,7 @@
 import fs = require('fs');
 import path = require('path');
 
-import { UnitMatcher } from '../../../kernel/watchdog/matcher/UnitMatcher';
+import { UnitMatcher } from '../../watching/watchdog/matcher/UnitMatcher';
 
 export class Finder {
   public find<T>(root: string, matcher: UnitMatcher, consumer: (path: string) => T): T {

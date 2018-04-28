@@ -4,9 +4,9 @@ import { OptionsResolver } from './OptionsResolver';
 
 import { Emitter } from './intent-utils/Emitter';
 import { Logger } from './intent-utils/Logger';
-import { UnitMatcher } from './core/kernel/watchdog/matcher/UnitMatcher';
-import { Watchdog, WatchdogOptions } from './core/kernel/watchdog/Watchdog';
-import { UnitInterface } from './core/kernel/watchdog/Unit';
+import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
+import { Watchdog, WatchdogOptions } from './core/consumers/watching/watchdog/Watchdog';
+import { UnitInterface } from './core/consumers/watching/watchdog/Unit';
 
 import { IntentBuilder } from './core/consumers/interpreting/intent/builder/IntentBuilder';
 
@@ -31,7 +31,7 @@ import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/Event
 import { FileEmitResolver } from './intent-core/chips/FileEmitResolver';
 import { IntentLogger } from './intent-core/IntentLogger';
 import { DummyWriter } from "./core/consumers/reading/source/DummyWriter";
-import { DependencyManager } from './core/kernel/watchdog/dependencies/DependencyManager';
+import { DependencyManager } from './core/consumers/watching/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from './intent-core/chips/qualifier/QualifierResolver';
 
 export interface EmitOptions {

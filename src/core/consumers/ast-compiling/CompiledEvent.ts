@@ -1,6 +1,6 @@
 
 import { BaseCoreEvent } from '../../kernel/CoreEvent';
-import { DependencyNode } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { DependencyNode } from '../watching/watchdog/dependencies/DependencyNode';
 
 export interface CompiledEventProps {
   dependency: DependencyNode;

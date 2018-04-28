@@ -6,7 +6,7 @@ import { ConsumerStat } from '../../kernel/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
 import { Chip } from '../../../intent-core/chips/Chip';
 import { ChipNode } from '../interpreting/intent/ast/ChipNode';
-import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
+import { DependencyManager } from '../watching/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from '../../../intent-core/chips/qualifier/QualifierResolver';
 import { Source } from '../reading/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
