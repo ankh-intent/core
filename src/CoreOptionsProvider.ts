@@ -50,6 +50,7 @@ export class CoreOptionsProvider extends AbstractOptionsProvider<CoreOptions> {
         },
         "output-dir": {
           "type": "string",
+          "alias": "o",
           "describe": "Directory to output emitted files to",
           "default": defaults.resolver.paths.output,
           "requiresArg": true,
