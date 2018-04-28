@@ -7,11 +7,12 @@ export class FileWriter {
   public write(source: Source, encoding: string = 'utf8'): Promise<Source> {
     return <Promise<Source>>this.assumeDir(path.dirname(source.reference))
       .then(() => new Promise((rs, rj) => {
-          fs.writeFile(source.reference, source.content, {encoding: encoding}, function (err) {
-            return err
-              ? rj(err)
-              : rs(source);
-          });
+          fs.writeFile(
+            source.reference,
+            source.content,
+            { encoding },
+            (e) => e ? rj(e) : rs(source),
+          );
         })
       )
     ;
