@@ -1,12 +1,12 @@
 
 import { Source } from '../reading/source/Source';
-import { TreeNode } from '../ast-compiling/tree/TreeNode';
 import { BaseCoreEvent } from '../../kernel/CoreEvent';
+import { Tokens } from './parser/Tokens';
 
-export interface ParsedEventProps<N extends TreeNode> {
+export interface ParsedEventProps {
   source: Source;
-  ast: N;
+  tokens: Tokens;
 }
 
-export class ParsedEvent<N extends TreeNode> extends BaseCoreEvent<ParsedEventProps<N>> {
+export class ParsedEvent extends BaseCoreEvent<ParsedEventProps> {
 }

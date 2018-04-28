@@ -1,7 +1,6 @@
 
 import { CoreEvent } from '../../kernel/CoreEvent';
 import { CoreEventBus } from '../../kernel/CoreEventBus';
-import { ParsedEvent } from '../parsing/ParsedEvent';
 import { AbstractConsumer } from '../../kernel/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
@@ -10,6 +9,7 @@ import { ChipNode } from '../interpreting/intent/ast/ChipNode';
 import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from '../../../intent-core/chips/qualifier/QualifierResolver';
 import { Source } from '../reading/source/Source';
+import { AnalyzedEvent } from './AnalyzedEvent';
 
 export class CompileStat extends ConsumerStat {
   public constructor(public readonly source: Source) {
@@ -17,7 +17,7 @@ export class CompileStat extends ConsumerStat {
   }
 }
 
-export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>{
+export class ParsedConsumer extends AbstractConsumer<AnalyzedEvent<ChipNode>, any>{
   private tree: DependencyManager;
   private resolver: QualifierResolver;
 
@@ -28,10 +28,10 @@ export class ParsedConsumer extends AbstractConsumer<ParsedEvent<ChipNode>, any>
   }
 
   public supports(event: CoreEvent<any>): boolean {
-    return event.type === ParsedEvent.type();
+    return event.type === AnalyzedEvent.type();
   }
 
-  public process(event: ParsedEvent<ChipNode>) {
+  public process(event: AnalyzedEvent<ChipNode>) {
     let { source, ast } = event.data;
     this.stat(event, new CompileStat(source));
 
