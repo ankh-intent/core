@@ -58,4 +58,11 @@ export class Watchdog<U extends UnitInterface> {
 
     return this.watches[item.uid] = item;
   }
+
+  public watchAll(pattern: string|RegExp, events: string[]): WatchItem<U>[] {
+    return events.map(event => this.watch({
+      event,
+      pattern,
+    }));
+  }
 }

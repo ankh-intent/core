@@ -20,20 +20,18 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
   private readonly watchdog: Watchdog<U>;
   private readonly tree: DependencyManager;
   private watched: RetainedWatch[] = [];
+  private static WATCHDOG_EVENTS = ['change', 'unlink', 'add'];
 
   public constructor(bus: CoreEventBus, watchdog: Watchdog<U>, tree: DependencyManager) {
     super(bus);
     this.watchdog = watchdog;
-
-    if (this.watchdog) {
-      this.tree = tree;
-      this.tree.onretain((node: DependencyNode) => {
-        this.watch(node);
-      });
-      this.tree.onrelease((node: DependencyNode) => {
-        this.unwatch(node);
-      })
-    }
+    this.tree = tree;
+    this.tree.onretain((node: DependencyNode) => {
+      this.watch(node);
+    });
+    this.tree.onrelease((node: DependencyNode) => {
+      this.unwatch(node);
+    })
   }
 
   public supports(event: CoreEvent<any>): boolean {
@@ -62,18 +60,14 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
       return;
     }
 
-    let path = node.chip.path;
-    let watches = ['change', 'unlink', 'add'].map((event: string) => {
-      let watch = this.watchdog
-        .watch({
-          event: event,
-          pattern: path,
-        });
+    let watches = this.watchdog
+      .watchAll(node.path, WatchdogReadyConsumer.WATCHDOG_EVENTS)
+      .map((watch) => {
+        watch.emitter.and(this.event.bind(this));
 
-      watch.emitter.and(this.event.bind(this));
-
-      return watch;
-    });
+        return watch;
+      })
+    ;
 
     this.watched.push({ node, watches });
     this.watchdog.start(watches);

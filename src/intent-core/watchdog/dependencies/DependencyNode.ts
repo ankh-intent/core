@@ -11,6 +11,10 @@ export class DependencyNode implements Iterable<DependencyNode> {
     this._related = related;
   }
 
+  public get path(): string {
+    return this.chip.path;
+  }
+
   public relations(): DependencyNode[] {
     return this._related;
   }
@@ -32,7 +36,7 @@ export class DependencyNode implements Iterable<DependencyNode> {
   }
 
   public related(name: string): DependencyNode {
-    if (this.chip.path === name) {
+    if (this.path === name) {
       return this;
     }
 
