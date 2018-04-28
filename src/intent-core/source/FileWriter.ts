@@ -5,7 +5,7 @@ import { Source } from './Source';
 
 export class FileWriter {
   public write(source: Source, encoding: string = 'utf8'): Promise<Source> {
-    return this.assumeDir(path.dirname(source.reference))
+    return <Promise<Source>>this.assumeDir(path.dirname(source.reference))
       .then(() => new Promise((rs, rj) => {
           fs.writeFile(source.reference, source.content, {encoding: encoding}, function (err) {
             return err
@@ -17,8 +17,8 @@ export class FileWriter {
     ;
   }
 
-  protected assumeDir(dir): Promise<string> {
-    return new Promise((rs, rj) => {
+  protected assumeDir(dir: string): Promise<string> {
+    return <Promise<string>>new Promise((rs, rj) => {
       try {
         fs.exists(dir, (exists) => {
           if (exists) {
