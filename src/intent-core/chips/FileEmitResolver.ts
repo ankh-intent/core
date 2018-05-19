@@ -2,7 +2,7 @@
 import path = require('path');
 
 import { Strings } from '../../intent-utils/Strings';
-import { CoreConfig } from '../../Core';
+import { CompilerConfig } from '../../intent/Compiler';
 import { Chip } from './Chip';
 
 export interface FileEmitResolverInterface {
@@ -12,9 +12,9 @@ export interface FileEmitResolverInterface {
 }
 
 class BaseFileEmitResolver implements FileEmitResolverInterface {
-  protected readonly config: CoreConfig;
+  protected readonly config: CompilerConfig;
 
-  public constructor(config: CoreConfig) {
+  public constructor(config: CompilerConfig) {
     this.config = config;
   }
 
@@ -23,11 +23,11 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
   }
 
   protected getBasePath(chip: Chip): string {
-    return this.config.resolver.paths.project;
+    return this.config.paths.project;
   }
 
   protected getOutputPath(chip: Chip): string {
-    return this.config.resolver.paths.output;
+    return this.config.output.path;
   }
 
   public resolve(chip: Chip): string {
@@ -40,7 +40,7 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
 
   protected build(original: string, base: string, out: string) {
     let parts = path.parse(original);
-    let emit = path.join(parts.dir, parts.name + this.config.emit.extension);
+    let emit = path.join(parts.dir, parts.name + this.config.output.extension);
     let common = Strings.longestCommon([emit, base])
       .pop()
       .replace(new RegExp(`\\${path.sep}$`), '')
@@ -59,7 +59,7 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
 
   protected getOutputPath(chip: Chip): string {
     return path.join(
-      this.config.resolver.paths.output,
+      this.config.output.path,
       (<typeof IntentFileEmitResolver>this.constructor).APPEND
     );
   }
@@ -79,7 +79,7 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
 export class FileEmitResolver extends BaseFileEmitResolver {
   public readonly resolvers: FileEmitResolverInterface[];
 
-  public constructor(config: CoreConfig) {
+  public constructor(config: CompilerConfig) {
     super(config);
     this.resolvers = [
       new IntentFileEmitResolver(config),

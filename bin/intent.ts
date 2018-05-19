@@ -7,38 +7,36 @@ if (process.env.ENV !== 'production') {
 import * as util from 'util';
 import configure from './config';
 import { Logger } from '../src/intent-utils/Logger';
-import { CoreConfigProvider } from '../src/CoreConfigProvider';
+import { Compiler, CompilerConfig } from '../src/intent/Compiler';
 import { StatEvent } from '../src/core/kernel/event/events/StatEvent';
 import { Core } from '../src/Core';
 
-((core: Core) => {
-  let provider = new CoreConfigProvider(
-    configure(process.env.ENV)
-  );
-  let config = core.bootstrap(
-    {
-      ...provider.build(core),
+((core: Core<CompilerConfig>) => {
+  const compiler = new Compiler();
+  const config = core.bootstrap({
+      ...configure(process.env.ENV),
       ...{
         // ... default config override here
       },
-    }
+    },
+    compiler,
   );
 
   if (config.emit.config) {
-    core.logger.log(Logger.INFO, util.inspect(config, {depth: null}));
+    console.log(util.inspect(config, {depth: null}));
 
-    process.exit(0);
+//    process.exit(0);
   }
 
   core.and((event) => {
-    let { type, data} = event;
+    const { type, data} = event;
 
     switch (type) {
       case StatEvent.type():
         if (config.emit.stats) {
-          core.logger.log(Logger.INFO, event, JSON.stringify(util.inspect(data.stat, {
+          core.logger.log(Logger.INFO, event, util.inspect(data.stat, {
             depth: null,
-          })));
+          }));
         }
         break;
 

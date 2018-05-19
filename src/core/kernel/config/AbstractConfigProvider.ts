@@ -26,8 +26,8 @@ export abstract class AbstractConfigProvider<O> {
     let built = yargs
       .usage(this.usage())
       .help("help")
-      .alias("help", "h")
       .version()
+      .alias("help", "h")
       .alias("version", "v")
       .options(options)
     ;

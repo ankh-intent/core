@@ -1,19 +1,19 @@
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { ResolverConfig } from '../ResolverConfig';
+import { CompilerConfig } from '../../../intent/Compiler';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { Strings } from '../../../intent-utils/Strings';
 
 export class BaseUseResolver implements UseResolverInterface {
-  private config: ResolverConfig;
+  private config: CompilerConfig;
   public resolvers: UseResolverInterface[];
 
-  public constructor(config: ResolverConfig) {
+  public constructor(config: CompilerConfig) {
     this.config = config;
     this.resolvers = [
-      new IntentLibraryUseResolver(config),
+      new IntentLibraryUseResolver(config.resolver),
     ]
   }
 

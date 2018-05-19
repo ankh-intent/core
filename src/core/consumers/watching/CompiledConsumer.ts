@@ -1,12 +1,12 @@
 
-
+import { Container } from '../../../intent-utils/Container';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { UseResolverInterface } from '../../../intent-core/chips/use/UseResolverInterface';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { DependencyManager } from './watchdog/dependencies/DependencyManager';
-import { ResolverConfig } from '../../../intent-core/chips/ResolverConfig';
+import { CompilerConfig } from '../../../intent/Compiler';
 import { BaseUseResolver } from '../../../intent-core/chips/use/BaseUseResolver';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { Objects } from '../../../intent-utils/Objects';
@@ -25,7 +25,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private readonly resolver: UseResolverInterface;
   private readonly tree: DependencyManager;
 
-  public constructor(bus: CoreEventBus, config: ResolverConfig, tree: DependencyManager) {
+  public constructor(bus: CoreEventBus, config: CompilerConfig, tree: DependencyManager) {
     super(bus);
     this.resolver = new BaseUseResolver(config);
     this.tree = tree;
@@ -52,8 +52,8 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
     let uses = this.uses(node.chip);
 
     let nodes = this.tree.all(Object.keys(uses), false);
-    let unknown = [];
-    let known = [];
+    let unknown: DependencyNode[] = [];
+    let known: DependencyNode[] = [];
 
     for (let dependency of nodes) {
       if (typeof dependency === 'string') {
@@ -76,11 +76,12 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
     }
 
     for (let dependency of unknown) {
-      this.emit(new UpdateEvent({ path: dependency.chip.path }, event))
+      // todo: entry forwarding
+      this.emit(new UpdateEvent({ path: dependency.path, entry: '%C' }, event));
     }
   }
 
-  protected uses(chip: Chip): {[name: string]: Chip} {
+  protected uses(chip: Chip): Container<Chip> {
     let links = {};
 
     for (let use of Objects.iterate(chip.ast.uses)) {

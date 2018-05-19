@@ -19,8 +19,8 @@ export class EmittedStat extends BaseStat {
     let path = (<Source>source).reference;
     let common = Strings.longestCommon([
       path,
-      this.config.resolver.paths.project,
-      this.config.resolver.paths.intent
+      this.config.paths.project,
+//      this.config.resolver.paths.intent // todo: fix library resolving
     ]).pop();
     let cause = '<root>';
     let parent: CoreEvent<any> = event;

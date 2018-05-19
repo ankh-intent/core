@@ -106,6 +106,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
     for (let { path } of data) {
       this.emit(new UpdateEvent({
         path,
+        entry: '%W', // todo: entry forwarding
       }));
     }
   }

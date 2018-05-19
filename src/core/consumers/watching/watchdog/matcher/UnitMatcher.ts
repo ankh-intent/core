@@ -1,6 +1,5 @@
 
 export interface UnitMatcher {
   pattern: string|RegExp;
-
-  event: string;
+  event?: string;
 }
