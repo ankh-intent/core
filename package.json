@@ -2,8 +2,8 @@
   "name": "intent",
   "version": "0.0.10",
   "description": "Intent language compiler core",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "build/bin/intent.ts",
+  "types": "bin/intent.d.ts",
   "scripts": {
     "executable": "chmod +x build/bin/intent.js",
     "intent": "npm run executable && node ./build/bin/intent.js",
