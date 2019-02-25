@@ -80,7 +80,7 @@ describe('Compiler', () => {
         let factory = jasmine.createSpy('factory', () => {});
         let sampler = new Sampler('{', '}');
         let resolver = (data, key) => data[key];
-        let compiler = new Compiler(
+        let compiler = new Compiler<any, any>(
           sampler,
           factory
         );
