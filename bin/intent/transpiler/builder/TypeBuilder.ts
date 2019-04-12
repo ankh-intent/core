@@ -1,4 +1,4 @@
-import { Tokens } from '~kernel/parser/Tokens';
+import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { TypeNode } from '../ast/TypeNode';
 import { QualifierBuilder } from './QualifierBuilder';

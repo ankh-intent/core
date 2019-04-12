@@ -1,10 +1,10 @@
-import { AbstractTranspiler, TranspilerInterface } from '~kernel/transpiler/AbstractTranspiler';
+import { Container } from '@intent/utils/Container';
+import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { ChipNode } from '../ast/ChipNode';
 import { DomainTranspiler } from './DomainTranspiler';
 import { CanTranspiler } from './CanTranspiler';
 import { UseTranspiler } from './UseTranspiler';
-import { Container } from '../../../../src/core/utils/Container';
 
 export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

@@ -6,7 +6,7 @@ ncp-debug.log
 npm-debug.log
 /build
 /**/*.js.map
-/**/*.js*
+/**/*.js
 /**/*.i.*
 /yarn-error.log
 /.stryker-tmp

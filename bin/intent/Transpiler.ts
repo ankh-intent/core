@@ -1,18 +1,19 @@
-import { PipelineObserver, Core, CoreConfig } from '../../src/core/Core';
-import { IntentBuilder } from './transpiler/builder/IntentBuilder';
-import { AnalyzedConsumer } from '../../src/core/consumers/ast-compiling/AnalyzedConsumer';
-import { DependencyModifiedConsumer, InterpreterConfig, } from '../../src/core/consumers/interpreting/DependencyModifiedConsumer';
+import { DummyWriter } from '@intent/kernel/source/DummyWriter';
+import { FileWriter } from '@intent/kernel/source/FileWriter';
+import { AnalyzedConsumer } from '@intent/consumers/ast-compiling/AnalyzedConsumer';
+import { ParseConsumer } from '@intent/consumers/ast-compiling/ParseConsumer';
+import { InterpretedConsumer } from '@intent/consumers/emitting/InterpretedConsumer';
+import { DependencyModifiedConsumer, InterpreterConfig, } from '@intent/consumers/interpreting/DependencyModifiedConsumer';
+import { ReadedConsumer } from '@intent/consumers/parsing/ReadedConsumer';
+import { UpdateConsumer } from '@intent/consumers/reading/UpdateConsumer';
+import { CompiledConsumer } from '@intent/consumers/watching/CompiledConsumer';
+import { Core, CoreConfig, PipelineObserver } from '@intent/Core';
+
 import { FileEmitResolver } from './chips/FileEmitResolver';
-import { ReadedConsumer } from '../../src/core/consumers/parsing/ReadedConsumer';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
-import { InterpretedConsumer } from '../../src/core/consumers/emitting/InterpretedConsumer';
-import { UpdateConsumer } from '../../src/core/consumers/reading/UpdateConsumer';
-import { ParseConsumer } from '../../src/core/consumers/ast-compiling/ParseConsumer';
-import { CompiledConsumer } from '../../src/core/consumers/watching/CompiledConsumer';
-import { FileWriter } from '~kernel/source/FileWriter';
-import { DummyWriter } from '~kernel/source/DummyWriter';
-import { ConfigProvider } from './ConfigProvider';
 import { ResolverConfig } from './chips/ResolverConfig';
+import { ConfigProvider } from './ConfigProvider';
+import { IntentBuilder } from './transpiler/builder/IntentBuilder';
 
 export interface OutputConfig {
   path: string;

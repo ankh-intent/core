@@ -1,10 +1,10 @@
+import { Strings } from '@intent/utils/Strings';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { TranspilerConfig } from '../../Transpiler';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
-import { Strings } from '../../../../src/core/utils/Strings';
 
 export class BaseUseResolver implements UseResolverInterface {
   private config: TranspilerConfig;

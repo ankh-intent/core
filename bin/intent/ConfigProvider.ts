@@ -1,9 +1,10 @@
 import * as path from 'path';
 
-import { Core } from '../../src/core/Core';
+import { Core } from '@intent/Core';
+import { InterpreterConfig } from '@intent/consumers/interpreting/DependencyModifiedConsumer';
+
 import { ConfigProvider as BaseConfigProvider, merge } from '../../src/core/ConfigProvider';
 import { TranspilerConfig, OutputConfig } from './Transpiler';
-import { InterpreterConfig } from '../../src/core/consumers/interpreting/DependencyModifiedConsumer';
 import { ResolverConfig } from './chips/ResolverConfig';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {

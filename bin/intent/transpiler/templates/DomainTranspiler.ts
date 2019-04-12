@@ -1,10 +1,10 @@
-import { AbstractTranspiler, TranspilerInterface } from '~kernel/transpiler/AbstractTranspiler';
+import { Container } from '@intent/utils/Container';
+import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { DomainNode } from '../ast/DomainNode';
 import { TypedefTranspiler } from './TypedefTranspiler';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { UseTranspiler } from './UseTranspiler';
-import { Container } from '../../../../src/core/utils/Container';
 
 export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

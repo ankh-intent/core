@@ -1,4 +1,4 @@
-import { TreeNodeVisitors, TreeNodeWalker } from '~kernel/ast/TreeNodeVisitor';
+import { TreeNodeVisitors, TreeNodeWalker } from '@intent/kernel/ast/TreeNodeVisitor';
 
 import { Chip } from './Chip';
 

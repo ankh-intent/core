@@ -1,14 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 if (process.env.ENV !== 'production') {
   require('source-map-support').install();
 }
 
 import * as util from 'util';
+import { StatEvent } from '@intent/kernel/event/events/StatEvent';
+
 import configure from './config';
-import { Logger } from '../src/core/utils/Logger';
-import { Core } from '../src/core/Core';
-import { StatEvent } from '~kernel/event/events/StatEvent';
+import { Logger } from '@intent/utils/Logger';
+import { Core } from '@intent/Core';
 import { Transpiler, TranspilerConfig } from './intent/Transpiler';
 
 ((core: Core<TranspilerConfig>) => {

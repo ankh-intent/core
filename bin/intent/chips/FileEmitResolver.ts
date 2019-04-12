@@ -1,7 +1,7 @@
 
 import path = require('path');
+import { Strings } from '@intent/utils/Strings';
 
-import { Strings } from '../../../src/core/utils/Strings';
 import { TranspilerConfig } from '../Transpiler';
 import { Chip } from './Chip';
 

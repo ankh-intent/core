@@ -1,4 +1,4 @@
-import { AbstractNode } from '~kernel/ast/AbstractNode';
+import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
 
 import { UseNode } from './UseNode';
 import { DomainNode } from './DomainNode';

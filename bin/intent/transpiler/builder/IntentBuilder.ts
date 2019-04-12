@@ -1,6 +1,6 @@
-import { Tokens } from '~kernel/parser/Tokens';
+import { Tokens } from '@intent/kernel/parser/Tokens';
+import { ASTBuilder } from '@intent/consumers/ast-compiling/ASTBuilder';
 
-import { ASTBuilder } from '../../../../src/core/consumers/ast-compiling/ASTBuilder';
 import { ChipNode } from '../ast/ChipNode';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';
 import { TypeBuilder } from './TypeBuilder';

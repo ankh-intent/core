@@ -1,8 +1,8 @@
-import { AbstractTranspiler, TranspilerInterface } from '~kernel/transpiler/AbstractTranspiler';
+import { Container } from '@intent/utils/Container';
+import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { PropertyNode } from '../ast/PropertyNode';
 import { TypeTranspiler } from './TypeTranspiler';
-import { Container } from '../../../../src/core/utils/Container';
 
 export class PropertyTranspiler extends AbstractTranspiler<PropertyNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

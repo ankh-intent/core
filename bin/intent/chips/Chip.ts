@@ -1,4 +1,4 @@
-import { TreeNode } from '~kernel/ast/TreeNode';
+import { TreeNode } from '@intent/kernel/ast/TreeNode';
 
 import { ChipNode } from '../transpiler/ast/ChipNode';
 

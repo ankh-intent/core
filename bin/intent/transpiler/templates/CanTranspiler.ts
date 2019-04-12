@@ -1,9 +1,9 @@
-import { AbstractTranspiler, TranspilerInterface } from '~kernel/transpiler/AbstractTranspiler';
+import { Container } from '@intent/utils/Container';
+import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { CanNode } from '../ast/CanNode';
 import { TypeTranspiler } from './TypeTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
-import { Container } from '../../../../src/core/utils/Container';
 
 export class CanTranspiler extends AbstractTranspiler<CanNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

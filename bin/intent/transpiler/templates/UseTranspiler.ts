@@ -1,4 +1,4 @@
-import { AbstractTranspiler } from '~kernel/transpiler/AbstractTranspiler';
+import { AbstractTranspiler } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { UseNode } from '../ast/UseNode';
 

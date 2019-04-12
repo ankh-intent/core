@@ -5,7 +5,7 @@
   "main": "build/bin/intent.ts",
   "types": "bin/intent.d.ts",
   "scripts": {
-    "executable": "chmod +x bin/intent.js",
+    "executable": "chmod +x bin/intent.ts",
     "intent": "npm run executable && ts-node --project ./bin/tsconfig.json -r tsconfig-paths/register ./bin/intent.ts",
     "bump": "bin/bump.sh",
     "test": "jasmine-ts --config=jasmine.json run"
