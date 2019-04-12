@@ -1,5 +1,3 @@
-
-
 import { Eventable } from './Eventable';
 
 export class Emitter<F extends Function> {
