@@ -52,7 +52,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     }
 
     this.watcher = chokidar
-      .watch(strict ? pattern : config.root, {
+      .watch(strict ? (pattern as string) : config.root, {
         ignored: config.ignore,
         persistent: true,
         ignoreInitial: true,
