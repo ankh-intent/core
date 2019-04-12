@@ -11,15 +11,15 @@ import { Transpiler, TranspilerConfig } from '../src/intent/Transpiler';
 import { StatEvent } from '../src/core/kernel/event/events/StatEvent';
 import { Core } from '../src/Core';
 
-((core: Core<CompilerConfig>) => {
-  const compiler = new Compiler();
+((core: Core<TranspilerConfig>) => {
+  const transpiler = new Transpiler();
   const config = core.bootstrap({
       ...configure(process.env.ENV),
       ...{
         // ... default config override here
       },
     },
-    compiler,
+    transpiler,
   );
 
   if (config.emit.config) {
