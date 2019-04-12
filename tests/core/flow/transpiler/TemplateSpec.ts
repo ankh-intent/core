@@ -1,5 +1,5 @@
 
-import { pit } from '../../../util/spec-extensions';
+import { pit } from '../../../util/extensions';
 import { Template } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Template';
 import { Sampler } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Sampler';
 import { Substitutor } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Substitutor';
