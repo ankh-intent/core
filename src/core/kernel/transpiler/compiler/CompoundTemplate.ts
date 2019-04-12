@@ -1,6 +1,6 @@
 
 import { TemplateInterface } from './TemplateInterface';
-import { Strings } from '../../../../../intent-utils/Strings';
+import { Strings } from '../../../../intent-utils/Strings';
 
 export declare type Templateable<S, R> = string|TemplateInterface<S, R>;
 

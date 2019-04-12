@@ -2,7 +2,7 @@
 import { TemplateInterface } from './TemplateInterface';
 import { DataResolver, SubstitutorInterface } from './Substitutor';
 import { MatchedPlaceholder } from './SamplerInterface';
-import { Strings } from '../../../../../intent-utils/Strings';
+import { Strings } from '../../../../intent-utils/Strings';
 
 export class Template<S> implements TemplateInterface<S, string[]> {
   private readonly substitutor: SubstitutorInterface<S, string[]>;

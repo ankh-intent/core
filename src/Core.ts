@@ -1,15 +1,15 @@
 
 import { Emitter } from './intent-utils/Emitter';
 import { Logger } from './intent-utils/Logger';
-import { UnitMatcher } from './core/consumers/watching/watchdog/matcher/UnitMatcher';
-import { Watchdog, WatchdogConfig } from './core/consumers/watching/watchdog/Watchdog';
-import { UnitInterface } from './core/consumers/watching/watchdog/Unit';
+import { UnitMatcher } from './core/kernel/watchdog/matcher/UnitMatcher';
+import { Watchdog, WatchdogConfig } from './core/kernel/watchdog/Watchdog';
+import { UnitInterface } from './core/kernel/watchdog/Unit';
 
 import { CoreEventBus } from './core/kernel/event/CoreEventBus';
 import { UpdateEvent } from './core/consumers/watching/UpdateEvent';
 import { CoreEvent } from './core/kernel/event/CoreEvent';
 import { FatalEvent } from './core/kernel/event/events/FatalEvent';
-import { Finder } from './core/consumers/reading/source/Finder';
+import { Finder } from './core/kernel/source/Finder';
 
 import { StatConsumer } from './core/consumers/stat/StatConsumer';
 import { ErrorConsumer } from './core/consumers/errors/ErrorConsumer';
@@ -17,7 +17,7 @@ import { WatchdogReadyConsumer } from './core/consumers/watching/WatchdogReadyCo
 import { ReadyEvent } from './core/kernel/event/events/ReadyEvent';
 import { EventChainMonitor, EventChainMonitoringData } from './core/kernel/event/EventChainMonitor';
 import { CoreLogger } from './core/kernel/logging/CoreLogger';
-import { DependencyManager } from './core/consumers/watching/watchdog/dependencies/DependencyManager';
+import { DependencyManager } from './core/kernel/watchdog/dependencies/DependencyManager';
 import { Container } from './intent-utils/Container';
 
 export interface PathsConfig {

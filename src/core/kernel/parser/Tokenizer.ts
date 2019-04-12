@@ -1,7 +1,7 @@
 
 import { Token } from './Token';
 import { Range } from './Tokens';
-import { Source } from '../../reading/source/Source';
+import { Source } from '../source/Source';
 
 export interface Context {
   source: Source;

@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
 import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from '../Core';
-import { WatchdogConfig } from './consumers/watching/watchdog/Watchdog';
+import { WatchdogConfig } from './kernel/watchdog/Watchdog';
 import { Objects } from '../intent-utils/Objects';
 import { Container } from '../intent-utils/Container';
 import * as fs from 'fs';

@@ -2,7 +2,7 @@
 import { Strings } from '../../../intent-utils/Strings';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
-import { Source } from '../reading/source/Source';
+import { Source } from '../../kernel/source/Source';
 import { BaseStat } from './BaseStat';
 import { Logger } from '../../../intent-utils/Logger';
 import { CoreConfig } from '../../../Core';

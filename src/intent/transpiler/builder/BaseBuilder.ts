@@ -1,8 +1,8 @@
 
-import { Tokens } from '../../../core/consumers/parsing/parser/Tokens';
+import { Tokens } from '../../../core/kernel/parser/Tokens';
 import { ASTBuilder } from '../../../core/consumers/ast-compiling/ASTBuilder';
 
-import { TreeNode } from '../../../core/consumers/ast-compiling/tree/TreeNode';
+import { TreeNode } from '../../../core/kernel/tree/TreeNode';
 
 export abstract class BaseBuilder<N extends TreeNode, T> implements ASTBuilder<N> {
   protected child: T;

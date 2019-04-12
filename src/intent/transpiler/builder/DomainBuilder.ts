@@ -1,5 +1,5 @@
 
-import { Tokens } from '../../../core/consumers/parsing/parser/Tokens';
+import { Tokens } from '../../../core/kernel/parser/Tokens';
 import { DomainNode } from '../ast/DomainNode';
 import { TypeDefBuilder } from './TypeDefBuilder';
 import { BaseBuilder } from './BaseBuilder';

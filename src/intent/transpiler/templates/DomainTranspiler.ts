@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from '../../../core/consumers/interpreting/transpiler/AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../../core/kernel/transpiler/AbstractTranspiler';
 import { DomainNode } from '../ast/DomainNode';
 import { TypedefTranspiler } from './TypedefTranspiler';
 import { TypeDefNode } from '../ast/TypeDefNode';

@@ -5,10 +5,10 @@ import { ParsedEvent } from './ParsedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
-import { Context, Intent } from './parser/Tokenizer';
-import { Tokens } from './parser/Tokens';
+import { Context, Intent } from '../../kernel/parser/Tokenizer';
+import { Tokens } from '../../kernel/parser/Tokens';
 
-import { Source } from '../reading/source/Source';
+import { Source } from '../../kernel/source/Source';
 
 export class ParseStat extends ConsumerStat {
   public constructor(public readonly source: Source) {

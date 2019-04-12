@@ -1,5 +1,5 @@
 
-import { Tokens } from '../../../core/consumers/parsing/parser/Tokens';
+import { Tokens } from '../../../core/kernel/parser/Tokens';
 import { ASTBuilder } from '../../../core/consumers/ast-compiling/ASTBuilder';
 import { ChipNode } from '../ast/ChipNode';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';

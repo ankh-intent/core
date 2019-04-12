@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from '../../../core/consumers/interpreting/transpiler/AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../../core/kernel/transpiler/AbstractTranspiler';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { TypeNode } from '../ast/TypeNode';
 import { CanTranspiler } from './CanTranspiler';

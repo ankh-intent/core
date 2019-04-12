@@ -6,9 +6,9 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
 import { Chip } from '../../../intent/chips/Chip';
 import { ChipNode } from '../../../intent/transpiler/ast/ChipNode';
-import { DependencyManager } from '../watching/watchdog/dependencies/DependencyManager';
+import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
 import { QualifierResolver } from '../../../intent/chips/qualifier/QualifierResolver';
-import { Source } from '../reading/source/Source';
+import { Source } from '../../kernel/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 
 export class CompileStat extends ConsumerStat {

@@ -9,8 +9,8 @@ import { InterpretedConsumer } from '../core/consumers/emitting/InterpretedConsu
 import { UpdateConsumer } from '../core/consumers/reading/UpdateConsumer';
 import { ParseConsumer } from '../core/consumers/ast-compiling/ParseConsumer';
 import { CompiledConsumer } from '../core/consumers/watching/CompiledConsumer';
-import { FileWriter } from '../core/consumers/reading/source/FileWriter';
-import { DummyWriter } from '../core/consumers/reading/source/DummyWriter';
+import { FileWriter } from '../core/kernel/source/FileWriter';
+import { DummyWriter } from '../core/kernel/source/DummyWriter';
 import { ConfigProvider } from './ConfigProvider';
 import { ResolverConfig } from './chips/ResolverConfig';
 

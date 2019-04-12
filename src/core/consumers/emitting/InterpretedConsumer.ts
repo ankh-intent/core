@@ -4,10 +4,10 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { InterpretedEvent } from '../interpreting/InterpretedEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { FileWriter } from '../reading/source/FileWriter';
+import { FileWriter } from '../../kernel/source/FileWriter';
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
-import { Source } from '../reading/source/Source';
-import { StringSource } from '../reading/source/StringSource';
+import { Source } from '../../kernel/source/Source';
+import { StringSource } from '../../kernel/source/StringSource';
 import { FileEmitResolver } from '../../../intent/chips/FileEmitResolver';
 import { Chip } from '../../../intent/chips/Chip';
 

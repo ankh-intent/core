@@ -7,7 +7,7 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { ChipNode } from '../../../intent/transpiler/ast/ChipNode';
 import { ASTBuilder } from './ASTBuilder';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Source } from '../reading/source/Source';
+import { Source } from '../../kernel/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 
 export class AstStat extends ConsumerStat {

@@ -2,8 +2,8 @@
 import { Token } from './Token';
 import { Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
-import { Source } from '../../reading/source/Source';
-import { Strings } from '../../../../intent-utils/Strings';
+import { Source } from '../source/Source';
+import { Strings } from '../../../intent-utils/Strings';
 
 export class Range {
   from: number;

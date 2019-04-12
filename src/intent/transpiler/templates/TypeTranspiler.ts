@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler } from '../../../core/consumers/interpreting/transpiler/AbstractTranspiler';
+import { AbstractTranspiler } from '../../../core/kernel/transpiler/AbstractTranspiler';
 import { TypeNode } from '../ast/TypeNode';
 
 export class TypeTranspiler extends AbstractTranspiler<TypeNode> {

@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from '../../../core/consumers/interpreting/transpiler/AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../../core/kernel/transpiler/AbstractTranspiler';
 import { ConstraintNode } from '../ast/ConstraintNode';
 import { CanTranspiler } from './CanTranspiler';
 import { Container } from '../../../intent-utils/Container';

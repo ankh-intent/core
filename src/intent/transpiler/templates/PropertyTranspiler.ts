@@ -1,5 +1,5 @@
 
-import { AbstractTranspiler, TranspilerInterface } from '../../../core/consumers/interpreting/transpiler/AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '../../../core/kernel/transpiler/AbstractTranspiler';
 import { PropertyNode } from '../ast/PropertyNode';
 import { TypeTranspiler } from './TypeTranspiler';
 import { Container } from '../../../intent-utils/Container';

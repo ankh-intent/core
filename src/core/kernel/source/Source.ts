@@ -1,5 +1,5 @@
 
-import { Range } from '../../parsing/parser/Tokens';
+import { Range } from '../parser/Tokens';
 
 export class Source {
   public readonly content: string;

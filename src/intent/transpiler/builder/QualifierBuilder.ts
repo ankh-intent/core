@@ -1,5 +1,5 @@
 
-import { Tokens } from '../../../core/consumers/parsing/parser/Tokens';
+import { Tokens } from '../../../core/kernel/parser/Tokens';
 import { QualifierNode } from '../ast/QualifierNode';
 import { BaseBuilder } from './BaseBuilder';
 

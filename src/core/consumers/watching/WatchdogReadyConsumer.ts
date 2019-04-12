@@ -5,11 +5,11 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { UpdateEvent } from './UpdateEvent';
 import { ReadyEvent } from '../../kernel/event/events/ReadyEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Watchdog } from './watchdog/Watchdog';
-import { UnitInterface } from './watchdog/Unit';
-import { WatchItem } from './watchdog/WatchItem';
-import { DependencyManager } from './watchdog/dependencies/DependencyManager';
-import { DependencyNode } from './watchdog/dependencies/DependencyNode';
+import { Watchdog } from '../../kernel/watchdog/Watchdog';
+import { UnitInterface } from '../../kernel/watchdog/Unit';
+import { WatchItem } from '../../kernel/watchdog/WatchItem';
+import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
+import { DependencyNode } from '../../kernel/watchdog/dependencies/DependencyNode';
 
 interface RetainedWatch {
   node: DependencyNode,

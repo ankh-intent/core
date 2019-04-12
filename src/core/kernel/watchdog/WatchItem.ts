@@ -1,9 +1,9 @@
 
 import * as chokidar from 'chokidar';
 
-import { Eventable } from '../../../../intent-utils/Eventable';
-import { ArrayConsumer } from '../../../../intent-utils/ArrayConsumer';
-import { Emitter } from '../../../../intent-utils/Emitter';
+import { Eventable } from '../../../intent-utils/Eventable';
+import { ArrayConsumer } from '../../../intent-utils/ArrayConsumer';
+import { Emitter } from '../../../intent-utils/Emitter';
 
 import { UnitInterface } from './Unit';
 import { UnitMatcher } from './matcher/UnitMatcher';

@@ -1,6 +1,6 @@
 
-import { ArrayConsumer } from '../../../../intent-utils/ArrayConsumer';
-import { Emitter } from '../../../../intent-utils/Emitter';
+import { ArrayConsumer } from '../../../intent-utils/ArrayConsumer';
+import { Emitter } from '../../../intent-utils/Emitter';
 import { Aggregator } from './aggregator/Aggregator';
 
 export class AggregatedEmitter<U, H extends ArrayConsumer<U>> extends Emitter<H> {

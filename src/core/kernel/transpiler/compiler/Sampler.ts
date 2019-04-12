@@ -1,6 +1,6 @@
 
 import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
-import { Strings } from '../../../../../intent-utils/Strings';
+import { Strings } from '../../../../intent-utils/Strings';
 
 export class Sampler implements SamplerInterface {
   private readonly opener: string;

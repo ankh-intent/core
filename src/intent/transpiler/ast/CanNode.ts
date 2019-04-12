@@ -1,5 +1,5 @@
 
-import { AbstractNode } from '../../../core/consumers/ast-compiling/tree/AbstractNode';
+import { AbstractNode } from '../../../core/kernel/tree/AbstractNode';
 import { PropertyNode } from './PropertyNode';
 import { TypeNode } from './TypeNode';
 
