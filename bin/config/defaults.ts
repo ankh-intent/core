@@ -33,7 +33,7 @@ const config: TranspilerConfig = {
   resolver: {
     paths: {
       intent: path.resolve(
-        path.join(root, '../src/intent-core/intent/specification/lib/')
+        path.join(root, '../src/intent-core/intent/bnf/lib/')
       ),
     }
   },
