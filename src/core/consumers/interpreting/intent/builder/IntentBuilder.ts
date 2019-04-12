@@ -32,8 +32,8 @@ type IntentGrammar =
 type InvokableVisitors<T> = {[name in keyof T]: TokensVisitor<any>};
 
 export class IntentBuilder implements TokensVisitor<ChipNode> {
-  private builders: InvokableVisitors<IntentGrammar>;
-  private invokers: BuilderInvokers<IntentGrammar>;
+  private readonly builders: InvokableVisitors<IntentGrammar>;
+  private readonly invokers: BuilderInvokers<IntentGrammar>;
 
   public constructor() {
     this.invokers = <any>{};

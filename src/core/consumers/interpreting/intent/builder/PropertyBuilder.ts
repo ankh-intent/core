@@ -2,7 +2,7 @@
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { PropertyNode } from '../ast/PropertyNode';
 import { BaseBuilder, BuildInvoker } from './BaseBuilder';
-import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { TypeNode } from '../ast/TypeNode';
 
 export interface PropertyChildren {

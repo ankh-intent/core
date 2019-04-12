@@ -21,9 +21,8 @@ export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChi
       throw tokens.error('Expected method declaration after ":"');
     }
 
-    let constraint = new ConstraintNode();
-    constraint.can = can;
-
-    return constraint;
+    return Object.assign(new ConstraintNode(), {
+      can,
+    });
   }
 }

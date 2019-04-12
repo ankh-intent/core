@@ -2,7 +2,7 @@
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { DomainNode } from '../ast/DomainNode';
 import { BaseBuilder, BuildInvoker } from './BaseBuilder';
-import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { UseNode } from '../ast/UseNode';
 

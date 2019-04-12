@@ -1,8 +1,8 @@
 
-import { TreeNode } from '../../core/consumers/ast-compiling/tree/TreeNode';
+import { AbstractNode } from '../../core/consumers/ast-compiling/tree/AbstractNode';
 import { ChipNode } from '../../core/consumers/interpreting/intent/ast/ChipNode';
 
-export class Chip implements TreeNode {
+export class Chip extends AbstractNode {
   public static TYPE_CHIP = 'chip';
 
   public node: string = Chip.TYPE_CHIP;
@@ -12,6 +12,7 @@ export class Chip implements TreeNode {
   public ast: ChipNode;
 
   public constructor(path: string) {
+    super();
     this.path = path;
   }
 
@@ -45,7 +46,7 @@ export class Chip implements TreeNode {
     let found;
 
     for (let link in this.linked) {
-      if (found = this.linked[link].byPath(path)) {
+      if ((found = this.linked[link].byPath(path))) {
         return found;
       }
     }

@@ -2,7 +2,7 @@
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { BaseBuilder, BuildInvoker } from './BaseBuilder';
-import { TokenMatcher } from '../../parser/TokenMatcher';
+import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { TypeNode } from '../ast/TypeNode';
 import { PropertyNode } from '../ast/PropertyNode';
 import { CanNode } from '../ast/CanNode';
