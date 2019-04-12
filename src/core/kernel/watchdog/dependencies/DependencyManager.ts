@@ -1,9 +1,9 @@
 
-import { Container } from '../../../../intent-utils/Container';
-import { Objects } from '../../../../intent-utils/Objects';
-import { Chip } from '../../../../intent/chips/Chip';
+import { Container } from '../../../utils/Container';
+import { Objects } from '../../../utils/Objects';
+import { Chip } from '../../../../../bin/intent/chips/Chip';
 import { DependencyNode } from './DependencyNode';
-import { Eventable } from '../../../../intent-utils/Eventable';
+import { Eventable } from '../../../utils/Eventable';
 
 export class DependencyManager extends Eventable {
   static RETAIN = 'retain';

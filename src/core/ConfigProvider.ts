@@ -2,12 +2,12 @@
 import * as path from 'path';
 
 import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
-import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from '../Core';
+import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from './Core';
 import { WatchdogConfig } from './kernel/watchdog/Watchdog';
-import { Objects } from '../intent-utils/Objects';
-import { Container } from '../intent-utils/Container';
+import { Objects } from './utils/Objects';
+import { Container } from './utils/Container';
 import * as fs from 'fs';
-import { Strings } from '../intent-utils/Strings';
+import { Strings } from './utils/Strings';
 
 export const regexpify = (r: RegExp|string) => {
   return (typeof r === 'string')
@@ -15,7 +15,7 @@ export const regexpify = (r: RegExp|string) => {
     : String(r).replace('\\\\', '\\');
 };
 
-const isMergable = (o: any) => {
+const isMergeable = (o: any) => {
   return Objects.is(o) && !((o instanceof Date) || (o instanceof RegExp));
 };
 
@@ -25,8 +25,8 @@ export const merge = (...os) => {
   for (const o of os) {
     for (const [key, value2] of Object.entries(o)) {
       const value1 = target[key];
-      const o1 = isMergable(value1);
-      const o2 = isMergable(value2);
+      const o1 = isMergeable(value1);
+      const o2 = isMergeable(value2);
 
       target[key] = (o1 && o2)
         ? merge(value1, value2)

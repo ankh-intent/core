@@ -8,8 +8,8 @@ import { FileWriter } from '../../kernel/source/FileWriter';
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { Source } from '../../kernel/source/Source';
 import { StringSource } from '../../kernel/source/StringSource';
-import { FileEmitResolver } from '../../../intent/chips/FileEmitResolver';
-import { Chip } from '../../../intent/chips/Chip';
+import { FileEmitResolver } from '../../../../bin/intent/chips/FileEmitResolver';
+import { Chip } from '../../../../bin/intent/chips/Chip';
 
 export class EmitStat extends ConsumerStat {
   public constructor(public readonly chip: Chip, public readonly start: number) {

@@ -1,12 +1,12 @@
 
-import { Logger } from '../../../intent-utils/Logger';
+import { Logger } from '../../utils/Logger';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../../kernel/parser/SyntaxError';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Strings } from '../../../intent-utils/Strings';
+import { Strings } from '../../utils/Strings';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{

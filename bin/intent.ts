@@ -6,10 +6,10 @@ if (process.env.ENV !== 'production') {
 
 import * as util from 'util';
 import configure from './config';
-import { Logger } from '../src/intent-utils/Logger';
-import { Transpiler, TranspilerConfig } from '../src/intent/Transpiler';
-import { StatEvent } from '../src/core/kernel/event/events/StatEvent';
-import { Core } from '../src/Core';
+import { Logger } from '../src/core/utils/Logger';
+import { Core } from '../src/core/Core';
+import { StatEvent } from '~kernel/event/events/StatEvent';
+import { Transpiler, TranspilerConfig } from './intent/Transpiler';
 
 ((core: Core<TranspilerConfig>) => {
   const transpiler = new Transpiler();

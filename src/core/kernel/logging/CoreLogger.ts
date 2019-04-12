@@ -1,5 +1,5 @@
 
-import { Logger } from '../../../intent-utils/Logger';
+import { Logger } from '../../utils/Logger';
 import { BaseCoreEvent } from '../event/CoreEvent';
 
 export class CoreLogger extends Logger {
