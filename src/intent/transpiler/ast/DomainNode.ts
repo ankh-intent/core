@@ -1,5 +1,5 @@
 
-import { AbstractNode } from '../../../core/kernel/tree/AbstractNode';
+import { AbstractNode } from '../../../core/kernel/ast/AbstractNode';
 import { TypeDefNode } from './TypeDefNode';
 import { UseNode } from './UseNode';
 

@@ -1,6 +1,6 @@
 
 import { Tokens } from '../../kernel/parser/Tokens';
-import { TreeNode } from '../../kernel/tree/TreeNode';
+import { TreeNode } from '../../kernel/ast/TreeNode';
 
 export interface ASTBuilder<N extends TreeNode> {
 

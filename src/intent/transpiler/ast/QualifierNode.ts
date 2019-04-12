@@ -1,5 +1,5 @@
 
-import { AbstractNode } from '../../../core/kernel/tree/AbstractNode';
+import { AbstractNode } from '../../../core/kernel/ast/AbstractNode';
 
 export class QualifierNode extends AbstractNode {
   public name: string;

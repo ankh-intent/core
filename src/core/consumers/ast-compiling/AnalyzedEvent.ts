@@ -1,6 +1,6 @@
 
 import { Source } from '../../kernel/source/Source';
-import { TreeNode } from '../../kernel/tree/TreeNode';
+import { TreeNode } from '../../kernel/ast/TreeNode';
 import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
 
 export interface AnalyzedEventProps<N extends TreeNode> {

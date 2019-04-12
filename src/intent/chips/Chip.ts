@@ -1,5 +1,5 @@
 
-import { TreeNode } from '../../core/kernel/tree/TreeNode';
+import { TreeNode } from '../../core/kernel/ast/TreeNode';
 import { ChipNode } from '../transpiler/ast/ChipNode';
 
 export class Chip implements TreeNode {
