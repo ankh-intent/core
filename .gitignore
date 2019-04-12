@@ -10,4 +10,6 @@ npm-debug.log
 /src/**/*.js*
 /tests/**/*.js*
 /**/*.i.*
+/.stryker-tmp
+/reports
 !webpack.config.js

@@ -7,7 +7,8 @@
   "scripts": {
     "executable": "chmod +x build/bin/intent.js",
     "intent": "npm run executable && node ./build/bin/intent.js",
-    "bump": "bin/bump.sh"
+    "bump": "bin/bump.sh",
+    "test": "jasmine-ts --config=jasmine.json run"
   },
   "keywords": [
     "intent",
@@ -16,18 +17,27 @@
   "author": "ankhzet@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "@types/jasmine": "^2.5.52",
-    "@types/node": "^7.0.29",
-    "chokidar": "^1.7.0",
-    "jasmine": "^2.6.0",
-    "lodash": "^4.17.4",
-    "socket.io": "^2.0.3",
-    "source-map-support": "^0.4.15",
-    "typescript": "^2.3.4",
-    "util": "^0.10.3",
-    "yargs": "^8.0.2"
+    "chokidar": "^2.1.2",
+    "lodash": "^4.17.11",
+    "socket.io": "^2.2.0",
+    "util": "^0.11.1",
+    "yargs": "^13.2.2"
   },
   "bin": {
     "intent": "./bin/intent.js"
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "^1.1.0",
+    "@stryker-mutator/html-reporter": "^1.1.0",
+    "@stryker-mutator/jasmine-runner": "^1.1.0",
+    "@stryker-mutator/typescript": "^1.1.0",
+    "@types/jasmine": "^3.3.9",
+    "@types/node": "^11.11.3",
+    "jasmine": "^3.3.1",
+    "jasmine-core": "^3.3.0",
+    "jasmine-ts": "^0.3.0",
+    "source-map-support": "^0.5.11",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.3333"
   }
 }
