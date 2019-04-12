@@ -6,14 +6,22 @@ describe('Sampler', () => {
 
   describe('constructor()', () => {
     let sample1 = () => [
-      () => ({open: "", close: "", expect: "Open or close sequence not specified"}),
-      () => ({open: "", close: "}", expect: "Open or close sequence not specified"}),
-      () => ({open: "{", close: "", expect: "Open or close sequence not specified"}),
-      () => ({open: "{", close: "{", expect: "Open sequence should not match close sequence"}),
+      () => ({open: "{", close: "}", avoids: "Open or close sequence not specified"}),
+      () => ({open: "{", close: "}", avoids: "Open sequence should not match close sequence"}),
+      () => ({open: "", close: "", generates: "Open or close sequence not specified"}),
+      () => ({open: "", close: "}", generates: "Open or close sequence not specified"}),
+      () => ({open: "{", close: "", generates: "Open or close sequence not specified"}),
+      () => ({open: "{", close: "{", generates: "Open sequence should not match close sequence"}),
     ];
 
     pit("should throw on invalid opener/closer", sample1, (data) => {
-      expect(() => new Sampler(data.open, data.close)).not.toThrow(data.expect);
+      if (data.generates) {
+        expect(() => new Sampler(data.open, data.close)).toThrowError(data.generates);
+      }
+
+      if (data.avoids) {
+        expect(() => new Sampler(data.open, data.close)).not.toThrowError(data.avoids);
+      }
     });
   });
 

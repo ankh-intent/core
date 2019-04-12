@@ -5,7 +5,7 @@ import { TemplateInterface } from '../../../../src/core/consumers/interpreting/t
 import { Compiler } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Compiler';
 import { Sampler } from '../../../../src/core/consumers/interpreting/transpiler/compiler/Sampler';
 
-describe('Compiler', () => {
+describe('PipelineObserver', () => {
 
   describe('compileLines()', () => {
     let compiler;

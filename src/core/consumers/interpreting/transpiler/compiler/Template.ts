@@ -28,15 +28,21 @@ export class Template<S> implements TemplateInterface<S, string[]> {
   }
 
   protected consume(lines: string|string[], match: MatchedPlaceholder, data: any): string[] {
-    if (data instanceof Array) {
-      return Strings.fold(
-        data.map((data) => this.consume(lines, match, data))
-      );
-    }
-
     let str;
 
     if (data !== null) {
+      if (data instanceof Array) {
+        return Strings.fold(
+          data.map((data) => this.consume(lines, match, data))
+        );
+      }
+
+      if (typeof data === 'object') {
+        return Strings.fold(
+          Object.values(data).map((data) => this.consume(lines, match, data))
+        );
+      }
+
       if (typeof data === 'object') {
         let name = (data.constructor !== Object) ? data.constructor.name : '<Unresolved>';
 

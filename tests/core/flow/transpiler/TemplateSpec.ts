@@ -10,10 +10,6 @@ describe('Template', () => {
 
   });
 
-  describe('code()', () => {
-    it('should return passed code')
-  });
-
   describe('apply()', () => {
     let sampler;
     let substitutor;
