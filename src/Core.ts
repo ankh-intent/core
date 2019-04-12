@@ -44,7 +44,7 @@ export interface CoreConfig {
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
 
-export interface Compiler<C extends CoreConfig> {
+export interface PipelineObserver<C extends CoreConfig> {
   attach(core: Core<C>, config: CoreConfig): C;
   bootstrap(core: Core<C>, config: C): void;
 }
@@ -66,7 +66,7 @@ export class Core<C extends CoreConfig> extends Emitter<CoreEventEmitter<any>> {
     this.dependencyTree = new DependencyManager();
   }
 
-  public bootstrap(config: CoreConfig, compiler: Compiler<C>): C {
+  public bootstrap(config: CoreConfig, compiler: PipelineObserver<C>): C {
     const resolved = compiler.attach(this, config);
 
     if (resolved.watch) {

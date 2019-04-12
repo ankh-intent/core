@@ -2,7 +2,7 @@
 import path = require('path');
 
 import { Strings } from '../../intent-utils/Strings';
-import { CompilerConfig } from '../../intent/Compiler';
+import { TranspilerConfig } from '../../intent/Transpiler';
 import { Chip } from './Chip';
 
 export interface FileEmitResolverInterface {
@@ -12,9 +12,9 @@ export interface FileEmitResolverInterface {
 }
 
 class BaseFileEmitResolver implements FileEmitResolverInterface {
-  protected readonly config: CompilerConfig;
+  protected readonly config: TranspilerConfig;
 
-  public constructor(config: CompilerConfig) {
+  public constructor(config: TranspilerConfig) {
     this.config = config;
   }
 
@@ -79,7 +79,7 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
 export class FileEmitResolver extends BaseFileEmitResolver {
   public readonly resolvers: FileEmitResolverInterface[];
 
-  public constructor(config: CompilerConfig) {
+  public constructor(config: TranspilerConfig) {
     super(config);
     this.resolvers = [
       new IntentFileEmitResolver(config),

@@ -6,7 +6,7 @@ import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { UseResolverInterface } from '../../../intent-core/chips/use/UseResolverInterface';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { DependencyManager } from './watchdog/dependencies/DependencyManager';
-import { CompilerConfig } from '../../../intent/Compiler';
+import { TranspilerConfig } from '../../../intent/Transpiler';
 import { BaseUseResolver } from '../../../intent-core/chips/use/BaseUseResolver';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { Objects } from '../../../intent-utils/Objects';
@@ -25,7 +25,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private readonly resolver: UseResolverInterface;
   private readonly tree: DependencyManager;
 
-  public constructor(bus: CoreEventBus, config: CompilerConfig, tree: DependencyManager) {
+  public constructor(bus: CoreEventBus, config: TranspilerConfig, tree: DependencyManager) {
     super(bus);
     this.resolver = new BaseUseResolver(config);
     this.tree = tree;

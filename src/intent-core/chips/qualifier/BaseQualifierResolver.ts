@@ -1,15 +1,15 @@
 
 import * as path from 'path';
 
-import { CompilerConfig } from '../../../intent/Compiler';
+import { TranspilerConfig } from '../../../intent/Transpiler';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 
 export class BaseQualifierResolver implements QualifierResolverInterface {
-  protected config: CompilerConfig;
+  protected config: TranspilerConfig;
 
-  public constructor(config: CompilerConfig) {
+  public constructor(config: TranspilerConfig) {
     this.config = config;
   }
 

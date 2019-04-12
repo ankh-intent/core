@@ -2,12 +2,12 @@ import * as path from 'path';
 
 import { Core } from '../Core';
 import { ConfigProvider as BaseConfigProvider, merge } from '../core/ConfigProvider';
-import { CompilerConfig, OutputConfig } from './Compiler';
+import { TranspilerConfig, OutputConfig } from './Transpiler';
 import { InterpreterConfig } from '../core/consumers/interpreting/DependencyModifiedConsumer';
 import { ResolverConfig } from '../intent-core/chips/ResolverConfig';
 
-export class ConfigProvider extends BaseConfigProvider<CompilerConfig> {
-  protected options(defaults: CompilerConfig): any {
+export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
+  protected options(defaults: TranspilerConfig): any {
     return merge(super.options(defaults), {
       "Emit options": {
         "output-dir": {
@@ -34,7 +34,7 @@ export class ConfigProvider extends BaseConfigProvider<CompilerConfig> {
     };
   }
 
-  protected resolver(defaults: CompilerConfig): ResolverConfig {
+  protected resolver(defaults: TranspilerConfig): ResolverConfig {
     return {
       paths: {
         intent: defaults.resolver.paths.intent || path.resolve(
@@ -49,7 +49,7 @@ export class ConfigProvider extends BaseConfigProvider<CompilerConfig> {
     };
   }
 
-  public build(core: Core<CompilerConfig>): CompilerConfig {
+  public build(core: Core<TranspilerConfig>): TranspilerConfig {
     let defaults = this.defaults();
 
     return {

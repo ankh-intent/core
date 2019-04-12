@@ -1,4 +1,4 @@
-import { Compiler as CompilerInterface, Core, CoreConfig } from '../Core';
+import { PipelineObserver, Core, CoreConfig } from '../Core';
 import { IntentBuilder } from '../core/consumers/interpreting/intent/builder/IntentBuilder';
 import { AnalyzedConsumer } from '../core/consumers/ast-compiling/AnalyzedConsumer';
 import { DependencyModifiedConsumer, InterpreterConfig, } from '../core/consumers/interpreting/DependencyModifiedConsumer';
@@ -19,24 +19,24 @@ export interface OutputConfig {
   extension: string;
 }
 
-export interface CompilerConfig extends CoreConfig {
+export interface TranspilerConfig extends CoreConfig {
   output: OutputConfig;
   resolver: ResolverConfig;
   interpreter: InterpreterConfig;
 }
 
-export class Compiler implements CompilerInterface<CompilerConfig> {
+export class Transpiler implements PipelineObserver<TranspilerConfig> {
   private parser: IntentBuilder;
 
   public constructor() {
     this.parser = new IntentBuilder();
   }
 
-  public attach(core: Core<CompilerConfig>, config: CoreConfig): CompilerConfig {
-    return (new ConfigProvider(<CompilerConfig>config)).build(core);
+  public attach(core: Core<TranspilerConfig>, config: CoreConfig): TranspilerConfig {
+    return (new ConfigProvider(<TranspilerConfig>config)).build(core);
   }
 
-  public bootstrap(core: Core<CompilerConfig>, config: CompilerConfig): void {
+  public bootstrap(core: Core<TranspilerConfig>, config: TranspilerConfig): void {
     const writer = config.emit.files ? new FileWriter() : new DummyWriter();
 
     core.events

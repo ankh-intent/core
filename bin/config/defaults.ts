@@ -1,10 +1,10 @@
 
 import * as path from 'path';
-import { CompilerConfig } from '../../src/intent/Compiler';
+import { TranspilerConfig } from '../../src/intent/Transpiler';
 
 const root = __dirname.replace('/build/', '/').replace(/\/config$/, '');
 
-const config: CompilerConfig = {
+const config: TranspilerConfig = {
   paths: {
     project: process.cwd(),
   },

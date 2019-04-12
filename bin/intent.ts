@@ -7,7 +7,7 @@ if (process.env.ENV !== 'production') {
 import * as util from 'util';
 import configure from './config';
 import { Logger } from '../src/intent-utils/Logger';
-import { Compiler, CompilerConfig } from '../src/intent/Compiler';
+import { Transpiler, TranspilerConfig } from '../src/intent/Transpiler';
 import { StatEvent } from '../src/core/kernel/event/events/StatEvent';
 import { Core } from '../src/Core';
 

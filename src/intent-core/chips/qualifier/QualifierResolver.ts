@@ -1,5 +1,5 @@
 
-import { CompilerConfig } from '../../../intent/Compiler';
+import { TranspilerConfig } from '../../../intent/Transpiler';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../../core/consumers/interpreting/intent/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
@@ -7,10 +7,10 @@ import { BaseQualifierResolver } from './BaseQualifierResolver';
 import { IntentLibraryQualifierResolver } from './IntentLibraryQualifierResolver';
 
 export class QualifierResolver implements QualifierResolverInterface {
-  private config: CompilerConfig;
+  private config: TranspilerConfig;
   public resolvers: QualifierResolverInterface[];
 
-  public constructor(config: CompilerConfig) {
+  public constructor(config: TranspilerConfig) {
     this.config = config;
     this.resolvers = [
       new IntentLibraryQualifierResolver(config),
