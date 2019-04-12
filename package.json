@@ -5,8 +5,8 @@
   "main": "build/bin/intent.ts",
   "types": "bin/intent.d.ts",
   "scripts": {
-    "executable": "chmod +x build/bin/intent.js",
-    "intent": "npm run executable && node ./build/bin/intent.js",
+    "executable": "chmod +x bin/intent.js",
+    "intent": "npm run executable && ts-node --project ./bin/tsconfig.json -r tsconfig-paths/register ./bin/intent.ts",
     "bump": "bin/bump.sh",
     "test": "jasmine-ts --config=jasmine.json run"
   },
@@ -38,6 +38,7 @@
     "jasmine-ts": "^0.3.0",
     "source-map-support": "^0.5.11",
     "ts-node": "^8.0.3",
+    "tsconfig-paths": "^3.8.0",
     "typescript": "^3.3.3333"
   }
 }

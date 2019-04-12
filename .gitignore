@@ -6,10 +6,10 @@ ncp-debug.log
 npm-debug.log
 /build
 /bin/**/*.js.map
-/bin/**/*.i.js
-/src/**/*.js*
+/**/*.js*
 /tests/**/*.js*
 /**/*.i.*
+/yarn-error.log
 /.stryker-tmp
 /reports
 !webpack.config.js
