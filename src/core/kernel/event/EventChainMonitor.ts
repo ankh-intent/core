@@ -24,7 +24,7 @@ export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsume
       return false;
     }
 
-    for (let chain of this.chains) {
+    for (const chain of this.chains) {
       if (chain && chain.isRelated(event)) {
         return true;
       }
@@ -34,9 +34,9 @@ export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsume
   }
 
   public monitor(events: E[]): EventChain<E> {
-    let chain = new EventChain(events);
+    const chain = new EventChain(events);
     chain.once(() => {
-      let index = this.chains.indexOf(chain);
+      const index = this.chains.indexOf(chain);
 
       if (index >= 0) {
         this.chains.splice(index, 1);
@@ -49,7 +49,7 @@ export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsume
   }
 
   public process(event: E) {
-    for (let chain of this.chains) {
+    for (const chain of this.chains) {
       if (chain) {
         if (chain.isOpened(event)) {
           chain.close(event);
@@ -79,7 +79,7 @@ export class EventChain<E extends CoreEvent<any>> extends Emitter<EventChainMoni
       return true;
     }
 
-    for (let original of this.original) {
+    for (const original of this.original) {
       if (event.hasParent(original)) {
         return true;
       }
@@ -100,7 +100,7 @@ export class EventChain<E extends CoreEvent<any>> extends Emitter<EventChainMoni
     this.accumulated.push(event);
     this.monitored.push(event);
 
-    for (let monitored of this.monitored) {
+    for (const monitored of this.monitored) {
       if ((event !== monitored) && event.hasParent(monitored)) {
         if (this.close(monitored)) {
           break;
@@ -111,7 +111,7 @@ export class EventChain<E extends CoreEvent<any>> extends Emitter<EventChainMoni
 
   public close(event: E): boolean {
     this.monitored = this.monitored.filter((e) => e !== event);
-    let open = this.monitored.length;
+    const open = this.monitored.length;
 
     if (open) {
       return false;

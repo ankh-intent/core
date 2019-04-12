@@ -30,8 +30,8 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
   }
 
   public process(event: StatEvent) {
-    let stat = event.data.stat;
-    let processor = this.processors[stat.type];
+    const stat = event.data.stat;
+    const processor = this.processors[stat.type];
 
     return (
       processor

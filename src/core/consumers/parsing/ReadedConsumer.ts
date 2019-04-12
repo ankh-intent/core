@@ -22,7 +22,7 @@ export class ReadedConsumer extends AbstractConsumer<ReadedEvent, any>{
   }
 
   public process(event: ReadedEvent) {
-    let { source } = event.data;
+    const { source } = event.data;
     this.stat(event, new ParseStat(source));
 
     return new ParsedEvent({
@@ -31,7 +31,7 @@ export class ReadedConsumer extends AbstractConsumer<ReadedEvent, any>{
         (context: Context) => {
           let token;
 
-          while (token = Intent.wrapped(context)) {
+          while ((token = Intent.wrapped(context))) {
             if (token.type !== 'whitespace') {
               break;
             }

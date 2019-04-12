@@ -16,14 +16,14 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
       return null;
     }
 
-    let { value: identifier } = tokens.get({type: 'identifier'});
-    let types = {};
-    let uses = {};
+    const { value: identifier } = tokens.get({type: 'identifier'});
+    const types = {};
+    const uses = {};
 
     tokens.ensure({value: '{'});
 
     while (true) {
-      let use = this.child.use.build(tokens);
+      const use = this.child.use.build(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -35,7 +35,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         continue;
       }
 
-      let type = this.child.typedef.build(tokens);
+      const type = this.child.typedef.build(tokens);
 
       if (type) {
         if (types[type.name]) {
@@ -52,12 +52,12 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
     tokens.ensure({value: '}'});
 
-    let domain = new DomainNode();
+    const domain = new DomainNode();
     domain.identifier = identifier;
     domain.types = types;
     domain.uses = uses;
 
-    for (let t in types) {
+    for (const t in types) {
       types[t].domain = domain;
     }
 

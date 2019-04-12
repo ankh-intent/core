@@ -16,12 +16,14 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
   }
 
   public substitute(line: string, data: S, consumer: MatchConsumer<S>, resolver: DataResolver<S, keyof S>): any {
-    let seeker = new ReverseSeeker(this.sampler, line);
-    let match, resolved;
+    const seeker = new ReverseSeeker(this.sampler, line);
+    let match;
     let result = line;
 
     while ((match = seeker.next())) {
-      if (undefined !== (resolved = resolver(data, match.key))) {
+      const resolved = resolver(data, match.key);
+
+      if (undefined !== resolved) {
         result = consumer(result, match, resolved);
       }
     }

@@ -26,7 +26,7 @@ export class Aggregator<A, H extends ArrayConsumer<A>> {
       return;
     }
 
-    let { watch, emitter } = this.debounced;
+    const { watch, emitter } = this.debounced;
     this.debounced = null;
 
     watch.cancel();
@@ -36,8 +36,8 @@ export class Aggregator<A, H extends ArrayConsumer<A>> {
   public debounce(): Emitter<H> {
     this.stop();
 
-    let emitter = new Emitter<H>();
-    let watch = new Watch(this.submit.bind(this, emitter));
+    const emitter = new Emitter<H>();
+    const watch = new Watch(this.submit.bind(this, emitter));
 
     this.debounced = {
       emitter,
@@ -60,7 +60,7 @@ export class Aggregator<A, H extends ArrayConsumer<A>> {
   }
 
   protected submit(emitter: Emitter<H>) {
-    let aggregated = this.aggregated;
+    const aggregated = this.aggregated;
     this.aggregated = [];
 
     emitter.emit(aggregated);

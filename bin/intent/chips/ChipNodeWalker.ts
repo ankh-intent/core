@@ -3,9 +3,8 @@ import { TreeNodeVisitors, TreeNodeWalker } from '@intent/kernel/ast/TreeNodeVis
 import { Chip } from './Chip';
 
 export class ChipNodeWalker extends TreeNodeWalker<Chip> {
-
   public walk(node: Chip, visitors: TreeNodeVisitors<Chip>, context?: any): boolean {
-    for (let name in node.linked) {
+    for (const name in node.linked) {
       this.walk(node.linked[name], visitors, {
         name,
         context,
@@ -14,5 +13,4 @@ export class ChipNodeWalker extends TreeNodeWalker<Chip> {
 
     return super.walk(node, visitors, context);
   }
-
 }

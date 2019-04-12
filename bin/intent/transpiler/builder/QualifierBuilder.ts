@@ -9,9 +9,9 @@ export interface QualifierChildren {
 
 export class QualifierBuilder extends BaseBuilder<QualifierNode, QualifierChildren> {
   build(tokens: Tokens): QualifierNode {
-    let { value: name } = tokens.ensure({type: 'identifier'});
+    const { value: name } = tokens.ensure({type: 'identifier'});
 
-    let qualifier = new QualifierNode();
+    const qualifier = new QualifierNode();
     qualifier.name = name;
 
     if (tokens.get({value: '.', type: 'symbol'})) {

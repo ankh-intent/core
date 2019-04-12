@@ -36,7 +36,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   }
 
   public process(event: CompiledEvent) {
-    let { dependency } = event.data;
+    const { dependency } = event.data;
 
     this.synchronize(dependency, event);
 
@@ -49,43 +49,46 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
   private synchronize(node: DependencyNode, event: CoreEvent<any>) {
     this.stat(event, new SynchronizeStat(node));
 
-    let uses = this.uses(node.chip);
+    const uses = this.uses(node.chip);
 
-    let nodes = this.tree.all(Object.keys(uses), false);
-    let unknown: DependencyNode[] = [];
-    let known: DependencyNode[] = [];
+    const nodes = this.tree.all(Object.keys(uses), false);
+    const unknown: DependencyNode[] = [];
+    const known: DependencyNode[] = [];
 
-    for (let dependency of nodes) {
+    for (const dependency of nodes) {
+      // todo: some type trickery is going on here
+      let resolved: any = dependency;
+
       if (typeof dependency === 'string') {
         // attach new nodes
         unknown.push(
-          dependency = this.tree.add(uses[dependency])
+          resolved = this.tree.add(uses[dependency])
         );
       }
 
-      known.push(dependency);
+      known.push(resolved);
     }
 
     node.relate(known);
 
-    for (let dependency of node) {
+    for (const dependency of node) {
       if (known.indexOf(dependency) < 0) {
         // detach old nodes
         this.tree.dereference(node, dependency);
       }
     }
 
-    for (let dependency of unknown) {
+    for (const dependency of unknown) {
       // todo: entry forwarding
       this.emit(new UpdateEvent({ path: dependency.path, entry: '%C' }, event));
     }
   }
 
   protected uses(chip: Chip): Container<Chip> {
-    let links = {};
+    const links = {};
 
-    for (let use of Objects.iterate(chip.ast.uses)) {
-      let link = this.resolver.resolve(chip, use.qualifier);
+    for (const use of Objects.iterate(chip.ast.uses)) {
+      const link = this.resolver.resolve(chip, use.qualifier);
 
       if (!link) {
         throw new Error(`Can't resolve chip "${use.qualifier.path('.')}"`);

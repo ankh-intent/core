@@ -14,16 +14,14 @@ export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
       return null;
     }
 
-    let qualifier = this.child.qualifier.build(tokens);
-    let alias = qualifier.deepest();
-
-    if (tokens.get({value: 'as'})) {
-      alias = tokens.ensure({type: 'identifier'}).value;
-    }
+    const qualifier = this.child.qualifier.build(tokens);
+    const alias = tokens.get({value: 'as'})
+      ? tokens.ensure({type: 'identifier'}).value
+      : qualifier.deepest();
 
     tokens.ensure({type: 'symbol', value: ';'});
 
-    let use = new UseNode();
+    const use = new UseNode();
     use.qualifier = qualifier;
     use.alias = alias;
 

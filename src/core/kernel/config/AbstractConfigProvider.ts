@@ -5,17 +5,17 @@ export abstract class AbstractConfigProvider<O> {
   private _argv;
 
   protected argv() {
-    let map = this.options(
+    const map = this.options(
       this.defaults()
     );
-    let options = {};
+    const options = {};
 
-    for (let group in map) {
+    for (const group in map) {
       if (!map.hasOwnProperty(group)) {
         continue;
       }
 
-      for (let option of Object.keys(map[group])) {
+      for (const option of Object.keys(map[group])) {
         options[option] = Object.assign(
           { group: group + ':', },
           map[group][option]
@@ -23,7 +23,7 @@ export abstract class AbstractConfigProvider<O> {
       }
     }
 
-    let built = yargs
+    const built = yargs
       .usage(this.usage())
       .help("help")
       .version()
@@ -32,11 +32,9 @@ export abstract class AbstractConfigProvider<O> {
       .options(options)
     ;
 
-    if (this.strict()) {
-      built = built.strict();
-    }
-
-    return built.argv;
+    return this.strict()
+      ? built.strict().argv
+      : built.argv;
   }
 
   protected strict(): boolean {
@@ -44,7 +42,7 @@ export abstract class AbstractConfigProvider<O> {
   }
 
   public get(option?: string) {
-    let argv = this._argv
+    const argv = this._argv
       ? this._argv
       : this._argv = this.argv();
 

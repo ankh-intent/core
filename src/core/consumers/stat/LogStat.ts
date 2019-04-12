@@ -13,9 +13,9 @@ export class LogStat extends BaseStat {
   }
 
   public process(event: StatEvent): StatEvent {
-    let { data: { stat: { message } } } = event;
+    const { data: { stat: { message } } } = event;
 
-    for (let type of Object.keys(message)) {
+    for (const type of Object.keys(message)) {
       this.logger.log(Logger.strToLevel(type), event, message[type]);
     }
 

@@ -51,7 +51,7 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   }
 
   public build(core: Core<TranspilerConfig>): TranspilerConfig {
-    let defaults = this.defaults();
+    const defaults = this.defaults();
 
     return {
       ...super.build(core),

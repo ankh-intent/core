@@ -14,15 +14,14 @@ export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChi
       return null;
     }
 
-    let can = this.child.can.build(tokens);
+    const can = this.child.can.build(tokens);
 
     if (!can) {
       throw tokens.error('Expected method declaration after ":"');
     }
 
-    let constraint = new ConstraintNode();
-    constraint.can = can;
-
-    return constraint;
+    return Object.assign(new ConstraintNode(), {
+      can,
+    });
   }
 }

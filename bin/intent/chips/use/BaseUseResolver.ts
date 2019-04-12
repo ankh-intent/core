@@ -18,17 +18,17 @@ export class BaseUseResolver implements UseResolverInterface {
   }
 
   public resolve(from: Chip, identifier: QualifierNode): Chip {
-    let found;
+    for (const resolver of this.resolvers) {
+      const found = resolver.resolve(from, identifier);
 
-    for (let resolver of this.resolvers) {
-      if ((found = resolver.resolve(from, identifier))) {
+      if (found) {
         return found;
       }
     }
 
-    let search = identifier.name;
+    const search = identifier.name;
 
-    for (let found of Object.keys(from.linked).map((name) => from.linked[name])) {
+    for (const found of Object.keys(from.linked).map((name) => from.linked[name])) {
       if (search === found.name) {
         return identifier.child
           ? this.resolve(found, identifier.child)
@@ -36,8 +36,8 @@ export class BaseUseResolver implements UseResolverInterface {
       }
     }
 
-    let common = Strings.longestCommon([this.config.paths.project, from.path]).pop();
-    let resolved = from.path
+    const common = Strings.longestCommon([this.config.paths.project, from.path]).pop();
+    const resolved = from.path
         .replace(new RegExp(`^${common}`), '')
         .replace(/\/[^\/]+$/, '') + identifier.name + '.int'
     ;

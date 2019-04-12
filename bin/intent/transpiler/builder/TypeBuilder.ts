@@ -10,7 +10,7 @@ export interface TypeChildren {
 
 export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
   build(tokens: Tokens): TypeNode {
-    let qualifier = this.child.qualifier.build(tokens);
+    const qualifier = this.child.qualifier.build(tokens);
     let generic = null;
 
     if (tokens.get({type: 'symbol', value: '<'})) {
@@ -18,7 +18,7 @@ export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
       tokens.ensure({type: 'symbol', value: '>'});
     }
 
-    let type = new TypeNode();
+    const type = new TypeNode();
     type.qualifier = qualifier;
     type.generic = generic;
 

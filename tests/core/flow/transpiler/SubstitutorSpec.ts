@@ -9,7 +9,7 @@ describe('Substitutor', () => {
       beforeEach(() => {
       });
 
-      let sample1 = () => [
+      const sample1 = () => [
       ];
 
       pit('should', sample1, (data) => {

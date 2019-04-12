@@ -30,7 +30,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
   }
 
   public process(event: UpdateEvent) {
-    let { path } = event.data;
+    const { path } = event.data;
     this.stat(event, new UpdateStat(path));
 
     this.reader.read(path)
@@ -38,7 +38,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
         this.emit(new ReadedEvent({ source }, event));
       })
       .catch((e: Error) => {
-        let error = new SyntaxError(e.message, null, 0);
+        const error = new SyntaxError(e.message, null, 0);
         error.parent = e;
 
         this.emit(new ErrorEvent({ error }, event));

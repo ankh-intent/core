@@ -30,7 +30,7 @@ export class Watchdog<U extends UnitInterface> {
   public start(items?: WatchItem<U>[]) {
     this.active = true;
 
-    for (let item of items || this.all()) {
+    for (const item of items || this.all()) {
       item.watch(this.config);
     }
   }
@@ -40,13 +40,13 @@ export class Watchdog<U extends UnitInterface> {
       return;
     }
 
-    for (let item of this.all()) {
+    for (const item of this.all()) {
       item.detach();
     }
   }
 
   public watch(matcher: UnitMatcher): WatchItem<U> {
-    let item = new WatchItem(++this.uid, matcher);
+    const item = new WatchItem(++this.uid, matcher);
 
     item.once(WatchItem.DETACH, () => {
       delete this.watches[item.uid];

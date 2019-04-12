@@ -5,7 +5,7 @@ import { BaseQualifierResolver } from './BaseQualifierResolver';
 
 export class IntentLibraryQualifierResolver extends BaseQualifierResolver {
   public resolve(from: Chip): QualifierNode {
-    let base = this.config.resolver.paths.intent;
+    const base = this.config.resolver.paths.intent;
 
     if (from.path.indexOf(base) < 0) {
       return null;

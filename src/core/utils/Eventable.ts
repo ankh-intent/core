@@ -8,8 +8,8 @@ export class Eventable {
 			this._e_listeners = {};
 		}
 
-		let listeners = this._e_listeners[event] || (this._e_listeners[event] = {});
-		let uid = ++(<typeof Eventable>this.constructor)._e_uid;
+    const listeners = this._e_listeners[event] || (this._e_listeners[event] = {});
+    const uid = ++(<typeof Eventable>this.constructor)._e_uid;
 		listeners[uid] = handler;
 
 		return uid;
@@ -32,7 +32,7 @@ export class Eventable {
 			return;
 		}
 
-		let listeners = this._e_listeners[event];
+    const listeners = this._e_listeners[event];
 
 		if (listeners) {
 			if (!uid) {
@@ -47,12 +47,12 @@ export class Eventable {
 		let handled = 0;
 
 		if (this._e_listeners) {
-			let listeners = this._e_listeners[event];
+      const listeners = this._e_listeners[event];
 
 			if (listeners) {
-				let uids = Object.keys(listeners);
+        const uids = Object.keys(listeners);
 
-				for (let uid of uids) {
+				for (const uid of uids) {
 					listeners[uid](...payload, event);
 
 					handled++;

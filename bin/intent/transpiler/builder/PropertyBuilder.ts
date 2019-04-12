@@ -10,7 +10,7 @@ export interface PropertyChildren {
 
 export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren> {
   build(tokens: Tokens): PropertyNode {
-    let name = tokens.get({type: 'identifier'});
+    const name = tokens.get({type: 'identifier'});
 
     if (!name) {
       return null;
@@ -20,12 +20,11 @@ export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren>
       return null;
     }
 
-    let type = this.child.type.build(tokens);
+    const type = this.child.type.build(tokens);
 
-    let property = new PropertyNode();
-    property.name = name.value;
-    property.type = type;
-
-    return property;
+    return Object.assign(new PropertyNode(), {
+      name: name.value,
+      type,
+    });
   }
 }

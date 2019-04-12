@@ -18,7 +18,7 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
   }
 
   protected parse(base: string, original: string): QualifierNode {
-    let parts = original
+    const parts = original
       .substr(base.length)
       .replace(/\.[^.]+$/ig, '')
       .split(path.sep)
@@ -28,7 +28,7 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
     let node = null;
 
     while (parts.length) {
-      let child = new QualifierNode();
+      const child = new QualifierNode();
       child.name = parts.shift();
       child.child = node;
       node = child;

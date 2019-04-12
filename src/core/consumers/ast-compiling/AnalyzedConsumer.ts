@@ -32,7 +32,7 @@ export class AnalyzedConsumer extends AbstractConsumer<AnalyzedEvent<ChipNode>, 
   }
 
   public process(event: AnalyzedEvent<ChipNode>) {
-    let { source, ast } = event.data;
+    const { source, ast } = event.data;
     this.stat(event, new CompileStat(source));
 
     let chip;

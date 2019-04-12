@@ -28,7 +28,7 @@ export class Chip implements TreeNode {
       return true;
     }
 
-    for (let name in this.linked) {
+    for (const name in this.linked) {
       if (this.linked[name].has(chip)) {
         return true;
       }
@@ -42,10 +42,10 @@ export class Chip implements TreeNode {
       return this;
     }
 
-    let found;
+    for (const link in this.linked) {
+      const found = this.linked[link].byPath(path);
 
-    for (let link in this.linked) {
-      if (found = this.linked[link].byPath(path)) {
+      if (found) {
         return found;
       }
     }

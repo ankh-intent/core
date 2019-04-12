@@ -6,9 +6,7 @@ import { TranspilerConfig } from '../Transpiler';
 import { Chip } from './Chip';
 
 export interface FileEmitResolverInterface {
-
   resolve(from: Chip): string;
-
 }
 
 class BaseFileEmitResolver implements FileEmitResolverInterface {
@@ -39,9 +37,9 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
   }
 
   protected build(original: string, base: string, out: string) {
-    let parts = path.parse(original);
-    let emit = path.join(parts.dir, parts.name + this.config.output.extension);
-    let common = Strings.longestCommon([emit, base])
+    const parts = path.parse(original);
+    const emit = path.join(parts.dir, parts.name + this.config.output.extension);
+    const common = Strings.longestCommon([emit, base])
       .pop()
       .replace(new RegExp(`\\${path.sep}$`), '')
     ;
@@ -65,8 +63,8 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
   }
 
   public resolve(chip: Chip): string {
-    let original = this.getOriginalPath(chip);
-    let base = this.getBasePath(chip);
+    const original = this.getOriginalPath(chip);
+    const base = this.getBasePath(chip);
 
     return (
       (original.indexOf(base) < 0)
@@ -87,10 +85,10 @@ export class FileEmitResolver extends BaseFileEmitResolver {
   }
 
   public resolve(chip: Chip): string {
-    let found;
+    for (const resolver of this.resolvers) {
+      const found = resolver.resolve(chip);
 
-    for (let resolver of this.resolvers) {
-      if (found = resolver.resolve(chip)) {
+      if (found) {
         return found;
       }
     }

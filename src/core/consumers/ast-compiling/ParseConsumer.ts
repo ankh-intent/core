@@ -29,7 +29,7 @@ export class ParseConsumer extends AbstractConsumer<ParsedEvent, any>{
   }
 
   public process(event: ParsedEvent) {
-    let { source, tokens } = event.data;
+    const { source, tokens } = event.data;
     this.stat(event, new AstStat(source));
 
     return new AnalyzedEvent({

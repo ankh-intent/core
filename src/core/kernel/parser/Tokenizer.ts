@@ -10,22 +10,20 @@ export interface Context {
 }
 
 export interface Tokenizer {
-
   (context: Context): Token;
-
 }
 
 export class Intent {
-
   public static wrapped(context: Context): Token {
-    let was = context.pos;
-    let type;
+    const was = context.pos;
 
     if (was >= context.range.to) {
       return;
     }
 
-    if (type = this.base(context.source, context)) {
+    const type = this.base(context.source, context);
+
+    if (type) {
       return new Token(
         context.source,
         type,
@@ -36,24 +34,29 @@ export class Intent {
   }
 
   public static base(source: Source, context: Context): string {
-    let index = context.pos;
-    let char = source.at(index);
-    let token;
+    const index = context.pos;
+    const char = source.at(index);
 
     if (char.match(/['"`]/)) {
-      if (token = this.string(source, context)) {
+      const token = this.string(source, context);
+
+      if (token) {
         return token;
       }
     }
 
     if (char.match(/\s/)) {
-      if (token = this.whitespace(source, context)) {
+      const token = this.whitespace(source, context);
+
+      if (token) {
         return token;
       }
     }
 
     if (char.match(/[\w_]/i)) {
-      if (token = this.identifier(source, context)) {
+      const token = this.identifier(source, context);
+
+      if (token) {
         return token;
       }
     }
@@ -77,13 +80,13 @@ export class Intent {
 
   public static string(source: Source, context: Context): string {
     let index = context.pos;
-    let char = source.at(index++), start = char;
+    const char = source.at(index++);
 
     if (!char.match(/['"`]/)) {
       return;
     }
 
-    while (source.at(index) !== start) {
+    while (source.at(index) !== char) {
       index++;
     }
 
@@ -118,5 +121,4 @@ export class Intent {
 
     return 'symbol';
   }
-
 }

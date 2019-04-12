@@ -16,10 +16,9 @@ export class Finder {
       const entries = fs.readdirSync(root)
         .filter(item => !item.startsWith('.'))
       ;
-      let found;
 
-      for (let dir of entries) {
-        found = this.find(path.join(root, dir), matcher, consumer);
+      for (const dir of entries) {
+        const found = this.find(path.join(root, dir), matcher, consumer);
 
         if (found) {
           return found;

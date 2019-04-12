@@ -36,9 +36,9 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
       return this;
     }
 
-    let { pattern, event } = this.matcher;
-    let strict = !(pattern instanceof RegExp);
-    let bound = this.event.bind(this, event);
+    const { pattern, event } = this.matcher;
+    const strict = !(pattern instanceof RegExp);
+    const bound = this.event.bind(this, event);
     let handler = bound;
 
     if (!strict) {
@@ -74,7 +74,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
   }
 
   protected event(event: string, path: string, ...payload) {
-    let data = { event, path, payload };
+    const data = { event, path, payload };
 
     this.emitter.emit([data]);
     this.emit(WatchItem.EVENT, data);

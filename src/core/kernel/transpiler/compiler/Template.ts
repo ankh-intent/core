@@ -44,7 +44,7 @@ export class Template<S> implements TemplateInterface<S, string[]> {
       }
 
       if (typeof data === 'object') {
-        let name = (data.constructor !== Object) ? data.constructor.name : '<Unresolved>';
+        const name = (data.constructor !== Object) ? data.constructor.name : '<Unresolved>';
 
         str = `{{ Object(${name}) }}`;
       } else {

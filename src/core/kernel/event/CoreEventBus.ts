@@ -25,8 +25,8 @@ export class CoreEventBus {
   }
 
   public emit(event: CoreEvent<any>): CoreEvent<any> {
-    for (let consumer of this.consumers) {
-      let processed = consumer.consume(event);
+    for (const consumer of this.consumers) {
+      const processed = consumer.consume(event);
 
       if (event === processed) {
         if (!event.bubble) {

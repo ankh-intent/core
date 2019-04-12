@@ -71,7 +71,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
       return;
     }
 
-    let watches = this.watchdog
+    const watches = this.watchdog
       .watchAll(node.path, WatchdogReadyConsumer.WATCHDOG_EVENTS)
       .map((watch) => {
         watch.emitter.and(this.event.bind(this));
@@ -87,13 +87,13 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
   }
 
   private unwatch(node: DependencyNode) {
-    let retainedWatch = this.watching(node);
+    const retainedWatch = this.watching(node);
 
     if (!retainedWatch) {
       return;
     }
 
-    for (let watch of retainedWatch.watches) {
+    for (const watch of retainedWatch.watches) {
       watch.detach();
     }
 
@@ -103,7 +103,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface> extends AbstractCons
   }
 
   protected event(data) {
-    for (let { path } of data) {
+    for (const { path } of data) {
       this.emit(new UpdateEvent({
         path,
         entry: '%W', // todo: entry forwarding

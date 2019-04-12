@@ -41,13 +41,13 @@ export class DependencyModifiedConsumer extends AbstractConsumer<DependencyModif
   }
 
   public process(event: DependencyModifiedEvent) {
-    let { dependency } = event.data;
+    const { dependency } = event.data;
     this.stat(event, {
       type: 'interpret',
       dependency,
     });
 
-    let content = this.transpiler.transpile(dependency.chip.ast);
+    const content = this.transpiler.transpile(dependency.chip.ast);
 
     return new InterpretedEvent({
       dependency,

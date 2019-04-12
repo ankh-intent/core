@@ -25,9 +25,9 @@ export abstract class AbstractTranspiler<S> implements TranspilerInterface<S> {
       this._template = this.compiler.compile(
         this.code,
         (data: S, key: string) => {
-          let [property, modifier, filters] = this.modifiers(key);
+          const [property, modifier, filters] = this.modifiers(key);
+          const transpiler = this.visitors[property];
           let resolved = data && this.resolve(data, property);
-          let transpiler = this.visitors[property];
 
           if (!(transpiler && resolved !== undefined)) {
             return resolved !== undefined ? resolved : null;

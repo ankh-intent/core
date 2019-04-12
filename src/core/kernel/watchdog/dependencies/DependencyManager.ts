@@ -28,7 +28,7 @@ export class DependencyManager extends Eventable {
   }
 
   public contains(filter: (nodes: DependencyNode) => boolean): DependencyNode {
-    for (let node of Objects.iterate(this.roots)) {
+    for (const node of Objects.iterate(this.roots)) {
       if (filter(node)) {
         return node;
       }
@@ -38,8 +38,8 @@ export class DependencyManager extends Eventable {
   }
 
   public find(name: string): DependencyNode {
-    for (let root of Objects.iterate(this.roots)) {
-      let found = root.related(name);
+    for (const root of Objects.iterate(this.roots)) {
+      const found = root.related(name);
 
       if (found) {
         return found;
@@ -50,7 +50,7 @@ export class DependencyManager extends Eventable {
   }
 
   public add(chip: Chip): DependencyNode {
-    let node = this.roots[chip.path]
+    const node = this.roots[chip.path]
       ? this.roots[chip.path]
       : this.roots[chip.path] = this.buildNode(chip);
 
@@ -68,7 +68,7 @@ export class DependencyManager extends Eventable {
   }
 
   protected buildNode(chip: Chip): DependencyNode {
-    let node = new DependencyNode(chip);
+    const node = new DependencyNode(chip);
 
     node.relate(
       Object.keys(chip.linked)
@@ -85,11 +85,11 @@ export class DependencyManager extends Eventable {
       ;
     }
 
-    let nodes = names.map((name) => this.roots[name]);
+    const nodes = names.map((name) => this.roots[name]);
 
     return (
       filter
-        ? nodes.filter((node) => node)
+        ? nodes.filter(Boolean)
         : nodes.map((node, index) => node || names[index])
     );
   }
@@ -97,11 +97,11 @@ export class DependencyManager extends Eventable {
   public remove(node: DependencyNode): number {
     let released = +(delete this.roots[node.chip.path]);
 
-    for (let root of Objects.iterate(this.roots)) {
+    for (const root of Objects.iterate(this.roots)) {
       released += +root.release(node);
     }
 
-    for (let dependency of node) {
+    for (const dependency of node) {
       this.dereference(node, dependency);
     }
 
@@ -115,9 +115,9 @@ export class DependencyManager extends Eventable {
       return false;
     }
 
-    let name = dependency.chip.path;
+    const name = dependency.chip.path;
 
-    for (let root of Objects.iterate(this.roots)) {
+    for (const root of Objects.iterate(this.roots)) {
       if (root === dependency) {
         continue;
       }

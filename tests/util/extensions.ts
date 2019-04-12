@@ -1,8 +1,8 @@
 
-let pit = (text, provider, block) => {
-  let data = provider();
+const pit = (text, provider, block) => {
+  const data = provider();
 
-  for (let test of data) {
+  for (const test of data) {
     it(text, () => {
       return block(test());
     });

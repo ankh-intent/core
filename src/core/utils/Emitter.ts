@@ -12,7 +12,7 @@ export class Emitter<F extends Function> {
   }
 
   public and(handler: F, once = false): number {
-    let shifter = (...args) => {
+    const shifter = (...args) => {
       args.pop(); // remove event from top
 
       return handler(...args);

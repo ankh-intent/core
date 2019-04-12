@@ -25,7 +25,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     let parent: CoreEvent<any> = event;
 
     while (parent) {
-      let { type, data } = parent;
+      const { type, data } = parent;
       parent = parent.parent;
 
       if (type === ErrorEvent.type()) {
@@ -58,7 +58,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
         stack = error.stack.split("\n");
       }
 
-      let msg = stack.shift().toString();
+      const msg = stack.shift().toString();
 
       return [msg, "\n", stack.join("\n")];
     } else {
@@ -67,7 +67,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   }
 
   private fetchSyntaxStack(error: SyntaxError) {
-    let hops = [];
+    const hops = [];
     let e: any = error;
     let last: Error;
 
@@ -82,9 +82,9 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       e = e.parent;
     }
 
-    let stack = last.stack.split("\n").concat(hops).map((line) => line.trim());
-    let max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
-    let lines = stack.map((line) => {
+    const stack = last.stack.split("\n").concat(hops).map((line) => line.trim());
+    const max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
+    const lines = stack.map((line) => {
       return line
         .replace(/(.*?)\s*\(([^)]+)\)/, (m, ref, loc) => {
           return `\t${Strings.pad(ref, max, ' ')} (${loc})`;
@@ -99,14 +99,14 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     let source;
 
     if (error.source) {
-      let loc = error.source.location(error.pos);
+      const loc = error.source.location(error.pos);
       source = ` (${error.source.reference}:${loc.line}:${loc.column})`;
     } else {
       source = '';
     }
 
-    let match = error.message.match(/Failed @(.+)$/);
-    let method = match ? match[1] : 'unknown';
+    const match = error.message.match(/Failed @(.+)$/);
+    const method = match ? match[1] : 'unknown';
 
     return `at AST::${method}${source}`;
   }

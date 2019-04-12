@@ -27,8 +27,9 @@ export class Strings {
   }
 
   public static longestCommon(strings: string[]): string[] {
-    let subcommon = (a: string, b: string) => {
-      let l = Math.min(a.length, b.length), i = 0;
+    const subcommon = (a: string, b: string) => {
+      const l = Math.min(a.length, b.length);
+      let i = 0;
 
       while (i < l && a.charAt(i) === b.charAt(i)) {
         i++;
@@ -36,12 +37,13 @@ export class Strings {
 
       return a.substring(0, i);
     };
-    let intersect = [];
+    const intersect = [];
 
-    for (let common1 of strings) {
-      let subs = new Array(strings.length), i = 0;
+    for (const common1 of strings) {
+      let subs = new Array(strings.length);
+      let i = 0;
 
-      for (let common2 of strings) {
+      for (const common2 of strings) {
         if (common1 === common2) {
           continue;
         }
@@ -52,7 +54,7 @@ export class Strings {
       subs = subs.filter((s) => s.length);
 
       if (subs.length) {
-        for (let sub of subs) {
+        for (const sub of subs) {
           if (intersect.indexOf(sub) < 0) {
             intersect.push(sub);
           }
@@ -94,11 +96,12 @@ export class Strings {
   }
 
   public static unindent(lines: string[]): string[] {
-    let first = lines[0], m;
+    const first = lines[0];
+    const m = first.match(/^(\s+)/);
 
-    if (m = first.match(/^(\s+)/)) {
-      let tab = m[1];
-      let len = tab.length;
+    if (m) {
+      const tab = m[1];
+      const len = tab.length;
 
       lines = lines.map((line) => {
         return line.startsWith(tab)
@@ -119,14 +122,14 @@ export class Strings {
       return [a];
     }
 
-    let result = [];
+    const result = [];
 
-    for (let element of a) {
+    for (const element of a) {
       if (typeof element === 'string') {
         result.push(element);
       } else {
-        result = result.concat(
-          this.fold(element)
+        result.push(
+          ...this.fold(element)
         );
       }
     }

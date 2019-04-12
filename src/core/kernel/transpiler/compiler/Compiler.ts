@@ -18,7 +18,7 @@ export class Compiler<S, R> {
   }
 
   public compileLines(code: string, resolver: DataResolver<S>): (string|TemplateInterface<S, R>)[] {
-    let cleaned = this.cleanup(code);
+    const cleaned = this.cleanup(code);
 
     return cleaned.map((line) => {
       return (this.sampler.next(line, 0) && this.factory)
@@ -46,18 +46,18 @@ export class Compiler<S, R> {
   }
 
   public normalize(lines: string[]): string[] {
-    for (let line of lines) {
+    for (const line of lines) {
       if (line.trim() === "") {
         continue;
       }
 
-      let match = line.match(/^(\s+)/);
+      const match = line.match(/^(\s+)/);
 
       if (!match) {
         break;
       }
 
-      let whitespace = match[1];
+      const whitespace = match[1];
 
       return lines.map((line: string) => (
         line.startsWith(whitespace)

@@ -12,7 +12,7 @@ export interface CanChildren {
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
   public build(tokens: Tokens): CanNode {
-    let name = tokens.get({type: 'identifier'});
+    const name = tokens.get({type: 'identifier'});
 
     if (!name) {
       return null;
@@ -22,7 +22,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
       return null;
     }
 
-    let args = {};
+    const args = {};
     let returns = null;
 
     while (!tokens.peek({type: 'symbol', value: ')'})) {
@@ -30,7 +30,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         tokens.ensure({type: 'symbol', value: ','})
       }
 
-      let arg = this.child.property.build(tokens);
+      const arg = this.child.property.build(tokens);
 
       if (arg) {
         if (args[arg.name]) {
@@ -39,7 +39,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
         args[arg.name] = arg;
       } else {
-        let token = tokens.get({});
+        const token = tokens.get({});
         throw tokens.error(`")" or method argument expected, ${token ? `"${token.value}"` : 'EOF'} found`);
       }
     }
@@ -52,11 +52,13 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
     tokens.ensure({type: 'symbol', value: '{'});
 
-    let token, body = [], prev = null;
-    let wrapBefore = ['='];
-    let wrapAfter = [',', '=', ':', '?'];
-    let breakBefore = ['?', ':'];
-    let breakAfter = [';'];
+    const wrapBefore = ['='];
+    const wrapAfter = [',', '=', ':', '?'];
+    const breakBefore = ['?', ':'];
+    const breakAfter = [';'];
+    const body = [];
+    let token;
+    let prev = null;
 
     while ((token = tokens.but({type: 'symbol', value: '}'}))) {
       if (prev === 'identifier') {
@@ -92,7 +94,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
     tokens.ensure({type: 'symbol', value: '}'});
 
-    let can = new CanNode();
+    const can = new CanNode();
     can.name = name.value;
     can.args = args;
     can.returns = returns;

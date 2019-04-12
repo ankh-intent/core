@@ -16,10 +16,10 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
   public build(tokens: Tokens): ChipNode {
     tokens.ensure({value: 'chip'});
 
-    let { value: name } = tokens.ensure({type: 'string'});
+    const { value: name } = tokens.ensure({type: 'string'});
 
-    let uses = {};
-    let domains = {};
+    const uses = {};
+    const domains = {};
     let can = null;
 
     tokens.ensure({value: '{'});
@@ -29,7 +29,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
         break;
       }
 
-      let use = this.child.use.build(tokens);
+      const use = this.child.use.build(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -38,7 +38,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
         uses[use.alias] = use;
       } else {
-        let domain = this.child.domain.build(tokens);
+        const domain = this.child.domain.build(tokens);
 
         if (domain) {
           if (domains[domain.identifier]) {
@@ -58,12 +58,11 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
     tokens.ensure({value: '}'});
 
-    let chip = new ChipNode();
-    chip.name = name;
-    chip.uses = uses;
-    chip.domains = domains;
-    chip.can = can;
-
-    return chip;
+    return Object.assign(new ChipNode(), {
+      name,
+      uses,
+      domains,
+      can,
+    });
   }
 }

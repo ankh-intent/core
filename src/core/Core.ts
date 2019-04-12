@@ -121,7 +121,7 @@ export class Core<C extends CoreConfig> extends Emitter<CoreEventEmitter<any>> {
       })
     ;
 
-    for (let update of updates) {
+    for (const update of updates) {
       this.events.emit(update);
     }
 
@@ -135,11 +135,11 @@ export class Core<C extends CoreConfig> extends Emitter<CoreEventEmitter<any>> {
   }
 
   protected matched(root: string, matchers: UnitMatcher[]) {
-    let finder = new Finder();
-    let paths = [];
+    const finder = new Finder();
+    const paths = [];
 
-    for (let matcher of matchers) {
-      let found = finder.find(root, matcher, (path) => path);
+    for (const matcher of matchers) {
+      const found = finder.find(root, matcher, (path) => path);
 
       if (found) {
         paths.push(found);

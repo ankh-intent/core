@@ -44,16 +44,16 @@ export class Tokens {
   }
 
   public peek(matcher: Matcher): Token {
-    let { range: { to } } = this.context;
+    const { range: { to } } = this.context;
 
     if (this.index >= to) {
       return null;
     }
 
-    let token = this.at(this.index + 1);
+    const token = this.at(this.index + 1);
 
     if (token) {
-      let { value, type } = matcher;
+      const { value, type } = matcher;
 
       if (value && (token.value !== value)) {
         return null;
@@ -68,7 +68,7 @@ export class Tokens {
   }
 
   public get(matcher: Matcher): Token {
-    let token = this.peek(matcher);
+    const token = this.peek(matcher);
 
     if (token) {
       this.next();
@@ -88,21 +88,21 @@ export class Tokens {
   }
 
   public ensure(matcher: Matcher): Token {
-    let { range: { to } } = this.context;
+    const { range: { to } } = this.context;
 
     if (this.index >= to) {
-      let string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
+      const string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
       throw this.error(`Unexpected end of stream, expected token with ${string}`);
     }
 
-    let token = this.at(this.index + 1);
+    const token = this.at(this.index + 1);
 
     if (!token) {
-      let string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
+      const string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
       throw this.error(`Expected token with ${string}, but stream seems empty`);
     }
 
-    let { value, type } = matcher;
+    const { value, type } = matcher;
 
     if (value && (token.value !== value)) {
       throw this.error(`Expected "${value}", but got "${token.value}"`);
@@ -126,10 +126,10 @@ export class Tokens {
   }
 
   public pop(mark: number): number {
-    let old = this.index;
+    const old = this.index;
     this.index = mark;
 
-    for (let i in this.tokens) {
+    for (const i in this.tokens) {
       if ((+i) === mark) {
         this.context.pos = this.tokens[i].end;
       }
@@ -143,20 +143,20 @@ export class Tokens {
   }
 
   public error(reason: string, parent?: Error): SyntaxError {
-    let error = new SyntaxError(reason, this.context.source, this.last);
-    let stack = (error.stack || "").split("\n").slice(2);
-    let commons = stack
+    const error = new SyntaxError(reason, this.context.source, this.last);
+    const stack = (error.stack || "").split("\n").slice(2);
+    const commons = stack
       .map((line) => line.match(/at [^(]*\((.+?)(:\d+)*\)/))
       .filter((match) => match)
       .map((match) => match[1])
     ;
-    let intersect = Strings.longestCommon(commons).map((line) => line.replace(/\/$/, ''));
-    let max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
+    const intersect = Strings.longestCommon(commons).map((line) => line.replace(/\/$/, ''));
+    const max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
 
     error.stack = stack.map((line) => {
-      for (let idx in intersect) {
-        let sub = intersect[idx];
-        let com = Strings.longestCommon([
+      for (const idx in intersect) {
+        const sub = intersect[idx];
+        const com = Strings.longestCommon([
           sub,
           __filename.replace('/build/', '/')
         ]).pop();

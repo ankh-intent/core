@@ -20,7 +20,7 @@ export class Visitors<D, R, V extends Visitor<D, R> = Visitor<D, R>> {
   }
 
   public visit(name: string, context: ContextInterface<D, R>): R {
-    let visitor = this.visitors[name];
+    const visitor = this.visitors[name];
 
     console.log('visit', name);
 

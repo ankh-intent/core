@@ -24,8 +24,8 @@ export class DependencyNode implements Iterable<DependencyNode> {
   }
 
   public relate(nodes: DependencyNode[]): DependencyNode[] {
-    for (let node of nodes) {
-      let index = this._related.indexOf(node);
+    for (const node of nodes) {
+      const index = this._related.indexOf(node);
 
       if (index < 0) {
         this._related.push(node);
@@ -40,10 +40,10 @@ export class DependencyNode implements Iterable<DependencyNode> {
       return this;
     }
 
-    for (let node of this._related) {
-      let found;
+    for (const node of this._related) {
+      const found = node.related(name);
 
-      if (found = node.related(name)) {
+      if (found) {
         return found;
       }
     }
@@ -52,7 +52,7 @@ export class DependencyNode implements Iterable<DependencyNode> {
   }
 
   public release(node: DependencyNode): boolean {
-    let index = this._related.indexOf(node);
+    const index = this._related.indexOf(node);
 
     if (index >= 0) {
       this._related = this._related.filter((e) => e !== node);

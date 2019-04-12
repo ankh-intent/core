@@ -14,7 +14,7 @@ export class Logger {
   }
 
   public log(level: number, ...args: any[]) {
-    let [classifier, out] = this.classify(args);
+    const [classifier, out] = this.classify(args);
 
     console[Logger.levelToStr(level)].call(
       console,
@@ -36,7 +36,7 @@ export class Logger {
   }
 
   static strToLevel(str: string): number {
-    for (let level in this.map) {
+    for (const level in this.map) {
       if (this.map[level] === str) {
         return +level;
       }
