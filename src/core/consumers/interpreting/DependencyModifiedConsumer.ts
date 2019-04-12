@@ -4,7 +4,7 @@ import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { InterpretedEvent } from './InterpretedEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { ChipTranspiler } from './intentlang/templates/ChipTranspiler';
+import { ChipTranspiler } from '../../../intent/transpiler/templates/ChipTranspiler';
 import { Compiler } from './transpiler/compiler/Compiler';
 import { Sampler } from './transpiler/compiler/Sampler';
 import { Template } from './transpiler/compiler/Template';

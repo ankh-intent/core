@@ -3,17 +3,17 @@ import { Container } from '../../../intent-utils/Container';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from '../ast-compiling/CompiledEvent';
-import { UseResolverInterface } from '../../../intent-core/chips/use/UseResolverInterface';
+import { UseResolverInterface } from '../../../intent/chips/use/UseResolverInterface';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { DependencyManager } from './watchdog/dependencies/DependencyManager';
 import { TranspilerConfig } from '../../../intent/Transpiler';
-import { BaseUseResolver } from '../../../intent-core/chips/use/BaseUseResolver';
+import { BaseUseResolver } from '../../../intent/chips/use/BaseUseResolver';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { Objects } from '../../../intent-utils/Objects';
 import { UpdateEvent } from './UpdateEvent';
 import { DependencyModifiedEvent } from './DependencyModifiedEvent';
 import { DependencyNode } from './watchdog/dependencies/DependencyNode';
-import { Chip } from '../../../intent-core/chips/Chip';
+import { Chip } from '../../../intent/chips/Chip';
 
 export class SynchronizeStat extends ConsumerStat {
   public constructor(public readonly dependency: DependencyNode) {

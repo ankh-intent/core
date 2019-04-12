@@ -1,7 +1,7 @@
 
 import { Container } from '../../../../../intent-utils/Container';
 import { Objects } from '../../../../../intent-utils/Objects';
-import { Chip } from '../../../../../intent-core/chips/Chip';
+import { Chip } from '../../../../../intent/chips/Chip';
 import { DependencyNode } from './DependencyNode';
 import { Eventable } from '../../../../../intent-utils/Eventable';
 

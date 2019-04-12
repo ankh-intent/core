@@ -4,7 +4,7 @@ import { Core } from '../Core';
 import { ConfigProvider as BaseConfigProvider, merge } from '../core/ConfigProvider';
 import { TranspilerConfig, OutputConfig } from './Transpiler';
 import { InterpreterConfig } from '../core/consumers/interpreting/DependencyModifiedConsumer';
-import { ResolverConfig } from '../intent-core/chips/ResolverConfig';
+import { ResolverConfig } from './chips/ResolverConfig';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   protected options(defaults: TranspilerConfig): any {

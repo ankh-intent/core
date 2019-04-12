@@ -1,10 +1,10 @@
 import { PipelineObserver, Core, CoreConfig } from '../Core';
-import { IntentBuilder } from '../core/consumers/interpreting/intent/builder/IntentBuilder';
+import { IntentBuilder } from './transpiler/builder/IntentBuilder';
 import { AnalyzedConsumer } from '../core/consumers/ast-compiling/AnalyzedConsumer';
 import { DependencyModifiedConsumer, InterpreterConfig, } from '../core/consumers/interpreting/DependencyModifiedConsumer';
-import { FileEmitResolver } from '../intent-core/chips/FileEmitResolver';
+import { FileEmitResolver } from './chips/FileEmitResolver';
 import { ReadedConsumer } from '../core/consumers/parsing/ReadedConsumer';
-import { QualifierResolver } from '../intent-core/chips/qualifier/QualifierResolver';
+import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { InterpretedConsumer } from '../core/consumers/emitting/InterpretedConsumer';
 import { UpdateConsumer } from '../core/consumers/reading/UpdateConsumer';
 import { ParseConsumer } from '../core/consumers/ast-compiling/ParseConsumer';
@@ -12,7 +12,7 @@ import { CompiledConsumer } from '../core/consumers/watching/CompiledConsumer';
 import { FileWriter } from '../core/consumers/reading/source/FileWriter';
 import { DummyWriter } from '../core/consumers/reading/source/DummyWriter';
 import { ConfigProvider } from './ConfigProvider';
-import { ResolverConfig } from '../intent-core/chips/ResolverConfig';
+import { ResolverConfig } from './chips/ResolverConfig';
 
 export interface OutputConfig {
   path: string;

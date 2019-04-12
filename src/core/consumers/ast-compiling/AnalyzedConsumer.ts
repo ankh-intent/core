@@ -4,10 +4,10 @@ import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
-import { Chip } from '../../../intent-core/chips/Chip';
-import { ChipNode } from '../interpreting/intent/ast/ChipNode';
+import { Chip } from '../../../intent/chips/Chip';
+import { ChipNode } from '../../../intent/transpiler/ast/ChipNode';
 import { DependencyManager } from '../watching/watchdog/dependencies/DependencyManager';
-import { QualifierResolver } from '../../../intent-core/chips/qualifier/QualifierResolver';
+import { QualifierResolver } from '../../../intent/chips/qualifier/QualifierResolver';
 import { Source } from '../reading/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 

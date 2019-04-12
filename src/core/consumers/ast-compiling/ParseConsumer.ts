@@ -4,7 +4,7 @@ import { ParsedEvent } from '../parsing/ParsedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
-import { ChipNode } from '../interpreting/intent/ast/ChipNode';
+import { ChipNode } from '../../../intent/transpiler/ast/ChipNode';
 import { ASTBuilder } from './ASTBuilder';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Source } from '../reading/source/Source';
