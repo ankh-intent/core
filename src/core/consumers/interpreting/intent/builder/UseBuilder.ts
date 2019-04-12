@@ -1,11 +1,11 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { UseNode } from '../ast/UseNode';
-import { BaseBuilder, BuildInvoker } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { QualifierNode } from '../ast/QualifierNode';
 
-export interface UseChildren {
+export interface UseChildren extends BuilderInvokers<any> {
   qualifier: BuildInvoker<QualifierNode>;
 }
 

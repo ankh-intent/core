@@ -1,12 +1,12 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
 import { DomainNode } from '../ast/DomainNode';
-import { BaseBuilder, BuildInvoker } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { UseNode } from '../ast/UseNode';
 
-export interface DomainChildren {
+export interface DomainChildren extends BuilderInvokers<any> {
   typedef: BuildInvoker<TypeDefNode>;
   use: BuildInvoker<UseNode>;
 }

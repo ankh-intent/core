@@ -3,12 +3,12 @@ import { Tokens } from '../../../parsing/parser/Tokens';
 import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 
 import { ChipNode } from '../ast/ChipNode';
-import { BaseBuilder, BuildInvoker } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 import { UseNode } from '../ast/UseNode';
 import { DomainNode } from '../ast/DomainNode';
 import { CanNode } from '../ast/CanNode';
 
-export interface ChipChildren {
+export interface ChipChildren extends BuilderInvokers<any> {
   use: BuildInvoker<UseNode>;
   domain: BuildInvoker<DomainNode>;
   can: BuildInvoker<CanNode>;

@@ -1,11 +1,11 @@
 
 import { Tokens } from '../../../parsing/parser/Tokens';
-import { BaseBuilder, BuildInvoker } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 import { ConstraintNode } from '../ast/ConstraintNode';
 import { TokenMatcher } from '../../../parsing/parser/TokenMatcher';
 import { CanNode } from '../ast/CanNode';
 
-export interface ConstraintChildren {
+export interface ConstraintChildren extends BuilderInvokers<any> {
   can: BuildInvoker<CanNode>;
 }
 
