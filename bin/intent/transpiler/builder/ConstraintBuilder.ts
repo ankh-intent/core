@@ -9,12 +9,12 @@ export interface ConstraintChildren {
 }
 
 export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChildren> {
-  public build(tokens: Tokens): ConstraintNode {
+  public visit(tokens: Tokens): ConstraintNode {
     if (tokens.not({type: 'symbol', value: ':'})) {
       return null;
     }
 
-    const can = this.child.can.build(tokens);
+    const can = this.child.can.visit(tokens);
 
     if (!can) {
       throw tokens.error('Expected method declaration after ":"');

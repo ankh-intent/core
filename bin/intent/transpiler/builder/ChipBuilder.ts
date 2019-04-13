@@ -13,7 +13,7 @@ export interface ChipChildren {
 }
 
 export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
-  public build(tokens: Tokens): ChipNode {
+  public visit(tokens: Tokens): ChipNode {
     tokens.ensure({value: 'chip'});
 
     const { value: name } = tokens.ensure({type: 'string'});
@@ -29,7 +29,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
         break;
       }
 
-      const use = this.child.use.build(tokens);
+      const use = this.child.use.visit(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -38,7 +38,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
         uses[use.alias] = use;
       } else {
-        const domain = this.child.domain.build(tokens);
+        const domain = this.child.domain.visit(tokens);
 
         if (domain) {
           if (domains[domain.identifier]) {
@@ -53,7 +53,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
     }
 
     if (tokens.peek({type: 'identifier', value: 'can'})) {
-      can = this.child.can.build(tokens);
+      can = this.child.can.visit(tokens);
     }
 
     tokens.ensure({value: '}'});

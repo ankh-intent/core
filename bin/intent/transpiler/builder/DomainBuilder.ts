@@ -11,7 +11,7 @@ export interface DomainChildren {
 }
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
-  public build(tokens: Tokens): DomainNode {
+  public visit(tokens: Tokens): DomainNode {
     if (tokens.not({value: 'domain'})) {
       return null;
     }
@@ -23,7 +23,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     tokens.ensure({value: '{'});
 
     while (true) {
-      const use = this.child.use.build(tokens);
+      const use = this.child.use.visit(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -35,7 +35,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         continue;
       }
 
-      const type = this.child.typedef.build(tokens);
+      const type = this.child.typedef.visit(tokens);
 
       if (type) {
         if (types[type.name]) {

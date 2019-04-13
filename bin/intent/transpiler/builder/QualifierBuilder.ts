@@ -8,14 +8,14 @@ export interface QualifierChildren {
 }
 
 export class QualifierBuilder extends BaseBuilder<QualifierNode, QualifierChildren> {
-  build(tokens: Tokens): QualifierNode {
+  visit(tokens: Tokens): QualifierNode {
     const { value: name } = tokens.ensure({type: 'identifier'});
 
     const qualifier = new QualifierNode();
     qualifier.name = name;
 
     if (tokens.get({value: '.', type: 'symbol'})) {
-      qualifier.child = this.build(tokens);
+      qualifier.child = this.visit(tokens);
     }
 
     return qualifier;

@@ -1,5 +1,5 @@
 import { Tokens } from '@intent/kernel/parser/Tokens';
-import { ASTBuilder } from '@intent/kernel/ast/ASTBuilder';
+import { TokenVisitor } from '@intent/kernel/ast/TokenVisitor';
 
 import { ChipNode } from '../ast/ChipNode';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';
@@ -12,7 +12,7 @@ import { DomainBuilder, DomainChildren } from './DomainBuilder';
 import { ChipBuilder, ChipChildren } from './ChipBuilder';
 import { ConstraintBuilder, ConstraintChildren } from './ConstraintBuilder';
 
-export class IntentBuilder implements ASTBuilder<ChipNode> {
+export class IntentBuilder implements TokenVisitor<ChipNode> {
   private builders:
     QualifierChildren &
     UseChildren &
@@ -63,8 +63,8 @@ export class IntentBuilder implements ASTBuilder<ChipNode> {
     }
   }
 
-  public build(tokens: Tokens): ChipNode {
-    return this.builders.chip.build(tokens);
+  public visit(tokens: Tokens): ChipNode {
+    return this.builders.chip.visit(tokens);
   }
 }
 

@@ -11,7 +11,7 @@ export interface CanChildren {
 }
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
-  public build(tokens: Tokens): CanNode {
+  public visit(tokens: Tokens): CanNode {
     const name = tokens.get({type: 'identifier'});
 
     if (!name) {
@@ -30,7 +30,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
         tokens.ensure({type: 'symbol', value: ','})
       }
 
-      const arg = this.child.property.build(tokens);
+      const arg = this.child.property.visit(tokens);
 
       if (arg) {
         if (args[arg.name]) {
@@ -47,7 +47,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     tokens.ensure({type: 'symbol', value: ')'});
 
     if (tokens.get({type: 'symbol', value: ':'})) {
-      returns = this.child.type.build(tokens);
+      returns = this.child.type.visit(tokens);
     }
 
     tokens.ensure({type: 'symbol', value: '{'});

@@ -15,7 +15,7 @@ export interface TypeDefChildren {
 }
 
 export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
-  build(tokens: Tokens): TypeDefNode {
+  visit(tokens: Tokens): TypeDefNode {
     if (tokens.not({value: 'type'})) {
       return null;
     }
@@ -25,14 +25,14 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
     const constraints = {};
     const cans = {};
     const parent = tokens.get({value: 'extends'})
-      ? this.child.type.build(tokens)
+      ? this.child.type.visit(tokens)
       : null
     ;
 
     tokens.ensure({value: '{'});
 
     while (true) {
-      const constraint = this.child.constraint.build(tokens);
+      const constraint = this.child.constraint.visit(tokens);
 
       if (constraint) {
         if (constraints[constraint.can.name]) {
@@ -43,7 +43,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      const property = this.child.property.build(tokens);
+      const property = this.child.property.visit(tokens);
 
       if (property) {
         if (properties[property.name]) {
@@ -56,7 +56,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      const can = this.child.can.build(tokens);
+      const can = this.child.can.visit(tokens);
 
       if (can) {
         if (cans[can.name]) {

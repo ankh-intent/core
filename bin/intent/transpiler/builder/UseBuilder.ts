@@ -9,12 +9,12 @@ export interface UseChildren {
 }
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
-  public build(tokens: Tokens): UseNode {
+  public visit(tokens: Tokens): UseNode {
     if (tokens.not({value: 'use'})) {
       return null;
     }
 
-    const qualifier = this.child.qualifier.build(tokens);
+    const qualifier = this.child.qualifier.visit(tokens);
     const alias = tokens.get({value: 'as'})
       ? tokens.ensure({type: 'identifier'}).value
       : qualifier.deepest();

@@ -5,7 +5,7 @@ import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { ChipNode } from '../../../../bin/intent/transpiler/ast/ChipNode';
-import { ASTBuilder } from '../../kernel/ast/ASTBuilder';
+import { TokenVisitor } from '../../kernel/ast/TokenVisitor';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Source } from '../../kernel/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
@@ -17,9 +17,9 @@ export class AstStat extends ConsumerStat {
 }
 
 export class ParseConsumer extends AbstractConsumer<ParsedEvent, any>{
-  private readonly parser: ASTBuilder<ChipNode>;
+  private readonly parser: TokenVisitor<ChipNode>;
 
-  public constructor(bus: CoreEventBus, parser: ASTBuilder<ChipNode>) {
+  public constructor(bus: CoreEventBus, parser: TokenVisitor<ChipNode>) {
     super(bus);
     this.parser = parser;
   }
@@ -34,7 +34,7 @@ export class ParseConsumer extends AbstractConsumer<ParsedEvent, any>{
 
     return new AnalyzedEvent({
       source,
-      ast: this.parser.build(tokens),
+      ast: this.parser.visit(tokens),
     });
   }
 }
