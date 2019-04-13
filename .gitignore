@@ -12,3 +12,6 @@ npm-debug.log
 /.stryker-tmp
 /reports
 !webpack.config.js
+!wallaby.js
+!stryker.conf.js
+!/**/*.json

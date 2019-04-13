@@ -1,5 +1,5 @@
 import { Tokens } from '@intent/kernel/parser/Tokens';
-import { ASTBuilder } from '@intent/consumers/ast-compiling/ASTBuilder';
+import { ASTBuilder } from '@intent/kernel/ast/ASTBuilder';
 
 import { ChipNode } from '../ast/ChipNode';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';

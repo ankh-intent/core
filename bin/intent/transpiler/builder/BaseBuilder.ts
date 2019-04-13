@@ -1,6 +1,6 @@
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
 import { Tokens } from '@intent/kernel/parser/Tokens';
-import { ASTBuilder } from '@intent/consumers/ast-compiling/ASTBuilder';
+import { TreeNode } from '@intent/kernel/ast/TreeNode';
+import { ASTBuilder } from '@intent/kernel/ast/ASTBuilder';
 
 export abstract class BaseBuilder<N extends TreeNode, T> implements ASTBuilder<N> {
   protected child: T;
