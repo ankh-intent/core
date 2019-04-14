@@ -15,7 +15,7 @@ export class EmittedStat extends BaseStat {
     this.logger = logger;
   }
 
-  public process(event: StatEvent, { chip, index, source, start, end }): StatEvent {
+  public process(event: StatEvent, { identifiable, index, source, start, end }): StatEvent {
     const path = (<Source>source).reference;
     const common = Strings.longestCommon([
       path,
@@ -31,7 +31,7 @@ export class EmittedStat extends BaseStat {
       if (parent) {
         const data: any = parent.data;
 
-        if (data.identifiable && (data.identifiable !== chip)) {
+        if (data.identifiable && (data.identifiable !== identifiable)) {
           cause = data.identifiable.name;
           break;
         }
