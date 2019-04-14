@@ -58,7 +58,7 @@ domain Game {
 
     let index = players.indexOf(player);
 
-    each (let next = Index((index + 1) % players.size)) {
+    each (let next = Index((++index) % players.size)) {
       let candidate = players[next];
 
       if (!withdrawn.has(candidate)) {
@@ -84,7 +84,7 @@ domain Game {
       if (gain is PositiveNumber) {
         let scored = score[turn] + gain;
 
-        if (winning.cast(scored)) {
+        if (winning(scored)) {
           return Outcome.Win({
             player: turn,
             scored,
@@ -92,7 +92,7 @@ domain Game {
         }
       }
 
-      if (let switch = MaybePlayer.cast(next[turn])) {
+      if (let switch = next[turn]) {
         turn = switch;
       } else {
         break;
