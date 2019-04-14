@@ -54,7 +54,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     ensure.symbol('{');
 
     const wrapBefore = ['='];
-    const wrapAfter = [',', '=', ':', '?'];
+    const wrapAfter = [',', '=', ':', '?', 'return'];
     const breakBefore = ['?', ':'];
     const breakAfter = [';'];
     const body = [];
@@ -63,7 +63,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
     while ((token = except.symbol('}'))) {
       if (prev === 'identifier') {
-        if ((token.type === prev) || (['return'].includes(token.value))) {
+        if (token.type === prev) {
           body.push(' ');
         }
       }
