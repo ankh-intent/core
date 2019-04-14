@@ -1,35 +1,36 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { ChipNode } from '../ast/ChipNode';
-import { BaseBuilder } from './BaseBuilder';
-import { UseBuilder } from './UseBuilder';
-import { CanBuilder } from './CanBuilder';
-import { DomainBuilder } from './DomainBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { UseNode } from '../ast/UseNode';
+import { DomainNode } from '../ast/DomainNode';
+import { CanNode } from '../ast/CanNode';
 
-export interface ChipChildren {
-  use: UseBuilder;
-  domain: DomainBuilder;
-  can: CanBuilder;
+export interface ChipChildren extends BuilderInvokers<any> {
+  use: BuildInvoker<UseNode>;
+  domain: BuildInvoker<DomainNode>;
+  can: BuildInvoker<CanNode>;
 }
 
 export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
-  public visit(tokens: Tokens): ChipNode {
-    tokens.ensure({value: 'chip'});
+  protected build(tokens: Tokens, {peek, ensure}: TokenMatcher): ChipNode {
+    ensure.identifier('chip');
 
-    const { value: name } = tokens.ensure({type: 'string'});
+    const { value: name } = ensure.string();
 
     const uses = {};
     const domains = {};
     let can = null;
 
-    tokens.ensure({value: '{'});
+    ensure.symbol('{');
 
     while (true) {
-      if (tokens.peek({type: 'symbol', value: '}'})) {
+      if (peek.symbol('}')) {
         break;
       }
 
-      const use = this.child.use.visit(tokens);
+      const use = this.child.use(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -38,7 +39,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
         uses[use.alias] = use;
       } else {
-        const domain = this.child.domain.visit(tokens);
+        const domain = this.child.domain(tokens);
 
         if (domain) {
           if (domains[domain.identifier]) {
@@ -52,11 +53,11 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
       }
     }
 
-    if (tokens.peek({type: 'identifier', value: 'can'})) {
-      can = this.child.can.visit(tokens);
+    if (peek.identifier('can')) {
+      can = this.child.can(tokens);
     }
 
-    tokens.ensure({value: '}'});
+    ensure.symbol('}');
 
     return Object.assign(new ChipNode(), {
       name,

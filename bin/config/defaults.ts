@@ -1,6 +1,6 @@
 
 import * as path from 'path';
-import { TranspilerConfig } from '../intent/Transpiler';
+import { TranspilerConfig } from '../intent/TranspilerPipelineObserver';
 
 const root = __dirname.replace(/\/config$/, '');
 

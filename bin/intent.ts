@@ -10,17 +10,20 @@ import { StatEvent } from '@intent/kernel/event/events/StatEvent';
 import configure from './config';
 import { Logger } from '@intent/utils/Logger';
 import { Core } from '@intent/Core';
-import { Transpiler, TranspilerConfig } from './intent/Transpiler';
+import { Chip } from './intent/chips/Chip';
+import { ConfigProvider } from './intent/ConfigProvider';
+import { ChipNode } from './intent/transpiler/ast/ChipNode';
+import { TranspilerPipelineObserver, TranspilerConfig } from './intent/TranspilerPipelineObserver';
 
-((core: Core<TranspilerConfig>) => {
-  const transpiler = new Transpiler();
+((core: Core<TranspilerConfig, ChipNode, Chip>) => {
   const config = core.bootstrap({
       ...configure(process.env.ENV),
       ...{
         // ... default config override here
       },
     },
-    transpiler,
+    (core, config) => (new ConfigProvider(config)).build(core),
+    (core, resolved) => new TranspilerPipelineObserver(resolved),
   );
 
   if (config.emit.config) {

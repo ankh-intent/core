@@ -1,11 +1,10 @@
-
+import { TokenVisitor } from '../../kernel/ast/TokenVisitor';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ParsedEvent } from '../parsing/ParsedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { ChipNode } from '../../../../bin/intent/transpiler/ast/ChipNode';
-import { TokenVisitor } from '../../kernel/ast/TokenVisitor';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Source } from '../../kernel/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';

@@ -31,8 +31,8 @@ export class EmittedStat extends BaseStat {
       if (parent) {
         const data: any = parent.data;
 
-        if (data.chip && (data.chip !== chip)) {
-          cause = data.chip.name;
+        if (data.identifiable && (data.identifiable !== chip)) {
+          cause = data.identifiable.name;
           break;
         }
       }

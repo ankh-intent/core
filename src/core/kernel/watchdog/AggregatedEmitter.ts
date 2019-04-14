@@ -1,4 +1,3 @@
-
 import { ArrayConsumer } from '../../utils/ArrayConsumer';
 import { Emitter } from '../../utils/Emitter';
 import { Aggregator } from './aggregator/Aggregator';

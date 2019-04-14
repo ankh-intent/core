@@ -1,36 +1,37 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 import { CanNode } from '../ast/CanNode';
-import { PropertyBuilder } from './PropertyBuilder';
-import { TypeBuilder } from './TypeBuilder';
+import { TypeNode } from '../ast/TypeNode';
+import { PropertyNode } from '../ast/PropertyNode';
 
-export interface CanChildren {
-  property: PropertyBuilder;
-  type: TypeBuilder;
+export interface CanChildren extends BuilderInvokers<any> {
+  property: BuildInvoker<PropertyNode>;
+  type: BuildInvoker<TypeNode>;
 }
 
 export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
-  public visit(tokens: Tokens): CanNode {
-    const name = tokens.get({type: 'identifier'});
+  protected build(tokens: Tokens, {peek, not, get, except, ensure}: TokenMatcher): CanNode {
+    const name = get.identifier();
 
     if (!name) {
       return null;
     }
 
-    if (tokens.not({type: 'symbol', value: '('})) {
+    if (not.symbol('(')) {
       return null;
     }
 
     const args = {};
     let returns = null;
 
-    while (!tokens.peek({type: 'symbol', value: ')'})) {
+    while (!peek.symbol(')')) {
       if (Object.keys(args).length) {
-        tokens.ensure({type: 'symbol', value: ','})
+        ensure.symbol(',');
       }
 
-      const arg = this.child.property.visit(tokens);
+      const arg = this.child.property(tokens);
 
       if (arg) {
         if (args[arg.name]) {
@@ -39,18 +40,18 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
 
         args[arg.name] = arg;
       } else {
-        const token = tokens.get({});
+        const token = get.any();
         throw tokens.error(`")" or method argument expected, ${token ? `"${token.value}"` : 'EOF'} found`);
       }
     }
 
-    tokens.ensure({type: 'symbol', value: ')'});
+    ensure.symbol(')');
 
-    if (tokens.get({type: 'symbol', value: ':'})) {
-      returns = this.child.type.visit(tokens);
+    if (get.symbol(':')) {
+      returns = this.child.type(tokens);
     }
 
-    tokens.ensure({type: 'symbol', value: '{'});
+    ensure.symbol('{');
 
     const wrapBefore = ['='];
     const wrapAfter = [',', '=', ':', '?'];
@@ -60,7 +61,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
     let token;
     let prev = null;
 
-    while ((token = tokens.but({type: 'symbol', value: '}'}))) {
+    while ((token = except.symbol('}'))) {
       if (prev === 'identifier') {
         if ((token.type === prev) || (['return'].includes(token.value))) {
           body.push(' ');
@@ -92,7 +93,7 @@ export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
       prev = token.type;
     }
 
-    tokens.ensure({type: 'symbol', value: '}'});
+    ensure.symbol('}');
 
     const can = new CanNode();
     can.name = name.value;

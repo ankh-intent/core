@@ -1,15 +1,14 @@
 
 import path = require('path');
+
 import { Strings } from '@intent/utils/Strings';
+import { FileEmitResolverInterface } from '@intent/consumers/emitting/InterpretedConsumer';
 
-import { TranspilerConfig } from '../Transpiler';
+import { ChipNode } from '../transpiler/ast/ChipNode';
 import { Chip } from './Chip';
+import { TranspilerConfig } from '../TranspilerPipelineObserver';
 
-export interface FileEmitResolverInterface {
-  resolve(from: Chip): string;
-}
-
-class BaseFileEmitResolver implements FileEmitResolverInterface {
+class BaseFileEmitResolver implements FileEmitResolverInterface<ChipNode, Chip> {
   protected readonly config: TranspilerConfig;
 
   public constructor(config: TranspilerConfig) {
@@ -17,7 +16,7 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
   }
 
   protected getOriginalPath(chip: Chip): string {
-    return chip.path;
+    return chip.identifier;
   }
 
   protected getBasePath(chip: Chip): string {
@@ -41,7 +40,7 @@ class BaseFileEmitResolver implements FileEmitResolverInterface {
     const emit = path.join(parts.dir, parts.name + this.config.output.extension);
     const common = Strings.longestCommon([emit, base])
       .pop()
-      .replace(new RegExp(`\\${path.sep}$`), '')
+      .replace(new RegExp(Strings.escapeRegExp(path.sep)), '')
     ;
 
     return emit.replace(common, out);
@@ -75,7 +74,7 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
 }
 
 export class FileEmitResolver extends BaseFileEmitResolver {
-  public readonly resolvers: FileEmitResolverInterface[];
+  public readonly resolvers: FileEmitResolverInterface<ChipNode, Chip>[];
 
   public constructor(config: TranspilerConfig) {
     super(config);

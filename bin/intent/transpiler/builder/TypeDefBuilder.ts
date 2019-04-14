@@ -1,38 +1,38 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { TypeDefNode } from '../ast/TypeDefNode';
-import { BaseBuilder } from './BaseBuilder';
-import { PropertyBuilder } from './PropertyBuilder';
-import { TypeBuilder } from './TypeBuilder';
-import { CanBuilder } from './CanBuilder';
-import { ConstraintBuilder } from './ConstraintBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { TypeNode } from '../ast/TypeNode';
+import { PropertyNode } from '../ast/PropertyNode';
+import { CanNode } from '../ast/CanNode';
+import { ConstraintNode } from '../ast/ConstraintNode';
 
-export interface TypeDefChildren {
-  property: PropertyBuilder;
-  type: TypeBuilder;
-  can: CanBuilder;
-  constraint: ConstraintBuilder;
+export interface TypeDefChildren extends BuilderInvokers<any> {
+  property: BuildInvoker<PropertyNode>;
+  type: BuildInvoker<TypeNode>;
+  can: BuildInvoker<CanNode>;
+  constraint: BuildInvoker<ConstraintNode>;
 }
 
 export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
-  visit(tokens: Tokens): TypeDefNode {
-    if (tokens.not({value: 'type'})) {
+  protected build(tokens: Tokens, {not, get, ensure}: TokenMatcher): TypeDefNode {
+    if (not.identifier('type')) {
       return null;
     }
 
-    const { value: name } = tokens.get({type: 'identifier'});
+    const { value: name } = get.identifier();
     const properties = {};
     const constraints = {};
     const cans = {};
-    const parent = tokens.get({value: 'extends'})
-      ? this.child.type.visit(tokens)
-      : null
-    ;
+    const parent = get.identifier('extends')
+      ? this.child.type(tokens)
+      : null;
 
-    tokens.ensure({value: '{'});
+    ensure.symbol('{');
 
     while (true) {
-      const constraint = this.child.constraint.visit(tokens);
+      const constraint = this.child.constraint(tokens);
 
       if (constraint) {
         if (constraints[constraint.can.name]) {
@@ -43,20 +43,20 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
         continue;
       }
 
-      const property = this.child.property.visit(tokens);
+      const property = this.child.property(tokens);
 
       if (property) {
         if (properties[property.name]) {
           throw tokens.error(`Property with the same name "${property.name}" already present`);
         }
 
-        tokens.ensure({type: 'symbol', value: ';'});
+        ensure.symbol(';');
         properties[property.name] = property;
 
         continue;
       }
 
-      const can = this.child.can.visit(tokens);
+      const can = this.child.can(tokens);
 
       if (can) {
         if (cans[can.name]) {
@@ -71,7 +71,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
       break;
     }
 
-    tokens.ensure({value: '}'});
+    ensure.symbol('}');
 
     const type = new TypeDefNode();
     type.name = name;

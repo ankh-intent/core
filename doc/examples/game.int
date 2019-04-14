@@ -32,6 +32,8 @@ domain Game {
     }}
   }
 
+  private domain MaybePlayer extends Maybe.Value<Player>;
+
   interface {
     players: Players;
     dice: PositiveNumber = 6;
@@ -39,24 +41,24 @@ domain Game {
   }
 
   state {
-    scores: Map<Player, Score> = new Map(players.map((player: Player) => [player, 0]));
-    withdrawn: Set<Player> = new Set();
-    turn: Player = players.get(0);
+    scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
+    withdrawn: Set<Player> = Set();
+    turn: Player = players[0];
     victory: Score.Winning({ max: goal });
   }
 
   get score[player: Player]: Score {
-    return scores.get(player);
+    return scores[player];
   }
 
-  get next[player: Player]: Maybe<Player> {
+  get next[player: Player]: MaybePlayer {
     if (withdrawn.size === players.size) {
-      return new Maybe();
+      return new MaybePlayer();
     }
 
     let index = players.indexOf(player);
 
-    each (let next = Index.cast((index + 1) % players.size)) {
+    each (let next = Index((index + 1) % players.size)) {
       let candidate = players[next];
 
       if (!withdrawn.has(candidate)) {
@@ -68,7 +70,7 @@ domain Game {
   private try(player: Player): Score {
     each (let rolled = roll()) {
       if (rolled is Score.SnakeEye) {
-        return new Score(0);
+        return Score(0);
       }
 
       if (victory.cast(rolled) || hold()) {
@@ -78,28 +80,26 @@ domain Game {
   }
 
   play(): Outcome {
-    let player = Maybe.Value<Player>;
-
     each (let gain = try(turn)) {
-      if (gain) {
+      if (gain is PositiveNumber) {
         let scored = score[turn] + gain;
 
         if (winning.cast(scored)) {
-          return new Outcome.Win({
+          return Outcome.Win({
             player: turn,
             scored,
           });
         }
       }
 
-      if (let switch = player.cast(next[turn])) {
+      if (let switch = MaybePlayer.cast(next[turn])) {
         turn = switch;
       } else {
         break;
       }
     }
 
-    return new Outcome.Draw({
+    return Outcome.Draw({
       scores,
     });
   }

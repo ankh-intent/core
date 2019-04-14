@@ -1,9 +1,12 @@
 const REGEXP_GUARD = /[|\\{}()[\]^$+*?.]/g;
 
 export class Strings {
-
   public static escapeRegExp(pattern: string) {
     return pattern.replace(REGEXP_GUARD, '\\$&');
+  }
+
+  public static camelCaseToHyphenCase(text: string) {
+    return text.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
   }
 
   public static shrink(string: string, to: number, left: boolean = false) {

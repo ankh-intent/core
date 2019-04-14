@@ -8,7 +8,7 @@ export class NodeCache {
   }
 
   public set(chip: Chip): Chip {
-    this.cache[chip.path] = chip;
+    this.cache[chip.identifier] = chip;
 
     return chip;
   }
@@ -18,6 +18,6 @@ export class NodeCache {
   }
 
   public has(chip: Chip): boolean {
-    return !!this.cache[chip.path];
+    return !!this.cache[chip.identifier];
   }
 }

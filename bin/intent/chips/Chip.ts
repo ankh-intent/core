@@ -1,26 +1,25 @@
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
+import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
+import { Identifiable } from '@intent/kernel/watchdog/dependencies/DependencyNode';
 
 import { ChipNode } from '../transpiler/ast/ChipNode';
 
-export class Chip implements TreeNode {
-  public static TYPE_CHIP = 'chip';
-
-  public node: string = Chip.TYPE_CHIP;
-  public path: string;
+export class Chip extends AbstractNode implements Identifiable<ChipNode> {
   public name: string;
+  public identifier: string;
   public linked: {[name: string]: Chip} = {};
   public ast: ChipNode;
 
-  public constructor(path: string) {
-    this.path = path;
+  public constructor(identifier: string) {
+    super();
+    this.identifier = identifier;
   }
 
   public link(chip: Chip) {
-    this.linked[chip.path] = chip;
+    this.linked[chip.identifier] = chip;
   }
 
   public unlink(chip: Chip) {
-    delete this.linked[chip.path];
+    delete this.linked[chip.identifier];
   }
 
   public has(chip: Chip) {
@@ -38,7 +37,7 @@ export class Chip implements TreeNode {
   }
 
   public byPath(path: string): Chip {
-    if (this.path === path) {
+    if (this.identifier === path) {
       return this;
     }
 

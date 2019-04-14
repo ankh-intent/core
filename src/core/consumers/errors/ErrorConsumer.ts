@@ -31,7 +31,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       if (type === ErrorEvent.type()) {
         this.report(data.error);
       } else {
-        this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).path ? `(${(<any>data).path})` : '');
+        this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).identifier ? `(${(<any>data).identifier})` : '');
       }
     }
 

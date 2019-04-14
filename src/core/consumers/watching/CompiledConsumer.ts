@@ -1,33 +1,32 @@
-
-import { Container } from '../../utils/Container';
+import { TreeNode } from '../../kernel/ast/TreeNode';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
-import { CompiledEvent } from '../ast-compiling/CompiledEvent';
-import { UseResolverInterface } from '../../../../bin/intent/chips/use/UseResolverInterface';
+import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
-import { TranspilerConfig } from '../../../../bin/intent/Transpiler';
-import { BaseUseResolver } from '../../../../bin/intent/chips/use/BaseUseResolver';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { Objects } from '../../utils/Objects';
-import { UpdateEvent } from './UpdateEvent';
+import { DependencyNode, Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { Container } from '../../utils/Container';
+import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { DependencyModifiedEvent } from './DependencyModifiedEvent';
-import { DependencyNode } from '../../kernel/watchdog/dependencies/DependencyNode';
-import { Chip } from '../../../../bin/intent/chips/Chip';
+import { UpdateEvent } from './UpdateEvent';
 
-export class SynchronizeStat extends ConsumerStat {
-  public constructor(public readonly dependency: DependencyNode) {
+export interface DependenciesResolver<N extends TreeNode, T extends Identifiable<N>> {
+  resolve(identifiable: T): Container<T>;
+}
+
+export class SynchronizeStat<N extends TreeNode, T extends Identifiable<N>> extends ConsumerStat {
+  public constructor(public readonly dependency: DependencyNode<N, T>) {
     super();
   }
 }
 
-export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
-  private readonly resolver: UseResolverInterface;
-  private readonly tree: DependencyManager;
+export class CompiledConsumer<N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<CompiledEvent<N, T>, any>{
+  private readonly resolver: DependenciesResolver<N, T>;
+  private readonly tree: DependencyManager<N, T>;
 
-  public constructor(bus: CoreEventBus, config: TranspilerConfig, tree: DependencyManager) {
+  public constructor(bus: CoreEventBus, resolver: DependenciesResolver<N, T>, tree: DependencyManager<N, T>) {
     super(bus);
-    this.resolver = new BaseUseResolver(config);
+    this.resolver = resolver;
     this.tree = tree;
   }
 
@@ -35,25 +34,25 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
     return event.type === CompiledEvent.type();
   }
 
-  public process(event: CompiledEvent) {
+  public process(event: CompiledEvent<N, T>) {
     const { dependency } = event.data;
 
     this.synchronize(dependency, event);
 
-    return new DependencyModifiedEvent(
+    return new DependencyModifiedEvent<N, T>(
       { dependency },
       event,
     );
   }
 
-  private synchronize(node: DependencyNode, event: CoreEvent<any>) {
+  private synchronize(node: DependencyNode<N, T>, event: CoreEvent<any>) {
     this.stat(event, new SynchronizeStat(node));
 
-    const uses = this.uses(node.chip);
+    const uses = this.resolver.resolve(node.identifiable);
 
     const nodes = this.tree.all(Object.keys(uses), false);
-    const unknown: DependencyNode[] = [];
-    const known: DependencyNode[] = [];
+    const unknown: DependencyNode<N, T>[] = [];
+    const known: DependencyNode<N, T>[] = [];
 
     for (const dependency of nodes) {
       // todo: some type trickery is going on here
@@ -80,23 +79,7 @@ export class CompiledConsumer extends AbstractConsumer<CompiledEvent, any>{
 
     for (const dependency of unknown) {
       // todo: entry forwarding
-      this.emit(new UpdateEvent({ path: dependency.path, entry: '%C' }, event));
+      this.emit(new UpdateEvent({ path: dependency.identifier, entry: '%C' }, event));
     }
-  }
-
-  protected uses(chip: Chip): Container<Chip> {
-    const links = {};
-
-    for (const use of Objects.iterate(chip.ast.uses)) {
-      const link = this.resolver.resolve(chip, use.qualifier);
-
-      if (!link) {
-        throw new Error(`Can't resolve chip "${use.qualifier.path('.')}"`);
-      }
-
-      links[link.path] = link;
-    }
-
-    return links;
   }
 }

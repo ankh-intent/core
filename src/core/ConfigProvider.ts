@@ -51,9 +51,9 @@ const fileLookup = (name, dir) => {
 };
 
 export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T> {
-  private readonly _defaults: T;
+  private readonly _defaults: Partial<T>;
 
-  public constructor(defaults: T) {
+  public constructor(defaults: Partial<T>) {
     super();
     this._defaults = defaults;
   }
@@ -124,7 +124,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     return config;
   }
 
-  protected options(defaults: T): any {
+  protected options(defaults: Partial<T>): any {
     return {
       "Basic options": {
         "entry": {
@@ -218,7 +218,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  public build(core: Core<T>): T {
+  public build(core: Core<T, any, any>): T {
     return <T> {
       paths: this.paths(),
       entry: this.entry(),
@@ -227,7 +227,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  protected defaults(): T {
+  protected defaults(): Partial<T> {
     return this._defaults;
   }
 }

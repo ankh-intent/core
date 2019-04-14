@@ -4,11 +4,11 @@ import { Core } from '@intent/Core';
 import { InterpreterConfig } from '@intent/consumers/interpreting/DependencyModifiedConsumer';
 
 import { ConfigProvider as BaseConfigProvider, merge } from '../../src/core/ConfigProvider';
-import { TranspilerConfig, OutputConfig } from './Transpiler';
+import { TranspilerConfig, OutputConfig } from './TranspilerPipelineObserver';
 import { ResolverConfig } from './chips/ResolverConfig';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
-  protected options(defaults: TranspilerConfig): any {
+  protected options(defaults: Partial<TranspilerConfig>): any {
     return merge(super.options(defaults), {
       "Emit options": {
         "output-dir": {
@@ -35,7 +35,7 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
     };
   }
 
-  protected resolver(defaults: TranspilerConfig): ResolverConfig {
+  protected resolver(defaults: Partial<TranspilerConfig>): ResolverConfig {
     return {
       paths: {
         intent: defaults.resolver.paths.intent || path.resolve(
@@ -50,7 +50,7 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
     };
   }
 
-  public build(core: Core<TranspilerConfig>): TranspilerConfig {
+  public build(core: Core<TranspilerConfig, any, any>): TranspilerConfig {
     const defaults = this.defaults();
 
     return {

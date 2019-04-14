@@ -52,6 +52,6 @@ export abstract class AbstractConfigProvider<O> {
   }
 
   protected abstract usage(): string;
-  protected abstract defaults(): O;
-  protected abstract options(def: O): any;
+  protected abstract defaults(): Partial<O>;
+  protected abstract options(def: Partial<O>): any;
 }

@@ -1,7 +1,7 @@
 
 import * as path from 'path';
 
-import { TranspilerConfig } from '../../Transpiler';
+import { TranspilerConfig } from '../../TranspilerPipelineObserver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
@@ -14,7 +14,7 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
   }
 
   public resolve(from: Chip): QualifierNode {
-    return this.parse(this.config.paths.project, from.path);
+    return this.parse(this.config.paths.project, from.identifier);
   }
 
   protected parse(base: string, original: string): QualifierNode {
@@ -25,15 +25,7 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
       .filter((p) => p.trim() !== '')
       .map((part) => part.substr(0, 1).toUpperCase() + part.substr(1))
     ;
-    let node = null;
 
-    while (parts.length) {
-      const child = new QualifierNode();
-      child.name = parts.shift();
-      child.child = node;
-      node = child;
-    }
-
-    return node;
+    return parts.reduce((child: QualifierNode|null, id) => new QualifierNode(id, child), null);
   }
 }

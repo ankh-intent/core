@@ -2,9 +2,9 @@ import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
 
 export class QualifierNode extends AbstractNode {
   public name: string;
-  public child: QualifierNode;
+  public child: QualifierNode|null;
 
-  public constructor(name?: string, child?: QualifierNode) {
+  public constructor(name?: string, child?: QualifierNode|null) {
     super();
     this.name = name;
     this.child = child;

@@ -1,29 +1,35 @@
+import { Container } from '../../../utils/Container';
+import { TreeNode } from '../../ast/TreeNode';
 
-import { Chip } from '../../../../../bin/intent/chips/Chip';
+export interface Identifiable<N extends TreeNode> {
+  identifier: string;
+  linked: Container<Identifiable<N>>;
+  ast: N;
+}
 
-export class DependencyNode implements Iterable<DependencyNode> {
-  private _related: DependencyNode[];
+export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> implements Iterable<DependencyNode<N, T>> {
+  private _related: DependencyNode<N, T>[];
 
-  public readonly chip: Chip;
+  public readonly identifiable: T;
 
-  public constructor(chip: Chip, related: DependencyNode[] = []) {
-    this.chip = chip;
+  public constructor(identifiable: T, related: DependencyNode<N, T>[] = []) {
+    this.identifiable = identifiable;
     this._related = related;
   }
 
-  public get path(): string {
-    return this.chip.path;
+  public get identifier(): string {
+    return this.identifiable.identifier;
   }
 
-  public relations(): DependencyNode[] {
+  public relations(): DependencyNode<N, T>[] {
     return this._related;
   }
 
-  public [Symbol.iterator](): IterableIterator<DependencyNode> {
+  public [Symbol.iterator](): IterableIterator<DependencyNode<N, T>> {
     return this._related[Symbol.iterator]();
   }
 
-  public relate(nodes: DependencyNode[]): DependencyNode[] {
+  public relate(nodes: DependencyNode<N, T>[]): DependencyNode<N, T>[] {
     for (const node of nodes) {
       const index = this._related.indexOf(node);
 
@@ -35,13 +41,13 @@ export class DependencyNode implements Iterable<DependencyNode> {
     return nodes;
   }
 
-  public related(name: string): DependencyNode {
-    if (this.path === name) {
+  public related(identifier: string): DependencyNode<N, T> {
+    if (this.identifier === identifier) {
       return this;
     }
 
     for (const node of this._related) {
-      const found = node.related(name);
+      const found = node.related(identifier);
 
       if (found) {
         return found;
@@ -51,7 +57,7 @@ export class DependencyNode implements Iterable<DependencyNode> {
     return null;
   }
 
-  public release(node: DependencyNode): boolean {
+  public release(node: DependencyNode<N, T>): boolean {
     const index = this._related.indexOf(node);
 
     if (index >= 0) {

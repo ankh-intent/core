@@ -1,29 +1,30 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { DomainNode } from '../ast/DomainNode';
-import { TypeDefBuilder } from './TypeDefBuilder';
-import { BaseBuilder } from './BaseBuilder';
-import { UseBuilder } from './UseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { TypeDefNode } from '../ast/TypeDefNode';
+import { UseNode } from '../ast/UseNode';
 
-export interface DomainChildren {
-  typedef: TypeDefBuilder;
-  use: UseBuilder;
+export interface DomainChildren extends BuilderInvokers<any> {
+  typedef: BuildInvoker<TypeDefNode>;
+  use: BuildInvoker<UseNode>;
 }
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
-  public visit(tokens: Tokens): DomainNode {
-    if (tokens.not({value: 'domain'})) {
+  protected build(tokens: Tokens, {not, get, ensure}: TokenMatcher): DomainNode {
+    if (not.identifier('domain')) {
       return null;
     }
 
-    const { value: identifier } = tokens.get({type: 'identifier'});
+    const { value: identifier } = get.identifier();
     const types = {};
     const uses = {};
 
-    tokens.ensure({value: '{'});
+    ensure.symbol('{');
 
     while (true) {
-      const use = this.child.use.visit(tokens);
+      const use = this.child.use(tokens);
 
       if (use) {
         if (uses[use.alias]) {
@@ -35,7 +36,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         continue;
       }
 
-      const type = this.child.typedef.visit(tokens);
+      const type = this.child.typedef(tokens);
 
       if (type) {
         if (types[type.name]) {
@@ -50,7 +51,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
       break;
     }
 
-    tokens.ensure({value: '}'});
+    ensure.symbol('}');
 
     const domain = new DomainNode();
     domain.identifier = identifier;

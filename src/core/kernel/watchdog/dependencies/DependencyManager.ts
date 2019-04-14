@@ -1,15 +1,15 @@
 
 import { Container } from '../../../utils/Container';
 import { Objects } from '../../../utils/Objects';
-import { Chip } from '../../../../../bin/intent/chips/Chip';
-import { DependencyNode } from './DependencyNode';
 import { Eventable } from '../../../utils/Eventable';
+import { TreeNode } from '../../ast/TreeNode';
+import { DependencyNode, Identifiable } from './DependencyNode';
 
-export class DependencyManager extends Eventable {
+export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> extends Eventable {
   static RETAIN = 'retain';
   static RELEASE = 'release';
 
-  public readonly roots: Container<DependencyNode> = {};
+  public readonly roots: Container<DependencyNode<N, T>> = {};
 
   public onretain(handler, once?: boolean): number {
     return (
@@ -27,7 +27,7 @@ export class DependencyManager extends Eventable {
     );
   }
 
-  public contains(filter: (nodes: DependencyNode) => boolean): DependencyNode {
+  public contains(filter: (nodes: DependencyNode<N, T>) => boolean): DependencyNode<N, T> {
     for (const node of Objects.iterate(this.roots)) {
       if (filter(node)) {
         return node;
@@ -37,9 +37,9 @@ export class DependencyManager extends Eventable {
     return null;
   }
 
-  public find(name: string): DependencyNode {
+  public find(identifier: string): DependencyNode<N, T> {
     for (const root of Objects.iterate(this.roots)) {
-      const found = root.related(name);
+      const found = root.related(identifier);
 
       if (found) {
         return found;
@@ -49,53 +49,53 @@ export class DependencyManager extends Eventable {
     return null;
   }
 
-  public add(chip: Chip): DependencyNode {
-    const node = this.roots[chip.path]
-      ? this.roots[chip.path]
-      : this.roots[chip.path] = this.buildNode(chip);
+  public add(identifiable: T): DependencyNode<N, T> {
+    const node = this.roots[identifiable.identifier]
+      ? this.roots[identifiable.identifier]
+      : this.roots[identifiable.identifier] = this.buildNode(identifiable);
 
     this.emit(DependencyManager.RETAIN, node);
 
     return node;
   }
 
-  public dependency(chip: Chip): DependencyNode {
-    return this.find(chip.name) || this.add(chip);
+  public dependency(identifiable: T): DependencyNode<N, T> {
+    return this.find(identifiable.identifier) || this.add(identifiable);
   }
 
-  public dependants(chip: Chip): DependencyNode {
-    return new DependencyNode(chip);
+  public dependants(identifiable: T): DependencyNode<N, T> {
+    return new DependencyNode<N, T>(identifiable);
   }
 
-  protected buildNode(chip: Chip): DependencyNode {
-    const node = new DependencyNode(chip);
+  protected buildNode(identifiable: T): DependencyNode<N, T> {
+    const node = new DependencyNode<N, T>(identifiable);
 
     node.relate(
-      Object.keys(chip.linked)
-        .map((name) => this.buildNode(chip.linked[name]))
+      Object.keys(identifiable.linked)
+        .map((identifier) => this.buildNode(<T>identifiable.linked[identifier]))
     );
 
     return node;
   }
 
-  public all(names: string[] = null, filter: boolean = true): (DependencyNode|string)[] {
-    if (!names) {
+  public all(identifiers: string[] = null, filter: boolean = true): (DependencyNode<N, T>|string)[] {
+    if (!identifiers) {
       return Object.keys(this.roots)
-        .map((name) => this.roots[name])
+        .map((identifier) => this.roots[identifier])
       ;
     }
 
-    const nodes = names.map((name) => this.roots[name]);
+    const nodes = identifiers.map((identifier) => this.roots[identifier]);
 
     return (
       filter
         ? nodes.filter(Boolean)
-        : nodes.map((node, index) => node || names[index])
+        : nodes.map((node, index) => node || identifiers[index])
     );
   }
 
-  public remove(node: DependencyNode): number {
-    let released = +(delete this.roots[node.chip.path]);
+  public remove(node: DependencyNode<N, T>): number {
+    let released = +(delete this.roots[node.identifier]);
 
     for (const root of Objects.iterate(this.roots)) {
       released += +root.release(node);
@@ -110,19 +110,19 @@ export class DependencyManager extends Eventable {
     return released;
   }
 
-  public dereference(parent: DependencyNode, dependency: DependencyNode): boolean {
+  public dereference(parent: DependencyNode<N, T>, dependency: DependencyNode<N, T>): boolean {
     if (!parent.release(dependency)) {
       return false;
     }
 
-    const name = dependency.chip.path;
+    const identifier = dependency.identifier;
 
     for (const root of Objects.iterate(this.roots)) {
       if (root === dependency) {
         continue;
       }
 
-      if (root.related(name)) {
+      if (root.related(identifier)) {
         return false;
       }
     }

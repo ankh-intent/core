@@ -1,30 +1,30 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { UseNode } from '../ast/UseNode';
-import { BaseBuilder } from './BaseBuilder';
-import { QualifierBuilder } from './QualifierBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { QualifierNode } from '../ast/QualifierNode';
 
-export interface UseChildren {
-  qualifier: QualifierBuilder;
+export interface UseChildren extends BuilderInvokers<any> {
+  qualifier: BuildInvoker<QualifierNode>;
 }
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
-  public visit(tokens: Tokens): UseNode {
-    if (tokens.not({value: 'use'})) {
+  protected build(tokens: Tokens, {not, get, ensure}: TokenMatcher): UseNode {
+    if (not.identifier('use')) {
       return null;
     }
 
-    const qualifier = this.child.qualifier.visit(tokens);
-    const alias = tokens.get({value: 'as'})
-      ? tokens.ensure({type: 'identifier'}).value
+    const qualifier = this.child.qualifier(tokens);
+    const alias = get.identifier('as')
+      ? ensure.identifier().value
       : qualifier.deepest();
 
-    tokens.ensure({type: 'symbol', value: ';'});
+    ensure.symbol(';');
 
-    const use = new UseNode();
-    use.qualifier = qualifier;
-    use.alias = alias;
-
-    return use;
+    return new UseNode(
+      qualifier,
+      alias,
+    );
   }
 }

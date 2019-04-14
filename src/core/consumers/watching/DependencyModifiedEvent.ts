@@ -1,10 +1,11 @@
 
+import { TreeNode } from '@intent/kernel/ast/TreeNode';
 import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
-import { DependencyNode } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { DependencyNode, Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
 
-export interface DependencyModifiedEventProps {
-  dependency: DependencyNode;
+export interface DependencyModifiedEventProps<N extends TreeNode, T extends Identifiable<N>> {
+  dependency: DependencyNode<N, T>;
 }
 
-export class DependencyModifiedEvent extends BaseCoreEvent<DependencyModifiedEventProps> {
+export class DependencyModifiedEvent<N extends TreeNode, T extends Identifiable<N>> extends BaseCoreEvent<DependencyModifiedEventProps<N, T>> {
 }

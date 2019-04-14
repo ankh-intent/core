@@ -1,4 +1,3 @@
-
 import * as chokidar from 'chokidar';
 
 import { Eventable } from '../../utils/Eventable';

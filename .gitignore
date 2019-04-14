@@ -5,9 +5,9 @@ node_modules
 ncp-debug.log
 npm-debug.log
 /build
+/**/*.i.*
 /**/*.js.map
 /**/*.js
-/**/*.i.*
 /yarn-error.log
 /.stryker-tmp
 /reports

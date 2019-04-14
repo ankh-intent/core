@@ -1,27 +1,27 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { TypeNode } from '../ast/TypeNode';
-import { QualifierBuilder } from './QualifierBuilder';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { QualifierNode } from '../ast/QualifierNode';
 
-export interface TypeChildren {
-  qualifier: QualifierBuilder;
+export interface TypeChildren extends BuilderInvokers<any> {
+  qualifier: BuildInvoker<QualifierNode>;
 }
 
 export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
-  visit(tokens: Tokens): TypeNode {
-    const qualifier = this.child.qualifier.visit(tokens);
+  protected build(tokens: Tokens, {get, ensure}: TokenMatcher): TypeNode {
+    const qualifier = this.child.qualifier(tokens);
     let generic = null;
 
-    if (tokens.get({type: 'symbol', value: '<'})) {
+    if (get.symbol('<')) {
       generic = this.visit(tokens);
-      tokens.ensure({type: 'symbol', value: '>'});
+      ensure.symbol('>');
     }
 
-    const type = new TypeNode();
-    type.qualifier = qualifier;
-    type.generic = generic;
-
-    return type;
+    return new TypeNode(
+      qualifier,
+      generic,
+    );
   }
 }

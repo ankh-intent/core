@@ -40,13 +40,13 @@ domain Score extends NaturalNumber {
       rolled: NaturalNumber = 0;
 
       make(dice: PositiveNumber): Roll {
-        if (let widthdrew = new Withdraw()) {
+        if (let widthdrew = Withdraw()) {
           return withdrew;
         }
 
         let rolled = Random.inRange(1, dice);
 
-        return new Hold(rolled) || new Roll(rolled);
+        return Hold(rolled) || Roll(rolled);
       }
     }
 

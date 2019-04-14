@@ -1,30 +1,31 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { PropertyNode } from '../ast/PropertyNode';
-import { TypeBuilder } from './TypeBuilder';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { TypeNode } from '../ast/TypeNode';
 
-export interface PropertyChildren {
-  type: TypeBuilder;
+export interface PropertyChildren extends BuilderInvokers<any> {
+  type: BuildInvoker<TypeNode>;
 }
 
 export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren> {
-  visit(tokens: Tokens): PropertyNode {
-    const name = tokens.get({type: 'identifier'});
+  protected build(tokens: Tokens, {get, not}: TokenMatcher): PropertyNode {
+    const name = get.identifier();
 
     if (!name) {
       return null;
     }
 
-    if (tokens.not({type: 'symbol', value: ':'})) {
+    if (not.symbol(':')) {
       return null;
     }
 
-    const type = this.child.type.visit(tokens);
+    const type = this.child.type(tokens);
 
-    return Object.assign(new PropertyNode(), {
-      name: name.value,
+    return new PropertyNode(
+      name.value,
       type,
-    });
+    );
   }
 }

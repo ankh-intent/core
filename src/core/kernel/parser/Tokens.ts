@@ -4,6 +4,7 @@ import { Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
 import { Source } from '../source/Source';
 import { Strings } from '../../utils/Strings';
+import { MatcherInterface, TokenMatcher } from './TokenMatcher';
 
 export class Range {
   from: number;
@@ -14,6 +15,7 @@ export class Tokens {
   private readonly tokenizer: Tokenizer;
   private readonly context: Context;
   private readonly tokens: {[index: number]: Token} = {};
+  private _matcher: TokenMatcher;
   private index: number;
   private last: number;
 
@@ -29,6 +31,10 @@ export class Tokens {
     this.tokenizer = tokenizer;
   }
 
+  public get source(): Source {
+    return this.context.source;
+  }
+
   public at(index: number): Token {
     let token = this.tokens[index];
 
@@ -38,12 +44,10 @@ export class Tokens {
       this.tokens[index] = token;
     }
 
-    this.last = token.start;
-
     return token;
   }
 
-  public peek(matcher: Matcher): Token {
+  public peek(matcher: MatcherInterface): Token {
     const { range: { to } } = this.context;
 
     if (this.index >= to) {
@@ -51,6 +55,7 @@ export class Tokens {
     }
 
     const token = this.at(this.index + 1);
+    this.last = token ? token.start : this.context.pos;
 
     if (token) {
       const { value, type } = matcher;
@@ -67,7 +72,7 @@ export class Tokens {
     return token;
   }
 
-  public get(matcher: Matcher): Token {
+  public get(matcher: MatcherInterface): Token {
     const token = this.peek(matcher);
 
     if (token) {
@@ -77,17 +82,17 @@ export class Tokens {
     return token;
   }
 
-  public not(matcher: Matcher): boolean {
+  public not(matcher: MatcherInterface): boolean {
     return !this.get(matcher);
   }
 
-  public but(matcher: Matcher): Token {
+  public except(matcher: MatcherInterface): Token {
     return this.peek(matcher)
       ? null
       : this.get({});
   }
 
-  public ensure(matcher: Matcher): Token {
+  public ensure(matcher: MatcherInterface): Token {
     const { range: { to } } = this.context;
 
     if (this.index >= to) {
@@ -144,7 +149,7 @@ export class Tokens {
 
   public error(reason: string, parent?: Error): SyntaxError {
     const error = new SyntaxError(reason, this.context.source, this.last);
-    const stack = (error.stack || "").split("\n").slice(2);
+    const stack = (error.stack || '').split('\n').slice(2);
     const commons = stack
       .map((line) => line.match(/at [^(]*\((.+?)(:\d+)*\)/))
       .filter((match) => match)
@@ -171,14 +176,13 @@ export class Tokens {
       }
 
       return line;
-    }).join("\n");
+    }).join('\n');
     error.parent = parent;
 
     return error;
   }
-}
 
-interface Matcher {
-  value?: string;
-  type?: string;
+  public get matcher(): TokenMatcher {
+    return this._matcher || (this._matcher = new TokenMatcher(this));
+  }
 }

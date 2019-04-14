@@ -1,23 +1,20 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { QualifierNode } from '../ast/QualifierNode';
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 
-export interface QualifierChildren {
-
+export interface QualifierChildren extends BuilderInvokers<any> {
+  qualifier: BuildInvoker<QualifierNode>;
 }
 
 export class QualifierBuilder extends BaseBuilder<QualifierNode, QualifierChildren> {
-  visit(tokens: Tokens): QualifierNode {
-    const { value: name } = tokens.ensure({type: 'identifier'});
+  protected build(tokens: Tokens, {get, ensure}: TokenMatcher): QualifierNode {
+    const { value } = ensure.identifier();
 
-    const qualifier = new QualifierNode();
-    qualifier.name = name;
-
-    if (tokens.get({value: '.', type: 'symbol'})) {
-      qualifier.child = this.visit(tokens);
-    }
-
-    return qualifier;
+    return new QualifierNode(
+      value,
+      get.symbol('.') ? this.child.qualifier(tokens) : null,
+    );
   }
 }

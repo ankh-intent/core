@@ -1,5 +1,5 @@
 
-import { TranspilerConfig } from '../../Transpiler';
+import { TranspilerConfig } from '../../TranspilerPipelineObserver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';

@@ -1,4 +1,6 @@
 
+import { TreeNode } from '@intent/kernel/ast/TreeNode';
+import { Identifiable } from '@intent/kernel/watchdog/dependencies/DependencyNode';
 import { Emitter } from './utils/Emitter';
 import { Logger } from './utils/Logger';
 import { UnitMatcher } from './kernel/watchdog/matcher/UnitMatcher';
@@ -44,18 +46,25 @@ export interface CoreConfig {
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
 
-export interface PipelineObserver<C extends CoreConfig> {
-  attach(core: Core<C>, config: CoreConfig): C;
-  bootstrap(core: Core<C>, config: C): void;
+export interface ConfigFactory<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> {
+  (core: Core<C, N, T>, config: CoreConfig): C;
 }
 
-export class Core<C extends CoreConfig> extends Emitter<CoreEventEmitter<any>> {
+export interface PipelineObserverFactory<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> {
+  (core: Core<C, N, T>, config: C): PipelineObserver<C, N, T>;
+}
+
+export interface PipelineObserver<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> {
+  bootstrap(core: Core<C, N, T>, config: C): void;
+}
+
+export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> extends Emitter<CoreEventEmitter<any>> {
   private watchdog: Watchdog<UnitInterface>;
 
   private readonly eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
 
   public readonly events: CoreEventBus;
-  public readonly dependencyTree: DependencyManager;
+  public readonly dependencyTree: DependencyManager<N, T>;
   public readonly logger: Logger;
 
   public constructor() {
@@ -66,24 +75,22 @@ export class Core<C extends CoreConfig> extends Emitter<CoreEventEmitter<any>> {
     this.dependencyTree = new DependencyManager();
   }
 
-  public bootstrap(config: CoreConfig, compiler: PipelineObserver<C>): C {
-    const resolved = compiler.attach(this, config);
-
-    if (resolved.watch) {
-      this.watchdog = new Watchdog(resolved.watch);
-    }
+  public bootstrap(config: CoreConfig, configFactory: ConfigFactory<C, N, T>, observerFactory: PipelineObserverFactory<C, N, T>): C {
+    const resolved = configFactory(this, config);
+    const observer = observerFactory(this, resolved);
 
     this.events.reset();
     this.events.add(this.eventChainMonitor);
 
-    compiler.bootstrap(this, resolved);
+    observer.bootstrap(this, resolved);
 
     this.events
       .add(new ErrorConsumer(this.events, this.logger))
       .add(new StatConsumer(this.events, resolved, this.logger))
     ;
 
-    if (this.watchdog) {
+    if (resolved.watch) {
+      this.watchdog = new Watchdog(resolved.watch);
       this.events.add(new WatchdogReadyConsumer(this.events, this.watchdog, this.dependencyTree));
     }
 

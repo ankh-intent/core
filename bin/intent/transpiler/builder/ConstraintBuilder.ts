@@ -1,27 +1,28 @@
+import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
-import { BaseBuilder } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
 import { ConstraintNode } from '../ast/ConstraintNode';
-import { CanBuilder } from './CanBuilder';
+import { CanNode } from '../ast/CanNode';
 
-export interface ConstraintChildren {
-  can: CanBuilder;
+export interface ConstraintChildren extends BuilderInvokers<any> {
+  can: BuildInvoker<CanNode>;
 }
 
 export class ConstraintBuilder extends BaseBuilder<ConstraintNode, ConstraintChildren> {
-  public visit(tokens: Tokens): ConstraintNode {
-    if (tokens.not({type: 'symbol', value: ':'})) {
+  protected build(tokens: Tokens, {not}: TokenMatcher): ConstraintNode {
+    if (not.symbol(':')) {
       return null;
     }
 
-    const can = this.child.can.visit(tokens);
+    const can = this.child.can(tokens);
 
     if (!can) {
       throw tokens.error('Expected method declaration after ":"');
     }
 
-    return Object.assign(new ConstraintNode(), {
+    return new ConstraintNode(
       can,
-    });
+    );
   }
 }
