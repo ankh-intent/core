@@ -61,16 +61,9 @@ export abstract class AbstractTranspiler<S> implements TranspilerInterface<S> {
 
   public keyed(data: any): string[] {
     return Strings.fold(
-      this.values(data)
+      Object.values(data)
         .map((element: any) => this.transpile(element))
     );
-  }
-
-  protected values(data: any): any[] {
-    return Object
-      .keys(data)
-      .map((name: string) => data[name])
-    ;
   }
 
   protected resolve(data: any, key): any {

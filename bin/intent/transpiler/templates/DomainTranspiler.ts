@@ -37,10 +37,10 @@ export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
         return Object.keys(data.types);
 
       case 'init' :
-        return this.values(data.types);
+        return Object.values(data.types);
 
       case 'construct':
-        return this.values(data.types);
+        return Object.values(data.types);
     }
 
     return super.resolve(data, key);
