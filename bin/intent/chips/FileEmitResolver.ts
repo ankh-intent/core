@@ -40,7 +40,7 @@ class BaseFileEmitResolver implements FileEmitResolverInterface<ChipNode, Chip> 
     const emit = path.join(parts.dir, parts.name + this.config.output.extension);
     const common = Strings.longestCommon([emit, base])
       .pop()
-      .replace(new RegExp(Strings.escapeRegExp(path.sep)), '')
+      .replace(new RegExp(`\\${path.sep}$`), '')
     ;
 
     return emit.replace(common, out);
