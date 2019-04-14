@@ -13,7 +13,7 @@ export class CanTranspiler extends AbstractTranspiler<CanNode> {
 
   protected get code(): string {
     return `
-      public {%name%}({%*args|.join(", ")%}): {%returns|.pop()||'any'%} {
+      {%name%}({%*args|.join(", ")%}): {%returns|.pop()||'any'%} {
         {%body%} 
       }`;
   }
@@ -21,7 +21,7 @@ export class CanTranspiler extends AbstractTranspiler<CanNode> {
   public resolve(data: CanNode, key: string): any {
     switch (key) {
       case 'body':
-        return data.body.trim().split("\n");
+        return data.body.trim().split('\n');
     }
 
     return super.resolve(data, key);

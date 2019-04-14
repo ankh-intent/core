@@ -18,10 +18,10 @@ export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
       ((intent) => { 
         {%*uses%}
         {%*domains%}
-        {%can%}
       
         return {
           {%names%},
+          {%can%}
         };
       })(window.Intent);
     `;
