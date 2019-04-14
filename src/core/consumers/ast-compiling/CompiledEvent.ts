@@ -1,5 +1,5 @@
 
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
+import { TreeNode } from '../../kernel/ast/TreeNode';
 import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
 import { DependencyNode, Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
 

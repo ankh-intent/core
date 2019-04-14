@@ -1,6 +1,6 @@
 
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
-import { Identifiable } from '@intent/kernel/watchdog/dependencies/DependencyNode';
+import { TreeNode } from './kernel/ast/TreeNode';
+import { Identifiable } from './kernel/watchdog/dependencies/DependencyNode';
 import { Emitter } from './utils/Emitter';
 import { Logger } from './utils/Logger';
 import { UnitMatcher } from './kernel/watchdog/matcher/UnitMatcher';

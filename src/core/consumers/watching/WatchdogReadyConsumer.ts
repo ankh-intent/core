@@ -1,4 +1,4 @@
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
+import { TreeNode } from '../../kernel/ast/TreeNode';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
