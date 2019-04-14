@@ -1,16 +1,16 @@
 
 import * as path from 'path';
-import { CompilerConfig } from '../../src/intent/Compiler';
+import { TranspilerConfig } from '../intent/TranspilerPipelineObserver';
 
-const root = __dirname.replace('/build/', '/').replace(/\/config$/, '');
+const root = __dirname.replace(/\/config$/, '');
 
-const config: CompilerConfig = {
+const config: TranspilerConfig = {
   paths: {
     project: process.cwd(),
   },
   entry: {
     index: {
-      path: process.cwd() + '/doc',
+      path: process.cwd() + '/bin/example',
       test: [
         { pattern: '.int' },
       ],
@@ -28,12 +28,12 @@ const config: CompilerConfig = {
   },
   output: {
     path: process.cwd(),
-    extension: '.i.js',
+    extension: '.i.ts',
   },
   resolver: {
     paths: {
       intent: path.resolve(
-        path.join(root, '../src/intent-core/intent/specification/lib/')
+        path.join(root, 'intent/lib/')
       ),
     }
   },

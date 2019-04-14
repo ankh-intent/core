@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "..",
+    "rootDir": "..",
+    "inlineSourceMap": true,
+    "noEmit": true,
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
+    "lib": [
+      "es2017"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@intent/*": ["../src/core/*"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "doc"
+  ]
+}

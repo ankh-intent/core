@@ -1,5 +1,5 @@
 
-import { CoreConfig } from '../../../Core';
+import { CoreConfig } from '../../Core';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class BaseStat {

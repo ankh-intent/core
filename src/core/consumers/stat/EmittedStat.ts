@@ -1,11 +1,11 @@
 
-import { Strings } from '../../../intent-utils/Strings';
+import { Strings } from '../../utils/Strings';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
-import { Source } from '../reading/source/Source';
+import { Source } from '../../kernel/source/Source';
 import { BaseStat } from './BaseStat';
-import { Logger } from '../../../intent-utils/Logger';
-import { CoreConfig } from '../../../Core';
+import { Logger } from '../../utils/Logger';
+import { CoreConfig } from '../../Core';
 
 export class EmittedStat extends BaseStat {
   private readonly logger: Logger;
@@ -16,8 +16,8 @@ export class EmittedStat extends BaseStat {
   }
 
   public process(event: StatEvent, { chip, index, source, start, end }): StatEvent {
-    let path = (<Source>source).reference;
-    let common = Strings.longestCommon([
+    const path = (<Source>source).reference;
+    const common = Strings.longestCommon([
       path,
       this.config.paths.project,
 //      this.config.resolver.paths.intent // todo: fix library resolving
@@ -29,19 +29,19 @@ export class EmittedStat extends BaseStat {
       parent = parent.parent;
 
       if (parent) {
-        let data: any = parent.data;
+        const data: any = parent.data;
 
-        if (data.chip && (data.chip !== chip)) {
-          cause = data.chip.name;
+        if (data.identifiable && (data.identifiable !== chip)) {
+          cause = data.identifiable.name;
           break;
         }
       }
     }
 
-    let indexS = Strings.pad(String(index), 5, ' ', true);
-    let causeS = Strings.shrink(cause, 10, true);
-    let pathS  = Strings.shrink(path.replace(new RegExp(`^${Strings.escapeRegExp(common)}`), '@'), 60);
-    let timeS  = Strings.shrink(`~${String(end - start)}`, 6, true);
+    const indexS = Strings.pad(String(index), 5, ' ', true);
+    const causeS = Strings.shrink(cause, 10, true);
+    const pathS  = Strings.shrink(path.replace(new RegExp(`^${Strings.escapeRegExp(common)}`), '@'), 60);
+    const timeS  = Strings.shrink(`~${String(end - start)}`, 6, true);
 
     this.logger.log(Logger.INFO, `${indexS} [${causeS}] ${pathS} ${timeS} ms`);
 

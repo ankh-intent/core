@@ -1,12 +1,12 @@
 
-import { Logger } from '../../../intent-utils/Logger';
+import { Logger } from '../../utils/Logger';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
-import { SyntaxError } from '../parsing/parser/SyntaxError';
+import { SyntaxError } from '../../kernel/parser/SyntaxError';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Strings } from '../../../intent-utils/Strings';
+import { Strings } from '../../utils/Strings';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
@@ -25,13 +25,13 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     let parent: CoreEvent<any> = event;
 
     while (parent) {
-      let { type, data } = parent;
+      const { type, data } = parent;
       parent = parent.parent;
 
       if (type === ErrorEvent.type()) {
         this.report(data.error);
       } else {
-        this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).path ? `(${(<any>data).path})` : '');
+        this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).identifier ? `(${(<any>data).identifier})` : '');
       }
     }
 
@@ -58,7 +58,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
         stack = error.stack.split("\n");
       }
 
-      let msg = stack.shift().toString();
+      const msg = stack.shift().toString();
 
       return [msg, "\n", stack.join("\n")];
     } else {
@@ -67,7 +67,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   }
 
   private fetchSyntaxStack(error: SyntaxError) {
-    let hops = [];
+    const hops = [];
     let e: any = error;
     let last: Error;
 
@@ -82,9 +82,9 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       e = e.parent;
     }
 
-    let stack = last.stack.split("\n").concat(hops).map((line) => line.trim());
-    let max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
-    let lines = stack.map((line) => {
+    const stack = last.stack.split("\n").concat(hops).map((line) => line.trim());
+    const max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
+    const lines = stack.map((line) => {
       return line
         .replace(/(.*?)\s*\(([^)]+)\)/, (m, ref, loc) => {
           return `\t${Strings.pad(ref, max, ' ')} (${loc})`;
@@ -99,14 +99,14 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     let source;
 
     if (error.source) {
-      let loc = error.source.location(error.pos);
+      const loc = error.source.location(error.pos);
       source = ` (${error.source.reference}:${loc.line}:${loc.column})`;
     } else {
       source = '';
     }
 
-    let match = error.message.match(/Failed @(.+)$/);
-    let method = match ? match[1] : 'unknown';
+    const match = error.message.match(/Failed @(.+)$/);
+    const method = match ? match[1] : 'unknown';
 
     return `at AST::${method}${source}`;
   }

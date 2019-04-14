@@ -2,12 +2,12 @@
 import * as path from 'path';
 
 import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
-import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from '../Core';
-import { WatchdogConfig } from './consumers/watching/watchdog/Watchdog';
-import { Objects } from '../intent-utils/Objects';
-import { Container } from '../intent-utils/Container';
+import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from './Core';
+import { WatchdogConfig } from './kernel/watchdog/Watchdog';
+import { Objects } from './utils/Objects';
+import { Container } from './utils/Container';
 import * as fs from 'fs';
-import { Strings } from '../intent-utils/Strings';
+import { Strings } from './utils/Strings';
 
 export const regexpify = (r: RegExp|string) => {
   return (typeof r === 'string')
@@ -15,7 +15,7 @@ export const regexpify = (r: RegExp|string) => {
     : String(r).replace('\\\\', '\\');
 };
 
-const isMergable = (o: any) => {
+const isMergeable = (o: any) => {
   return Objects.is(o) && !((o instanceof Date) || (o instanceof RegExp));
 };
 
@@ -25,8 +25,8 @@ export const merge = (...os) => {
   for (const o of os) {
     for (const [key, value2] of Object.entries(o)) {
       const value1 = target[key];
-      const o1 = isMergable(value1);
-      const o2 = isMergable(value2);
+      const o1 = isMergeable(value1);
+      const o2 = isMergeable(value2);
 
       target[key] = (o1 && o2)
         ? merge(value1, value2)
@@ -51,9 +51,9 @@ const fileLookup = (name, dir) => {
 };
 
 export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T> {
-  private readonly _defaults: T;
+  private readonly _defaults: Partial<T>;
 
-  public constructor(defaults: T) {
+  public constructor(defaults: Partial<T>) {
     super();
     this._defaults = defaults;
   }
@@ -124,7 +124,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     return config;
   }
 
-  protected options(defaults: T): any {
+  protected options(defaults: Partial<T>): any {
     return {
       "Basic options": {
         "entry": {
@@ -218,7 +218,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  public build(core: Core<T>): T {
+  public build(core: Core<T, any, any>): T {
     return <T> {
       paths: this.paths(),
       entry: this.entry(),
@@ -227,7 +227,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  protected defaults(): T {
+  protected defaults(): Partial<T> {
     return this._defaults;
   }
 }

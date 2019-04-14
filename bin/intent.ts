@@ -1,25 +1,29 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
 if (process.env.ENV !== 'production') {
   require('source-map-support').install();
 }
 
 import * as util from 'util';
-import configure from './config';
-import { Logger } from '../src/intent-utils/Logger';
-import { Compiler, CompilerConfig } from '../src/intent/Compiler';
-import { StatEvent } from '../src/core/kernel/event/events/StatEvent';
-import { Core } from '../src/Core';
+import { StatEvent } from '@intent/kernel/event/events/StatEvent';
 
-((core: Core<CompilerConfig>) => {
-  const compiler = new Compiler();
+import configure from './config';
+import { Logger } from '@intent/utils/Logger';
+import { Core } from '@intent/Core';
+import { Chip } from './intent/chips/Chip';
+import { ConfigProvider } from './intent/ConfigProvider';
+import { ChipNode } from './intent/transpiler/ast/ChipNode';
+import { TranspilerPipelineObserver, TranspilerConfig } from './intent/TranspilerPipelineObserver';
+
+((core: Core<TranspilerConfig, ChipNode, Chip>) => {
   const config = core.bootstrap({
       ...configure(process.env.ENV),
       ...{
         // ... default config override here
       },
     },
-    compiler,
+    (core, config) => (new ConfigProvider(config)).build(core),
+    (core, resolved) => new TranspilerPipelineObserver(resolved),
   );
 
   if (config.emit.config) {

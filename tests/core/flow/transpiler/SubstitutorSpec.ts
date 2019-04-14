@@ -1,5 +1,5 @@
 
-import { pit } from '../../../util/spec-extensions';
+import { pit } from '../../../util/extensions';
 
 describe('Substitutor', () => {
 
@@ -9,7 +9,7 @@ describe('Substitutor', () => {
       beforeEach(() => {
       });
 
-      let sample1 = () => [
+      const sample1 = () => [
       ];
 
       pit('should', sample1, (data) => {

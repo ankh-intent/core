@@ -1,7 +1,7 @@
 
-import { Source } from '../reading/source/Source';
+import { Source } from '../../kernel/source/Source';
 import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
-import { Tokens } from './parser/Tokens';
+import { Tokens } from '../../kernel/parser/Tokens';
 
 export interface ParsedEventProps {
   source: Source;

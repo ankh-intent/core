@@ -1,40 +1,44 @@
 
+import { TreeNode } from '../../kernel/ast/TreeNode';
+import { Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { InterpretedEvent } from '../interpreting/InterpretedEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { FileWriter } from '../reading/source/FileWriter';
+import { FileWriter } from '../../kernel/source/FileWriter';
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
-import { Source } from '../reading/source/Source';
-import { StringSource } from '../reading/source/StringSource';
-import { FileEmitResolver } from '../../../intent-core/chips/FileEmitResolver';
-import { Chip } from '../../../intent-core/chips/Chip';
+import { Source } from '../../kernel/source/Source';
+import { StringSource } from '../../kernel/source/StringSource';
 
-export class EmitStat extends ConsumerStat {
-  public constructor(public readonly chip: Chip, public readonly start: number) {
+export interface FileEmitResolverInterface<N extends TreeNode, T extends Identifiable<N>> {
+  resolve(from: T): string;
+}
+
+export class EmitStat<N extends TreeNode, T extends Identifiable<N>> extends ConsumerStat {
+  public constructor(public readonly identifiable: T, public readonly start: number) {
     super();
   }
 }
 
-export class EmittedStat extends EmitStat {
+export class EmittedStat<N extends TreeNode, T extends Identifiable<N>> extends EmitStat<N, T> {
   public constructor(
-    public readonly chip: Chip,
+    public readonly identifiable: T,
     public readonly source: Source,
     public readonly start: number,
     public readonly end: number,
     public readonly index: number,
   ) {
-    super(chip, start);
+    super(identifiable, start);
   }
 }
 
-export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>{
+export class InterpretedConsumer<N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<InterpretedEvent<N, T>, any>{
   private readonly writer: FileWriter;
-  private readonly resolver: FileEmitResolver;
+  private readonly resolver: FileEmitResolverInterface<N, T>;
   private total: number = 0;
 
-  public constructor(bus: CoreEventBus, resolver: FileEmitResolver, writer: FileWriter) {
+  public constructor(bus: CoreEventBus, resolver: FileEmitResolverInterface<N, T>, writer: FileWriter) {
     super(bus);
     this.resolver = resolver;
     this.writer = writer;
@@ -44,13 +48,13 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
     return event.type === InterpretedEvent.type();
   }
 
-  public process(event: InterpretedEvent) {
-    let { dependency, content } = event.data;
-    let start = +new Date();
-    this.stat(event, new EmitStat(dependency.chip, start));
+  public process(event: InterpretedEvent<N, T>) {
+    const { dependency, content } = event.data;
+    const start = +new Date();
+    this.stat(event, new EmitStat(dependency.identifiable, start));
 
-    let resolved = this.resolver.resolve(dependency.chip);
-    let source = new StringSource(content, resolved);
+    const resolved = this.resolver.resolve(dependency.identifiable);
+    const source = new StringSource(content, resolved);
 
     this.writer
       .write(source)
@@ -58,7 +62,7 @@ export class InterpretedConsumer extends AbstractConsumer<InterpretedEvent, any>
         this.emit(event, false);
 
         this.stat(event, new EmittedStat(
-          dependency.chip,
+          dependency.identifiable,
           source,
           start,
           +new Date(),
