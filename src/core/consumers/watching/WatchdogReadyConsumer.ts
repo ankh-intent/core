@@ -29,10 +29,11 @@ export class WatchdogStat<N extends TreeNode, T extends Identifiable<N>> extends
 }
 
 export class WatchdogReadyConsumer<U extends UnitInterface, N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<ReadyEvent, any> {
+  private static WATCHDOG_EVENTS = ['change', 'unlink', 'add'];
+
   private readonly watchdog: Watchdog<U>;
   private readonly tree: DependencyManager<N, T>;
   private watched: RetainedWatch<N, T>[] = [];
-  private static WATCHDOG_EVENTS = ['change', 'unlink', 'add'];
 
   public constructor(bus: CoreEventBus, watchdog: Watchdog<U>, tree: DependencyManager<N, T>) {
     super(bus);
