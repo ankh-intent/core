@@ -139,4 +139,8 @@ export class Strings {
 
     return result;
   }
+
+  public static getRootSrcPath(): string {
+    return __dirname.replace(/\/src\/(.*?)$/, '/src/');
+  }
 }

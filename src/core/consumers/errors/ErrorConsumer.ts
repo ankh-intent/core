@@ -1,12 +1,12 @@
 
 import { Logger } from '../../utils/Logger';
+import { Strings } from '../../utils/Strings';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../../kernel/parser/SyntaxError';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Strings } from '../../utils/Strings';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
@@ -82,15 +82,30 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       e = e.parent;
     }
 
-    const stack = last.stack.split("\n").concat(hops).map((line) => line.trim());
-    const max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
-    const lines = stack.map((line) => {
-      return line
-        .replace(/(.*?)\s*\(([^)]+)\)/, (m, ref, loc) => {
-          return `\t${Strings.pad(ref, max, ' ')} (${loc})`;
-        })
-      ;
-    });
+    const internal = Strings.getRootSrcPath();
+    const regex = /^(.*?)\s*\(([^()]+)\)$/;
+    const stack = last.stack
+      .split("\n")
+      .concat(hops)
+      .map((line) => line.trim())
+    ;
+    const withoutRefs = stack.map((line) => line.replace(regex, '$1'));
+    console.log(stack, withoutRefs);
+
+    const max = Strings.max(withoutRefs);
+
+    const lines = stack
+      .map((line) => {
+        const [, ref, loc] = line.match(regex) || [,,,];
+
+        if (loc && loc.startsWith(internal)) {
+          return '';
+        }
+
+        return `\t${Strings.pad(ref, max, ' ')} (${loc})`;
+      })
+      .filter(Boolean)
+    ;
 
     return [last.message].concat(lines);
   }
