@@ -3,14 +3,17 @@ import * as path from 'path';
 import { TranspilerConfig } from '../core/TranspilerPipelineObserver';
 
 const root = __dirname.replace(/\/config$/, '');
+const project = process.cwd();
 
 const config: TranspilerConfig = {
   paths: {
-    project: process.cwd(),
+    project,
   },
   entry: {
     index: {
-      path: process.cwd() + '/bin/example',
+      path: path.resolve(
+        path.join(root, '/example')
+      ),
       test: [
         { pattern: '.int' },
       ],
@@ -22,18 +25,18 @@ const config: TranspilerConfig = {
     config: false,
   },
   watch: {
-    root: process.cwd(),
+    root: project,
     aggregation: 200,
     ignore: /[\\/]\./,
   },
   output: {
-    path: process.cwd(),
+    path: project,
     extension: '.i.ts',
   },
   resolver: {
     paths: {
       intent: path.resolve(
-        path.join(root, 'intent/lib/')
+        path.join(root, '/core/lib/')
       ),
     }
   },
