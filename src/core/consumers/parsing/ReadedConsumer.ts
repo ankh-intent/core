@@ -1,14 +1,16 @@
 
+import { Source } from '../../kernel/source/Source';
+import { Tokens } from '../../kernel/parser/Tokens';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { ReadedEvent } from '../reading/ReadedEvent';
-import { ParsedEvent } from './ParsedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
+import { ReadedEvent } from '../reading/ReadedEvent';
+import { ParsedEvent } from './ParsedEvent';
 
-import { Context, Intent } from '../../kernel/parser/Tokenizer';
-import { Tokens } from '../../kernel/parser/Tokens';
-
-import { Source } from '../../kernel/source/Source';
+export interface TokensFactory {
+  (source: Source): Tokens;
+}
 
 export class ParseStat extends ConsumerStat {
   public constructor(public readonly source: Source) {
@@ -17,6 +19,13 @@ export class ParseStat extends ConsumerStat {
 }
 
 export class ReadedConsumer extends AbstractConsumer<ReadedEvent, any>{
+  private readonly factory: TokensFactory;
+
+  constructor(bus: CoreEventBus, factory: TokensFactory) {
+    super(bus);
+    this.factory = factory;
+  }
+
   public supports(event: CoreEvent<any>): boolean {
     return event.type === ReadedEvent.type();
   }
@@ -27,21 +36,7 @@ export class ReadedConsumer extends AbstractConsumer<ReadedEvent, any>{
 
     return new ParsedEvent({
       source,
-      tokens: new Tokens(
-        (context: Context) => {
-          let token;
-
-          while ((token = Intent.wrapped(context))) {
-            if (token.type !== 'whitespace') {
-              break;
-            }
-          }
-
-          return token;
-        },
-        source,
-        source.range()
-      ),
+      tokens: this.factory(source),
     });
   }
 }

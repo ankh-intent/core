@@ -1,19 +1,20 @@
+import { Container } from '@intent/utils/Container';
+import { Objects } from '@intent/utils/Objects';
 import { AnalyzedConsumer, IdentifiableFactory } from '@intent/consumers/ast-compiling/AnalyzedConsumer';
 import { ParseConsumer } from '@intent/consumers/ast-compiling/ParseConsumer';
 import { InterpretedConsumer } from '@intent/consumers/emitting/InterpretedConsumer';
 import { DependencyModifiedConsumer, InterpreterConfig } from '@intent/consumers/interpreting/DependencyModifiedConsumer';
-import { ReadedConsumer } from '@intent/consumers/parsing/ReadedConsumer';
+import { ReadedConsumer, TokensFactory } from '@intent/consumers/parsing/ReadedConsumer';
 import { UpdateConsumer } from '@intent/consumers/reading/UpdateConsumer';
 import { CompiledConsumer, DependenciesResolver } from '@intent/consumers/watching/CompiledConsumer';
 import { Core, CoreConfig, PipelineObserver } from '@intent/Core';
 import { DummyWriter } from '@intent/kernel/source/DummyWriter';
 import { FileWriter } from '@intent/kernel/source/FileWriter';
+import { Source } from '@intent/kernel/source/Source';
 import { Compiler } from '@intent/kernel/transpiler/compiler/Compiler';
 import { Sampler } from '@intent/kernel/transpiler/compiler/Sampler';
 import { Substitutor } from '@intent/kernel/transpiler/compiler/Substitutor';
 import { Template } from '@intent/kernel/transpiler/compiler/Template';
-import { Container } from '@intent/utils/Container';
-import { Objects } from '@intent/utils/Objects';
 
 import { Chip } from './chips/Chip';
 import { FileEmitResolver } from './chips/FileEmitResolver';
@@ -21,6 +22,7 @@ import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
 import { ChipNode } from './transpiler/ast/ChipNode';
 import { IntentBuilder } from './transpiler/builder/IntentBuilder';
+import { IntentTokens } from './transpiler/IntentTokens';
 import { ChipTranspiler } from './transpiler/templates/ChipTranspiler';
 
 export interface OutputConfig {
@@ -44,6 +46,7 @@ export class TranspilerPipelineObserver
   private config: TranspilerConfig;
   private qualifierResolver: QualifierResolver;
   private useResolver: BaseUseResolver;
+  private tokensFactory: TokensFactory;
 
   public constructor(config: TranspilerConfig) {
     this.config = config;
@@ -58,6 +61,7 @@ export class TranspilerPipelineObserver
     );
     this.qualifierResolver = new QualifierResolver(config.paths);
     this.useResolver = new BaseUseResolver(config.paths);
+    this.tokensFactory = (source: Source) => new IntentTokens(source, source.range());
   }
 
   public bootstrap(core: Core<TranspilerConfig, ChipNode, Chip>, config: TranspilerConfig): void {
@@ -65,7 +69,7 @@ export class TranspilerPipelineObserver
 
     core.events
       .add(new UpdateConsumer(core.events))
-      .add(new ReadedConsumer(core.events))
+      .add(new ReadedConsumer(core.events, this.tokensFactory))
       .add(new ParseConsumer(core.events, this.parser))
       .add(new AnalyzedConsumer(core.events, this, core.dependencyTree))
       .add(new CompiledConsumer(core.events, this, core.dependencyTree))
