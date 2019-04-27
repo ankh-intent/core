@@ -1,9 +1,5 @@
 #!/usr/bin/env ts-node
 
-if (process.env.ENV !== 'production') {
-  require('source-map-support').install();
-}
-
 import * as path from 'path';
 import * as tsConfig from './tsconfig.json';
 import * as tsConfigPaths from 'tsconfig-paths';
