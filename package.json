@@ -31,7 +31,7 @@
     "yargs": "^13.2.2"
   },
   "bin": {
-    "intent": "./bin/intent.js"
+    "intent": "./bin/intent/intent.ts"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^1.1.0",

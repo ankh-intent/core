@@ -1,9 +1,17 @@
+import * as util from 'util';
+
 import { Core, CoreConfig } from '@intent/Core';
+import { ErrorEvent } from '@intent/kernel/event/events/ErrorEvent';
+import { StatEvent } from '@intent/kernel/event/events/StatEvent';
+import { StopEvent } from '@intent/kernel/event/events/StopEvent';
+import { Logger } from '@intent/utils/Logger';
 
 import { Chip } from './chips/Chip';
 import { ConfigProvider } from './ConfigProvider';
 import { ChipNode } from './transpiler/ast/ChipNode';
 import { TranspilerConfig, TranspilerPipelineObserver } from './TranspilerPipelineObserver';
+
+import configure from '../config';
 
 export class IntentCore extends Core<TranspilerConfig, ChipNode, Chip> {
   public bootstrap(config: CoreConfig): TranspilerConfig {
@@ -14,3 +22,56 @@ export class IntentCore extends Core<TranspilerConfig, ChipNode, Chip> {
     )
   }
 }
+
+export const factory = (configOverride?: Partial<TranspilerConfig>) => {
+  const core = new IntentCore();
+  const config = core.bootstrap({
+    ...configure(process.env.ENV),
+    // ... default config override here
+    ...configOverride,
+  });
+
+  if (config.emit.config) {
+    console.log(util.inspect(config, {depth: null}));
+
+//    process.exit(0);
+  }
+
+  const handle = new Promise((rs, rj) => {
+    core.and((event) => {
+      const { type, data, parent } = event;
+
+      switch (type) {
+        case StatEvent.type():
+          if (config.emit.stats) {
+            core.logger.log(Logger.INFO, event, util.inspect(data.stat, {
+              depth: null,
+            }));
+          }
+          break;
+
+        case StopEvent.type(): {
+          if (parent instanceof ErrorEvent) {
+            rj(parent);
+          } else {
+            rs(parent);
+          }
+
+          break;
+        }
+
+        default:
+        // console.log({
+        //   type: event.type,
+        // });
+      }
+    });
+
+    core.start(config);
+  });
+
+  return {
+    core,
+    handle,
+  };
+};

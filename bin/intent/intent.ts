@@ -4,45 +4,31 @@ if (process.env.ENV !== 'production') {
   require('source-map-support').install();
 }
 
-import * as util from 'util';
-import configure from './config';
+import * as path from 'path';
+import * as tsConfig from './tsconfig.json';
+import * as tsConfigPaths from 'tsconfig-paths';
 
-import { StatEvent } from '@intent/kernel/event/events/StatEvent';
-import { Logger } from '@intent/utils/Logger';
-import { IntentCore } from './core';
+const baseUrl = path.resolve(tsConfig.compilerOptions.baseUrl);
+const cleanup = tsConfigPaths.register({
+  baseUrl,
+  paths: tsConfig.compilerOptions.paths
+});
 
-((core: IntentCore) => {
-  const config = core.bootstrap({
-    ...configure(process.env.ENV),
-    ...{
-      // ... default config override here
-    },
-  });
+(async () => {
+  const { factory } = await import('./core');
+  const { handle } = factory();
 
-  if (config.emit.config) {
-    console.log(util.inspect(config, {depth: null}));
+  try {
+    console.log('Pre...');
+    await handle;
 
-//    process.exit(0);
+    console.log('Done.');
+  } catch (e) {
+    console.error(e);
+
+    process.exit(1);
+  } finally {
+    console.log('Ooopsie...');
+    cleanup();
   }
-
-  core.and((event) => {
-    const { type, data} = event;
-
-    switch (type) {
-      case StatEvent.type():
-        if (config.emit.stats) {
-          core.logger.log(Logger.INFO, event, util.inspect(data.stat, {
-            depth: null,
-          }));
-        }
-        break;
-
-      default:
-        // console.log({
-        //   type: event.type,
-        // });
-    }
-  });
-
-  return core.start(config);
-})(new IntentCore());
+})();
