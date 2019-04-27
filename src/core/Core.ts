@@ -14,6 +14,7 @@ import { CoreEventBus } from './kernel/event/CoreEventBus';
 import { UpdateEvent } from './consumers/watching/UpdateEvent';
 import { CoreEvent } from './kernel/event/CoreEvent';
 import { FatalEvent } from './kernel/event/events/FatalEvent';
+import { StopEvent } from './kernel/event/events/StopEvent';
 import { ReadyEvent } from './kernel/event/events/ReadyEvent';
 
 import { EventChainMonitor, EventChainMonitoringData } from './kernel/event/EventChainMonitor';
@@ -135,10 +136,12 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     return this;
   }
 
-  public stop() {
+  public stop(cause?: CoreEvent<any>) {
     if (this.watchdog) {
       this.watchdog.stop();
     }
+
+    this.events.emit(new StopEvent({}, cause));
   }
 
   protected matched(root: string, matchers: UnitMatcher[]) {
