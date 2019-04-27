@@ -5,26 +5,19 @@ if (process.env.ENV !== 'production') {
 }
 
 import * as util from 'util';
-import { StatEvent } from '@intent/kernel/event/events/StatEvent';
-
 import configure from './config';
-import { Logger } from '@intent/utils/Logger';
-import { Core } from '@intent/Core';
-import { Chip } from './intent/chips/Chip';
-import { ConfigProvider } from './intent/ConfigProvider';
-import { ChipNode } from './intent/transpiler/ast/ChipNode';
-import { TranspilerPipelineObserver, TranspilerConfig } from './intent/TranspilerPipelineObserver';
 
-((core: Core<TranspilerConfig, ChipNode, Chip>) => {
+import { StatEvent } from '@intent/kernel/event/events/StatEvent';
+import { Logger } from '@intent/utils/Logger';
+import { IntentCore } from './core';
+
+((core: IntentCore) => {
   const config = core.bootstrap({
-      ...configure(process.env.ENV),
-      ...{
-        // ... default config override here
-      },
+    ...configure(process.env.ENV),
+    ...{
+      // ... default config override here
     },
-    (core, config) => (new ConfigProvider(config)).build(core),
-    (core, resolved) => new TranspilerPipelineObserver(resolved),
-  );
+  });
 
   if (config.emit.config) {
     console.log(util.inspect(config, {depth: null}));
@@ -52,4 +45,4 @@ import { TranspilerPipelineObserver, TranspilerConfig } from './intent/Transpile
   });
 
   return core.start(config);
-})(new Core());
+})(new IntentCore());

@@ -3,7 +3,7 @@ import * as path from 'path';
 import { Core } from '@intent/Core';
 import { InterpreterConfig } from '@intent/consumers/interpreting/DependencyModifiedConsumer';
 
-import { ConfigProvider as BaseConfigProvider, merge } from '../../src/core/ConfigProvider';
+import { ConfigProvider as BaseConfigProvider, merge } from '../../../src/core/ConfigProvider';
 import { TranspilerConfig, OutputConfig } from './TranspilerPipelineObserver';
 import { ResolverConfig } from './chips/ResolverConfig';
 

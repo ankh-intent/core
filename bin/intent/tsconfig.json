@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "..",
-    "rootDir": "..",
+    "outDir": ".",
+    "rootDir": ".",
     "inlineSourceMap": true,
     "noEmit": true,
     "module": "commonjs",
@@ -14,7 +14,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@intent/*": ["../src/core/*"]
+      "@intent/*": ["../../src/core/*"]
     }
   },
   "exclude": [

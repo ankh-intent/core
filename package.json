@@ -5,8 +5,8 @@
   "main": "build/bin/intent.ts",
   "types": "bin/intent.d.ts",
   "scripts": {
-    "executable": "chmod +x bin/intent.ts",
-    "intent": "npm run executable && ts-node --project ./bin/tsconfig.json -r tsconfig-paths/register ./bin/intent.ts",
+    "executable": "chmod +x bin/intent/intent.ts",
+    "intent": "npm run executable && ts-node --project bin/intent/tsconfig.json -r tsconfig-paths/register bin/intent/intent.ts",
     "pack": "webpack --display-modules --progress --colors",
     "watchdog": "webpack --progress --colors --watch --watch-poll",
     "bump": "bin/bump.sh",
