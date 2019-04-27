@@ -12,11 +12,9 @@ const cleanup = tsConfigPaths.register({
 
 (async () => {
   const { factory } = await import('./core');
-  const { handle } = factory();
 
   try {
-    console.log('Pre...');
-    await handle;
+    await factory();
 
     console.log('Done.');
   } catch (e) {
@@ -24,7 +22,6 @@ const cleanup = tsConfigPaths.register({
 
     process.exit(1);
   } finally {
-    console.log('Ooopsie...');
     cleanup();
   }
 })();

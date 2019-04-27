@@ -1,13 +1,14 @@
 import * as util from 'util';
 
+import { Logger } from '@intent/utils/Logger';
 import { Core, CoreConfig } from '@intent/Core';
+import { CoreEvent } from '@intent/kernel/event/CoreEvent';
 import { ErrorEvent } from '@intent/kernel/event/events/ErrorEvent';
 import { StatEvent } from '@intent/kernel/event/events/StatEvent';
 import { StopEvent } from '@intent/kernel/event/events/StopEvent';
-import { Logger } from '@intent/utils/Logger';
 
-import { Chip } from './chips/Chip';
 import { ConfigProvider } from './ConfigProvider';
+import { Chip } from './chips/Chip';
 import { ChipNode } from './transpiler/ast/ChipNode';
 import { TranspilerConfig, TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
@@ -23,7 +24,7 @@ export class IntentCore extends Core<TranspilerConfig, ChipNode, Chip> {
   }
 }
 
-export const factory = (configOverride?: Partial<TranspilerConfig>) => {
+export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent<any>> & { core: IntentCore } => {
   const core = new IntentCore();
   const config = core.bootstrap({
     ...configure(process.env.ENV),
@@ -37,7 +38,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>) => {
 //    process.exit(0);
   }
 
-  const handle = new Promise((rs, rj) => {
+  return Object.assign(<any>new Promise((rs, rj) => {
     core.and((event) => {
       const { type, data, parent } = event;
 
@@ -68,10 +69,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>) => {
     });
 
     core.start(config);
-  });
-
-  return {
+  }), {
     core,
-    handle,
-  };
+  });
 };
