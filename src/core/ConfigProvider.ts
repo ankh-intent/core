@@ -1,13 +1,12 @@
-
 import * as path from 'path';
 
-import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
-import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from './Core';
-import { WatchdogConfig } from './kernel/watchdog/Watchdog';
 import { Objects } from './utils/Objects';
 import { Container } from './utils/Container';
-import * as fs from 'fs';
 import { Strings } from './utils/Strings';
+import { BubblingFinder } from './kernel/source/Finder';
+import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
+import { WatchdogConfig } from './kernel/watchdog/Watchdog';
+import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from './Core';
 
 export const regexpify = (r: RegExp|string) => {
   return (typeof r === 'string')
@@ -38,18 +37,6 @@ export const merge = (...os) => {
   return target;
 };
 
-const fileLookup = (name, dir) => {
-  const file = path.join(dir, name);
-
-  if (fs.existsSync(file)) {
-    return file;
-  }
-
-  const parent = path.dirname(dir);
-
-  return parent && fileLookup(name, parent);
-};
-
 export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T> {
   private readonly _defaults: Partial<T>;
 
@@ -59,17 +46,16 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
   }
 
   protected usage(): string {
-    const data = fileLookup('package.json', __dirname);
+    const finder = new BubblingFinder();
+    const data = finder.find(process.cwd(), { pattern: /package\.json$/ }, require);
 
     if (!data) {
       throw new Error('Can\'t find "package.json" file');
     }
 
-    const pckg = require(path.join(data));
-
-    return `${pckg.name} ${pckg.version}\n` +
-      `${pckg.description}\n` +
-      `Usage: ${pckg.name} [<options>] [<entry>]`
+    return `${data.name} ${data.version}\n` +
+      `${data.description}\n` +
+      `Usage: ${data.name} [<options>] [<entry>]`
     ;
   }
 
@@ -96,7 +82,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
       const [, name, pattern] = string.match(/^([^=]+)=(.*)$/) || [null, null, null];
 
       if (name) {
-        const [, path, patterns] = pattern.match(/^(.*)\{(.*)\}$/) || [null, null, null];
+        const [, path, patterns] = pattern.match(/^(.*){(.*)}$/) || [null, null, null];
 
         if (path) {
           const test = patterns

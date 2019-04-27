@@ -7,7 +7,7 @@ import { Identifiable } from './kernel/watchdog/dependencies/DependencyNode';
 import { UnitMatcher } from './kernel/watchdog/matcher/UnitMatcher';
 import { Watchdog, WatchdogConfig } from './kernel/watchdog/Watchdog';
 import { UnitInterface } from './kernel/watchdog/Unit';
-import { Finder } from './kernel/source/Finder';
+import { RecursiveFinder } from './kernel/source/Finder';
 import { CoreLogger } from './kernel/logging/CoreLogger';
 
 import { CoreEventBus } from './kernel/event/CoreEventBus';
@@ -150,7 +150,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
   }
 
   protected matched(root: string, matchers: UnitMatcher[]) {
-    const finder = new Finder();
+    const finder = new RecursiveFinder();
     const paths = [];
 
     for (const matcher of matchers) {

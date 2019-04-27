@@ -1,4 +1,4 @@
-import * as chokidar from 'chokidar';
+import { watch, FSWatcher } from 'chokidar';
 
 import { Eventable } from '../../utils/Eventable';
 import { ArrayConsumer } from '../../utils/ArrayConsumer';
@@ -13,7 +13,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
   public static EVENT  = 'event';
   public static DETACH = 'detach';
 
-  private watcher: any;
+  private watcher?: FSWatcher;
   private debounced: number;
   private readonly matcher: UnitMatcher;
   private _emitter: Emitter<ArrayConsumer<U>>;
@@ -50,13 +50,13 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
       };
     }
 
-    this.watcher = chokidar
-      .watch(strict ? (pattern as string) : config.root, {
+    this.watcher = watch(strict ? (pattern as string) : config.root, {
         ignored: config.ignore,
         persistent: true,
         ignoreInitial: true,
       })
-      .on(event, handler);
+      .on(event, handler)
+    ;
 
     return this;
   }
