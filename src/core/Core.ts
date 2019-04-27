@@ -99,11 +99,16 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
       .add(this.eventChainMonitor)
       .add({
         consume: (event) => {
+          this.emit(event);
+
           if (event instanceof FatalEvent) {
             this.stop();
+          } else
+          if (event instanceof ReadyEvent) {
+            if (!this.watchdog) {
+              this.stop(event);
+            }
           }
-
-          this.emit(event);
         }
       })
     ;
