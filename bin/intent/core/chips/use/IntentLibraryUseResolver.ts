@@ -1,15 +1,15 @@
 
 import * as path from 'path';
 
+import { PathsConfig } from '@intent/Core';
 import { UseResolverInterface } from './UseResolverInterface';
-import { ResolverConfig } from '../ResolverConfig';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 
 export class IntentLibraryUseResolver implements UseResolverInterface {
-  private config: ResolverConfig;
+  private config: PathsConfig;
 
-  public constructor(config: ResolverConfig) {
+  public constructor(config: PathsConfig) {
     this.config = config;
   }
 
@@ -19,7 +19,7 @@ export class IntentLibraryUseResolver implements UseResolverInterface {
     }
 
     const relative = identifier.path('/').toLowerCase().replace(/^intent[\/\\]/, '') + '.int';
-    const resolved = path.join(this.config.paths.intent, relative);
+    const resolved = path.join(this.config.internal, relative);
 
     return new Chip(resolved);
   }

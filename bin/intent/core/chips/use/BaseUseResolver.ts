@@ -1,19 +1,19 @@
 import { Strings } from '@intent/utils/Strings';
+import { PathsConfig } from '@intent/Core';
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { TranspilerConfig } from '../../TranspilerPipelineObserver';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 
 export class BaseUseResolver implements UseResolverInterface {
-  private config: TranspilerConfig;
+  private config: PathsConfig;
   public resolvers: UseResolverInterface[];
 
-  public constructor(config: TranspilerConfig) {
+  public constructor(config: PathsConfig) {
     this.config = config;
     this.resolvers = [
-      new IntentLibraryUseResolver(config.resolver),
+      new IntentLibraryUseResolver(config),
     ]
   }
 
@@ -36,7 +36,7 @@ export class BaseUseResolver implements UseResolverInterface {
       }
     }
 
-    const common = Strings.longestCommon([this.config.paths.project, from.identifier]).pop();
+    const common = Strings.longestCommon([this.config.project, from.identifier]).pop();
     const resolved = from.identifier
         .replace(new RegExp(`^${common}`), '')
         .replace(/\/[^\/]+$/, '') + identifier.name + '.int'

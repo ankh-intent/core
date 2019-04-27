@@ -4,10 +4,12 @@ import { TranspilerConfig } from '../core/TranspilerPipelineObserver';
 
 const root = __dirname.replace(/\/config$/, '');
 const project = process.cwd();
+const internal = path.resolve(path.join(root, '/core/lib/'));
 
 const config: TranspilerConfig = {
   paths: {
     project,
+    internal,
   },
   entry: {
     index: {
@@ -32,13 +34,6 @@ const config: TranspilerConfig = {
   output: {
     path: project,
     extension: '.i.ts',
-  },
-  resolver: {
-    paths: {
-      intent: path.resolve(
-        path.join(root, '/core/lib/')
-      ),
-    }
   },
   interpreter: {
   },

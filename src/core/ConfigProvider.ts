@@ -127,6 +127,13 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "default": defaults.paths.project || process.cwd(),
           "requiresArg": true,
         },
+        "lib-dir": {
+          "type": "string",
+          "alias": "l",
+          "describe": "Directory to resolve as root for internal libraries",
+          "default": defaults.paths.internal || process.cwd(),
+          "requiresArg": true,
+        },
       },
       "Emit options": {
         "output-emit-files": {
@@ -181,6 +188,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
   private paths(): PathsConfig {
     return <PathsConfig>{
       project: path.resolve(this.get("work-dir")),
+      internal: path.resolve(this.get("lib-dir")),
     };
   }
 

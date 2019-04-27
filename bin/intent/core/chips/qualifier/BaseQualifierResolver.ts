@@ -1,20 +1,21 @@
 
 import * as path from 'path';
 
-import { TranspilerConfig } from '../../TranspilerPipelineObserver';
+import { PathsConfig } from '@intent/Core';
+
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 
 export class BaseQualifierResolver implements QualifierResolverInterface {
-  protected config: TranspilerConfig;
+  protected config: PathsConfig;
 
-  public constructor(config: TranspilerConfig) {
+  public constructor(config: PathsConfig) {
     this.config = config;
   }
 
   public resolve(from: Chip): QualifierNode {
-    return this.parse(this.config.paths.project, from.identifier);
+    return this.parse(this.config.project, from.identifier);
   }
 
   protected parse(base: string, original: string): QualifierNode {

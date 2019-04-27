@@ -1,5 +1,6 @@
 
-import { TranspilerConfig } from '../../TranspilerPipelineObserver';
+import { PathsConfig } from '@intent/Core';
+
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
@@ -7,10 +8,10 @@ import { BaseQualifierResolver } from './BaseQualifierResolver';
 import { IntentLibraryQualifierResolver } from './IntentLibraryQualifierResolver';
 
 export class QualifierResolver implements QualifierResolverInterface {
-  private config: TranspilerConfig;
+  private config: PathsConfig;
   public resolvers: QualifierResolverInterface[];
 
-  public constructor(config: TranspilerConfig) {
+  public constructor(config: PathsConfig) {
     this.config = config;
     this.resolvers = [
       new IntentLibraryQualifierResolver(config),

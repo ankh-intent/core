@@ -18,7 +18,6 @@ import { Objects } from '@intent/utils/Objects';
 import { Chip } from './chips/Chip';
 import { FileEmitResolver } from './chips/FileEmitResolver';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
-import { ResolverConfig } from './chips/ResolverConfig';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
 import { ChipNode } from './transpiler/ast/ChipNode';
 import { IntentBuilder } from './transpiler/builder/IntentBuilder';
@@ -31,7 +30,6 @@ export interface OutputConfig {
 
 export interface TranspilerConfig extends CoreConfig {
   output: OutputConfig;
-  resolver: ResolverConfig;
   interpreter: InterpreterConfig;
 }
 
@@ -58,8 +56,8 @@ export class TranspilerPipelineObserver
         (code, resolver) => new Template(code, substitutor, resolver),
       ),
     );
-    this.qualifierResolver = new QualifierResolver(config);
-    this.useResolver = new BaseUseResolver(config);
+    this.qualifierResolver = new QualifierResolver(config.paths);
+    this.useResolver = new BaseUseResolver(config.paths);
   }
 
   public bootstrap(core: Core<TranspilerConfig, ChipNode, Chip>, config: TranspilerConfig): void {

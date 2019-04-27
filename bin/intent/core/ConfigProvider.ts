@@ -5,7 +5,6 @@ import { InterpreterConfig } from '@intent/consumers/interpreting/DependencyModi
 
 import { ConfigProvider as BaseConfigProvider, merge } from '../../../src/core/ConfigProvider';
 import { TranspilerConfig, OutputConfig } from './TranspilerPipelineObserver';
-import { ResolverConfig } from './chips/ResolverConfig';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   protected options(defaults: Partial<TranspilerConfig>): any {
@@ -35,29 +34,16 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
     };
   }
 
-  protected resolver(defaults: Partial<TranspilerConfig>): ResolverConfig {
-    return {
-      paths: {
-        intent: defaults.resolver.paths.intent || path.resolve(
-          path.join(__dirname.replace(/[\\/]build[\\/]/, '/'), 'core/consumers/interpreting/intent/specification/lib/')
-        ),
-      },
-    };
-  }
-
   protected interpreter(): InterpreterConfig {
     return {
     };
   }
 
   public build(core: Core<TranspilerConfig, any, any>): TranspilerConfig {
-    const defaults = this.defaults();
-
     return {
       ...super.build(core),
       ...{
         output: this.output(),
-        resolver: this.resolver(defaults),
         interpreter: this.interpreter(),
       },
     };

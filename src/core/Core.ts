@@ -25,6 +25,7 @@ import { DependencyManager } from './kernel/watchdog/dependencies/DependencyMana
 
 export interface PathsConfig {
   project: string;
+  internal: string;
 }
 
 export interface EntryConfig {

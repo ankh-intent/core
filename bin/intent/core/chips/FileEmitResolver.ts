@@ -40,7 +40,7 @@ class BaseFileEmitResolver implements FileEmitResolverInterface<ChipNode, Chip> 
     const emit = path.join(parts.dir, parts.name + this.config.output.extension);
     const common = Strings.longestCommon([emit, base])
       .pop()
-      .replace(new RegExp(`\\${path.sep}$`), '')
+      .replace(new RegExp(`${Strings.escapeRegExp(path.sep)}$`), '')
     ;
 
     return emit.replace(common, out);
@@ -51,7 +51,7 @@ class IntentFileEmitResolver extends BaseFileEmitResolver {
   static APPEND = '@lib';
 
   protected getBasePath(chip: Chip): string {
-    return this.config.resolver.paths.intent;
+    return this.config.paths.internal;
   }
 
   protected getOutputPath(chip: Chip): string {
