@@ -1,26 +1,26 @@
 
-import { TreeNode } from './kernel/ast/TreeNode';
-import { Identifiable } from './kernel/watchdog/dependencies/DependencyNode';
+import { Container } from './utils/Container';
 import { Emitter } from './utils/Emitter';
 import { Logger } from './utils/Logger';
+import { TreeNode } from './kernel/ast/TreeNode';
+import { Identifiable } from './kernel/watchdog/dependencies/DependencyNode';
 import { UnitMatcher } from './kernel/watchdog/matcher/UnitMatcher';
 import { Watchdog, WatchdogConfig } from './kernel/watchdog/Watchdog';
 import { UnitInterface } from './kernel/watchdog/Unit';
+import { Finder } from './kernel/source/Finder';
+import { CoreLogger } from './kernel/logging/CoreLogger';
 
 import { CoreEventBus } from './kernel/event/CoreEventBus';
 import { UpdateEvent } from './consumers/watching/UpdateEvent';
 import { CoreEvent } from './kernel/event/CoreEvent';
 import { FatalEvent } from './kernel/event/events/FatalEvent';
-import { Finder } from './kernel/source/Finder';
+import { ReadyEvent } from './kernel/event/events/ReadyEvent';
 
+import { EventChainMonitor, EventChainMonitoringData } from './kernel/event/EventChainMonitor';
 import { StatConsumer } from './consumers/stat/StatConsumer';
 import { ErrorConsumer } from './consumers/errors/ErrorConsumer';
 import { WatchdogReadyConsumer } from './consumers/watching/WatchdogReadyConsumer';
-import { ReadyEvent } from './kernel/event/events/ReadyEvent';
-import { EventChainMonitor, EventChainMonitoringData } from './kernel/event/EventChainMonitor';
-import { CoreLogger } from './kernel/logging/CoreLogger';
 import { DependencyManager } from './kernel/watchdog/dependencies/DependencyManager';
-import { Container } from './utils/Container';
 
 export interface PathsConfig {
   project: string;
