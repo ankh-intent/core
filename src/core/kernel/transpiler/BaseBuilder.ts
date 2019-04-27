@@ -1,9 +1,9 @@
-import { Region } from '@intent/kernel/source/Region';
-import { Strings } from '@intent/utils/Strings';
-import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
-import { Tokens } from '@intent/kernel/parser/Tokens';
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
-import { TokenVisitor } from '@intent/kernel/ast/TokenVisitor';
+import { Strings } from '../../utils/Strings';
+import { Region } from '../source/Region';
+import { TokenMatcher } from '../parser/TokenMatcher';
+import { Tokens } from '../parser/Tokens';
+import { TreeNode } from '../ast/TreeNode';
+import { TokenVisitor } from '../ast/TokenVisitor';
 
 export interface BuildInvoker<N extends TreeNode> {
   (tokens: Tokens): N;

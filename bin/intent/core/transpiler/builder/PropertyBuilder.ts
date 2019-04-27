@@ -2,7 +2,7 @@ import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
 
 import { PropertyNode } from '../ast/PropertyNode';
-import { BaseBuilder, BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 import { TypeNode } from '../ast/TypeNode';
 
 export interface PropertyChildren extends BuilderInvokers<any> {
