@@ -1,8 +1,8 @@
 import { TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { Tokens } from '@intent/kernel/parser/Tokens';
+import { BaseBuilder, BuilderInvokers, BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { ChipNode } from '../ast/ChipNode';
-import { BaseBuilder, BuilderInvokers, BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 import { UseNode } from '../ast/UseNode';
 import { DomainNode } from '../ast/DomainNode';
 import { CanNode } from '../ast/CanNode';
@@ -25,11 +25,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
     ensure.symbol('{');
 
-    while (true) {
-      if (peek.symbol('}')) {
-        break;
-      }
-
+    while (!peek.symbol('}')) {
       const use = this.child.use(tokens);
 
       if (use) {

@@ -80,7 +80,7 @@ export class FileEmitResolver extends BaseFileEmitResolver {
     super(config);
     this.resolvers = [
       new IntentFileEmitResolver(config),
-    ]
+    ];
   }
 
   public resolve(chip: Chip): string {
