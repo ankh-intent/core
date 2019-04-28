@@ -1,25 +1,17 @@
 use Intent.Types: {
-  Number: {
-    Random,
-  },
-  Math: {
-    NaturalNumber,
-    PositiveNumber,
-  },
-  Collections: {
-    Index,
-  },
-  Sure: {
-    Collection as SureCollection,
-    String as SureString,
-  },
+  Number: { Random },
+  Math: { NaturalNumber, PositiveNumber },
+  Collections: { Index },
+  Sure: { Collection as SureCollection, String as SureString },
 };
+use Players: { Player };
+use Score;
 
-domain Game {
-  use Players: {
-    Player,
-  };
-  use Score;
+domain Game {{
+    players: Players;
+    dice: PositiveNumber = 6;
+    goal: PositiveNumber = 100;
+  }
 
   domain Outcome {
     domain Win extends Outcome {{
@@ -32,19 +24,13 @@ domain Game {
     }}
   }
 
-  private domain MaybePlayer extends Maybe.Value<Player>;
-
-  interface {
-    players: Players;
-    dice: PositiveNumber = 6;
-    goal: PositiveNumber = 100;
-  }
+  domain MaybePlayer extends Maybe.Value<Player>;
 
   state {
     scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
     withdrawn: Set<Player> = Set();
     turn: Player = players[0];
-    victory: Score.Winning({ max: goal });
+    victory: Score.Winning~({ max: goal });
   }
 
   get score[player: Player]: Score {
@@ -53,13 +39,13 @@ domain Game {
 
   get next[player: Player]: MaybePlayer {
     if (withdrawn.size === players.size) {
-      return new MaybePlayer();
+      return MaybePlayer();
     }
 
     let index = players.indexOf(player);
 
-    each (let next = Index((++index) % players.size)) {
-      let candidate = players[next];
+    each (const next = Index((++index) % players.size)) {
+      const candidate = players[next];
 
       if (!withdrawn.has(candidate)) {
         return candidate;
@@ -67,24 +53,12 @@ domain Game {
     }
   }
 
-  private try(player: Player): Score {
-    each (let rolled = roll()) {
-      if (rolled is Score.SnakeEye) {
-        return Score(0);
-      }
-
-      if (victory.cast(rolled) || hold()) {
-         return rolled;
-      }
-    }
-  }
-
   play(): Outcome {
-    each (let gain = try(turn)) {
-      if (gain is PositiveNumber) {
-        let scored = score[turn] + gain;
+    each (const { rolled } = Roll.make(dice)) {
+      if (rolled is PositiveNumber) {
+        const scored = score[turn] + rolled;
 
-        if (winning(scored)) {
+        if (victory(scored)) {
           return Outcome.Win({
             player: turn,
             scored,
@@ -92,15 +66,13 @@ domain Game {
         }
       }
 
-      if (let switch = next[turn]) {
+      if (const switch = next[turn]) {
         turn = switch;
       } else {
         break;
       }
     }
 
-    return Outcome.Draw({
-      scores,
-    });
+    return Outcome.Draw(scores);
   }
 }

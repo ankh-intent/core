@@ -3,15 +3,15 @@ domain Pig {
   use Types.IO;
 
   play() {
-    let game = Game(
-      players: Players(value: [
+    const game = Game(
+      players: Players([
         Player(id: 1, name: 'Player 1'),
         Player(id: 2, name: 'Player 2'),
       ]),
       goal: 50,
     );
 
-    switch (let outcome = game.play()) {
+    switch (const outcome = game.play()) {
       case is Game.Win: {
         IO.print('"${outcome.player.name}" won with score ${outcome.score}');
       }
@@ -19,7 +19,7 @@ domain Pig {
         IO.print('Draw.');
         IO.print('Final scores:');
 
-        each (let [player, score] = outcome.scores) {
+        each (const [player, score] of outcome.scores) {
           IO.print('\t"${player.name}": ${score}');
         }
       }
