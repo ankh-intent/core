@@ -27,7 +27,7 @@ export class AlchemyCore extends Core<TranspilerConfig, ChipNode, Chip> {
 export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent<any>> & { core: AlchemyCore } => {
   const core = new AlchemyCore();
   const config = core.bootstrap({
-    ...configure(process.env.ENV),
+    ...configure,
     // ... default config override here
     ...configOverride,
   });
