@@ -26,12 +26,10 @@ domain Game {{
 
   domain MaybePlayer extends Maybe.Value<Player>;
 
-  state {
-    scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
-    withdrawn: Set<Player> = Set();
-    turn: Player = players[0];
-    victory: Score.Winning~({ max: goal });
-  }
+  const scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
+  const withdrawn: Set<Player> = Set();
+  const victory = Score.Winning~({ max = goal });
+  let turn: Player = players[0];
 
   get score[player: Player]: Score {
     return scores[player];
@@ -60,7 +58,7 @@ domain Game {{
 
         if (victory(scored)) {
           return Outcome.Win({
-            player: turn,
+            player = turn,
             scored,
           });
         }
