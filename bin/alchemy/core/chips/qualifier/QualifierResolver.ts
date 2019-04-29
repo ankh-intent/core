@@ -1,5 +1,5 @@
 
-import { PathsConfig } from '@intent/Core';
+import { PathsConfig } from '@intent/CoreConfig';
 
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';

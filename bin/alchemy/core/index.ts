@@ -1,16 +1,18 @@
 import * as util from 'util';
 
 import { Logger } from '@intent/utils/Logger';
-import { Core, CoreConfig } from '@intent/Core';
+import { Core} from '@intent/Core';
 import { CoreEvent } from '@intent/kernel/event/CoreEvent';
 import { ErrorEvent } from '@intent/kernel/event/events/ErrorEvent';
 import { StatEvent } from '@intent/kernel/event/events/StatEvent';
 import { StopEvent } from '@intent/kernel/event/events/StopEvent';
+import { CoreConfig } from '@intent/CoreConfig';
+import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
 import { Chip } from './chips/Chip';
 import { ChipNode } from './transpiler/ast/ChipNode';
-import { TranspilerConfig, TranspilerPipelineObserver } from './TranspilerPipelineObserver';
+import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
 import configure from '../config';
 

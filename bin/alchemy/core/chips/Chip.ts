@@ -1,5 +1,5 @@
 import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
-import { Identifiable } from '@intent/kernel/watchdog/dependencies/DependencyNode';
+import { Identifiable } from '@intent/kernel/dependencies/DependencyNode';
 
 import { ChipNode } from '../transpiler/ast/ChipNode';
 

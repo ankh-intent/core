@@ -1,9 +1,9 @@
 
+import { CoreConfig } from '../../CoreConfig';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { StatEvent } from '../../kernel/event/events/StatEvent';
-import { CoreConfig } from '../../Core';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Logger } from '../../utils/Logger';
 import { LogStat } from './LogStat';

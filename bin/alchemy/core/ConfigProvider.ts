@@ -1,41 +1,47 @@
-import * as path from 'path';
 
+import { WatchdogConfig } from '@intent/kernel/watchdog/Watchdog';
+import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
+import { ConfigProvider as BaseConfigProvider, merge, regexpify } from '@intent/ConfigProvider';
 import { Core } from '@intent/Core';
-import { InterpreterConfig } from '@intent/consumers/interpreting/DependencyModifiedConsumer';
-
-import { ConfigProvider as BaseConfigProvider, merge } from '../../../src/core/ConfigProvider';
-import { TranspilerConfig, OutputConfig } from './TranspilerPipelineObserver';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   protected options(defaults: Partial<TranspilerConfig>): any {
     return merge(super.options(defaults), {
-      "Emit options": {
-        "output-dir": {
+      "Watchdog options": {
+        "watch": {
+          "type": "boolean",
+          "alias": "w",
+          "describe": "Watch for changes",
+          "default": false,
+          "requiresArg": false,
+        },
+        "watch-root": {
           "type": "string",
-          "alias": "o",
-          "describe": "Directory to output emitted files to",
-          "default": defaults.output.path,
+          "describe": "Set root directory to watch for changes",
+          "default": defaults.watch.root,
           "requiresArg": true,
         },
-        "output-extension": {
+        "watch-ignore": {
           "type": "string",
-          "describe": "Extension to emit files with",
-          "default": defaults.output.extension,
+          "describe": "Set pattern for files to ignore",
+          "default": regexpify(defaults.watch.ignore),
+          "requiresArg": true,
+        },
+        "watch-aggregation": {
+          "type": "number",
+          "describe": "Set changes debounce time interval",
+          "default": defaults.watch.aggregation,
           "requiresArg": true,
         },
       },
     });
   }
 
-  private output(): OutputConfig {
-    return <OutputConfig> {
-      extension: this.get("output-extension"),
-      path: path.resolve(this.get("output-dir")),
-    };
-  }
-
-  protected interpreter(): InterpreterConfig {
-    return {
+  protected watch(): WatchdogConfig {
+    return this.get("watch") && {
+      root: this.get("watch-root"),
+      ignore: new RegExp(this.get("watch-ignore").replace('\\', '\\\\')),
+      aggregation: this.get("watch-aggregation"),
     };
   }
 
@@ -43,8 +49,7 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
     return {
       ...super.build(core),
       ...{
-        output: this.output(),
-        interpreter: this.interpreter(),
+        watch: this.watch(),
       },
     };
   }

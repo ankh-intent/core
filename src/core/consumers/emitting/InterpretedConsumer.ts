@@ -1,6 +1,6 @@
 
 import { TreeNode } from '../../kernel/ast/TreeNode';
-import { Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CoreEvent } from '../../kernel/event/CoreEvent';

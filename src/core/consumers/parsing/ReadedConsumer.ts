@@ -1,15 +1,16 @@
 
+import { TokenMatcher } from '../../kernel/parser/TokenMatcher';
 import { Source } from '../../kernel/source/Source';
 import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
+import { CoreEventBus } from '../../kernel/event/CoreEventBus';
+import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { ReadedEvent } from '../reading/ReadedEvent';
-import { ParsedEvent, ParsedEventProps } from './ParsedEvent';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
+import { ParsedEvent } from './ParsedEvent';
 
 export interface TokensFactory<TT extends typeof BaseTokenTypes> {
-  (source: Source): ParsedEventProps<TT>;
+  (source: Source): TokenMatcher<TT>;
 }
 
 export class ParseStat extends ConsumerStat {
@@ -34,8 +35,9 @@ export class ReadedConsumer<TT extends typeof BaseTokenTypes> extends AbstractCo
     const { source } = event.data;
     this.stat(event, new ParseStat(source));
 
-    return new ParsedEvent(
-      this.factory(source),
-    );
+    return new ParsedEvent({
+      source,
+      tokens: this.factory(source),
+    });
   }
 }

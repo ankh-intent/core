@@ -1,5 +1,5 @@
-import { Container } from '../../../utils/Container';
-import { TreeNode } from '../../ast/TreeNode';
+import { Container } from '../../utils/Container';
+import { TreeNode } from '../ast/TreeNode';
 
 export interface Identifiable<N extends TreeNode> {
   identifier: string;

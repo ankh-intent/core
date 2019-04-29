@@ -1,12 +1,12 @@
 
 import { TreeNode } from '../../kernel/ast/TreeNode';
-import { DependencyNode, Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
-import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
+import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
 import { Source } from '../../kernel/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 

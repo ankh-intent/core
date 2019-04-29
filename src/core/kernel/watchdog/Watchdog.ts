@@ -1,4 +1,4 @@
-import { UnitMatcher } from './matcher/UnitMatcher';
+import { UnitMatcher } from '../../utils/UnitMatcher';
 import { UnitInterface } from './Unit';
 import { WatchItem } from './WatchItem';
 

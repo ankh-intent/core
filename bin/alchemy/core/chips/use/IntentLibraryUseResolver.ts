@@ -1,7 +1,7 @@
 
+import { PathsConfig } from '@intent/CoreConfig';
 import * as path from 'path';
 
-import { PathsConfig } from '@intent/Core';
 import { UseResolverInterface } from './UseResolverInterface';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';

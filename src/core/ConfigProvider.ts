@@ -1,12 +1,11 @@
 import * as path from 'path';
 
-import { Objects } from './utils/Objects';
 import { Container } from './utils/Container';
 import { Strings } from './utils/Strings';
 import { BubblingFinder } from './kernel/source/Finder';
+import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from './CoreConfig';
 import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
-import { WatchdogConfig } from './kernel/watchdog/Watchdog';
-import { Core, CoreConfig, EmitConfig, EntryConfig, PathsConfig } from './Core';
+import { Core} from './Core';
 
 export const regexpify = (r: RegExp|string) => {
   return (typeof r === 'string')
@@ -15,7 +14,7 @@ export const regexpify = (r: RegExp|string) => {
 };
 
 const isMergeable = (o: any) => {
-  return Objects.is(o) && !((o instanceof Date) || (o instanceof RegExp));
+  return (!!(o && (o === Object(o)))) && !((o instanceof Date) || (o instanceof RegExp));
 };
 
 export const merge = (...os) => {
@@ -154,31 +153,17 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "default": defaults.emit.config,
           "requiresArg": false,
         },
-      },
-      "Watchdog options": {
-        "watch": {
-          "type": "boolean",
-          "alias": "w",
-          "describe": "Watch for changes",
-          "default": false,
-          "requiresArg": false,
-        },
-        "watch-root": {
+        "output-dir": {
           "type": "string",
-          "describe": "Set root directory to watch for changes",
-          "default": defaults.watch.root,
+          "alias": "o",
+          "describe": "Directory to output emitted files to",
+          "default": defaults.output.path,
           "requiresArg": true,
         },
-        "watch-ignore": {
+        "output-extension": {
           "type": "string",
-          "describe": "Set pattern for files to ignore",
-          "default": regexpify(defaults.watch.ignore),
-          "requiresArg": true,
-        },
-        "watch-aggregation": {
-          "type": "number",
-          "describe": "Set changes debounce time interval",
-          "default": defaults.watch.aggregation,
+          "describe": "Extension to emit files with",
+          "default": defaults.output.extension,
           "requiresArg": true,
         },
       },
@@ -204,11 +189,15 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  protected watch(): WatchdogConfig {
-    return this.get("watch") && {
-      root: this.get("watch-root"),
-      ignore: new RegExp(this.get("watch-ignore").replace('\\', '\\\\')),
-      aggregation: this.get("watch-aggregation"),
+  private output(): OutputConfig {
+    return <OutputConfig> {
+      extension: this.get("output-extension"),
+      path: path.resolve(this.get("output-dir")),
+    };
+  }
+
+  protected interpreter(): InterpreterConfig {
+    return {
     };
   }
 
@@ -217,7 +206,8 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
       paths: this.paths(),
       entry: this.entry(),
       emit: this.emit(),
-      watch: this.watch(),
+      output: this.output(),
+      interpreter: this.interpreter(),
     };
   }
 

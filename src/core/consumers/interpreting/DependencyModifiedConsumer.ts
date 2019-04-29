@@ -1,17 +1,14 @@
 
+import { CoreConfig } from '../../CoreConfig';
 import { TreeNode } from '../../kernel/ast/TreeNode';
 import { TranspilerInterface } from '../../kernel/transpiler/AbstractTranspiler';
-import { Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { InterpretedEvent } from './InterpretedEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { CoreConfig } from '../../Core';
 import { DependencyModifiedEvent } from '../watching/DependencyModifiedEvent';
-
-export interface InterpreterConfig {
-}
 
 export class DependencyModifiedConsumer<N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<DependencyModifiedEvent<N, T>, any>{
   private readonly config: CoreConfig;

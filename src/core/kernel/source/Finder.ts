@@ -2,7 +2,7 @@
 import fs = require('fs');
 import path = require('path');
 
-import { UnitMatcher } from '../watchdog/matcher/UnitMatcher';
+import { UnitMatcher } from '../../utils/UnitMatcher';
 
 type PathConsumer<T> = (path: string) => T;
 

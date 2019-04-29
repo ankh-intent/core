@@ -9,8 +9,8 @@ import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Watchdog } from '../../kernel/watchdog/Watchdog';
 import { UnitInterface } from '../../kernel/watchdog/Unit';
 import { WatchItem } from '../../kernel/watchdog/WatchItem';
-import { DependencyManager } from '../../kernel/watchdog/dependencies/DependencyManager';
-import { DependencyNode, Identifiable } from '../../kernel/watchdog/dependencies/DependencyNode';
+import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
+import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
 
 interface RetainedWatch<N extends TreeNode, T extends Identifiable<N>> {
   node: DependencyNode<N, T>,

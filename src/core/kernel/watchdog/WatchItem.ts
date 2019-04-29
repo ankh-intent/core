@@ -5,7 +5,7 @@ import { ArrayConsumer } from '../../utils/ArrayConsumer';
 import { Emitter } from '../../utils/Emitter';
 
 import { UnitInterface } from './Unit';
-import { UnitMatcher } from './matcher/UnitMatcher';
+import { UnitMatcher } from '../../utils/UnitMatcher';
 import { WatchdogConfig } from './Watchdog';
 import { AggregatedEmitter } from './AggregatedEmitter';
 

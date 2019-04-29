@@ -1,5 +1,5 @@
+import { PathsConfig } from '@intent/CoreConfig';
 import { Strings } from '@intent/utils/Strings';
-import { PathsConfig } from '@intent/Core';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
