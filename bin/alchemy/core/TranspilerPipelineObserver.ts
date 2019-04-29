@@ -1,5 +1,4 @@
 import { Container } from '@intent/utils/Container';
-import { Objects } from '@intent/utils/Objects';
 import { AnalyzedConsumer, IdentifiableFactory } from '@intent/consumers/ast-compiling/AnalyzedConsumer';
 import { ParseConsumer } from '@intent/consumers/ast-compiling/ParseConsumer';
 import { InterpretedConsumer } from '@intent/consumers/emitting/InterpretedConsumer';
@@ -98,7 +97,7 @@ export class TranspilerPipelineObserver
   resolve(identifiable: Chip): Container<Chip> {
     const links = {};
 
-    for (const use of Objects.iterate(identifiable.ast.uses)) {
+    for (const use of Object.values(identifiable.ast.uses)) {
       const link = this.useResolver.resolve(identifiable, use.qualifier);
 
       if (!link) {

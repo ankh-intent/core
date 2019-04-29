@@ -3,11 +3,9 @@ import { Token } from '@intent/kernel/parser/Token';
 import { BaseTokenTypes, Context } from '@intent/kernel/parser/Tokenizer';
 import { Range, TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { BuilderInvokers } from '@intent/kernel/transpiler/BaseBuilder';
-import { IntentTokens } from '../../../intent/core/transpiler/IntentTokens';
 
 export const AlchemyTokens = {
   ...BaseTokenTypes,
-  TK_WHITESPACE: 'whitespace',
   TK_STRING: 'string',
   TK_IDENTIFIER: 'identifier',
   TK_NUMBER: 'number',
@@ -139,6 +137,6 @@ export class AlchemyTokenMatcher extends TokenMatcher<typeof AlchemyTokens> {
   }
 }
 
-export interface AlchemyBuildInvokers extends BuilderInvokers<any, typeof IntentTokens> {
+export interface AlchemyBuildInvokers extends BuilderInvokers<any, typeof AlchemyTokens> {
 
 }

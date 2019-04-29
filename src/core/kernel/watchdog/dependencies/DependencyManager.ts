@@ -1,6 +1,5 @@
 
 import { Container } from '../../../utils/Container';
-import { Objects } from '../../../utils/Objects';
 import { Eventable } from '../../../utils/Eventable';
 import { TreeNode } from '../../ast/TreeNode';
 import { DependencyNode, Identifiable } from './DependencyNode';
@@ -28,7 +27,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   }
 
   public contains(filter: (nodes: DependencyNode<N, T>) => boolean): DependencyNode<N, T> {
-    for (const node of Objects.iterate(this.roots)) {
+    for (const node of Object.values(this.roots)) {
       if (filter(node)) {
         return node;
       }
@@ -38,7 +37,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   }
 
   public find(identifier: string): DependencyNode<N, T> {
-    for (const root of Objects.iterate(this.roots)) {
+    for (const root of Object.values(this.roots)) {
       const found = root.related(identifier);
 
       if (found) {
@@ -97,7 +96,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   public remove(node: DependencyNode<N, T>): number {
     let released = +(delete this.roots[node.identifier]);
 
-    for (const root of Objects.iterate(this.roots)) {
+    for (const root of Object.values(this.roots)) {
       released += +root.release(node);
     }
 
@@ -117,7 +116,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
 
     const identifier = dependency.identifier;
 
-    for (const root of Objects.iterate(this.roots)) {
+    for (const root of Object.values(this.roots)) {
       if (root === dependency) {
         continue;
       }
