@@ -20,9 +20,9 @@ import { Chip } from './chips/Chip';
 import { FileEmitResolver } from './chips/FileEmitResolver';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
+import { AlchemyTokenMatcher, AlchemyTokens } from './transpiler/Alchemy';
 import { ChipNode } from './transpiler/ast/ChipNode';
-import { IntentBuilder } from './transpiler/builder/IntentBuilder';
-import { IntentTokens } from './transpiler/IntentTokens';
+import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
 import { ChipTranspiler } from './transpiler/templates/ChipTranspiler';
 
 export interface OutputConfig {
@@ -41,18 +41,18 @@ export class TranspilerPipelineObserver
     IdentifiableFactory<ChipNode, Chip>,
     DependenciesResolver<ChipNode, Chip>
 {
-  private parser: IntentBuilder;
+  private parser: AlchemyBuilder;
   private transpiler: ChipTranspiler;
   private config: TranspilerConfig;
   private qualifierResolver: QualifierResolver;
   private useResolver: BaseUseResolver;
-  private tokensFactory: TokensFactory;
+  private tokensFactory: TokensFactory<typeof AlchemyTokens>;
 
   public constructor(config: TranspilerConfig) {
     this.config = config;
     const sampler = new Sampler('{%', '%}');
     const substitutor = new Substitutor(sampler);
-    this.parser = new IntentBuilder();
+    this.parser = new AlchemyBuilder();
     this.transpiler = new ChipTranspiler(
       new Compiler(
         sampler,
@@ -61,7 +61,16 @@ export class TranspilerPipelineObserver
     );
     this.qualifierResolver = new QualifierResolver(config.paths);
     this.useResolver = new BaseUseResolver(config.paths);
-    this.tokensFactory = (source: Source) => new IntentTokens(source, source.range());
+    this.tokensFactory = (source: Source) => {
+      const tokens = new AlchemyTokenMatcher(source, source.range());
+      const matcher = tokens.matcher;
+
+      return {
+        source,
+        tokens,
+        matcher,
+      };
+    };
   }
 
   public bootstrap(core: Core<TranspilerConfig, ChipNode, Chip>, config: TranspilerConfig): void {

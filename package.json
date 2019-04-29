@@ -5,8 +5,8 @@
   "main": "build/bin/intent.ts",
   "types": "bin/intent.d.ts",
   "scripts": {
-    "executable": "chmod +x bin/intent/intent.ts",
-    "intent": "npm run executable && cd bin/intent && ts-node --project tsconfig.json -r tsconfig-paths/register intent.ts",
+    "executable": "chmod +x bin/alchemy/alchemy.ts",
+    "intent": "npm run executable && cd bin/alchemy && ts-node --project tsconfig.json -r tsconfig-paths/register intent.ts",
     "pack": "webpack --display-modules --progress --colors",
     "watchdog": "webpack --progress --colors --watch --watch-poll",
     "bump": "bin/bump.sh",
@@ -30,7 +30,7 @@
     "yargs": "^13.2.2"
   },
   "bin": {
-    "intent": "./bin/intent/intent.ts"
+    "intent": "bin/alchemy/alchemy.ts"
   },
   "devDependencies": {
     "@stryker-mutator/core": "^1.1.0",

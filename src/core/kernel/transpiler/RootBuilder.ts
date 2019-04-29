@@ -1,17 +1,19 @@
+import { BaseTokenTypes } from '../parser/Tokenizer';
+import { TokenMatcher } from '../parser/TokenMatcher';
 import { TokenVisitor } from '../ast/TokenVisitor';
 import { TreeNode } from '../ast/TreeNode';
-import { Tokens } from '../parser/Tokens';
 import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
 
 export type InvokableVisitors<T> = {[name in keyof T]: TokenVisitor<any>};
-export type RootInvokers<G, N extends TreeNode> = G & { root: BuildInvoker<N> };
+export type RootInvokers<TT extends typeof BaseTokenTypes, G, N extends TreeNode> = G & { root: BuildInvoker<N, TT> };
 
 export class RootBuilder<
+  TT extends typeof BaseTokenTypes,
   Grammar,
   Node extends TreeNode,
-  Invokers extends RootInvokers<Grammar, Node> = RootInvokers<Grammar, Node>,
-> implements TokenVisitor<Node> {
-  protected readonly invokers: BuilderInvokers<Invokers>;
+  Invokers extends RootInvokers<TT, Grammar, Node> = RootInvokers<TT, Grammar, Node>,
+> implements TokenVisitor<Node, TT> {
+  protected readonly invokers: BuilderInvokers<Invokers, TT>;
 
   public constructor() {
     this.invokers = <any>{};
@@ -28,7 +30,7 @@ export class RootBuilder<
     };
   }
 
-  public visit(tokens: Tokens): Node {
+  public visit(tokens: TokenMatcher<TT>): Node {
     return this.invokers.root(tokens);
   }
 }

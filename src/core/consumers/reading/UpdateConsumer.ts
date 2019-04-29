@@ -38,10 +38,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
         this.emit(new ReadedEvent({ source }, event));
       })
       .catch((e: Error) => {
-        const error = new SyntaxError(e.message, null, 0);
-        error.parent = e;
-
-        this.emit(new ErrorEvent({ error }, event));
+        this.emit(new ErrorEvent({ error: new SyntaxError(e.message, null, 0, e) }, event));
       })
     ;
   }

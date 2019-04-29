@@ -1,5 +1,6 @@
 import { RootBuilder } from '@intent/kernel/transpiler/RootBuilder';
 
+import { AlchemyTokens } from '../Alchemy';
 import { ChipNode } from '../ast/ChipNode';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';
 import { TypeBuilder } from './TypeBuilder';
@@ -11,7 +12,7 @@ import { DomainBuilder, DomainChildren } from './DomainBuilder';
 import { ChipBuilder, ChipChildren } from './ChipBuilder';
 import { ConstraintBuilder, ConstraintChildren } from './ConstraintBuilder';
 
-type IntentGrammar =
+type AlchemyGrammar =
   QualifierChildren &
   UseChildren &
   TypeDefChildren &
@@ -23,7 +24,7 @@ type IntentGrammar =
   ChipChildren
 ;
 
-export class IntentBuilder extends RootBuilder<IntentGrammar, ChipNode> {
+export class AlchemyBuilder extends RootBuilder<typeof AlchemyTokens, AlchemyGrammar, ChipNode> {
   protected get builders() {
     return {
       qualifier : new QualifierBuilder(this.invokers),

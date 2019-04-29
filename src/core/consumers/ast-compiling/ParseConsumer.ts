@@ -1,6 +1,7 @@
 import { TreeNode } from '../../kernel/ast/TreeNode';
 import { TokenVisitor } from '../../kernel/ast/TokenVisitor';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
+import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
 import { ParsedEvent } from '../parsing/ParsedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
@@ -15,10 +16,10 @@ export class AstStat extends ConsumerStat {
   }
 }
 
-export class ParseConsumer<N extends TreeNode> extends AbstractConsumer<ParsedEvent, any>{
-  private readonly parser: TokenVisitor<N>;
+export class ParseConsumer<N extends TreeNode, TT extends typeof BaseTokenTypes> extends AbstractConsumer<ParsedEvent<TT>, any>{
+  private readonly parser: TokenVisitor<N, TT>;
 
-  public constructor(bus: CoreEventBus, parser: TokenVisitor<N>) {
+  public constructor(bus: CoreEventBus, parser: TokenVisitor<N, TT>) {
     super(bus);
     this.parser = parser;
   }
@@ -27,7 +28,7 @@ export class ParseConsumer<N extends TreeNode> extends AbstractConsumer<ParsedEv
     return event.type === ParsedEvent.type();
   }
 
-  public process(event: ParsedEvent) {
+  public process(event: ParsedEvent<TT>) {
     const { source, tokens } = event.data;
     this.stat(event, new AstStat(source));
 

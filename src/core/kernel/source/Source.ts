@@ -1,5 +1,5 @@
 
-import { Range } from '../parser/Tokens';
+import { Range } from '../parser/TokenMatcher';
 import { Origin } from './Origin';
 
 export class Source {

@@ -1,7 +1,14 @@
 
 import { Token } from './Token';
-import { Range } from './Tokens';
+import { Range } from './TokenMatcher';
 import { Source } from '../source/Source';
+
+export const BaseTokenTypes = {
+  TK_ANY: 'any',
+  TK_WHITESPACE: 'whitespace',
+  TK_COMMENT: 'comment',
+  TK_EOF: 'eof',
+};
 
 export interface Context {
   source: Source;
@@ -9,6 +16,6 @@ export interface Context {
   pos: number;
 }
 
-export interface Tokenizer {
+export interface Tokenizer<TT extends typeof BaseTokenTypes> {
   (context: Context): Token;
 }

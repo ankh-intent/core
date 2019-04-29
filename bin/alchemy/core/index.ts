@@ -14,7 +14,7 @@ import { TranspilerConfig, TranspilerPipelineObserver } from './TranspilerPipeli
 
 import configure from '../config';
 
-export class IntentCore extends Core<TranspilerConfig, ChipNode, Chip> {
+export class AlchemyCore extends Core<TranspilerConfig, ChipNode, Chip> {
   public bootstrap(config: CoreConfig): TranspilerConfig {
     return super.bootstrap(
       config,
@@ -24,8 +24,8 @@ export class IntentCore extends Core<TranspilerConfig, ChipNode, Chip> {
   }
 }
 
-export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent<any>> & { core: IntentCore } => {
-  const core = new IntentCore();
+export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent<any>> & { core: AlchemyCore } => {
+  const core = new AlchemyCore();
   const config = core.bootstrap({
     ...configure(process.env.ENV),
     // ... default config override here

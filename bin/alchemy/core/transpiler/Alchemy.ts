@@ -1,13 +1,24 @@
-import { Token } from '@intent/kernel/parser/Token';
-import { Context } from '@intent/kernel/parser/Tokenizer';
-import { Range, Tokens } from '@intent/kernel/parser/Tokens';
 import { Source } from '@intent/kernel/source/Source';
+import { Token } from '@intent/kernel/parser/Token';
+import { BaseTokenTypes, Context } from '@intent/kernel/parser/Tokenizer';
+import { Range, TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
+import { BuilderInvokers } from '@intent/kernel/transpiler/BaseBuilder';
+import { IntentTokens } from '../../../intent/core/transpiler/IntentTokens';
 
-export class Intent {
+export const AlchemyTokens = {
+  ...BaseTokenTypes,
+  TK_WHITESPACE: 'whitespace',
+  TK_STRING: 'string',
+  TK_IDENTIFIER: 'identifier',
+  TK_NUMBER: 'number',
+  TK_SYMBOL: 'symbol',
+};
+
+export class Alchemy {
   public static pure(context: Context) {
     let token;
 
-    while ((token = this.tokenizer(context)) && (token.type === 'whitespace')) {
+    while ((token = this.tokenizer(context)) && (token.type === AlchemyTokens.TK_WHITESPACE)) {
     }
 
     return token;
@@ -122,8 +133,12 @@ export class Intent {
   }
 }
 
-export class IntentTokens extends Tokens {
+export class AlchemyTokenMatcher extends TokenMatcher<typeof AlchemyTokens> {
   constructor(source: Source, range: Range) {
-    super(Intent.pure.bind(Intent), source, range);
+    super(Alchemy.pure.bind(Alchemy), AlchemyTokens, source, range);
   }
+}
+
+export interface AlchemyBuildInvokers extends BuilderInvokers<any, typeof IntentTokens> {
+
 }
