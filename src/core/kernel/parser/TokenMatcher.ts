@@ -33,6 +33,10 @@ export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenType
   ensure: TypeMatcherInterface<TT, string>;
 }
 
+export interface TokensFactory<TT extends BaseTokenTypes> {
+  (source: Source): TokenMatcher<TT>;
+}
+
 export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
   private readonly tokenizer: Tokenizer<TT, U>;
   private readonly types: TT;

@@ -5,7 +5,6 @@ import {
   EmitResolver,
   DependencyModifiedConsumer,
   ReadedConsumer,
-  TokensFactory,
   UpdateConsumer,
   CompiledConsumer,
   DependenciesResolver,
@@ -16,7 +15,7 @@ import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
 import { Identifiable, DependencyManager } from './kernel/dependencies';
 import { ReadyEvent, StopEvent } from './kernel/event';
-import { BaseTokenTypes } from './kernel/parser';
+import { BaseTokenTypes, TokensFactory } from './kernel/parser';
 import { DummyWriter, FileWriter } from './kernel/source';
 import { TranspilerInterface, RootBuilder } from './kernel/transpiler';
 import { UnitInterface, Watchdog, WatchdogConfig } from './kernel/watchdog';
