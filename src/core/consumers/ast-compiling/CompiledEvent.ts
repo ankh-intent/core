@@ -1,7 +1,7 @@
 
 import { TreeNode } from '../../kernel/ast';
 import { BaseCoreEvent } from '../../kernel/event';
-import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
+import { DependencyNode, Identifiable } from '../../kernel/dependencies';
 
 export interface CompiledEventProps<N extends TreeNode, T extends Identifiable<N>> {
   dependency: DependencyNode<N, T>;

@@ -1,7 +1,6 @@
 import { TreeNode } from '../../kernel/ast';
 import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus } from '../../kernel/event';
-import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
-import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
+import { DependencyNode, Identifiable, DependencyManager } from '../../kernel/dependencies';
 import { Container } from '../../utils';
 import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { DependencyModifiedEvent } from './DependencyModifiedEvent';

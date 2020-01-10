@@ -1,10 +1,9 @@
 
 import { TreeNode } from '../../kernel/ast';
-import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
-import { CoreEvent, CoreEventBus, AbstractConsumer, ConsumerStat } from '../../kernel/event';
-import { CompiledEvent } from './CompiledEvent';
-import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
 import { Source } from '../../kernel/source';
+import { CoreEvent, CoreEventBus, AbstractConsumer, ConsumerStat } from '../../kernel/event';
+import { DependencyNode, Identifiable, DependencyManager } from '../../kernel/dependencies';
+import { CompiledEvent } from './CompiledEvent';
 import { AnalyzedEvent } from './AnalyzedEvent';
 
 export class CompileStat extends ConsumerStat {

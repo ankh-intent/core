@@ -10,8 +10,7 @@ import { WatchdogReadyConsumer } from './consumers/watching/WatchdogReadyConsume
 import { Core } from './Core';
 import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
-import { DependencyManager } from './kernel/dependencies/DependencyManager';
-import { Identifiable } from './kernel/dependencies/DependencyNode';
+import { Identifiable, DependencyManager } from './kernel/dependencies';
 import { ReadyEvent, StopEvent } from './kernel/event';
 import { BaseTokenTypes } from './kernel/parser';
 import { DummyWriter, FileWriter } from './kernel/source';

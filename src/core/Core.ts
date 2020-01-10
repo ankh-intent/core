@@ -4,7 +4,7 @@ import { UpdateEvent } from './consumers/watching/UpdateEvent';
 import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
 
-import { Identifiable } from './kernel/dependencies/DependencyNode';
+import { Identifiable } from './kernel/dependencies';
 
 import {
   CoreEvent, CoreEventBus,

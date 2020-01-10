@@ -3,8 +3,7 @@ import { TreeNode } from '../../kernel/ast';
 import { CoreEvent, AbstractConsumer, ConsumerStat, ReadyEvent, CoreEventBus } from '../../kernel/event';
 import { UpdateEvent } from './UpdateEvent';
 import { Watchdog, UnitInterface, WatchItem } from '../../kernel/watchdog';
-import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
-import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
+import { DependencyNode, Identifiable, DependencyManager } from '../../kernel/dependencies';
 
 interface RetainedWatch<N extends TreeNode, T extends Identifiable<N>> {
   node: DependencyNode<N, T>,

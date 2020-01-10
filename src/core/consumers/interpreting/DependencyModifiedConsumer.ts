@@ -2,7 +2,7 @@
 import { CoreConfig } from '../../CoreConfig';
 import { TreeNode } from '../../kernel/ast';
 import { TranspilerInterface } from '../../kernel/transpiler';
-import { Identifiable } from '../../kernel/dependencies/DependencyNode';
+import { Identifiable } from '../../kernel/dependencies';
 import { CoreEvent, AbstractConsumer, CoreEventBus } from '../../kernel/event';
 
 import { InterpretedEvent } from './InterpretedEvent';

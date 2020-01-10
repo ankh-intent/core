@@ -3,7 +3,7 @@ import path = require('path');
 import { Strings } from '../../../utils';
 import { CoreConfig } from '../../../CoreConfig';
 import { TreeNode } from '../../../kernel/ast';
-import { Identifiable } from '../../../kernel/dependencies/DependencyNode';
+import { Identifiable } from '../../../kernel/dependencies';
 import { FileEmitResolverInterface } from '../InterpretedConsumer';
 
 export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> implements FileEmitResolverInterface<N, T> {
