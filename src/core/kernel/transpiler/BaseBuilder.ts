@@ -1,9 +1,6 @@
 import { Strings } from '../../utils';
-import { Token } from '../parser/Token';
 import { Region } from '../source';
-import { BaseTokenTypes } from '../parser/Tokenizer';
-import { TokenMatcher } from '../parser/TokenMatcher';
-import { TypedMatcher } from '../parser/TypedMatcher';
+import { Token, BaseTokenTypes, TokenMatcher, TypedMatcher } from '../parser';
 import { TreeNode, TokenVisitor } from '../ast';
 
 export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {

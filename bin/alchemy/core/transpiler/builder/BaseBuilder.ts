@@ -1,6 +1,5 @@
 import { TreeNode } from '@intent/kernel/ast';
-import { BaseTokenTypes } from '@intent/kernel/parser/Tokenizer';
-import { TokenMatcher, TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
+import { BaseTokenTypes, TokenMatcher, TypedTokenMatcherInterface } from '@intent/kernel/parser';
 import { BaseBuilder as Builder } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';

@@ -1,11 +1,10 @@
 import { TreeNode, TokenVisitor } from '../../kernel/ast';
 import { CoreEvent, AbstractConsumer, ConsumerStat, CoreEventBus } from '../../kernel/event';
-import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
+import { BaseTokenTypes, SyntaxError } from '../../kernel/parser';
 import { ParsedEvent } from '../parsing/ParsedEvent';
 
 import { Source } from '../../kernel/source';
 import { AnalyzedEvent } from './AnalyzedEvent';
-import { SyntaxError } from '../../kernel/parser/SyntaxError';
 
 export class AstStat extends ConsumerStat {
   public constructor(public readonly source: Source) {

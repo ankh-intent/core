@@ -13,7 +13,7 @@ import { TreeNode } from './kernel/ast';
 import { DependencyManager } from './kernel/dependencies/DependencyManager';
 import { Identifiable } from './kernel/dependencies/DependencyNode';
 import { ReadyEvent, StopEvent } from './kernel/event';
-import { BaseTokenTypes } from './kernel/parser/Tokenizer';
+import { BaseTokenTypes } from './kernel/parser';
 import { DummyWriter, FileWriter } from './kernel/source';
 import { TranspilerInterface } from './kernel/transpiler/AbstractTranspiler';
 import { RootBuilder } from './kernel/transpiler/RootBuilder';

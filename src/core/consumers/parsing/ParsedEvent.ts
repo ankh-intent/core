@@ -1,7 +1,6 @@
 
 import { Source } from '../../kernel/source';
-import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
-import { TokenMatcher } from '../../kernel/parser/TokenMatcher';
+import { BaseTokenTypes, TokenMatcher } from '../../kernel/parser';
 import { BaseCoreEvent } from '../../kernel/event';
 
 export interface ParsedEventProps<TT extends BaseTokenTypes> {

@@ -1,15 +1,10 @@
-
+import { Source, Range } from '../source';
+import { SyntaxError } from './SyntaxError';
 import { Token } from './Token';
 import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
-import { SyntaxError } from './SyntaxError';
-import { Source } from '../source';
 import { TypedMatcher } from './TypedMatcher';
-// import { Strings } from '../../utils';
 
-export class Range {
-  from: number;
-  to: number;
-}
+// import { Strings } from '../../utils';
 
 export interface MatcherInterface {
   value?: string;

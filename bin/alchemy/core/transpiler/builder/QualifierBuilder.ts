@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
+import { TypedTokenMatcherInterface } from '@intent/kernel/parser';
 import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';

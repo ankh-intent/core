@@ -1,7 +1,6 @@
 
 import { Token } from './Token';
-import { Range } from './TokenMatcher';
-import { Source } from '../source';
+import { Source, Range } from '../source';
 
 export enum BaseTokenTypes {
   TK_ANY = 'any',

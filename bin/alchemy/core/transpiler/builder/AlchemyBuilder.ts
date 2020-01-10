@@ -1,4 +1,4 @@
-import { BaseTokenTypes } from '@intent/kernel/parser/Tokenizer';
+import { BaseTokenTypes } from '@intent/kernel/parser';
 import { RootBuilder } from '@intent/kernel/transpiler/RootBuilder';
 
 import { ChipNode } from '../ast';

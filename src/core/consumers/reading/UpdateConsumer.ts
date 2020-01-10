@@ -5,7 +5,7 @@ import { ReadedEvent } from './ReadedEvent';
 
 import { UpdateEvent } from '../watching/UpdateEvent';
 import { Source, FileReader } from '../../kernel/source';
-import { SyntaxError } from '../../kernel/parser/SyntaxError';
+import { SyntaxError } from '../../kernel/parser';
 
 export class UpdateStat extends ConsumerStat {
   public constructor(public readonly path: string) {

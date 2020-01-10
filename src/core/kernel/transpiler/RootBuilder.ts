@@ -1,5 +1,4 @@
-import { BaseTokenTypes } from '../parser/Tokenizer';
-import { TokenMatcher } from '../parser/TokenMatcher';
+import { BaseTokenTypes, TokenMatcher } from '../parser';
 import { TokenVisitor, TreeNode } from '../ast';
 import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
 
