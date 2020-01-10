@@ -1,6 +1,6 @@
 
 import { TokenMatcher } from '../../kernel/parser/TokenMatcher';
-import { Source } from '../../kernel/source/Source';
+import { Source } from '../../kernel/source';
 import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';

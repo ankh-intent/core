@@ -1,4 +1,4 @@
-import { Region } from '../source/Region';
+import { Region } from '../source';
 
 export interface TreeNode {
   node: string;

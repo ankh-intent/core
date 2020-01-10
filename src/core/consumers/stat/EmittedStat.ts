@@ -3,7 +3,7 @@ import { CoreConfig } from '../../CoreConfig';
 import { Strings, Logger } from '../../utils';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
-import { Source } from '../../kernel/source/Source';
+import { Source } from '../../kernel/source';
 import { BaseStat } from './BaseStat';
 
 export class EmittedStat extends BaseStat {

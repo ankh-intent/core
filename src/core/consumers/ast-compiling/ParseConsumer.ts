@@ -6,7 +6,7 @@ import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Source } from '../../kernel/source/Source';
+import { Source } from '../../kernel/source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 import { SyntaxError } from '../../kernel/parser/SyntaxError';
 

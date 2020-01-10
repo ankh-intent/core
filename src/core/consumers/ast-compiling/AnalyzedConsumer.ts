@@ -7,7 +7,7 @@ import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CompiledEvent } from './CompiledEvent';
 import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
-import { Source } from '../../kernel/source/Source';
+import { Source } from '../../kernel/source';
 import { AnalyzedEvent } from './AnalyzedEvent';
 
 export class CompileStat extends ConsumerStat {

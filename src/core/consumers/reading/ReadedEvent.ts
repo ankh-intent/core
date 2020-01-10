@@ -1,5 +1,5 @@
 
-import { Source } from '../../kernel/source/Source';
+import { Source } from '../../kernel/source';
 import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
 
 export interface ReadedEventProps {

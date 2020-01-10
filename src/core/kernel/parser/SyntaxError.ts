@@ -1,5 +1,5 @@
 
-import { Source } from '../source/Source';
+import { Source } from '../source';
 
 export class SyntaxError extends Error {
   public readonly source: Source;

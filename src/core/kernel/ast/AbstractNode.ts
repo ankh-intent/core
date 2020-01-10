@@ -1,5 +1,5 @@
 
-import { Region } from '../source/Region';
+import { Region } from '../source';
 import { TreeNode } from './TreeNode';
 
 export class AbstractNode implements TreeNode {

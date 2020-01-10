@@ -1,14 +1,13 @@
 
 import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { StringSource } from '../../kernel/source/StringSource';
+import { StringSource } from '../../kernel/source';
 import { ReadedEvent } from './ReadedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { UpdateEvent } from '../watching/UpdateEvent';
-import { FileReader } from '../../kernel/source/FileReader';
-import { Source } from '../../kernel/source/Source';
+import { Source, FileReader } from '../../kernel/source';
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../../kernel/parser/SyntaxError';
 

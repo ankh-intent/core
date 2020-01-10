@@ -14,7 +14,7 @@ import { FatalEvent } from './kernel/event/events/FatalEvent';
 import { ReadyEvent } from './kernel/event/events/ReadyEvent';
 import { StopEvent } from './kernel/event/events/StopEvent';
 import { CoreLogger } from './kernel/logging/CoreLogger';
-import { RecursiveFinder } from './kernel/source/Finder';
+import { RecursiveFinder } from './kernel/source';
 import { PipelineObserverFactory } from './PipelineObserver';
 import { Emitter, Logger, UnitMatcher } from './utils';
 

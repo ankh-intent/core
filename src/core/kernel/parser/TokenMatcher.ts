@@ -2,7 +2,7 @@
 import { Token } from './Token';
 import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
-import { Source } from '../source/Source';
+import { Source } from '../source';
 import { TypedMatcher } from './TypedMatcher';
 // import { Strings } from '../../utils';
 

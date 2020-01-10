@@ -1,6 +1,6 @@
 import { Strings } from '../../utils';
 import { Token } from '../parser/Token';
-import { Region } from '../source/Region';
+import { Region } from '../source';
 import { BaseTokenTypes } from '../parser/Tokenizer';
 import { TokenMatcher } from '../parser/TokenMatcher';
 import { TypedMatcher } from '../parser/TypedMatcher';

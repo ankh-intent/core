@@ -1,5 +1,5 @@
 
-import { Source } from '../source/Source';
+import { Source } from '../source';
 
 export class Token {
   constructor(

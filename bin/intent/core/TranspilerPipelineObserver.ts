@@ -1,5 +1,5 @@
 import { Container } from '@intent/utils';
-import { Source } from '@intent/kernel/source/Source';
+import { Source } from '@intent/kernel/source';
 import { Compiler } from '@intent/kernel/transpiler/compiler/Compiler';
 import { Sampler } from '@intent/kernel/transpiler/compiler/Sampler';
 import { Substitutor } from '@intent/kernel/transpiler/compiler/Substitutor';

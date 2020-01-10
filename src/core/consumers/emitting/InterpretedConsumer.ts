@@ -6,10 +6,8 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { InterpretedEvent } from '../interpreting/InterpretedEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { FileWriter } from '../../kernel/source/FileWriter';
+import { Source, StringSource, FileWriter } from '../../kernel/source';
 import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
-import { Source } from '../../kernel/source/Source';
-import { StringSource } from '../../kernel/source/StringSource';
 
 export interface FileEmitResolverInterface<N extends TreeNode, T extends Identifiable<N>> {
   resolve(from: T): string|null;
