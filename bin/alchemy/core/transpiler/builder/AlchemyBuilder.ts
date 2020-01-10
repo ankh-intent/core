@@ -16,7 +16,6 @@ type AlchemyGrammar =
   QualifierChildren &
   UseChildren &
   TypeDefChildren &
-  TypeDefChildren &
   PropertyChildren &
   CanChildren &
   ConstraintChildren &
