@@ -1,12 +1,8 @@
 
 import { Logger, Strings } from '../../utils';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
-import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 import { SyntaxError } from '../../kernel/parser/SyntaxError';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { StatEvent } from '../../kernel/event/events/StatEvent';
+import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../../kernel/event';
 
 const NATIVE_ERROR_LOC_MATCHER = /^(?:\s*at\s*)?(.*?)(?:\s*\(([^()]+)\))?$/;
 

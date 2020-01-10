@@ -1,5 +1,5 @@
 
-import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
+import { BaseCoreEvent } from '../../kernel/event';
 
 export interface UpdateEventProps {
   path: string;

@@ -3,11 +3,9 @@ import { CoreConfig } from '../../CoreConfig';
 import { TreeNode } from '../../kernel/ast';
 import { TranspilerInterface } from '../../kernel/transpiler/AbstractTranspiler';
 import { Identifiable } from '../../kernel/dependencies/DependencyNode';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
+import { CoreEvent, AbstractConsumer, CoreEventBus } from '../../kernel/event';
 
 import { InterpretedEvent } from './InterpretedEvent';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { DependencyModifiedEvent } from '../watching/DependencyModifiedEvent';
 
 export class DependencyModifiedConsumer<N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<DependencyModifiedEvent<N, T>, any>{

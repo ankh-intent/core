@@ -1,6 +1,6 @@
 
 import { Logger } from '../../utils';
-import { BaseCoreEvent } from '../event/CoreEvent';
+import { BaseCoreEvent } from '../event';
 
 export class CoreLogger extends Logger {
   public classify(args: any[]): [string, any[]] {

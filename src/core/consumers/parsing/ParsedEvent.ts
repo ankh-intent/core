@@ -2,7 +2,7 @@
 import { Source } from '../../kernel/source';
 import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
 import { TokenMatcher } from '../../kernel/parser/TokenMatcher';
-import { BaseCoreEvent } from '../../kernel/event/CoreEvent';
+import { BaseCoreEvent } from '../../kernel/event';
 
 export interface ParsedEventProps<TT extends BaseTokenTypes> {
   source: Source;

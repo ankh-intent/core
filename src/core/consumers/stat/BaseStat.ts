@@ -1,6 +1,6 @@
 
 import { CoreConfig } from '../../CoreConfig';
-import { StatEvent } from '../../kernel/event/events/StatEvent';
+import { StatEvent } from '../../kernel/event';
 
 export class BaseStat {
   protected readonly config: CoreConfig;

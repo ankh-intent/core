@@ -1,8 +1,7 @@
 
 import { CoreConfig } from '../../CoreConfig';
 import { Strings, Logger } from '../../utils';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { StatEvent } from '../../kernel/event/events/StatEvent';
+import { CoreEvent, StatEvent } from '../../kernel/event';
 import { Source } from '../../kernel/source';
 import { BaseStat } from './BaseStat';
 

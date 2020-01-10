@@ -5,14 +5,13 @@ import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
 
 import { Identifiable } from './kernel/dependencies/DependencyNode';
-import { CoreEvent } from './kernel/event/CoreEvent';
 
-import { CoreEventBus } from './kernel/event/CoreEventBus';
+import {
+  CoreEvent, CoreEventBus,
+  EventChainMonitor, EventChainMonitoringData,
+  FatalEvent, ReadyEvent, StopEvent,
+} from './kernel/event';
 
-import { EventChainMonitor, EventChainMonitoringData } from './kernel/event/EventChainMonitor';
-import { FatalEvent } from './kernel/event/events/FatalEvent';
-import { ReadyEvent } from './kernel/event/events/ReadyEvent';
-import { StopEvent } from './kernel/event/events/StopEvent';
 import { CoreLogger } from './kernel/logging/CoreLogger';
 import { RecursiveFinder } from './kernel/source';
 import { PipelineObserverFactory } from './PipelineObserver';

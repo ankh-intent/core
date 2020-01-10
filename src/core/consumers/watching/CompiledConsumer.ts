@@ -1,8 +1,5 @@
 import { TreeNode } from '../../kernel/ast';
-import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
-import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
+import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus } from '../../kernel/event';
 import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
 import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { Container } from '../../utils';

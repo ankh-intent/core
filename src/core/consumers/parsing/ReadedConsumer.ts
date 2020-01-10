@@ -2,10 +2,7 @@
 import { TokenMatcher } from '../../kernel/parser/TokenMatcher';
 import { Source } from '../../kernel/source';
 import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
-import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
+import { CoreEventBus, AbstractConsumer, CoreEvent, ConsumerStat } from '../../kernel/event';
 import { ReadedEvent } from '../reading/ReadedEvent';
 import { ParsedEvent } from './ParsedEvent';
 

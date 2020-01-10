@@ -1,13 +1,9 @@
 
 import { TreeNode } from '../../kernel/ast';
 import { Identifiable } from '../../kernel/dependencies/DependencyNode';
-import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
-import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
-import { CoreEvent } from '../../kernel/event/CoreEvent';
+import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus, ErrorEvent } from '../../kernel/event';
 import { InterpretedEvent } from '../interpreting/InterpretedEvent';
-import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Source, StringSource, FileWriter } from '../../kernel/source';
-import { ErrorEvent } from '../../kernel/event/events/ErrorEvent';
 
 export interface FileEmitResolverInterface<N extends TreeNode, T extends Identifiable<N>> {
   resolve(from: T): string|null;
