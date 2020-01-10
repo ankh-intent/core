@@ -1,5 +1,4 @@
-import { TreeNode } from '../../kernel/ast/TreeNode';
-import { TokenVisitor } from '../../kernel/ast/TokenVisitor';
+import { TreeNode, TokenVisitor } from '../../kernel/ast';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { BaseTokenTypes } from '../../kernel/parser/Tokenizer';
 import { ParsedEvent } from '../parsing/ParsedEvent';

@@ -1,7 +1,7 @@
 import { Container } from '@intent/utils';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { ModuleNode } from '../ast/ModuleNode';
+import { ModuleNode } from '../ast';
 
 export class ModuleTranspiler extends AbstractTranspiler<ModuleNode> {
   protected visitors: Container<TranspilerInterface<any>> = {

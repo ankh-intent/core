@@ -1,7 +1,7 @@
 import { BaseTokenTypes } from '@intent/kernel/parser/Tokenizer';
 import { RootBuilder } from '@intent/kernel/transpiler/RootBuilder';
 
-import { ModuleNode } from '../ast/ModuleNode';
+import { ModuleNode } from '../ast';
 import { ModuleBuilder, ModuleChildren } from './ModuleBuilder';
 
 type IntentGrammar =

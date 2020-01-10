@@ -1,6 +1,6 @@
 import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
 import { IntentBuildInvokers } from '../Intent';
-import { ModuleNode } from '../ast/ModuleNode';
+import { ModuleNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
 
 export interface ModuleChildren extends IntentBuildInvokers {

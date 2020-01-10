@@ -1,4 +1,4 @@
-import { TreeNode } from '../../kernel/ast/TreeNode';
+import { TreeNode } from '../../kernel/ast';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CoreEvent } from '../../kernel/event/CoreEvent';

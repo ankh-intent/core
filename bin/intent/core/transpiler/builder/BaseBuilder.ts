@@ -1,4 +1,4 @@
-import { TreeNode } from '@intent/kernel/ast/TreeNode';
+import { TreeNode } from '@intent/kernel/ast';
 import { BaseTokenTypes } from '@intent/kernel/parser/Tokenizer';
 import { TokenMatcher, TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
 import { BaseBuilder as Builder } from '@intent/kernel/transpiler/BaseBuilder';

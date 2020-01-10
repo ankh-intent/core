@@ -9,7 +9,7 @@ import { CompiledConsumer, DependenciesResolver } from './consumers/watching/Com
 import { WatchdogReadyConsumer } from './consumers/watching/WatchdogReadyConsumer';
 import { Core } from './Core';
 import { CoreConfig } from './CoreConfig';
-import { TreeNode } from './kernel/ast/TreeNode';
+import { TreeNode } from './kernel/ast';
 import { DependencyManager } from './kernel/dependencies/DependencyManager';
 import { Identifiable } from './kernel/dependencies/DependencyNode';
 import { ReadyEvent } from './kernel/event/events/ReadyEvent';

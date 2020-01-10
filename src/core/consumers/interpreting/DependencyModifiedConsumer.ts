@@ -1,6 +1,6 @@
 
 import { CoreConfig } from '../../CoreConfig';
-import { TreeNode } from '../../kernel/ast/TreeNode';
+import { TreeNode } from '../../kernel/ast';
 import { TranspilerInterface } from '../../kernel/transpiler/AbstractTranspiler';
 import { Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { CoreEvent } from '../../kernel/event/CoreEvent';

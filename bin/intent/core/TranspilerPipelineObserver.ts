@@ -7,7 +7,7 @@ import { Template } from '@intent/kernel/transpiler/compiler/Template';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
 import { IntentModule } from './kernel/IntentModule';
-import { ModuleNode } from './transpiler/ast/ModuleNode';
+import { ModuleNode } from './transpiler/ast';
 import { IntentBuilder } from './transpiler/builder/IntentBuilder';
 import { IntentTokensMatcher } from './transpiler/Intent';
 import { ModuleTranspiler } from './transpiler/templates/ModuleTranspiler';

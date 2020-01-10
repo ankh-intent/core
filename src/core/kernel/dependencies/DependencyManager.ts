@@ -1,6 +1,6 @@
 
 import { Container, Eventable } from '../../utils';
-import { TreeNode } from '../ast/TreeNode';
+import { TreeNode } from '../ast';
 import { DependencyNode, Identifiable } from './DependencyNode';
 
 export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> extends Eventable {

@@ -1,4 +1,4 @@
-import { TreeNode } from '../../../kernel/ast/TreeNode';
+import { TreeNode } from '../../../kernel/ast';
 import { Identifiable } from '../../../kernel/dependencies/DependencyNode';
 import { FileEmitResolverInterface } from '../InterpretedConsumer';
 

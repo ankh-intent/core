@@ -1,7 +1,6 @@
 import { BaseTokenTypes } from '../parser/Tokenizer';
 import { TokenMatcher } from '../parser/TokenMatcher';
-import { TokenVisitor } from '../ast/TokenVisitor';
-import { TreeNode } from '../ast/TreeNode';
+import { TokenVisitor, TreeNode } from '../ast';
 import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
 
 export type InvokableVisitors<T> = {[name in keyof T]: TokenVisitor<any>};

@@ -1,5 +1,5 @@
 import { CoreConfig } from '../../../CoreConfig';
-import { TreeNode } from '../../../kernel/ast/TreeNode';
+import { TreeNode } from '../../../kernel/ast';
 import { Identifiable } from '../../../kernel/dependencies/DependencyNode';
 
 import { BaseEmitResolver } from './BaseEmitResolver';

@@ -1,5 +1,5 @@
 
-import { TreeNode } from '../../kernel/ast/TreeNode';
+import { TreeNode } from '../../kernel/ast';
 import { Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';

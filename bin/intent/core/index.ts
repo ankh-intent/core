@@ -11,7 +11,7 @@ import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
 import { IntentModule } from './kernel/IntentModule';
-import { ModuleNode } from './transpiler/ast/ModuleNode';
+import { ModuleNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
 import configure from '../config';

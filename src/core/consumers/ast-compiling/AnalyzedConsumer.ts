@@ -1,5 +1,5 @@
 
-import { TreeNode } from '../../kernel/ast/TreeNode';
+import { TreeNode } from '../../kernel/ast';
 import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';

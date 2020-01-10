@@ -1,7 +1,7 @@
-import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
+import { AbstractNode } from '@intent/kernel/ast';
 import { Identifiable } from '@intent/kernel/dependencies/DependencyNode';
 
-import { ModuleNode } from '../transpiler/ast/ModuleNode';
+import { ModuleNode } from '../transpiler/ast';
 
 export class IntentModule extends AbstractNode implements Identifiable<ModuleNode> {
   public name: string;

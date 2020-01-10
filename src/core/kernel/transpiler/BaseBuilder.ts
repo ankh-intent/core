@@ -4,8 +4,7 @@ import { Region } from '../source/Region';
 import { BaseTokenTypes } from '../parser/Tokenizer';
 import { TokenMatcher } from '../parser/TokenMatcher';
 import { TypedMatcher } from '../parser/TypedMatcher';
-import { TreeNode } from '../ast/TreeNode';
-import { TokenVisitor } from '../ast/TokenVisitor';
+import { TreeNode, TokenVisitor } from '../ast';
 
 export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {
   (tokens: TokenMatcher<TT>): N;

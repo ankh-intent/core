@@ -1,6 +1,6 @@
 import { Core } from './Core';
 import { CoreConfig } from './CoreConfig';
-import { TreeNode } from './kernel/ast/TreeNode';
+import { TreeNode } from './kernel/ast';
 import { Identifiable } from './kernel/dependencies/DependencyNode';
 
 export interface PipelineObserver<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> {
