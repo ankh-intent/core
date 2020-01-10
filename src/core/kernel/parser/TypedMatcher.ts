@@ -16,7 +16,7 @@ export class TypedMatcher<TT extends typeof BaseTokenTypes> implements TypedToke
     this.matcher = matcher;
   }
 
-  protected reconcile(base: MatcherInterface, match: MatcherInterface|string): MatcherInterface {
+  protected reconcile(base: MatcherInterface|null, match?: MatcherInterface|string): MatcherInterface {
     if (typeof match === 'string') {
       match = {
         value: match,

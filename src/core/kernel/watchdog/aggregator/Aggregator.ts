@@ -7,7 +7,7 @@ export class Aggregator<A, H extends ArrayConsumer<A>> {
   private aggregated: A[];
 
   public readonly delay: number;
-  public debounced: {
+  public debounced: null|{
     emitter: Emitter<H>,
     watch: Watch,
   };

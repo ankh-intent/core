@@ -13,11 +13,11 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
     this.config = config;
   }
 
-  public resolve(from: Chip): QualifierNode {
+  public resolve(from: Chip): QualifierNode|null {
     return this.parse(this.config.project, from.identifier);
   }
 
-  protected parse(base: string, original: string): QualifierNode {
+  protected parse(base: string, original: string): QualifierNode|null {
     const parts = original
       .substr(base.length)
       .replace(/\.[^.]+$/ig, '')

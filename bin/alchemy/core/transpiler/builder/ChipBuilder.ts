@@ -20,7 +20,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, any, ChipChildren> {
 
     const uses = {};
     const domains = {};
-    let can = null;
+    let can: CanNode|null = null;
 
     ensure.symbol('{');
 

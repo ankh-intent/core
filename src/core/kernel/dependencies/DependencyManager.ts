@@ -26,7 +26,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
     );
   }
 
-  public contains(filter: (nodes: DependencyNode<N, T>) => boolean): DependencyNode<N, T> {
+  public contains(filter: (nodes: DependencyNode<N, T>) => boolean): DependencyNode<N, T>|null {
     for (const node of Object.values(this.roots)) {
       if (filter(node)) {
         return node;
@@ -36,7 +36,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
     return null;
   }
 
-  public find(identifier: string): DependencyNode<N, T> {
+  public find(identifier: string): DependencyNode<N, T>|null {
     for (const root of Object.values(this.roots)) {
       const found = root.related(identifier);
 
@@ -77,7 +77,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
     return node;
   }
 
-  public all(identifiers: string[] = null, filter: boolean = true): (DependencyNode<N, T>|string)[] {
+  public all(identifiers: string[]|null = null, filter: boolean = true): (DependencyNode<N, T>|string)[] {
     if (!identifiers) {
       return Object.keys(this.roots)
         .map((identifier) => this.roots[identifier])

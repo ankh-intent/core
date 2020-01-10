@@ -8,5 +8,5 @@ export class ChipNode extends AbstractNode {
   public name: string;
   public uses: {[name: string]: UseNode} = {};
   public domains: {[name: string]: DomainNode} = {};
-  public can: CanNode;
+  public can: CanNode|null;
 }

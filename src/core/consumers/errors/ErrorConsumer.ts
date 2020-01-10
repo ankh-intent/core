@@ -35,7 +35,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   }
 
   public process(event: ErrorEvent) {
-    let parent: CoreEvent<any> = event;
+    let parent: CoreEvent<any>|null = event;
 
     while (parent) {
       const { type, data } = parent;
@@ -68,7 +68,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       if (error.parent) {
         stack = this.fetchSyntaxStack(error);
       } else {
-        stack = error.stack.split("\n");
+        stack = (error.stack || '').split("\n");
       }
 
       const msg = stack.shift().toString();
@@ -80,10 +80,10 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   }
 
   private fetchSyntaxStack(error: SyntaxError) {
-    const hops = [];
+    const hops: ErrorRef[] = [];
     let e: any = error;
 
-    const consumeErrorDescription = (stack) => {
+    const consumeErrorDescription = (stack: ErrorRef[]|undefined) => {
       if (stack && stack.length) {
         hops.unshift(...stack);
       }
@@ -150,12 +150,12 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   }
 
   private describeNativeError(error: Error): ErrorRef[] {
-    return error.stack
+    return (error.stack || '')
       .split("\n")
       .map(line => line.trim())
       .filter(Boolean)
       .map((line) => {
-        const [, ref, source] = line.match(NATIVE_ERROR_LOC_MATCHER) || [,,,];
+        const [, ref = '', source = ''] = line.match(NATIVE_ERROR_LOC_MATCHER) || [,,,];
 
         return {
           type: RefType.NATIVE,

@@ -22,7 +22,7 @@ export class Chip extends AbstractNode implements Identifiable<ChipNode> {
     delete this.linked[chip.identifier];
   }
 
-  public has(chip: Chip) {
+  public has(chip: Chip): boolean {
     if (this === chip) {
       return true;
     }
@@ -36,7 +36,7 @@ export class Chip extends AbstractNode implements Identifiable<ChipNode> {
     return false;
   }
 
-  public byPath(path: string): Chip {
+  public byPath(path: string): Chip|null {
     if (this.identifier === path) {
       return this;
     }

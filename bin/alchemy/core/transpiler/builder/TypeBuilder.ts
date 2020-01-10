@@ -11,7 +11,7 @@ export interface TypeChildren extends AlchemyBuildInvokers {
 export class TypeBuilder extends BaseBuilder<TypeNode, any, TypeChildren> {
   protected build(tokens, { get, ensure }): TypeNode {
     const qualifier = this.child.qualifier(tokens);
-    let generic = null;
+    let generic: TypeNode|null = null;
 
     if (get.symbol('<')) {
       generic = this.visit(tokens);

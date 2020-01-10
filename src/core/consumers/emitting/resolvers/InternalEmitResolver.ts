@@ -31,7 +31,7 @@ export class InternalEmitResolver<N extends TreeNode, T extends Identifiable<N>>
     return original.indexOf(base) >= 0;
   }
 
-  public resolve(identifiable: T): string {
+  public resolve(identifiable: T): string|null {
     return (
       this.isInternal(identifiable)
         ? super.resolve(identifiable)

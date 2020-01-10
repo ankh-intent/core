@@ -2,7 +2,7 @@
 export class Watch {
   private readonly callback: Function;
   private timer: any;
-  private started: number;
+  private started: number|null = null;
 
   public constructor(callback: Function) {
     this.callback = callback;

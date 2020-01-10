@@ -22,14 +22,14 @@ export class Alchemy {
     return token;
   }
 
-  public static tokenizer(context: Context): Token {
+  public static tokenizer(context: Context): Token|undefined {
     const was = context.pos;
 
     if (was >= context.range.to) {
       return;
     }
 
-    const type = this.type(context.source, context);
+    const type = this.checkType(context.source, context);
 
     if (type) {
       return new Token(
@@ -41,12 +41,12 @@ export class Alchemy {
     }
   }
 
-  protected static type(source: Source, context: Context): string {
+  protected static checkType(source: Source, context: Context): string {
     const index = context.pos;
     const char = source.at(index);
 
     if (char.match(/['"`]/)) {
-      const token = this.string(source, context);
+      const token = this.checkString(source, context);
 
       if (token) {
         return token;
@@ -54,7 +54,7 @@ export class Alchemy {
     }
 
     if (char.match(/\s/)) {
-      const token = this.whitespace(source, context);
+      const token = this.checkWhitespace(source, context);
 
       if (token) {
         return token;
@@ -62,17 +62,17 @@ export class Alchemy {
     }
 
     if (char.match(/[\w_]/i)) {
-      const token = this.identifier(source, context);
+      const token = this.checkIdentifier(source, context);
 
       if (token) {
         return token;
       }
     }
 
-    return this.symbol(source, context);
+    return this.checkSymbol(source, context);
   }
 
-  protected static whitespace(source: Source, context: Context): string {
+  protected static checkWhitespace(source: Source, context: Context): string|undefined {
     let index = context.pos;
 
     while (source.at(index).match(/\s/)) {
@@ -105,7 +105,7 @@ export class Alchemy {
     }
   }
 
-  protected static identifier(source: Source, context: Context): string {
+  protected static checkIdentifier(source: Source, context: Context): string|undefined {
     let index = context.pos;
 
     while (source.at(index).match(/[\w\d_]/i)) {
@@ -124,7 +124,7 @@ export class Alchemy {
   // }
   //
 
-  protected static symbol(source: Source, context: Context): string {
+  protected static checkSymbol(source: Source, context: Context): string {
     context.pos++;
 
     return 'symbol';

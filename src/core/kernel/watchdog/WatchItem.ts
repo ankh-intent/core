@@ -13,10 +13,10 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
   public static EVENT  = 'event';
   public static DETACH = 'detach';
 
-  private watcher?: FSWatcher;
+  private watcher: FSWatcher|null = null;
   private debounced: number;
   private readonly matcher: UnitMatcher;
-  private _emitter: Emitter<ArrayConsumer<U>>;
+  private _emitter: Emitter<ArrayConsumer<U>>|null;
 
   public readonly uid: number;
 
@@ -101,7 +101,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     return this._emitter;
   }
 
-  public set emitter(emitter: Emitter<ArrayConsumer<U>>) {
+  public setEmitter(emitter: Emitter<ArrayConsumer<U>>|null) {
     if (this._emitter === emitter) {
       return;
     }

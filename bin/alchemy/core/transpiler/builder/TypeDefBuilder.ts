@@ -24,7 +24,7 @@ export class TypeDefBuilder extends BaseBuilder<TypeDefNode, any, TypeDefChildre
     const properties = {};
     const constraints = {};
     const cans = {};
-    const parent = get.identifier('extends')
+    const parent: TypeNode|null = get.identifier('extends')
       ? this.child.type(tokens)
       : null;
 

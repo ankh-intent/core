@@ -3,7 +3,7 @@ import { Emitter } from '../../utils/Emitter';
 import { Aggregator } from './aggregator/Aggregator';
 
 export class AggregatedEmitter<U, H extends ArrayConsumer<U>> extends Emitter<H> {
-  private aggregator: Aggregator<U, H>;
+  private aggregator: Aggregator<U, H>|null = null;
 
   public constructor(delay: number) {
     super();

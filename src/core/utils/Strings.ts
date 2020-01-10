@@ -40,7 +40,7 @@ export class Strings {
 
       return a.substring(0, i);
     };
-    const intersect = [];
+    const intersect: string[] = [];
 
     for (const common1 of strings) {
       let subs = new Array(strings.length);
@@ -125,7 +125,7 @@ export class Strings {
       return [a];
     }
 
-    const result = [];
+    const result: string[] = [];
 
     for (const element of a) {
       if (typeof element === 'string') {

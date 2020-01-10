@@ -10,6 +10,7 @@
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "downlevelIteration": true,
+    "strictNullChecks": true,
     "lib": [
       "es2017"
     ],

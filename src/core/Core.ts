@@ -67,7 +67,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
   }
 
   public start(config: C): this {
-    const updates = [];
+    const updates: CoreEvent<any>[] = [];
 
     for (const [name, entry] of Object.entries(config.entry)) {
       updates.push(
@@ -97,7 +97,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
 
   protected matched(root: string, matchers: UnitMatcher[]) {
     const finder = new RecursiveFinder();
-    const paths = [];
+    const paths: string[] = [];
 
     for (const matcher of matchers) {
       const found = finder.find(root, matcher, (path) => path);

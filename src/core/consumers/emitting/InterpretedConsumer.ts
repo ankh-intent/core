@@ -12,7 +12,7 @@ import { Source } from '../../kernel/source/Source';
 import { StringSource } from '../../kernel/source/StringSource';
 
 export interface FileEmitResolverInterface<N extends TreeNode, T extends Identifiable<N>> {
-  resolve(from: T): string;
+  resolve(from: T): string|null;
 }
 
 export class EmitStat<N extends TreeNode, T extends Identifiable<N>> extends ConsumerStat {

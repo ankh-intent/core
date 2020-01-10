@@ -72,10 +72,10 @@ export abstract class AbstractTranspiler<S> implements TranspilerInterface<S> {
       : null;
   }
 
-  protected modifiers(key: string): [string, string, string] {
+  protected modifiers(key: string): [string, string|null, string|null] {
     let m = key.match(/^([+\-*.=?]+)/);
-    let modifiers: string = null;
-    let filters: string = null;
+    let modifiers: string|null = null;
+    let filters: string|null = null;
 
     if (m) {
       modifiers = m[1];

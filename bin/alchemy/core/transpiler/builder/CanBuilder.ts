@@ -23,7 +23,7 @@ export class CanBuilder extends BaseBuilder<CanNode, any, CanChildren> {
     }
 
     const args = {};
-    let returns = null;
+    let returns: TypeNode|null = null;
 
     while (!peek.symbol(')')) {
       if (Object.keys(args).length) {
@@ -56,7 +56,7 @@ export class CanBuilder extends BaseBuilder<CanNode, any, CanChildren> {
     const wrapAfter = [',', '=', ':', '?', 'return'];
     const breakBefore = ['?', ':'];
     const breakAfter = [';'];
-    const body = [];
+    const body: string[] = [];
     let token;
     let prev = null;
 

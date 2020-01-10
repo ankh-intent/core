@@ -1,8 +1,8 @@
 
 export interface SamplerInterface {
   placeholder(key: string): string;
-  next(subject: string, from?: number): MatchedPlaceholder;
-  prev(subject: string, from?: number): MatchedPlaceholder;
+  next(subject: string, from?: number): MatchedPlaceholder|null;
+  prev(subject: string, from?: number): MatchedPlaceholder|null;
 }
 
 export interface MatchedPlaceholder {

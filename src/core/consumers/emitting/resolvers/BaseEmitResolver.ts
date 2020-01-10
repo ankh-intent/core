@@ -25,7 +25,7 @@ export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> imp
     return this.config.output.path;
   }
 
-  public resolve(identifiable: T): string {
+  public resolve(identifiable: T): string|null {
     return this.build(
       this.getOriginalPath(identifiable),
       this.getBasePath(identifiable),
@@ -33,7 +33,7 @@ export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> imp
     );
   }
 
-  protected build(original: string, base: string, out: string) {
+  protected build(original: string, base: string, out: string): string|null {
     const parts = path.parse(original);
     const emit = path.join(parts.dir, parts.name + this.config.output.extension);
     const common = Strings.longestCommon([emit, base])

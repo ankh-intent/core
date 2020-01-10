@@ -4,7 +4,7 @@ import path = require('path');
 
 import { UnitMatcher } from '../../utils/UnitMatcher';
 
-type PathConsumer<T> = (path: string) => T;
+type PathConsumer<T> = (path: string) => T|undefined;
 
 export class Finder {
   private readonly exclude: PathConsumer<boolean>[];
@@ -59,7 +59,7 @@ export class RecursiveFinder extends Finder {
 }
 
 export class BubblingFinder extends Finder {
-  public find<T>(root: string, matcher: UnitMatcher, consumer?: PathConsumer<T>): T {
+  public find<T>(root: string, matcher: UnitMatcher, consumer?: PathConsumer<T>): T | undefined {
     const found = super.find(root, matcher, consumer) || this.dir(root, matcher, (entry) => (
       super.find(entry, matcher, consumer)
     ));

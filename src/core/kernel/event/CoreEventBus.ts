@@ -54,7 +54,7 @@ export class CoreEventBus {
     return event;
   }
 
-  public stat(data: any, parent?: CoreEvent<any>): CoreEvent<any> {
+  public stat(data: any, parent: CoreEvent<any>|null = null): CoreEvent<any> {
     return this.emit(new StatEvent({ stat: data }, parent));
   }
 }

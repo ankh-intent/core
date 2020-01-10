@@ -19,7 +19,7 @@ export class QualifierResolver implements QualifierResolverInterface {
     ]
   }
 
-  public resolve(from: Chip): QualifierNode {
+  public resolve(from: Chip): QualifierNode|null {
     for (const resolver of this.resolvers) {
       const found = resolver.resolve(from);
 

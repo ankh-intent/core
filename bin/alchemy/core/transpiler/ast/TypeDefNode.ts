@@ -6,7 +6,7 @@ import { DomainNode } from './DomainNode';
 export class TypeDefNode extends AbstractNode {
   public domain: DomainNode;
   public name: string;
-  public parent: TypeNode;
+  public parent: TypeNode|null;
 
   public properties: {[name: string]: any};
   public constraints;

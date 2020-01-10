@@ -35,18 +35,18 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
 export class Seeker {
   protected readonly sampler: SamplerInterface;
   protected readonly line: string;
-  protected current: MatchedPlaceholder;
+  protected current: MatchedPlaceholder|null = null;
 
   public constructor(sampler: SamplerInterface, line: string) {
     this.sampler = sampler;
     this.line = line;
   }
 
-  public seek(): MatchedPlaceholder {
+  public seek(): MatchedPlaceholder|null {
     return this.sampler.next(this.line, this.current ? this.current.next : 0);
   }
 
-  public next(): MatchedPlaceholder|false {
+  public next(): MatchedPlaceholder|null {
     let match = this.current;
 
     if (match === null) {
@@ -68,7 +68,7 @@ export class Seeker {
 }
 
 export class ReverseSeeker extends Seeker {
-  public seek(): MatchedPlaceholder {
+  public seek(): MatchedPlaceholder|null {
     return this.sampler.prev(this.line, this.current ? this.current.next : undefined);
   }
 }

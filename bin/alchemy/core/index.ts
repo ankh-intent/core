@@ -40,7 +40,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
 //    process.exit(0);
   }
 
-  return Object.assign(<any>new Promise((rs, rj) => {
+  return Object.assign(<any>new Promise<CoreEvent<any>|null>((rs, rj) => {
     core.and((event) => {
       const { type, data, parent } = event;
 

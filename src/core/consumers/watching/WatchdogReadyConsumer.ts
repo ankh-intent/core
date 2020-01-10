@@ -64,7 +64,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface, N extends TreeNode, 
     return event;
   }
 
-  private watching(node: DependencyNode<N, T>): RetainedWatch<N, T>|null {
+  private watching(node: DependencyNode<N, T>): RetainedWatch<N, T>|undefined {
     return this.watched.find((v) => v.node === node);
   }
 

@@ -38,9 +38,9 @@ export class Sampler implements SamplerInterface {
     return cached;
   }
 
-  public next(subject: string, from: number = 0): MatchedPlaceholder {
+  public next(subject: string, from: number = 0): MatchedPlaceholder|null {
     if (!subject) {
-      return;
+      return null;
     }
 
     let found = undefined;
@@ -51,7 +51,7 @@ export class Sampler implements SamplerInterface {
       let close = Strings.lookup(subject, open + this.opener.length, this.closer);
 
       if (close < 0) {
-        return;
+        return null;
       }
 
       if ((inner > 0) && (inner < close)) {
@@ -70,11 +70,13 @@ export class Sampler implements SamplerInterface {
         next: (found === undefined) ? close : found,
       };
     }
+
+    return null;
   }
 
-  public prev(subject: string, from?: number): MatchedPlaceholder {
+  public prev(subject: string, from?: number): MatchedPlaceholder|null {
     if (!subject) {
-      return;
+      return null;
     }
 
     if (from === undefined) {
@@ -89,7 +91,7 @@ export class Sampler implements SamplerInterface {
       let open = Strings.lookback(subject, close, this.opener);
 
       if (open < 0) {
-        return;
+        return null;
       }
 
       if (inner > open) {
@@ -108,5 +110,7 @@ export class Sampler implements SamplerInterface {
         next: (found === undefined) ? open : found,
       };
     }
+
+    return null;
   }
 }

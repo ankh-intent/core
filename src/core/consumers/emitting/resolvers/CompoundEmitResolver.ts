@@ -9,7 +9,7 @@ export class CompoundEmitResolver<N extends TreeNode, T extends Identifiable<N>>
     this.resolvers = resolvers;
   }
 
-  public resolve(identifiable: T): string {
+  public resolve(identifiable: T): string|null {
     for (const resolver of this.resolvers) {
       const found = resolver.resolve(identifiable);
 
@@ -17,5 +17,7 @@ export class CompoundEmitResolver<N extends TreeNode, T extends Identifiable<N>>
         return found;
       }
     }
+
+    return null;
   }
 }

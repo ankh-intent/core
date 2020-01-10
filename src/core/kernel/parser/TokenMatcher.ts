@@ -69,7 +69,7 @@ export class TokenMatcher<TT extends typeof BaseTokenTypes> {
     return token;
   }
 
-  public peek(matcher: MatcherInterface): Token {
+  public peek(matcher: MatcherInterface): Token|null {
     const { range: { to } } = this.context;
 
     if (this.index >= to) {
@@ -94,7 +94,7 @@ export class TokenMatcher<TT extends typeof BaseTokenTypes> {
     return token;
   }
 
-  public get(matcher: MatcherInterface): Token {
+  public get(matcher: MatcherInterface): Token|null {
     const token = this.peek(matcher);
 
     if (token) {
@@ -108,7 +108,7 @@ export class TokenMatcher<TT extends typeof BaseTokenTypes> {
     return !this.get(matcher);
   }
 
-  public except(matcher: MatcherInterface): Token {
+  public except(matcher: MatcherInterface): Token|null {
     return this.peek(matcher)
       ? null
       : this.get({});

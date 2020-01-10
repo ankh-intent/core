@@ -41,7 +41,7 @@ export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> imple
     return nodes;
   }
 
-  public related(identifier: string): DependencyNode<N, T> {
+  public related(identifier: string): DependencyNode<N, T>|null {
     if (this.identifier === identifier) {
       return this;
     }

@@ -3,7 +3,7 @@ import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 
 export class IntentLibraryQualifierResolver extends BaseQualifierResolver {
-  public resolve(from: Chip): QualifierNode {
+  public resolve(from: Chip): QualifierNode|null {
     const base = this.config.internal;
 
     if (from.identifier.indexOf(base) < 0) {

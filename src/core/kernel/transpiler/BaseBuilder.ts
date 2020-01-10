@@ -28,11 +28,11 @@ export abstract class BaseBuilder<N extends TreeNode, TT extends typeof BaseToke
     );
   }
 
-  public visit(tokens: TokenMatcher<TT>): N {
+  public visit(tokens: TokenMatcher<TT>): N|null {
     const mark = tokens.current();
 
     try {
-      const node: N = this.build(tokens, tokens.matcher);
+      const node: N|null = this.build(tokens, tokens.matcher);
 
       if (node) {
         node.astRegion = this.narrowRegion(tokens, mark);
@@ -79,6 +79,6 @@ export abstract class BaseBuilder<N extends TreeNode, TT extends typeof BaseToke
     return token;
   }
 
-  protected abstract build(tokens: TokenMatcher<TT>, matcher: TypedMatcher<TT>): N;
+  protected abstract build(tokens: TokenMatcher<TT>, matcher: TypedMatcher<TT>): N|null;
 }
 

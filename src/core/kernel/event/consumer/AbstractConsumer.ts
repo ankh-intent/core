@@ -29,15 +29,15 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     }
   }
 
-  public emit(event: CoreEvent<any>, propagated: boolean = null): CoreEvent<any> {
-    if (propagated !== null) {
+  public emit(event: CoreEvent<any>, propagated?: boolean): CoreEvent<any> {
+    if (propagated !== undefined) {
       event.stopPropagation(!propagated);
     }
 
     return this.bus.emit(event);
   }
 
-  public stat(parent: CoreEvent<any>, data: any): CoreEvent<any> {
+  public stat(parent: CoreEvent<any>|null, data: any): CoreEvent<any> {
     return this.bus.stat(data, parent);
   }
 }

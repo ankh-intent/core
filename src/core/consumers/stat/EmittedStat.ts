@@ -23,7 +23,7 @@ export class EmittedStat extends BaseStat {
       this.config.paths.internal,
     ]).pop();
     let cause = '<root>';
-    let parent: CoreEvent<any> = event;
+    let parent: CoreEvent<any>|null = event;
 
     while (parent) {
       parent = parent.parent;
