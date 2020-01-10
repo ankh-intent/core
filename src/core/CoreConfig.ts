@@ -1,5 +1,4 @@
-import { Container } from './utils/Container';
-import { UnitMatcher } from './utils/UnitMatcher';
+import { Container, UnitMatcher } from './utils';
 
 export interface PathsConfig {
   project: string;

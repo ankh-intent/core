@@ -1,4 +1,4 @@
-import { Strings } from '../../utils/Strings';
+import { Strings } from '../../utils';
 import { Token } from '../parser/Token';
 import { Region } from '../source/Region';
 import { BaseTokenTypes } from '../parser/Tokenizer';

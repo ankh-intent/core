@@ -5,7 +5,7 @@ import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
 import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
-import { Container } from '../../utils/Container';
+import { Container } from '../../utils';
 import { CompiledEvent } from '../ast-compiling/CompiledEvent';
 import { DependencyModifiedEvent } from './DependencyModifiedEvent';
 import { UpdateEvent } from './UpdateEvent';

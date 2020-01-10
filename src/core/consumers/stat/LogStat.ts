@@ -1,7 +1,7 @@
 
 import { CoreConfig } from '../../CoreConfig';
 import { BaseStat } from './BaseStat';
-import { Logger } from '../../utils/Logger';
+import { Logger } from '../../utils';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 
 export class LogStat extends BaseStat {

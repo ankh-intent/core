@@ -4,7 +4,7 @@ import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
 import { SyntaxError } from './SyntaxError';
 import { Source } from '../source/Source';
 import { TypedMatcher } from './TypedMatcher';
-// import { Strings } from '../../utils/Strings';
+// import { Strings } from '../../utils';
 
 export class Range {
   from: number;

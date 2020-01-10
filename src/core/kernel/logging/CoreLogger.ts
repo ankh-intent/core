@@ -1,5 +1,5 @@
 
-import { Logger } from '../../utils/Logger';
+import { Logger } from '../../utils';
 import { BaseCoreEvent } from '../event/CoreEvent';
 
 export class CoreLogger extends Logger {

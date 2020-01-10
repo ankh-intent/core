@@ -1,6 +1,5 @@
 
-import { Emitter } from '../../../utils/Emitter';
-import { ArrayConsumer } from '../../../utils/ArrayConsumer';
+import { Emitter, ArrayConsumer } from '../../../utils';
 import { Watch } from './Watch';
 
 export class Aggregator<A, H extends ArrayConsumer<A>> {

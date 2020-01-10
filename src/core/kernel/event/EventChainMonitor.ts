@@ -3,7 +3,7 @@ import { CoreEvent } from './CoreEvent';
 import { AbstractConsumer } from './consumer/AbstractConsumer';
 
 import { UpdateEvent } from '../../consumers/watching/UpdateEvent';
-import { Emitter } from '../../utils/Emitter';
+import { Emitter } from '../../utils';
 import { StatEvent } from './events/StatEvent';
 
 export interface EventChainMonitoringData {

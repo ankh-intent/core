@@ -1,8 +1,7 @@
 
 import { Compiler } from './compiler/Compiler';
 import { TemplateInterface } from './compiler/TemplateInterface';
-import { Strings } from '../../utils/Strings';
-import { Container } from '../../utils/Container';
+import { Strings, Container } from '../../utils';
 
 export interface TranspilerInterface<S> {
   transpile(data: S): string[];

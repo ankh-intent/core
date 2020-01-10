@@ -1,6 +1,6 @@
 import * as util from 'util';
 
-import { Logger } from '@intent/utils/Logger';
+import { Logger } from '@intent/utils';
 import { Core} from '@intent/Core';
 import { CoreEvent } from '@intent/kernel/event/CoreEvent';
 import { ErrorEvent } from '@intent/kernel/event/events/ErrorEvent';

@@ -1,6 +1,5 @@
 
-import { Container } from '../../utils/Container';
-import { Eventable } from '../../utils/Eventable';
+import { Container, Eventable } from '../../utils';
 import { TreeNode } from '../ast/TreeNode';
 import { DependencyNode, Identifiable } from './DependencyNode';
 

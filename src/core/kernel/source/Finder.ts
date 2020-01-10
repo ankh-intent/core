@@ -2,7 +2,7 @@
 import fs = require('fs');
 import path = require('path');
 
-import { UnitMatcher } from '../../utils/UnitMatcher';
+import { UnitMatcher } from '../../utils';
 
 type PathConsumer<T> = (path: string) => T|undefined;
 

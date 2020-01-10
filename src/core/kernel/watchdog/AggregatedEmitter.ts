@@ -1,5 +1,4 @@
-import { ArrayConsumer } from '../../utils/ArrayConsumer';
-import { Emitter } from '../../utils/Emitter';
+import { ArrayConsumer, Emitter } from '../../utils';
 import { Aggregator } from './aggregator/Aggregator';
 
 export class AggregatedEmitter<U, H extends ArrayConsumer<U>> extends Emitter<H> {

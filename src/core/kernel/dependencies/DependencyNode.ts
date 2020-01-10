@@ -1,4 +1,4 @@
-import { Container } from '../../utils/Container';
+import { Container } from '../../utils';
 import { TreeNode } from '../ast/TreeNode';
 
 export interface Identifiable<N extends TreeNode> {

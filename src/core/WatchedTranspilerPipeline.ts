@@ -22,7 +22,7 @@ import { RootBuilder } from './kernel/transpiler/RootBuilder';
 import { UnitInterface } from './kernel/watchdog/Unit';
 import { Watchdog, WatchdogConfig } from './kernel/watchdog/Watchdog';
 import { PipelineObserver } from './PipelineObserver';
-import { Container } from './utils/Container';
+import { Container } from './utils';
 
 export interface TranspilerConfig extends CoreConfig {
   watch?: WatchdogConfig;

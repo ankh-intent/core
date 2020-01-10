@@ -1,6 +1,6 @@
 import path = require('path');
 
-import { Strings } from '../../../utils/Strings';
+import { Strings } from '../../../utils';
 import { CoreConfig } from '../../../CoreConfig';
 import { TreeNode } from '../../../kernel/ast/TreeNode';
 import { Identifiable } from '../../../kernel/dependencies/DependencyNode';

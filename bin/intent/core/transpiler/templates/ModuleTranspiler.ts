@@ -1,4 +1,4 @@
-import { Container } from '@intent/utils/Container';
+import { Container } from '@intent/utils';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { ModuleNode } from '../ast/ModuleNode';
@@ -9,10 +9,10 @@ export class ModuleTranspiler extends AbstractTranspiler<ModuleNode> {
 
   protected get code(): string {
     return `
-      ((intent) => { 
+      ((intent) => {
         {%*uses%}
         {%*domains%}
-      
+
         return {
           {%names%},
           {%can%}

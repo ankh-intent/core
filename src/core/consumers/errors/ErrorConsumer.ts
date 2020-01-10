@@ -1,6 +1,5 @@
 
-import { Logger } from '../../utils/Logger';
-import { Strings } from '../../utils/Strings';
+import { Logger, Strings } from '../../utils';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 

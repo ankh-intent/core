@@ -1,4 +1,4 @@
-import { Container } from '@intent/utils/Container';
+import { Container } from '@intent/utils';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
 import { ChipNode } from '../ast';

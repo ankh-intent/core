@@ -1,11 +1,8 @@
 import { watch, FSWatcher } from 'chokidar';
 
-import { Eventable } from '../../utils/Eventable';
-import { ArrayConsumer } from '../../utils/ArrayConsumer';
-import { Emitter } from '../../utils/Emitter';
+import { Eventable, ArrayConsumer, Emitter, WatchMatcher } from '../../utils';
 
 import { UnitInterface } from './Unit';
-import { WatchMatcher } from '../../utils/UnitMatcher';
 import { WatchdogConfig } from './Watchdog';
 import { AggregatedEmitter } from './AggregatedEmitter';
 

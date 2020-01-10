@@ -1,7 +1,6 @@
 
 import { CoreConfig } from '../../CoreConfig';
-import { Strings } from '../../utils/Strings';
-import { Logger } from '../../utils/Logger';
+import { Strings, Logger } from '../../utils';
 import { CoreEvent } from '../../kernel/event/CoreEvent';
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 import { Source } from '../../kernel/source/Source';

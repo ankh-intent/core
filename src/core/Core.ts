@@ -2,7 +2,7 @@ import { ErrorConsumer } from './consumers/errors/ErrorConsumer';
 import { StatConsumer } from './consumers/stat/StatConsumer';
 import { UpdateEvent } from './consumers/watching/UpdateEvent';
 import { CoreConfig } from './CoreConfig';
-import { TreeNode } from './kernel/ast/TreeNode';
+import { TreeNode } from './kernel/ast';
 
 import { Identifiable } from './kernel/dependencies/DependencyNode';
 import { CoreEvent } from './kernel/event/CoreEvent';
@@ -16,9 +16,7 @@ import { StopEvent } from './kernel/event/events/StopEvent';
 import { CoreLogger } from './kernel/logging/CoreLogger';
 import { RecursiveFinder } from './kernel/source/Finder';
 import { PipelineObserverFactory } from './PipelineObserver';
-import { Emitter } from './utils/Emitter';
-import { Logger } from './utils/Logger';
-import { UnitMatcher } from './utils/UnitMatcher';
+import { Emitter, Logger, UnitMatcher } from './utils';
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
 

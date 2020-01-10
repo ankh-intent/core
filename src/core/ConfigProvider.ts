@@ -1,7 +1,6 @@
 import * as path from 'path';
 
-import { Container } from './utils/Container';
-import { Strings } from './utils/Strings';
+import { Container, Strings } from './utils';
 import { BubblingFinder } from './kernel/source/Finder';
 import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from './CoreConfig';
 import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';

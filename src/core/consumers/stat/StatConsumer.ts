@@ -5,7 +5,7 @@ import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 
 import { StatEvent } from '../../kernel/event/events/StatEvent';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
-import { Logger } from '../../utils/Logger';
+import { Logger } from '../../utils';
 import { LogStat } from './LogStat';
 import { EmittedStat } from './EmittedStat';
 
