@@ -1,9 +1,6 @@
 import { Container } from '@intent/utils';
 import { Source } from '@intent/kernel/source';
-import { Compiler } from '@intent/kernel/compiler/Compiler';
-import { Sampler } from '@intent/kernel/compiler/Sampler';
-import { Substitutor } from '@intent/kernel/compiler/Substitutor';
-import { Template } from '@intent/kernel/compiler/Template';
+import { Compiler, Sampler, Substitutor, Template } from '@intent/kernel/compiler';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
 import { Chip } from './chips/Chip';

@@ -1,8 +1,6 @@
 
 import { pit } from '../../../util/extensions';
-import { Template } from '../../../../src/core/kernel/compiler/Template';
-import { Sampler } from '../../../../src/core/kernel/compiler/Sampler';
-import { Substitutor } from '../../../../src/core/kernel/compiler/Substitutor';
+import { Template, Sampler, Substitutor } from '../../../../src/core/kernel/compiler';
 
 describe('Template', () => {
 

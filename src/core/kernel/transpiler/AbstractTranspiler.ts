@@ -1,6 +1,5 @@
 
-import { Compiler } from '../compiler/Compiler';
-import { TemplateInterface } from '../compiler/TemplateInterface';
+import { Compiler, TemplateInterface } from '../compiler';
 import { Strings, Container } from '../../utils';
 
 export interface TranspilerInterface<S> {
