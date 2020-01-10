@@ -1,8 +1,8 @@
 import path = require('path');
 
-import { CoreConfig } from '../../../CoreConfig';
-import { TreeNode } from '../../../kernel/ast';
-import { Identifiable } from '../../../kernel/dependencies';
+import { CoreConfig } from '../../CoreConfig';
+import { TreeNode } from '../../kernel/ast';
+import { Identifiable } from '../../kernel/dependencies';
 import { BaseEmitResolver } from './BaseEmitResolver';
 
 export class InternalEmitResolver<N extends TreeNode, T extends Identifiable<N>> extends BaseEmitResolver<N, T> {

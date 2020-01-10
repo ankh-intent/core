@@ -1,16 +1,9 @@
-import { ErrorConsumer } from './consumers/errors/ErrorConsumer';
-import { StatConsumer } from './consumers/stat/StatConsumer';
-import { UpdateEvent } from './consumers/watching/UpdateEvent';
+import { ErrorConsumer, StatConsumer, UpdateEvent, EventChainMonitor } from './consumers';
 import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
 
 import { Identifiable } from './kernel/dependencies';
-
-import {
-  CoreEvent, CoreEventBus,
-  EventChainMonitor, EventChainMonitoringData,
-  FatalEvent, ReadyEvent, StopEvent,
-} from './kernel/event';
+import { CoreEvent, CoreEventBus, EventChainInterface, FatalEvent, ReadyEvent, StopEvent } from './kernel/event';
 
 import { CoreLogger } from './kernel/logging/CoreLogger';
 import { RecursiveFinder } from './kernel/source';
@@ -76,7 +69,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
 
     this.eventChainMonitor
       .monitor(updates)
-      .once((data: EventChainMonitoringData) => {
+      .once((data: EventChainInterface) => {
         this.events.emit(new ReadyEvent(data))
       })
     ;

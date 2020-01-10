@@ -1,12 +1,16 @@
-import { AnalyzedConsumer, IdentifiableFactory } from './consumers/ast-compiling/AnalyzedConsumer';
-import { ParseConsumer } from './consumers/ast-compiling/ParseConsumer';
-import { InterpretedConsumer } from './consumers/emitting/InterpretedConsumer';
-import { EmitResolver } from './consumers/emitting/resolvers/EmitResolver';
-import { DependencyModifiedConsumer } from './consumers/interpreting/DependencyModifiedConsumer';
-import { ReadedConsumer, TokensFactory } from './consumers/parsing/ReadedConsumer';
-import { UpdateConsumer } from './consumers/reading/UpdateConsumer';
-import { CompiledConsumer, DependenciesResolver } from './consumers/watching/CompiledConsumer';
-import { WatchdogReadyConsumer } from './consumers/watching/WatchdogReadyConsumer';
+import {
+  AnalyzedConsumer, IdentifiableFactory,
+  ParseConsumer,
+  InterpretedConsumer,
+  EmitResolver,
+  DependencyModifiedConsumer,
+  ReadedConsumer,
+  TokensFactory,
+  UpdateConsumer,
+  CompiledConsumer,
+  DependenciesResolver,
+  WatchdogReadyConsumer,
+} from './consumers';
 import { Core } from './Core';
 import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
@@ -42,7 +46,7 @@ export abstract class WatchedTranspilerPipelineObserver<
   private readonly writer: FileWriter;
   private watchdog: Watchdog<UnitInterface>;
 
-  public constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>, transpiler: TranspilerInterface<N>) {
+  protected constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>, transpiler: TranspilerInterface<N>) {
     this.config = config;
     this.tokensFactory = tokensFactory;
     this.parser = parser;

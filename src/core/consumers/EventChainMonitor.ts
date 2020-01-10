@@ -1,20 +1,7 @@
+import { CoreEvent, StatEvent, AbstractConsumer, EventChainInterface } from '../kernel/event';
+import { Emitter } from '../utils';
 
-import { CoreEvent } from './CoreEvent';
-import { AbstractConsumer } from './consumer/AbstractConsumer';
-
-import { UpdateEvent } from '../../consumers/watching/UpdateEvent';
-import { Emitter } from '../../utils';
-import { StatEvent } from './events/StatEvent';
-
-export interface EventChainMonitoringData {
-  start: Date;
-  end: Date;
-  original: UpdateEvent[];
-  monitored: UpdateEvent[];
-  accumulated: UpdateEvent[];
-}
-
-export type EventChainMonitoringConsumer = (data: EventChainMonitoringData) => any;
+export type EventChainMonitoringConsumer = (data: EventChainInterface) => any;
 
 export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsumer<E, any>{
   private readonly chains: EventChain<E>[] = [];

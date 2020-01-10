@@ -1,6 +1,6 @@
-import { CoreConfig } from '../../../CoreConfig';
-import { TreeNode } from '../../../kernel/ast';
-import { Identifiable } from '../../../kernel/dependencies';
+import { CoreConfig } from '../../CoreConfig';
+import { TreeNode } from '../../kernel/ast';
+import { Identifiable } from '../../kernel/dependencies';
 
 import { BaseEmitResolver } from './BaseEmitResolver';
 import { CompoundEmitResolver } from './CompoundEmitResolver';

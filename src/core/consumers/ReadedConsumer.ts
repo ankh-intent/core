@@ -1,9 +1,8 @@
 
-import { TokenMatcher, BaseTokenTypes } from '../../kernel/parser';
-import { Source } from '../../kernel/source';
-import { CoreEventBus, AbstractConsumer, CoreEvent, ConsumerStat } from '../../kernel/event';
-import { ReadedEvent } from '../reading/ReadedEvent';
-import { ParsedEvent } from './ParsedEvent';
+import { TokenMatcher, BaseTokenTypes } from '../kernel/parser';
+import { Source } from '../kernel/source';
+import { CoreEventBus, AbstractConsumer, CoreEvent, ConsumerStat } from '../kernel/event';
+import { ReadedEvent, ParsedEvent } from './flow-events';
 
 export interface TokensFactory<TT extends BaseTokenTypes> {
   (source: Source): TokenMatcher<TT>;

@@ -1,10 +1,10 @@
 import path = require('path');
+import { CoreConfig } from '../../CoreConfig';
+import { TreeNode } from '../../kernel/ast';
+import { Identifiable } from '../../kernel/dependencies';
 
-import { Strings } from '../../../utils';
-import { CoreConfig } from '../../../CoreConfig';
-import { TreeNode } from '../../../kernel/ast';
-import { Identifiable } from '../../../kernel/dependencies';
-import { FileEmitResolverInterface } from '../InterpretedConsumer';
+import { Strings } from '../../utils';
+import { FileEmitResolverInterface } from './FileEmitResolverInterface';
 
 export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> implements FileEmitResolverInterface<N, T> {
   protected readonly config: CoreConfig;

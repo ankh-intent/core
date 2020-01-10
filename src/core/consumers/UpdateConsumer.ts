@@ -1,11 +1,8 @@
 
-import { CoreEvent, AbstractConsumer, ConsumerStat, CoreEventBus, ErrorEvent } from '../../kernel/event';
-import { StringSource } from '../../kernel/source';
-import { ReadedEvent } from './ReadedEvent';
-
-import { UpdateEvent } from '../watching/UpdateEvent';
-import { Source, FileReader } from '../../kernel/source';
-import { SyntaxError } from '../../kernel/parser';
+import { CoreEvent, AbstractConsumer, ConsumerStat, CoreEventBus, ErrorEvent } from '../kernel/event';
+import { StringSource, Source, FileReader } from '../kernel/source';
+import { SyntaxError } from '../kernel/parser';
+import { ReadedEvent, UpdateEvent } from './flow-events';
 
 export class UpdateStat extends ConsumerStat {
   public constructor(public readonly path: string) {

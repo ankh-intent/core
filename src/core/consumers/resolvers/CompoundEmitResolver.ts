@@ -1,6 +1,6 @@
-import { TreeNode } from '../../../kernel/ast';
-import { Identifiable } from '../../../kernel/dependencies';
-import { FileEmitResolverInterface } from '../InterpretedConsumer';
+import { TreeNode } from '../../kernel/ast';
+import { Identifiable } from '../../kernel/dependencies';
+import { FileEmitResolverInterface } from './FileEmitResolverInterface';
 
 export class CompoundEmitResolver<N extends TreeNode, T extends Identifiable<N>> implements FileEmitResolverInterface<N, T> {
   public readonly resolvers: FileEmitResolverInterface<N, T>[];

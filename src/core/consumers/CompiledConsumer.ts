@@ -1,10 +1,8 @@
-import { TreeNode } from '../../kernel/ast';
-import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus } from '../../kernel/event';
-import { DependencyNode, Identifiable, DependencyManager } from '../../kernel/dependencies';
-import { Container } from '../../utils';
-import { CompiledEvent } from '../ast-compiling/CompiledEvent';
-import { DependencyModifiedEvent } from './DependencyModifiedEvent';
-import { UpdateEvent } from './UpdateEvent';
+import { Container } from '../utils';
+import { TreeNode } from '../kernel/ast';
+import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus } from '../kernel/event';
+import { DependencyNode, Identifiable, DependencyManager } from '../kernel/dependencies';
+import { CompiledEvent, DependencyModifiedEvent, UpdateEvent } from './flow-events';
 
 export interface DependenciesResolver<N extends TreeNode, T extends Identifiable<N>> {
   resolve(identifiable: T): Container<T>;

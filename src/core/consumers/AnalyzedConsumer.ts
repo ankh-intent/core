@@ -1,10 +1,9 @@
 
-import { TreeNode } from '../../kernel/ast';
-import { Source } from '../../kernel/source';
-import { CoreEvent, CoreEventBus, AbstractConsumer, ConsumerStat } from '../../kernel/event';
-import { DependencyNode, Identifiable, DependencyManager } from '../../kernel/dependencies';
-import { CompiledEvent } from './CompiledEvent';
-import { AnalyzedEvent } from './AnalyzedEvent';
+import { TreeNode } from '../kernel/ast';
+import { Source } from '../kernel/source';
+import { CoreEvent, CoreEventBus, AbstractConsumer, ConsumerStat } from '../kernel/event';
+import { DependencyNode, Identifiable, DependencyManager } from '../kernel/dependencies';
+import { CompiledEvent, AnalyzedEvent } from './flow-events';
 
 export class CompileStat extends ConsumerStat {
   public constructor(public readonly source: Source) {

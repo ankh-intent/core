@@ -1,11 +1,11 @@
 
-import { CoreConfig } from '../../CoreConfig';
+import { CoreConfig } from '../CoreConfig';
 
-import { CoreEvent, AbstractConsumer, StatEvent, CoreEventBus } from '../../kernel/event';
+import { CoreEvent, AbstractConsumer, StatEvent, CoreEventBus } from '../kernel/event';
 
-import { Logger } from '../../utils';
-import { LogStat } from './LogStat';
-import { EmittedStat } from './EmittedStat';
+import { Logger } from '../utils';
+import { LogStat } from './stat/LogStat';
+import { EmittedStat } from './stat/EmittedStat';
 
 export class StatConsumer extends AbstractConsumer<StatEvent, any>{
   private readonly logger: Logger;

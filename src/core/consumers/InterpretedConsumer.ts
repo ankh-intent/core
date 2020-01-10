@@ -1,13 +1,11 @@
+import { TreeNode } from '../kernel/ast';
+import { Identifiable } from '../kernel/dependencies';
+import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus, ErrorEvent } from '../kernel/event';
+import { Source, StringSource, FileWriter } from '../kernel/source';
+import { InterpretedEvent } from './flow-events';
+import { FileEmitResolverInterface } from './resolvers';
 
-import { TreeNode } from '../../kernel/ast';
-import { Identifiable } from '../../kernel/dependencies';
-import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus, ErrorEvent } from '../../kernel/event';
-import { InterpretedEvent } from '../interpreting/InterpretedEvent';
-import { Source, StringSource, FileWriter } from '../../kernel/source';
-
-export interface FileEmitResolverInterface<N extends TreeNode, T extends Identifiable<N>> {
-  resolve(from: T): string|null;
-}
+export * from './resolvers';
 
 export class EmitStat<N extends TreeNode, T extends Identifiable<N>> extends ConsumerStat {
   public constructor(public readonly identifiable: T, public readonly start: number) {

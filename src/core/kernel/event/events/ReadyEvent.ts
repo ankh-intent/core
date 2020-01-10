@@ -1,8 +1,15 @@
-
 import { BaseCoreEvent } from '../CoreEvent';
-import { EventChainMonitoringData } from '../EventChainMonitor';
+import { UpdateEvent } from './UpdateEvent';
 
-export interface ReadyEventProps extends EventChainMonitoringData {
+export interface EventChainInterface {
+  start: Date;
+  end: Date;
+  original: UpdateEvent[];
+  monitored: UpdateEvent[];
+  accumulated: UpdateEvent[];
+}
+
+export interface ReadyEventProps extends EventChainInterface {
 }
 
 export class ReadyEvent extends BaseCoreEvent<ReadyEventProps> {
