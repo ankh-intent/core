@@ -1,6 +1,6 @@
 
 import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
-import { Strings } from '../../../utils';
+import { Strings } from '../../utils';
 
 export class Sampler implements SamplerInterface {
   private readonly opener: string;

@@ -1,9 +1,9 @@
 import { Container } from '@intent/utils';
 import { Source } from '@intent/kernel/source';
-import { Compiler } from '@intent/kernel/transpiler/compiler/Compiler';
-import { Sampler } from '@intent/kernel/transpiler/compiler/Sampler';
-import { Substitutor } from '@intent/kernel/transpiler/compiler/Substitutor';
-import { Template } from '@intent/kernel/transpiler/compiler/Template';
+import { Compiler } from '@intent/kernel/compiler/Compiler';
+import { Sampler } from '@intent/kernel/compiler/Sampler';
+import { Substitutor } from '@intent/kernel/compiler/Substitutor';
+import { Template } from '@intent/kernel/compiler/Template';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
 import { IntentModule } from './kernel/IntentModule';

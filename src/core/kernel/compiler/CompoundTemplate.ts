@@ -1,6 +1,6 @@
 
 import { TemplateInterface } from './TemplateInterface';
-import { Strings } from '../../../utils';
+import { Strings } from '../../utils';
 
 export declare type Templateable<S, R> = string|TemplateInterface<S, R>;
 
