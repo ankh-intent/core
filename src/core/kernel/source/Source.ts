@@ -20,13 +20,13 @@ export class Source {
 
   public location(pos: number): Origin {
     let line = 1;
-    let col = 0;
+    let col = 1;
     let i = 0;
 
     while (i < pos) {
-      if (this.at(i++).match(/\n\r?/)) {
+      if (this.at(i++) === '\n') {
         line++;
-        col = 0;
+        col = 1;
       } else {
         col++;
       }
@@ -37,5 +37,31 @@ export class Source {
       line,
       col,
     );
+  }
+
+  public position({ line, column }: Origin): number {
+    if ((line == 1) && (column == 1)) {
+      return 0;
+    }
+
+    const len = this.content.length;
+    let currentLine = 1;
+    let currentCol = 1;
+    let i = 0;
+
+    while (i < len) {
+      if (this.at(i++) === '\n') {
+        currentLine++;
+        currentCol = 1;
+      } else {
+        currentCol++;
+      }
+
+      if ((line === currentLine) && (column === currentCol)) {
+        return i;
+      }
+    }
+
+    return len;
   }
 }
