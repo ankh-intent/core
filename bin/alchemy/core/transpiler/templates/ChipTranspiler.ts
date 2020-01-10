@@ -1,7 +1,7 @@
 import { Container } from '@intent/utils/Container';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { ChipNode } from '../ast/ChipNode';
+import { ChipNode } from '../ast';
 import { DomainTranspiler } from './DomainTranspiler';
 import { CanTranspiler } from './CanTranspiler';
 import { UseTranspiler } from './UseTranspiler';
@@ -15,10 +15,10 @@ export class ChipTranspiler extends AbstractTranspiler<ChipNode> {
 
   protected get code(): string {
     return `
-      ((intent) => { 
+      ((intent) => {
         {%*uses%}
         {%*domains%}
-      
+
         return {
           {%names%},
           {%can%}

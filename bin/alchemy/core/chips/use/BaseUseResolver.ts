@@ -4,7 +4,7 @@ import { Strings } from '@intent/utils/Strings';
 import { UseResolverInterface } from './UseResolverInterface';
 import { LibraryUseResolver } from './LibraryUseResolver';
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../transpiler/ast/QualifierNode';
+import { QualifierNode } from '../../transpiler/ast';
 
 export class BaseUseResolver implements UseResolverInterface {
   private config: PathsConfig;

@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../transpiler/ast/QualifierNode';
+import { QualifierNode } from '../../transpiler/ast';
 
 export class LibraryUseResolver implements UseResolverInterface {
   private config: PathsConfig;

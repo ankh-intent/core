@@ -1,5 +1,5 @@
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../transpiler/ast/QualifierNode';
+import { QualifierNode } from '../../transpiler/ast';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 
 export class LibraryQualifierResolver extends BaseQualifierResolver {

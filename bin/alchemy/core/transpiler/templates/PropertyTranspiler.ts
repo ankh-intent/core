@@ -1,7 +1,7 @@
 import { Container } from '@intent/utils/Container';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { PropertyNode } from '../ast/PropertyNode';
+import { PropertyNode } from '../ast';
 import { TypeTranspiler } from './TypeTranspiler';
 
 export class PropertyTranspiler extends AbstractTranspiler<PropertyNode> {

@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
+import { AbstractNode } from '@intent/kernel/ast';
 
 export class QualifierNode extends AbstractNode {
   public name: string;

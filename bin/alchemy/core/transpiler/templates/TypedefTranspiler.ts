@@ -1,8 +1,7 @@
 import { Container } from '@intent/utils/Container';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { TypeDefNode } from '../ast/TypeDefNode';
-import { TypeNode } from '../ast/TypeNode';
+import { TypeDefNode, TypeNode } from '../ast';
 import { CanTranspiler } from './CanTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
 import { ConstraintTranspiler } from './ConstraintTranspiler';

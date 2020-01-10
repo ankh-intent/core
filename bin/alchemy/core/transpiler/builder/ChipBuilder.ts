@@ -2,10 +2,7 @@ import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
 import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
-import { ChipNode } from '../ast/ChipNode';
-import { UseNode } from '../ast/UseNode';
-import { DomainNode } from '../ast/DomainNode';
-import { CanNode } from '../ast/CanNode';
+import { ChipNode, UseNode, DomainNode, CanNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
 
 export interface ChipChildren extends AlchemyBuildInvokers {

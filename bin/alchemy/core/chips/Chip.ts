@@ -1,7 +1,7 @@
-import { AbstractNode } from '@intent/kernel/ast/AbstractNode';
+import { AbstractNode } from '@intent/kernel/ast';
 import { Identifiable } from '@intent/kernel/dependencies/DependencyNode';
 
-import { ChipNode } from '../transpiler/ast/ChipNode';
+import { ChipNode } from '../transpiler/ast';
 
 export class Chip extends AbstractNode implements Identifiable<ChipNode> {
   public name: string;

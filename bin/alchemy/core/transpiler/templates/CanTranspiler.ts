@@ -1,7 +1,7 @@
 import { Container } from '@intent/utils/Container';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { CanNode } from '../ast/CanNode';
+import { CanNode } from '../ast';
 import { TypeTranspiler } from './TypeTranspiler';
 import { PropertyTranspiler } from './PropertyTranspiler';
 
@@ -14,7 +14,7 @@ export class CanTranspiler extends AbstractTranspiler<CanNode> {
   protected get code(): string {
     return `
       {%name%}({%*args|.join(", ")%}): {%returns|.pop()||'any'%} {
-        {%body%} 
+        {%body%}
       }`;
   }
 

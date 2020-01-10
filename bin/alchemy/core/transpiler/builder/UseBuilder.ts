@@ -2,8 +2,7 @@ import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
 import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
-import { UseNode } from '../ast/UseNode';
-import { QualifierNode } from '../ast/QualifierNode';
+import { UseNode, QualifierNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
 
 export interface UseChildren extends AlchemyBuildInvokers {

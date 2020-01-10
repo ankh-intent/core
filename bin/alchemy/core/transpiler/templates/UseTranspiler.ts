@@ -1,6 +1,6 @@
 import { AbstractTranspiler } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { UseNode } from '../ast/UseNode';
+import { UseNode } from '../ast';
 
 export class UseTranspiler extends AbstractTranspiler<UseNode> {
   protected get code(): string {

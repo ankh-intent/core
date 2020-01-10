@@ -2,7 +2,7 @@
 import { PathsConfig } from '@intent/CoreConfig';
 
 import { Chip } from '../Chip';
-import { QualifierNode } from '../../transpiler/ast/QualifierNode';
+import { QualifierNode } from '../../transpiler/ast';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 import { LibraryQualifierResolver } from './LibraryQualifierResolver';

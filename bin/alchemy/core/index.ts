@@ -11,7 +11,7 @@ import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
 import { Chip } from './chips/Chip';
-import { ChipNode } from './transpiler/ast/ChipNode';
+import { ChipNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
 import configure from '../config';

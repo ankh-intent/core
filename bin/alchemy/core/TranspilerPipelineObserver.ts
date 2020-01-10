@@ -10,7 +10,7 @@ import { Chip } from './chips/Chip';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
-import { ChipNode } from './transpiler/ast/ChipNode';
+import { ChipNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
 import { ChipTranspiler } from './transpiler/templates/ChipTranspiler';
 

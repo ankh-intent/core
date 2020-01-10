@@ -1,9 +1,8 @@
 import { Container } from '@intent/utils/Container';
 import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
 
-import { DomainNode } from '../ast/DomainNode';
+import { DomainNode, TypeDefNode } from '../ast';
 import { TypedefTranspiler } from './TypedefTranspiler';
-import { TypeDefNode } from '../ast/TypeDefNode';
 import { UseTranspiler } from './UseTranspiler';
 
 export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
@@ -19,11 +18,11 @@ export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
       const {%identifier%} = (() => {
         {%*uses%}
         {%*types%}
-      
+
         const I{%identifier%} = {
           {%*init%},
         };
-      
+
         return {
           {%*construct%},
         };

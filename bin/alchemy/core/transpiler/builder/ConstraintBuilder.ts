@@ -2,8 +2,7 @@ import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
 import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
-import { ConstraintNode } from '../ast/ConstraintNode';
-import { CanNode } from '../ast/CanNode';
+import { ConstraintNode, CanNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
 
 export interface ConstraintChildren extends AlchemyBuildInvokers {
