@@ -1,5 +1,6 @@
 
 import { CoreEvent } from '../../kernel/event/CoreEvent';
+import { StringSource } from '../../kernel/source/StringSource';
 import { ReadedEvent } from './ReadedEvent';
 import { AbstractConsumer } from '../../kernel/event/consumer/AbstractConsumer';
 import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
@@ -38,7 +39,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
         this.emit(new ReadedEvent({ source }, event));
       })
       .catch((e: Error) => {
-        this.emit(new ErrorEvent({ error: new SyntaxError(e.message, null, 0, e) }, event));
+        this.emit(new ErrorEvent({ error: new SyntaxError(e.message, new StringSource('', path), 0, e) }, event));
       })
     ;
   }

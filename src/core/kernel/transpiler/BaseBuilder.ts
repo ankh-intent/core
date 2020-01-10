@@ -7,18 +7,22 @@ import { TypedMatcher } from '../parser/TypedMatcher';
 import { TreeNode } from '../ast/TreeNode';
 import { TokenVisitor } from '../ast/TokenVisitor';
 
-export interface BuildInvoker<N extends TreeNode, TT extends typeof BaseTokenTypes = any> {
+export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {
   (tokens: TokenMatcher<TT>): N;
 }
 
-export type BuilderInvokers<T, TT extends typeof BaseTokenTypes> = {
+export type BuilderInvokers<T, TT extends BaseTokenTypes = BaseTokenTypes> = {
   [name in keyof T]: BuildInvoker<any, TT>;
 }
 
-export abstract class BaseBuilder<N extends TreeNode, TT extends typeof BaseTokenTypes, T extends BuilderInvokers<any, TT>> implements TokenVisitor<N> {
-  protected child: T;
+export abstract class BaseBuilder<
+  TT extends BaseTokenTypes,
+  N extends TreeNode,
+  I extends BuilderInvokers<any, TT>,
+> implements TokenVisitor<N> {
+  protected child: I;
 
-  constructor(builders: T) {
+  constructor(builders: I) {
     this.child = builders;
   }
 

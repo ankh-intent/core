@@ -9,17 +9,12 @@ import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/Wat
 import { Chip } from './chips/Chip';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
-import { AlchemyTokenMatcher, AlchemyTokens } from './transpiler/Alchemy';
+import { AlchemyTokenMatcher } from './transpiler/Alchemy';
 import { ChipNode } from './transpiler/ast/ChipNode';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
 import { ChipTranspiler } from './transpiler/templates/ChipTranspiler';
 
-export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<
-  typeof AlchemyTokens,
-  ChipNode,
-  Chip
->
-{
+export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ChipNode, Chip > {
   private readonly qualifierResolver: QualifierResolver;
   private readonly useResolver: BaseUseResolver;
 
@@ -44,8 +39,11 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
 
   create(identifier: string): Chip {
     const chip = new Chip(identifier);
+    const qualifier = this.qualifierResolver.resolve(chip);
 
-    chip.name = this.qualifierResolver.resolve(chip).path('.');
+    if (qualifier) {
+      chip.name = qualifier.path('.');
+    }
 
     return chip;
   }

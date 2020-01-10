@@ -5,7 +5,7 @@ import { ArrayConsumer } from '../../utils/ArrayConsumer';
 import { Emitter } from '../../utils/Emitter';
 
 import { UnitInterface } from './Unit';
-import { UnitMatcher } from '../../utils/UnitMatcher';
+import { WatchMatcher } from '../../utils/UnitMatcher';
 import { WatchdogConfig } from './Watchdog';
 import { AggregatedEmitter } from './AggregatedEmitter';
 
@@ -13,14 +13,14 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
   public static EVENT  = 'event';
   public static DETACH = 'detach';
 
+  private readonly matcher: WatchMatcher;
   private watcher: FSWatcher|null = null;
   private debounced: number;
-  private readonly matcher: UnitMatcher;
   private _emitter: Emitter<ArrayConsumer<U>>|null;
 
   public readonly uid: number;
 
-  public constructor(uid: number, matcher: UnitMatcher) {
+  public constructor(uid: number, matcher: WatchMatcher) {
     super();
     this.uid = uid;
     this.matcher = matcher;

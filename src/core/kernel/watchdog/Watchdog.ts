@@ -1,4 +1,4 @@
-import { UnitMatcher } from '../../utils/UnitMatcher';
+import { WatchMatcher } from '../../utils/UnitMatcher';
 import { UnitInterface } from './Unit';
 import { WatchItem } from './WatchItem';
 
@@ -43,7 +43,7 @@ export class Watchdog<U extends UnitInterface> {
     }
   }
 
-  public watch(matcher: UnitMatcher): WatchItem<U> {
+  public watch(matcher: WatchMatcher): WatchItem<U> {
     const item = new WatchItem(++this.uid, matcher);
 
     item.once(WatchItem.DETACH, () => {

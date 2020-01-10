@@ -1,4 +1,5 @@
-import { BaseBuilder, BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
+import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
+import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
 import { TypeDefNode } from '../ast/TypeDefNode';
@@ -6,6 +7,7 @@ import { TypeNode } from '../ast/TypeNode';
 import { PropertyNode } from '../ast/PropertyNode';
 import { CanNode } from '../ast/CanNode';
 import { ConstraintNode } from '../ast/ConstraintNode';
+import { BaseBuilder } from './BaseBuilder';
 
 export interface TypeDefChildren extends AlchemyBuildInvokers {
   property: BuildInvoker<PropertyNode>;
@@ -14,13 +16,13 @@ export interface TypeDefChildren extends AlchemyBuildInvokers {
   constraint: BuildInvoker<ConstraintNode>;
 }
 
-export class TypeDefBuilder extends BaseBuilder<TypeDefNode, any, TypeDefChildren> {
-  protected build(tokens, { not, get, ensure }): TypeDefNode {
+export class TypeDefBuilder extends BaseBuilder<TypeDefNode, TypeDefChildren> {
+  protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
     if (not.identifier('type')) {
       return null;
     }
 
-    const { value: name } = get.identifier();
+    const name = get.identifier();
     const properties = {};
     const constraints = {};
     const cans = {};

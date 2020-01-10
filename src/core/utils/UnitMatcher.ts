@@ -1,4 +1,8 @@
 export interface UnitMatcher {
   pattern: string|RegExp;
-  event?: string;
+}
+
+export interface WatchMatcher extends UnitMatcher {
+  pattern: string|RegExp;
+  event: string;
 }

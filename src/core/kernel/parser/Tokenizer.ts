@@ -20,6 +20,6 @@ export interface Context {
   pos: number;
 }
 
-export interface Tokenizer<TT extends typeof BaseTokenTypes> {
-  (context: Context): Token;
+export interface Tokenizer<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
+  (context: Context, userData?: U): Token;
 }

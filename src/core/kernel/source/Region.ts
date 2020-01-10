@@ -9,4 +9,13 @@ export class Region {
     this.from = from;
     this.to = to;
   }
+
+  extract(): string {
+    const source = this.from.source;
+
+    return source.extract(
+      source.position(this.from),
+      source.position(this.to),
+    );
+  }
 }

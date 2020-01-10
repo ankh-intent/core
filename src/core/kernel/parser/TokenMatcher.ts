@@ -16,24 +16,30 @@ export interface MatcherInterface {
   type?: string;
 }
 
-export interface MatchInvoker<T> {
+interface MatchInvoker<T> {
   (match?: MatcherInterface|string): T;
 }
 
-export type TypeMatcherInterface<TT extends typeof BaseTokenTypes, T> = {
-  [name in keyof TT]?: MatchInvoker<T & { type: TT[name] }>;
+export interface TypeMatcherInterface<TT extends BaseTokenTypes, T> {
+  any: MatchInvoker<Token>;
+  symbol: MatchInvoker<T>;
+  string: MatchInvoker<T>;
+  number: MatchInvoker<T>;
+  identifier: MatchInvoker<T>;
+  comment: MatchInvoker<T>;
+  whitespace: MatchInvoker<T>;
 }
 
-export interface TypedTokenMatcherInterface<TT extends typeof BaseTokenTypes> {
-  peek: TypeMatcherInterface<TT, Token>;
-  get: TypeMatcherInterface<TT, Token>;
-  except: TypeMatcherInterface<TT, Token>;
+export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenTypes> = {
+  peek: TypeMatcherInterface<TT, string>;
+  get: TypeMatcherInterface<TT, string>;
+  except: TypeMatcherInterface<TT, string>;
   not: TypeMatcherInterface<TT, boolean>;
-  ensure: TypeMatcherInterface<TT, Token>;
+  ensure: TypeMatcherInterface<TT, string>;
 }
 
-export class TokenMatcher<TT extends typeof BaseTokenTypes> {
-  private readonly tokenizer: Tokenizer<TT>;
+export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
+  private readonly tokenizer: Tokenizer<TT, U>;
   private readonly types: TT;
   private readonly context: Context;
   private readonly tokens: {[index: number]: Token} = {};
@@ -41,8 +47,7 @@ export class TokenMatcher<TT extends typeof BaseTokenTypes> {
   private index: number;
   private last: number;
 
-  public constructor(tokenizer: Tokenizer<TT>, types: TT, source: Source, range: Range) {
-    this.types = types;
+  public constructor(tokenizer: Tokenizer<TT>, source: Source, range: Range) {
     this.tokenizer = tokenizer;
     this.index = 0;
     this.last = range.from;
@@ -57,12 +62,12 @@ export class TokenMatcher<TT extends typeof BaseTokenTypes> {
     return this.context.source;
   }
 
-  public at(index: number): Token {
+  public at(index: number, userData?: U): Token {
     let token = this.tokens[index];
 
     if (!token) {
       // todo: proper token resolving
-      token = this.tokenizer(this.context);
+      token = this.tokenizer(this.context, userData);
       this.tokens[index] = token;
     }
 

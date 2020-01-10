@@ -1,6 +1,6 @@
+import { BaseTokenTypes } from '@intent/kernel/parser/Tokenizer';
 import { RootBuilder } from '@intent/kernel/transpiler/RootBuilder';
 
-import { AlchemyTokens } from '../Alchemy';
 import { ChipNode } from '../ast/ChipNode';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';
 import { TypeBuilder } from './TypeBuilder';
@@ -24,7 +24,7 @@ type AlchemyGrammar =
   ChipChildren
 ;
 
-export class AlchemyBuilder extends RootBuilder<typeof AlchemyTokens, AlchemyGrammar, ChipNode> {
+export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, ChipNode> {
   protected get builders() {
     return {
       qualifier : new QualifierBuilder(this.invokers),

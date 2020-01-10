@@ -1,22 +1,24 @@
-import { BaseBuilder, BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
+import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
+import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
 import { DomainNode } from '../ast/DomainNode';
 import { TypeDefNode } from '../ast/TypeDefNode';
 import { UseNode } from '../ast/UseNode';
+import { BaseBuilder } from './BaseBuilder';
 
 export interface DomainChildren extends AlchemyBuildInvokers {
   typedef: BuildInvoker<TypeDefNode>;
   use: BuildInvoker<UseNode>;
 }
 
-export class DomainBuilder extends BaseBuilder<DomainNode, any, DomainChildren> {
-  protected build(tokens, { not, get, ensure }): DomainNode {
+export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
+  protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
     if (not.identifier('domain')) {
       return null;
     }
 
-    const { value: identifier } = get.identifier();
+    const identifier = get.identifier();
     const types = {};
     const uses = {};
 

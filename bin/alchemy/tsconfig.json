@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": ".",
-    "rootDir": ".",
+    "rootDir": "../..",
     "inlineSourceMap": true,
     "noEmit": true,
     "module": "commonjs",

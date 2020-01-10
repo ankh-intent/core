@@ -1,17 +1,19 @@
-import { BaseBuilder, BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
-import { AlchemyBuildInvokers } from '../Alchemy';
+import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
+import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
 
+import { AlchemyBuildInvokers } from '../Alchemy';
 import { CanNode } from '../ast/CanNode';
 import { TypeNode } from '../ast/TypeNode';
 import { PropertyNode } from '../ast/PropertyNode';
+import { BaseBuilder } from './BaseBuilder';
 
 export interface CanChildren extends AlchemyBuildInvokers {
   property: BuildInvoker<PropertyNode>;
   type: BuildInvoker<TypeNode>;
 }
 
-export class CanBuilder extends BaseBuilder<CanNode, any, CanChildren> {
-  protected build(tokens, { peek, not, get, except, ensure }): CanNode {
+export class CanBuilder extends BaseBuilder<CanNode, CanChildren> {
+  protected build(tokens, { peek, not, get, except, ensure }: TypedTokenMatcherInterface) {
     const name = get.identifier();
 
     if (!name) {
@@ -95,7 +97,7 @@ export class CanBuilder extends BaseBuilder<CanNode, any, CanChildren> {
     ensure.symbol('}');
 
     const can = new CanNode();
-    can.name = name.value;
+    can.name = name;
     can.args = args;
     can.returns = returns;
     can.body = body.join('');

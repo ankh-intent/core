@@ -29,10 +29,10 @@ export interface TranspilerConfig extends CoreConfig {
 }
 
 export abstract class WatchedTranspilerPipelineObserver<
-  TT extends typeof BaseTokenTypes,
   N extends TreeNode,
   T extends Identifiable<N>,
   C extends TranspilerConfig = TranspilerConfig,
+  TT extends BaseTokenTypes = BaseTokenTypes,
 >
   implements
     PipelineObserver<C, N, T>,

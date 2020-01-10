@@ -1,3 +1,5 @@
+import path = require('path');
+
 const REGEXP_GUARD = /[|\\{}()[\]^$+*?.]/g;
 
 export class Strings {
@@ -142,5 +144,32 @@ export class Strings {
 
   public static getRootSrcPath(): string {
     return __dirname.replace(/\/src\/(.*?)$/, '/src/');
+  }
+
+  public static stripLeft(subject: string, needle: string): string {
+    return (
+      (needle && subject.startsWith(needle))
+        ? subject.slice(needle.length)
+        : subject
+    );
+  }
+
+  public static stripRight(subject: string, needle: string): string {
+    return (
+      (needle && subject.endsWith(needle))
+        ? subject.slice(0, -needle.length)
+        : subject
+    );
+  }
+
+  public static commonPath(paths: string[]): string {
+    return Strings.stripRight(
+      Strings.longestCommon(paths).pop() || '',
+      path.sep,
+    );
+  }
+
+  public static clear(str: string): string {
+    return str.length < 12 ? str : (' ' + str).slice(1);;
   }
 }

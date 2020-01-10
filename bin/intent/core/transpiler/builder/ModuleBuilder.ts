@@ -1,27 +1,19 @@
 import { TypedTokenMatcherInterface } from '@intent/kernel/parser/TokenMatcher';
-import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
-
-import { AlchemyBuildInvokers } from '../Alchemy';
-import { ChipNode } from '../ast/ChipNode';
-import { UseNode } from '../ast/UseNode';
-import { DomainNode } from '../ast/DomainNode';
-import { CanNode } from '../ast/CanNode';
+import { IntentBuildInvokers } from '../Intent';
+import { ModuleNode } from '../ast/ModuleNode';
 import { BaseBuilder } from './BaseBuilder';
 
-export interface ChipChildren extends AlchemyBuildInvokers {
-  use: BuildInvoker<UseNode>;
-  domain: BuildInvoker<DomainNode>;
-  can: BuildInvoker<CanNode>;
+export interface ModuleChildren extends IntentBuildInvokers {
 }
 
-export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
+export class ModuleBuilder extends BaseBuilder<ModuleNode, ModuleChildren> {
   protected build(tokens, { peek, ensure }: TypedTokenMatcherInterface) {
     ensure.identifier('chip');
 
     const name = ensure.string();
     const uses = {};
     const domains = {};
-    let can: CanNode|null = null;
+    let can = null;
 
     ensure.symbol('{');
 
@@ -55,7 +47,7 @@ export class ChipBuilder extends BaseBuilder<ChipNode, ChipChildren> {
 
     ensure.symbol('}');
 
-    return Object.assign(new ChipNode(), {
+    return Object.assign(new ModuleNode(), {
       name,
       uses,
       domains,

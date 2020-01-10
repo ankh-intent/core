@@ -1,7 +1,7 @@
-import { Source } from '@intent/kernel/source/Source';
 import { Token } from '@intent/kernel/parser/Token';
 import { BaseTokenTypes, Context } from '@intent/kernel/parser/Tokenizer';
 import { Range, TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
+import { Source } from '@intent/kernel/source/Source';
 import { BuilderInvokers } from '@intent/kernel/transpiler/BaseBuilder';
 
 export class Alchemy {
@@ -130,12 +130,12 @@ export class Alchemy {
   }
 }
 
-export class AlchemyTokenMatcher extends TokenMatcher<typeof AlchemyTokens> {
+export class AlchemyTokenMatcher extends TokenMatcher {
   constructor(source: Source, range: Range) {
-    super(Alchemy.pure.bind(Alchemy), AlchemyTokens, source, range);
+    super(Alchemy.pure.bind(Alchemy), source, range);
   }
 }
 
-export interface AlchemyBuildInvokers extends BuilderInvokers<any, typeof AlchemyTokens> {
+export interface AlchemyBuildInvokers extends BuilderInvokers<any> {
 
 }

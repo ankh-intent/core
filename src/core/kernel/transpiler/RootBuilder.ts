@@ -5,10 +5,10 @@ import { TreeNode } from '../ast/TreeNode';
 import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
 
 export type InvokableVisitors<T> = {[name in keyof T]: TokenVisitor<any>};
-export type RootInvokers<TT extends typeof BaseTokenTypes, G, N extends TreeNode> = G & { root: BuildInvoker<N, TT> };
+export type RootInvokers<TT extends BaseTokenTypes, G, N extends TreeNode> = G & { root: BuildInvoker<N, TT> };
 
 export class RootBuilder<
-  TT extends typeof BaseTokenTypes,
+  TT extends BaseTokenTypes,
   Grammar,
   Node extends TreeNode,
   Invokers extends RootInvokers<TT, Grammar, Node> = RootInvokers<TT, Grammar, Node>,

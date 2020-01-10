@@ -18,10 +18,12 @@ export class Watch {
     }
 
     this.timer = setTimeout(() => {
-      const delta = (+new Date()) - this.started;
-      this.timer = null;
-      this.started = null;
-      this.callback(delta);
+      if (this.started) {
+        const delta = (+new Date()) - this.started;
+        this.timer = null;
+        this.started = null;
+        this.callback(delta);
+      }
     }, delay);
   }
 

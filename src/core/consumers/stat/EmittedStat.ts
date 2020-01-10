@@ -17,11 +17,11 @@ export class EmittedStat extends BaseStat {
 
   public process(event: StatEvent, { identifiable, index, source, start, end }): StatEvent {
     const path = (<Source>source).reference;
-    const common = Strings.longestCommon([
+    const common = Strings.commonPath([
       path,
       this.config.paths.project,
       this.config.paths.internal,
-    ]).pop();
+    ]);
     let cause = '<root>';
     let parent: CoreEvent<any>|null = event;
 
@@ -40,7 +40,7 @@ export class EmittedStat extends BaseStat {
 
     const indexS = Strings.pad(String(index), 5, ' ', true);
     const causeS = Strings.shrink(cause, 10, true);
-    const pathS  = Strings.shrink(path.replace(new RegExp(`^${Strings.escapeRegExp(common)}/`), ''), 60);
+    const pathS  = Strings.shrink(Strings.stripLeft(path, `${common}/`), 60);
     const timeS  = Strings.shrink(`~${String(end - start)}`, 6, true);
 
     this.logger.log(Logger.INFO, `${indexS} [${causeS}] ${pathS} ${timeS} ms`);

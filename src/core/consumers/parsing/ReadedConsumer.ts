@@ -9,7 +9,7 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { ReadedEvent } from '../reading/ReadedEvent';
 import { ParsedEvent } from './ParsedEvent';
 
-export interface TokensFactory<TT extends typeof BaseTokenTypes> {
+export interface TokensFactory<TT extends BaseTokenTypes> {
   (source: Source): TokenMatcher<TT>;
 }
 
@@ -19,7 +19,7 @@ export class ParseStat extends ConsumerStat {
   }
 }
 
-export class ReadedConsumer<TT extends typeof BaseTokenTypes> extends AbstractConsumer<ReadedEvent, any>{
+export class ReadedConsumer<TT extends BaseTokenTypes> extends AbstractConsumer<ReadedEvent, any>{
   private readonly factory: TokensFactory<TT>;
 
   constructor(bus: CoreEventBus, factory: TokensFactory<TT>) {

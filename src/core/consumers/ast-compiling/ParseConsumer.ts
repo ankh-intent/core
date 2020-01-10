@@ -9,6 +9,7 @@ import { ConsumerStat } from '../../kernel/event/consumer/ConsumerStat';
 import { CoreEventBus } from '../../kernel/event/CoreEventBus';
 import { Source } from '../../kernel/source/Source';
 import { AnalyzedEvent } from './AnalyzedEvent';
+import { SyntaxError } from '../../kernel/parser/SyntaxError';
 
 export class AstStat extends ConsumerStat {
   public constructor(public readonly source: Source) {
@@ -16,7 +17,7 @@ export class AstStat extends ConsumerStat {
   }
 }
 
-export class ParseConsumer<N extends TreeNode, TT extends typeof BaseTokenTypes> extends AbstractConsumer<ParsedEvent<TT>, any>{
+export class ParseConsumer<N extends TreeNode, TT extends BaseTokenTypes> extends AbstractConsumer<ParsedEvent<TT>, any>{
   private readonly parser: TokenVisitor<N, TT>;
 
   public constructor(bus: CoreEventBus, parser: TokenVisitor<N, TT>) {
