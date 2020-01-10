@@ -51,7 +51,7 @@ export abstract class BaseBuilder<N extends TreeNode, TT extends typeof BaseToke
   protected narrowRegion(tokens: TokenMatcher<TT>, start: number): Region {
     const source = tokens.source;
     const before = this.seek(tokens, start, +1);
-    const after = this.seek(tokens, tokens.current() - 1, -1);
+    const after = this.seek(tokens, tokens.current() + 1, -1);
 
     let { from, to } = source.range();
 
@@ -72,9 +72,10 @@ export abstract class BaseBuilder<N extends TreeNode, TT extends typeof BaseToke
   protected seek(tokens: TokenMatcher<TT>, start: number, delta: number): Token|undefined {
     let token;
 
-    while ((token = tokens.at(start)) && (token.type === BaseTokenTypes.TK_WHITESPACE)) {
+    do {
       start += delta;
-    }
+      token = tokens.at(start, true);
+    } while (token && (token.type === BaseTokenTypes.TK_WHITESPACE));
 
     return token;
   }

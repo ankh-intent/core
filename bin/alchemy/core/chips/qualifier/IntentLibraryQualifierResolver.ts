@@ -11,7 +11,7 @@ export class IntentLibraryQualifierResolver extends BaseQualifierResolver {
     }
 
     return new QualifierNode(
-      "Intent",
+      'Intent',
       this.parse(base, from.identifier)
     );
   }

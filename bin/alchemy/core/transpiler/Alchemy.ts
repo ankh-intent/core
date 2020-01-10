@@ -4,19 +4,18 @@ import { BaseTokenTypes, Context } from '@intent/kernel/parser/Tokenizer';
 import { Range, TokenMatcher } from '@intent/kernel/parser/TokenMatcher';
 import { BuilderInvokers } from '@intent/kernel/transpiler/BaseBuilder';
 
-export const AlchemyTokens = {
-  ...BaseTokenTypes,
-  TK_STRING: 'string',
-  TK_IDENTIFIER: 'identifier',
-  TK_NUMBER: 'number',
-  TK_SYMBOL: 'symbol',
-};
-
 export class Alchemy {
-  public static pure(context: Context) {
+  public static pure(context: Context, unpure?: boolean) {
+    if (unpure) {
+      return this.tokenizer(context);
+    }
+
     let token;
 
-    while ((token = this.tokenizer(context)) && (token.type === AlchemyTokens.TK_WHITESPACE)) {
+    while ((token = this.tokenizer(context))) {
+      if (token.type !== BaseTokenTypes.TK_WHITESPACE) {
+        break;
+      }
     }
 
     return token;
@@ -82,11 +81,11 @@ export class Alchemy {
     if (index !== context.pos) {
       context.pos = index;
 
-      return 'whitespace';
+      return BaseTokenTypes.TK_WHITESPACE;
     }
   }
 
-  protected static string(source: Source, context: Context): string {
+  protected static checkString(source: Source, context: Context): string|undefined {
     let index = context.pos;
     const char = source.at(index++);
 
@@ -101,7 +100,7 @@ export class Alchemy {
     if (index !== context.pos) {
       context.pos = index + 1;
 
-      return 'string';
+      return BaseTokenTypes.TK_STRING;
     }
   }
 
@@ -115,7 +114,7 @@ export class Alchemy {
     if (index !== context.pos) {
       context.pos = index;
 
-      return 'identifier';
+      return BaseTokenTypes.TK_IDENTIFIER;
     }
   }
   //
@@ -127,7 +126,7 @@ export class Alchemy {
   protected static checkSymbol(source: Source, context: Context): string {
     context.pos++;
 
-    return 'symbol';
+    return BaseTokenTypes.TK_SYMBOL;
   }
 }
 

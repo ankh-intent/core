@@ -49,9 +49,9 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   }
 
   public add(identifiable: T): DependencyNode<N, T> {
-    const node = this.roots[identifiable.identifier]
-      ? this.roots[identifiable.identifier]
-      : this.roots[identifiable.identifier] = this.buildNode(identifiable);
+    const node = this.roots[identifiable.identifier] || (
+      this.roots[identifiable.identifier] = this.buildNode(identifiable)
+    );
 
     this.emit(DependencyManager.RETAIN, node);
 
@@ -79,9 +79,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
 
   public all(identifiers: string[]|null = null, filter: boolean = true): (DependencyNode<N, T>|string)[] {
     if (!identifiers) {
-      return Object.keys(this.roots)
-        .map((identifier) => this.roots[identifier])
-      ;
+      return Object.values(this.roots);
     }
 
     const nodes = identifiers.map((identifier) => this.roots[identifier]);

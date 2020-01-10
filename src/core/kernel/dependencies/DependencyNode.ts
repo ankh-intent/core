@@ -8,7 +8,7 @@ export interface Identifiable<N extends TreeNode> {
 }
 
 export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> implements Iterable<DependencyNode<N, T>> {
-  private _related: DependencyNode<N, T>[];
+  private readonly _related: DependencyNode<N, T>[];
 
   public readonly identifiable: T;
 
@@ -31,9 +31,7 @@ export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> imple
 
   public relate(nodes: DependencyNode<N, T>[]): DependencyNode<N, T>[] {
     for (const node of nodes) {
-      const index = this._related.indexOf(node);
-
-      if (index < 0) {
+      if (!this._related.includes(node)) {
         this._related.push(node);
       }
     }
@@ -61,7 +59,7 @@ export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> imple
     const index = this._related.indexOf(node);
 
     if (index >= 0) {
-      this._related = this._related.filter((e) => e !== node);
+      this._related.splice(index, 1);
     }
 
     return index >= 0;

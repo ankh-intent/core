@@ -17,12 +17,18 @@ export class BaseUseResolver implements UseResolverInterface {
     ]
   }
 
+  supports(from: Chip, identifier: QualifierNode) {
+    return true;
+  }
+
   public resolve(from: Chip, identifier: QualifierNode): Chip {
     for (const resolver of this.resolvers) {
-      const found = resolver.resolve(from, identifier);
+      if (resolver.supports(from, identifier)) {
+        const found = resolver.resolve(from, identifier);
 
-      if (found) {
-        return found;
+        if (found) {
+          return found;
+        }
       }
     }
 

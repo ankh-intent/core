@@ -27,8 +27,8 @@ export class Chip extends AbstractNode implements Identifiable<ChipNode> {
       return true;
     }
 
-    for (const name in this.linked) {
-      if (this.linked[name].has(chip)) {
+    for (const linked of Object.values(this.linked)) {
+      if (linked.has(chip)) {
         return true;
       }
     }
@@ -41,8 +41,8 @@ export class Chip extends AbstractNode implements Identifiable<ChipNode> {
       return this;
     }
 
-    for (const link in this.linked) {
-      const found = this.linked[link].byPath(path);
+    for (const linked of Object.values(this.linked)) {
+      const found = linked.byPath(path);
 
       if (found) {
         return found;

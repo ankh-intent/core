@@ -63,8 +63,11 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
 
   public detach(): this {
     if (this.active) {
-      this.watcher.close();
-      this.watcher = null;
+      if (this.watcher) {
+        this.watcher.close();
+        this.watcher = null;
+      }
+
       this.emit(WatchItem.DETACH);
       this.off();
     }
@@ -75,13 +78,13 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
   protected event(event: string, path: string, ...payload) {
     const data = { event, path, payload };
 
-    this.emitter.emit([data]);
+    this._emitter && this._emitter.emit([data]);
     this.emit(WatchItem.EVENT, data);
   }
 
   public debounce(delay: number) {
     if ((delay !== this.debounced) && this._emitter) {
-      this.emitter = null;
+      this.setEmitter(null);
     }
 
     this.debounced = delay;

@@ -13,11 +13,11 @@ export class IntentLibraryUseResolver implements UseResolverInterface {
     this.config = config;
   }
 
-  public resolve(from: Chip, identifier: QualifierNode): Chip {
-    if (identifier.name !== 'Intent') {
-      return null;
-    }
+  supports(from: Chip, identifier: QualifierNode): boolean {
+    return identifier.name === 'Intent';
+  }
 
+  public resolve(from: Chip, identifier: QualifierNode): Chip {
     const relative = identifier.path('/').toLowerCase().replace(/^intent[\/\\]/, '') + '.int';
     const resolved = path.join(this.config.internal, relative);
 

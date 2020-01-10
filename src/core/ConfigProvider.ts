@@ -72,7 +72,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
 
   protected stringsToEntries(strings: string[]): Container<EntryConfig> {
     if (!strings.length) {
-      return null;
+      return {};
     }
 
     const config = {};
@@ -80,10 +80,10 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     for (const string of strings) {
       const [, name, pattern] = string.match(/^([^=]+)=(.*)$/) || [null, null, null];
 
-      if (name) {
+      if (name && pattern) {
         const [, path, patterns] = pattern.match(/^(.*){(.*)}$/) || [null, null, null];
 
-        if (path) {
+        if (path && patterns) {
           const test = patterns
             .split(',')
             .filter(Boolean)

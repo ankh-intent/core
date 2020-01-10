@@ -26,6 +26,9 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
       .map((part) => part.substr(0, 1).toUpperCase() + part.substr(1))
     ;
 
-    return parts.reduce((child: QualifierNode|null, id) => new QualifierNode(id, child), null);
+    return parts.reduce(
+      (child: QualifierNode|null, id) => new QualifierNode(id, child),
+      null,
+    );
   }
 }

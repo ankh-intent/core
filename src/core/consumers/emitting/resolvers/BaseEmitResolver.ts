@@ -36,11 +36,12 @@ export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> imp
   protected build(original: string, base: string, out: string): string|null {
     const parts = path.parse(original);
     const emit = path.join(parts.dir, parts.name + this.config.output.extension);
-    const common = Strings.longestCommon([emit, base])
-      .pop()
-      .replace(new RegExp(`${Strings.escapeRegExp(path.sep)}$`), '')
-    ;
+    const common = Strings.commonPath([emit, base]);
 
-    return emit.replace(common, out);
+    return (
+      common
+        ? emit.replace(common, out)
+        : emit
+    );
   }
 }

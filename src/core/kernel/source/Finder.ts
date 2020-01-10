@@ -70,6 +70,10 @@ export class BubblingFinder extends Finder {
 
     const parent = path.dirname(root);
 
-    return parent && this.find(parent, matcher, consumer);
+    return (
+      parent
+        ? this.find(parent, matcher, consumer)
+        : undefined
+    );
   }
 }

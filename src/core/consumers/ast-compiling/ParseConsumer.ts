@@ -32,9 +32,15 @@ export class ParseConsumer<N extends TreeNode, TT extends typeof BaseTokenTypes>
     const { source, tokens } = event.data;
     this.stat(event, new AstStat(source));
 
+    const ast = this.parser.visit(tokens);
+
+    if (!ast) {
+      throw new SyntaxError(`Can't parse source`, source, 0);
+    }
+
     return new AnalyzedEvent({
       source,
-      ast: this.parser.visit(tokens),
+      ast,
     });
   }
 }

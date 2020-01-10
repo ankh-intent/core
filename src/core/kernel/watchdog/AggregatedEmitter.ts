@@ -16,11 +16,15 @@ export class AggregatedEmitter<U, H extends ArrayConsumer<U>> extends Emitter<H>
   }
 
   public emit(items: U[]): number {
-    return this.aggregator.aggregate(items), 0;
+    if (this.aggregator) {
+      this.aggregator.aggregate(items);
+    }
+
+    return 0;
   }
 
   public off(uid?: number) {
-    if (!uid) {
+    if (this.aggregator && !uid) {
       this.aggregator.stop();
       this.aggregator = null;
     }

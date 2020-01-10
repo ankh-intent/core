@@ -4,7 +4,7 @@ export class QualifierNode extends AbstractNode {
   public name: string;
   public child: QualifierNode|null;
 
-  public constructor(name?: string, child?: QualifierNode|null) {
+  public constructor(name: string, child: QualifierNode|null = null) {
     super();
     this.name = name;
     this.child = child;
