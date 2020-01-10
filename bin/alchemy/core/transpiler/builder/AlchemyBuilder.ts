@@ -1,5 +1,5 @@
 import { BaseTokenTypes } from '@intent/kernel/parser';
-import { RootBuilder } from '@intent/kernel/transpiler/RootBuilder';
+import { RootBuilder } from '@intent/kernel/transpiler';
 
 import { ChipNode } from '../ast';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';

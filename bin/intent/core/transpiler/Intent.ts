@@ -1,6 +1,6 @@
-import { Source } from '@intent/kernel/source';
-import { Token, BaseTokenTypes, Context, Range, TokenMatcher } from '@intent/kernel/parser';
-import { BuilderInvokers } from '@intent/kernel/transpiler/BaseBuilder';
+import { Source, Range } from '@intent/kernel/source';
+import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/kernel/parser';
+import { BuilderInvokers } from '@intent/kernel/transpiler';
 
 export class Intent {
   public static pure(context: Context) {

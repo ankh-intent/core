@@ -1,5 +1,5 @@
 import { TypedTokenMatcherInterface } from '@intent/kernel/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler/BaseBuilder';
+import { BuildInvoker } from '@intent/kernel/transpiler';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
 import { DomainNode, TypeDefNode, UseNode } from '../ast';

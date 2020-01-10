@@ -1,5 +1,5 @@
 import { Container } from '@intent/utils';
-import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler';
 
 import { PropertyNode } from '../ast';
 import { TypeTranspiler } from './TypeTranspiler';

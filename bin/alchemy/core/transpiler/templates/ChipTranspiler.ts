@@ -1,5 +1,5 @@
 import { Container } from '@intent/utils';
-import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler/AbstractTranspiler';
+import { AbstractTranspiler, TranspilerInterface } from '@intent/kernel/transpiler';
 
 import { ChipNode } from '../ast';
 import { DomainTranspiler } from './DomainTranspiler';
