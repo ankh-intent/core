@@ -6,7 +6,7 @@ import { UseResolverInterface } from './UseResolverInterface';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 
-export class IntentLibraryUseResolver implements UseResolverInterface {
+export class LibraryUseResolver implements UseResolverInterface {
   private config: PathsConfig;
 
   public constructor(config: PathsConfig) {

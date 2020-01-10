@@ -2,7 +2,7 @@ import { PathsConfig } from '@intent/CoreConfig';
 import { Strings } from '@intent/utils/Strings';
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { IntentLibraryUseResolver } from './IntentLibraryUseResolver';
+import { LibraryUseResolver } from './LibraryUseResolver';
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 
@@ -13,7 +13,7 @@ export class BaseUseResolver implements UseResolverInterface {
   public constructor(config: PathsConfig) {
     this.config = config;
     this.resolvers = [
-      new IntentLibraryUseResolver(config),
+      new LibraryUseResolver(config),
     ]
   }
 

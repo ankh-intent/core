@@ -2,7 +2,7 @@ import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 
-export class IntentLibraryQualifierResolver extends BaseQualifierResolver {
+export class LibraryQualifierResolver extends BaseQualifierResolver {
   public resolve(from: Chip): QualifierNode|null {
     const base = this.config.internal;
 

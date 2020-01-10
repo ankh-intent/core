@@ -5,7 +5,7 @@ import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast/QualifierNode';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
-import { IntentLibraryQualifierResolver } from './IntentLibraryQualifierResolver';
+import { LibraryQualifierResolver } from './LibraryQualifierResolver';
 
 export class QualifierResolver implements QualifierResolverInterface {
   private config: PathsConfig;
@@ -14,7 +14,7 @@ export class QualifierResolver implements QualifierResolverInterface {
   public constructor(config: PathsConfig) {
     this.config = config;
     this.resolvers = [
-      new IntentLibraryQualifierResolver(config),
+      new LibraryQualifierResolver(config),
       new BaseQualifierResolver(config),
     ]
   }
