@@ -16,8 +16,7 @@ import { ReadyEvent, StopEvent } from './kernel/event';
 import { BaseTokenTypes } from './kernel/parser';
 import { DummyWriter, FileWriter } from './kernel/source';
 import { TranspilerInterface, RootBuilder } from './kernel/transpiler';
-import { UnitInterface } from './kernel/watchdog/Unit';
-import { Watchdog, WatchdogConfig } from './kernel/watchdog/Watchdog';
+import { UnitInterface, Watchdog, WatchdogConfig } from './kernel/watchdog';
 import { PipelineObserver } from './PipelineObserver';
 import { Container } from './utils';
 

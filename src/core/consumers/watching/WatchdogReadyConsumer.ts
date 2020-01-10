@@ -2,9 +2,7 @@ import { TreeNode } from '../../kernel/ast';
 
 import { CoreEvent, AbstractConsumer, ConsumerStat, ReadyEvent, CoreEventBus } from '../../kernel/event';
 import { UpdateEvent } from './UpdateEvent';
-import { Watchdog } from '../../kernel/watchdog/Watchdog';
-import { UnitInterface } from '../../kernel/watchdog/Unit';
-import { WatchItem } from '../../kernel/watchdog/WatchItem';
+import { Watchdog, UnitInterface, WatchItem } from '../../kernel/watchdog';
 import { DependencyManager } from '../../kernel/dependencies/DependencyManager';
 import { DependencyNode, Identifiable } from '../../kernel/dependencies/DependencyNode';
 
