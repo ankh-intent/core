@@ -1,7 +1,6 @@
 export * from './Source';
 export * from './Region';
 export * from './StringSource';
-export * from './Origin';
 export * from './Finder';
 export * from './FileReader';
 export * from './FileWriter';

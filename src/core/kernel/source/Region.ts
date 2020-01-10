@@ -1,5 +1,5 @@
 
-import { Origin } from './Origin';
+import { Origin } from './Source';
 
 export class Region {
   public from: Origin;

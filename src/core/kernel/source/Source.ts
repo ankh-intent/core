@@ -1,6 +1,19 @@
+export class Range {
+  from: number;
+  to: number;
+}
 
-import { Range } from '../parser/TokenMatcher';
-import { Origin } from './Origin';
+export class Origin {
+  public source: Source;
+  public line: number;
+  public column: number;
+
+  public constructor(source: Source, line: number, column: number) {
+    this.source = source;
+    this.line = line;
+    this.column = column;
+  }
+}
 
 export class Source {
   public readonly content: string;
