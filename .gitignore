@@ -4,7 +4,7 @@
 node_modules
 ncp-debug.log
 npm-debug.log
-/build
+/**/build
 /**/*.i.*
 /**/*.js.map
 /**/*.js
