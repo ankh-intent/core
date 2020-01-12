@@ -35,7 +35,7 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
 export class Seeker {
   protected readonly sampler: SamplerInterface;
   protected readonly line: string;
-  protected current: MatchedPlaceholder|null = null;
+  protected current: MatchedPlaceholder|null;
 
   public constructor(sampler: SamplerInterface, line: string) {
     this.sampler = sampler;
