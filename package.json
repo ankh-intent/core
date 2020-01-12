@@ -6,7 +6,7 @@
   "types": "bin/intent.d.ts",
   "scripts": {
     "executable": "chmod +x bin/alchemy/alchemy.ts",
-    "intent": "npm run executable && cd bin/alchemy && ts-node --project tsconfig.json -r tsconfig-paths/register intent.ts",
+    "intent": "npm run executable && cd bin/alchemy && ts-node --project tsconfig.json -r tsconfig-paths/register alchemy.ts",
     "pack": "webpack --display-modules --progress --colors",
     "watchdog": "webpack --progress --colors --watch --watch-poll",
     "bump": "bin/bump.sh",
