@@ -91,11 +91,13 @@ export class Alchemy {
       return;
     }
 
-    while (source.at(index) !== char) {
+    let at;
+
+    while ((at = source.at(index)) && at !== char) {
       index++;
     }
 
-    if (index !== context.pos) {
+    if ((index !== context.pos) && (at === char)) {
       context.pos = index + 1;
 
       return BaseTokenTypes.TK_STRING;
