@@ -18,7 +18,7 @@ const config: TranspilerConfig = {
         path.join(root, '/example')
       ),
       test: [
-        { pattern: '.int' },
+        { pattern: '.alc' },
       ],
     },
   },
@@ -34,7 +34,7 @@ const config: TranspilerConfig = {
   },
   output: {
     path: project,
-    extension: '.i.ts',
+    extension: '.a.ts',
   },
   interpreter: {
   },

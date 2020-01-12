@@ -45,7 +45,7 @@ export class BaseUseResolver implements UseResolverInterface {
     const common = Strings.longestCommon([this.config.project, from.identifier]).pop();
     const resolved = from.identifier
         .replace(new RegExp(`^${common}`), '')
-        .replace(/\/[^\/]+$/, '') + identifier.name + '.int'
+        .replace(/\/[^\/]+$/, '') + identifier.name + '.alc'
     ;
 
     return new Chip(resolved);

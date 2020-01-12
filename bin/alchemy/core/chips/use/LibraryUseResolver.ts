@@ -18,7 +18,7 @@ export class LibraryUseResolver implements UseResolverInterface {
   }
 
   public resolve(from: Chip, identifier: QualifierNode): Chip {
-    const relative = identifier.path('/').toLowerCase().replace(/^intent[\/\\]/, '') + '.int';
+    const relative = identifier.path('/').toLowerCase().replace(/^intent[\/\\]/, '') + '.alc';
     const resolved = path.join(this.config.internal, relative);
 
     return new Chip(resolved);
