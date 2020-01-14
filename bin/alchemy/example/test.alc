@@ -80,20 +80,20 @@ chip "test" {
   can (console: E.ConsoleEmitter) {
     const cauldron = Alchemist.Cauldron('Profound tier cauldron');
 
-    emit console.log(`Cauldron: ${cauldron}`);
+    console.log(`Cauldron: ${cauldron}`);
 
     const ingredient1 = Alchemist.Ingredient('Zhenshen', 1);
     const ingredient2 = Alchemist.Ingredient('Lotus');
     const ingredients = Alchemist.Ingredients(ingredient1, ingredient2);
 
-    emit console.log(`Ingredients: ${ingredients}`);
+    console.log(`Ingredients: ${ingredients}`);
 
     const formula = cauldron.put(ingredients);
 
-    emit console.log(`Formula: ${formula}`);
+    console.log(`Formula: ${formula}`);
 
     const brew = cauldron.brew(formula);
 
-    emit console.log(`Brew: ${brew}`);
+    console.log(`Brew: ${brew}`);
   }
 }
