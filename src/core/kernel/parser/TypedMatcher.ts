@@ -29,7 +29,7 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
     );
   }
 
-  protected types<T>(method: (m: MatcherInterface|string) => T): TypeMatcherInterface<TT, T> {
+  protected types<T>(method: (m: MatcherInterface|string) => T, unwrap: boolean): TypeMatcherInterface<TT, T> {
     const result: TypeMatcherInterface<TT, T> = {} as any;
 
     for (const type of Object.values(BaseTokenTypes)) {
@@ -39,11 +39,11 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
         const matcher = this.reconcile(base, match);
         const matched: any = method(matcher);
 
-        return (
-          (matcher.type && matched && matched.type)
-            ? matched.value
-            : matched
-        )
+        if (unwrap && matcher.type && matched && matched.type) {
+          return matched.value;
+        }
+
+        return matched;
       };
     }
 
@@ -52,31 +52,36 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
 
   public get peek(): TypeMatcherInterface<TT, string> {
     return this._peek || (this._peek = this.types(
-      this.matcher.peek.bind(this.matcher)
+      this.matcher.peek.bind(this.matcher),
+      true,
     ));
   }
 
   public get get(): TypeMatcherInterface<TT, string> {
     return this._get || (this._get = this.types(
-      this.matcher.get.bind(this.matcher)
+      this.matcher.get.bind(this.matcher),
+      true,
     ));
   }
 
   public get except(): TypeMatcherInterface<TT, string> {
     return this._except || (this._except = this.types(
-      this.matcher.except.bind(this.matcher)
+      this.matcher.except.bind(this.matcher),
+      false,
     ));
   }
 
   public get not(): TypeMatcherInterface<TT, boolean> {
     return this._not || (this._not = this.types(
-      this.matcher.not.bind(this.matcher)
+      this.matcher.not.bind(this.matcher),
+      false,
     ));
   }
 
   public get ensure(): TypeMatcherInterface<TT, string> {
     return this._ensure || (this._ensure = this.types(
-      this.matcher.ensure.bind(this.matcher)
+      this.matcher.ensure.bind(this.matcher),
+      true,
     ));
   }
 }
