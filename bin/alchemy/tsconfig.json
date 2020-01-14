@@ -22,6 +22,7 @@
   "exclude": [
     "node_modules",
     "doc",
+    "build",
     "*.a.ts"
   ]
 }
