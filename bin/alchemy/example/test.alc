@@ -6,7 +6,7 @@ chip "test" {
 
     type Name extends I.String {
       :disallow() {
-        return !this.length;
+        return !length;
       }
     }
 
@@ -32,7 +32,7 @@ chip "test" {
       ingredients: Ingredients;
 
       :disallow() {
-        return !this.ingredients.count;
+        return !ingredients.count;
       }
     }
 
@@ -61,15 +61,15 @@ chip "test" {
       environment: Environment;
 
       put(ingredients: Ingredients) {
-        const formulas = this.environment.formulae.find(ingredients);
+        const formulas = environment.formulae.find(ingredients);
 
         return formulas
-          ? this.environment.preferred(ingredients, formulas)
-          : none;
+          ? environment.preferred(ingredients, formulas)
+          : null;
       }
 
       brew(formula: Formula): Brew {
-        return new Brew(formula, environment);
+        return Brew(formula, environment);
       }
     }
 
