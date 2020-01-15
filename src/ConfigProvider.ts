@@ -2,63 +2,13 @@
 import * as path from 'path';
 
 import { Container, Strings } from '@intent/utils';
-import { BubblingFinder } from '@intent/source';
+import { AbstractConfigProvider } from '@intent/config';
+
+import { Core } from './Core';
 
 import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from './CoreConfig';
-import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';
-import { Core} from './Core';
 
-export const regexpify = (r: RegExp|string) => {
-  return (typeof r === 'string')
-    ? r
-    : String(r).replace('\\\\', '\\');
-};
-
-const isMergeable = (o: any) => {
-  return (!!(o && (o === Object(o)))) && !((o instanceof Date) || (o instanceof RegExp));
-};
-
-export const merge = (...os) => {
-  const target = {};
-
-  for (const o of os) {
-    for (const [key, value2] of Object.entries(o)) {
-      const value1 = target[key];
-      const o1 = isMergeable(value1);
-      const o2 = isMergeable(value2);
-
-      target[key] = (o1 && o2)
-        ? merge(value1, value2)
-        : value2
-      ;
-    }
-  }
-
-  return target;
-};
-
-export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T> {
-  private readonly _defaults: Partial<T>;
-
-  public constructor(defaults: Partial<T>) {
-    super();
-    this._defaults = defaults;
-  }
-
-  protected usage(): string {
-    const finder = new BubblingFinder();
-    const data = finder.find(process.cwd(), { pattern: /package\.json$/ }, require);
-
-    if (!data) {
-      throw new Error('Can\'t find "package.json" file');
-    }
-
-    return `${data.name} ${data.version}\n` +
-      `${data.description}\n` +
-      `Usage: ${data.name} [<options>] [<entry>]`
-    ;
-  }
-
+export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T, Core<T, any, any>> {
   protected entriesToStrings(entries: Container<EntryConfig>): string[] {
     // -e index=./src/{.int} -e tests=./tests/{.ts,.js}
     return Object.entries(entries)
@@ -202,7 +152,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  public build(core: Core<T, any, any>): T {
+  public build(core) {
     return <T> {
       paths: this.paths(),
       entry: this.entry(),
@@ -210,9 +160,5 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
       output: this.output(),
       interpreter: this.interpreter(),
     };
-  }
-
-  protected defaults(): Partial<T> {
-    return this._defaults;
   }
 }

@@ -1,8 +1,8 @@
 
+import { merge, regexpify } from '@intent/config';
 import { WatchdogConfig } from '@intent/watchdog';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
-import { ConfigProvider as BaseConfigProvider, merge, regexpify } from '@intent/ConfigProvider';
-import { Core } from '@intent/Core';
+import { ConfigProvider as BaseConfigProvider} from '@intent/ConfigProvider';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   protected options(defaults: Partial<TranspilerConfig>): any {
@@ -45,7 +45,7 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
     };
   }
 
-  public build(core: Core<TranspilerConfig, any, any>): TranspilerConfig {
+  public build(core) {
     return {
       ...super.build(core),
       ...{

@@ -1,8 +1,19 @@
 
 import * as yargs from 'yargs';
 
-export abstract class AbstractConfigProvider<O> {
+import { BubblingFinder } from '@intent/source';
+
+export abstract class AbstractConfigProvider<O, C> {
   private _argv;
+  private readonly _defaults: Partial<O>;
+
+  public constructor(defaults: Partial<O>) {
+    this._defaults = defaults;
+  }
+
+  protected defaults(): Partial<O> {
+    return this._defaults;
+  }
 
   protected argv() {
     const map = this.options(
@@ -51,7 +62,20 @@ export abstract class AbstractConfigProvider<O> {
       : argv;
   }
 
-  protected abstract usage(): string;
-  protected abstract defaults(): Partial<O>;
+  protected usage(): string {
+    const finder = new BubblingFinder();
+    const data = finder.find(process.cwd(), { pattern: /package\.json$/ }, require);
+
+    if (!data) {
+      throw new Error('Can\'t find "package.json" file');
+    }
+
+    return `${data.name} ${data.version}\n` +
+      `${data.description}\n` +
+      `Usage: ${data.name} [<options>] [<entry>]`
+      ;
+  }
+
   protected abstract options(def: Partial<O>): any;
+  public abstract build(core: C): O;
 }
