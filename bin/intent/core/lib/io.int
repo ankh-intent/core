@@ -1,0 +1,4 @@
+domain IO {{
+  question(query: String): String;
+  print(text: String): Number;
+}}

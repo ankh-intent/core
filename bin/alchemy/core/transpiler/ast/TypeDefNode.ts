@@ -1,0 +1,14 @@
+import { AbstractNode } from '@intent/kernel/ast';
+
+import { TypeNode } from './TypeNode';
+import { DomainNode } from './DomainNode';
+
+export class TypeDefNode extends AbstractNode {
+  public domain: DomainNode;
+  public name: string;
+  public parent: TypeNode|null;
+
+  public properties: {[name: string]: any};
+  public constraints;
+  public can;
+}

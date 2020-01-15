@@ -1,11 +1,9 @@
 
-import { pit } from '../../../util/spec-extensions';
+import { pit } from '../../../util/extensions';
 
-import { TemplateInterface } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/TemplateInterface';
-import { Compiler } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/Compiler';
-import { Sampler } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/Sampler';
+import { TemplateInterface, Compiler, Sampler } from '../../../../src/core/kernel/compiler';
 
-describe('Compiler', () => {
+describe('PipelineObserver', () => {
 
   describe('compileLines()', () => {
     let compiler;
@@ -15,12 +13,12 @@ describe('Compiler', () => {
         compiler = new Compiler(new Sampler('{', '}'));
       });
 
-      let sample1 = () => [
+      const sample1 = () => [
         () => ({code: null, expect: []}),
         () => ({code: "", expect: []}),
       ];
 
-      let sample2 = () => [
+      const sample2 = () => [
         () => ({code: "", expect: 0}),
         () => ({code: "abc\n", expect: 1}),
         () => ({code: "a{b}c\n1\n1", expect: 3}),
@@ -29,7 +27,7 @@ describe('Compiler', () => {
         () => ({code: "\n1\n1\n\n", expect: 2}),
       ];
 
-      let sample3 = () => [
+      const sample3 = () => [
         () => ({code: "abc", expect: ["abc"]}),
         () => ({code: "a[b]c", expect: ["a[b]c"]}),
       ];
@@ -58,13 +56,13 @@ describe('Compiler', () => {
       }
 
       beforeEach(() => {
-        let sampler = new Sampler('{%', '%}');
+        const sampler = new Sampler('{%', '%}');
         compiler = new Compiler(sampler, () => new Template());
         key1 = sampler.placeholder('key1');
       });
 
 
-      let sample1 = () => [
+      const sample1 = () => [
         () => ({code: "no", expect: ["no"]}),
         () => ({code: "{ %no%}", expect: ["{ %no%}"]}),
         () => ({code: key1, expect: [jasmine.any(Template)]}),
@@ -77,10 +75,10 @@ describe('Compiler', () => {
 
     describe('factory', () => {
       it('should invoke template factory on template detection', () => {
-        let factory = jasmine.createSpy('factory', () => {});
-        let sampler = new Sampler('{', '}');
-        let resolver = (data, key) => data[key];
-        let compiler = new Compiler(
+        const factory = jasmine.createSpy('factory', () => {});
+        const sampler = new Sampler('{', '}');
+        const resolver = (data, key) => data[key];
+        const compiler = new Compiler<any, any>(
           sampler,
           factory
         );
@@ -94,7 +92,7 @@ describe('Compiler', () => {
     describe('normalization', () => {
 
       it('should leave as is with no leading space', () => {
-        let compiler = new Compiler(null, null);
+        const compiler = new Compiler(null, null);
 
         expect(compiler.normalize([
           'a',
@@ -108,7 +106,7 @@ describe('Compiler', () => {
       });
 
       it('should remove leading whitespace', () => {
-        let compiler = new Compiler(null, null);
+        const compiler = new Compiler(null, null);
 
         expect(compiler.normalize([
           '  a',

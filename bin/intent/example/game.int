@@ -1,0 +1,76 @@
+use Intent.Types: {
+  Number: { Random },
+  Math: { NaturalNumber, PositiveNumber },
+  Collections: { Index },
+  Sure: { Collection as SureCollection, String as SureString },
+};
+use Players: { Player };
+use Score;
+
+domain Game {{
+    players: Players;
+    dice: PositiveNumber = 6;
+    goal: PositiveNumber = 100;
+  }
+
+  domain Outcome {
+    domain Win extends Outcome {{
+      player: Player;
+      scored: Score.Winning;
+    }}
+
+    domain Draw extends Outcome {{
+      scores: Map<Player, Score>;
+    }}
+  }
+
+  domain MaybePlayer extends Maybe.Value<Player>;
+
+  const scores: Map<Player, Score> = Map(players.map(player => [player, 0]));
+  const withdrawn: Set<Player> = Set();
+  const victory = Score.Winning~({ max = goal });
+  let turn: Player = players[0];
+
+  get score[player: Player]: Score {
+    return scores[player];
+  }
+
+  get next[player: Player]: MaybePlayer {
+    if (withdrawn.size === players.size) {
+      return MaybePlayer();
+    }
+
+    let index = players.indexOf(player);
+
+    each (const next = Index((++index) % players.size)) {
+      const candidate = players[next];
+
+      if (!withdrawn.has(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  play(): Outcome {
+    each (const { rolled } = Roll.make(dice)) {
+      if (rolled is PositiveNumber) {
+        const scored = score[turn] + rolled;
+
+        if (victory(scored)) {
+          return Outcome.Win({
+            player = turn,
+            scored,
+          });
+        }
+      }
+
+      if (const switch = next[turn]) {
+        turn = switch;
+      } else {
+        break;
+      }
+    }
+
+    return Outcome.Draw(scores);
+  }
+}

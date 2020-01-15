@@ -1,0 +1,59 @@
+use Intent: {
+  Types: {
+    String,
+    Number.Random,
+    Math: {
+      NaturalNumber,
+      PositiveNumber,
+    },
+  },
+  IO,
+};
+
+domain Answer extends String {{
+    protected prompt(question: String): self {
+      return self(IO.question(question));
+    }
+  }
+
+  trait Hold = () => Equal(`h`);
+  trait Withdraw = () => Equal(`w`);
+
+  domain Withdrawn extends Answer {{
+      cast() => {
+        value: IO.prompt(`Roll or withdraw? [Rw]: `),
+      };
+    }
+
+    is Withdraw;
+  }
+
+  domain Roll extends Answer {{
+      rolled: NaturalNumber = 0;
+
+      make(dice: PositiveNumber): Roll {
+        return Withdrawn() || (
+          const rolled = Random.inRange(1, dice),
+
+          if (rolled is SnakeEye) {
+            return Roll(0);
+          }
+
+          return Held(rolled) || Roll(rolled),
+        );
+      }
+    }
+
+    trait SnakeEye = () => Equal(1);
+
+    domain Held extends Answer {{
+        cast(rolled) => {
+          rolled,
+          value: IO.prompt(`Keep or hold? [Kh]: `),
+        };
+      }
+
+      is Hold;
+    }
+  }
+}

@@ -1,42 +1,50 @@
 
-import { pit } from '../../../util/spec-extensions';
-import { Sampler } from '../../../../src/intent-core/flow/consumers/transpiling/compiler/Sampler';
+import { pit } from '../../../util/extensions';
+import { Sampler } from '../../../../src/core/kernel/compiler';
 
 describe('Sampler', () => {
 
   describe('constructor()', () => {
-    let sample1 = () => [
-      () => ({open: "", close: "", expect: "Open or close sequence not specified"}),
-      () => ({open: "", close: "}", expect: "Open or close sequence not specified"}),
-      () => ({open: "{", close: "", expect: "Open or close sequence not specified"}),
-      () => ({open: "{", close: "{", expect: "Open sequence should not match close sequence"}),
+    const sample1 = () => [
+      () => ({open: "{", close: "}", avoids: "Open or close sequence not specified"}),
+      () => ({open: "{", close: "}", avoids: "Open sequence should not match close sequence"}),
+      () => ({open: "", close: "", generates: "Open or close sequence not specified"}),
+      () => ({open: "", close: "}", generates: "Open or close sequence not specified"}),
+      () => ({open: "{", close: "", generates: "Open or close sequence not specified"}),
+      () => ({open: "{", close: "{", generates: "Open sequence should not match close sequence"}),
     ];
 
     pit("should throw on invalid opener/closer", sample1, (data) => {
-      expect(() => new Sampler(data.open, data.close)).not.toThrow(data.expect);
+      if (data.generates) {
+        expect(() => new Sampler(data.open, data.close)).toThrowError(data.generates);
+      }
+
+      if (data.avoids) {
+        expect(() => new Sampler(data.open, data.close)).not.toThrowError(data.avoids);
+      }
     });
   });
 
   describe('placeholder()', () => {
-    let sample1 = () => [
+    const sample1 = () => [
       () => ({open: "{", close: "}", key: "", expect: new Error("Invalid key for placeholder")}),
       () => ({open: "{", close: "}", key: "{", expect: new Error("Key for placeholder should not occur in open/close sequences")}),
       () => ({open: "{", close: "}", key: "}", expect: new Error("Key for placeholder should not occur in open/close sequences")}),
     ];
 
-    let sample2 = () => [
+    const sample2 = () => [
       () => ({open: "{", close: "}", key: "a", expect: "{a}"}),
       () => ({open: "^", close: "$", key: ".", expect: "^.$"}),
     ];
 
     pit('should throw on invalid key', sample1, (data) => {
-      let sampler = new Sampler(data.open, data.close);
+      const sampler = new Sampler(data.open, data.close);
 
       expect(() => sampler.placeholder(data.key)).toThrow(data.expect);
     });
 
     pit('should return wrapped key', sample2, (data) => {
-      let sampler = new Sampler(data.open, data.close);
+      const sampler = new Sampler(data.open, data.close);
 
       expect(sampler.placeholder(data.key)).toEqual(data.expect);
     });
@@ -44,14 +52,14 @@ describe('Sampler', () => {
   });
 
   describe('next()', () => {
-    let opener = '{', closer = '}';
+    const opener = '{', closer = '}';
     let sampler: Sampler;
 
     beforeEach(() => {
       sampler = new Sampler(opener, closer);
     });
 
-    let sample1 = () => [
+    const sample1 = () => [
       () => ({line: null, expect: null}),
       () => ({line: "non-placeholder", expect: null}),
       () => ({line: "non-{placeholder", expect: null}),
@@ -60,18 +68,18 @@ describe('Sampler', () => {
       () => ({line: "non-}place{holder", expect: null}),
     ];
 
-    let sample2Gen = (line, key) => {
-      let placeholder = sampler.placeholder(key);
-      let generated = line.replace('$1', placeholder);
+    const sample2Gen = (line, key) => {
+      const placeholder = sampler.placeholder(key);
+      const generated = line.replace('$1', placeholder);
 
       return {
         line: generated,
       };
     };
 
-    let sample3Gen = (line, key) => {
-      let placeholder = sampler.placeholder(key);
-      let generated = line.replace('$1', placeholder);
+    const sample3Gen = (line, key) => {
+      const placeholder = sampler.placeholder(key);
+      const generated = line.replace('$1', placeholder);
 
       return {
         line: generated,
@@ -83,14 +91,14 @@ describe('Sampler', () => {
       };
     };
 
-    let sample2 = () => [
+    const sample2 = () => [
       () => sample2Gen(`$1`, 'placeholder'),
       () => sample2Gen(`text $1 text`, 'placeholder'),
       () => sample2Gen(`$1 text text`, 'placeholder'),
       () => sample2Gen(`text text $1`, 'placeholder'),
     ];
 
-    let sample3 = () => [
+    const sample3 = () => [
       () => sample3Gen(`te${opener}xt $1 text`, 'placeholder'),
       () => sample3Gen(`text $1 te${opener}xt`, 'placeholder'),
       () => sample3Gen(`te${opener}xt $1 te${closer}xt`, 'placeholder'),
@@ -115,14 +123,14 @@ describe('Sampler', () => {
   });
 
   describe('prev()', () => {
-    let opener = '{', closer = '}';
+    const opener = '{', closer = '}';
     let sampler: Sampler;
 
     beforeEach(() => {
       sampler = new Sampler(opener, closer);
     });
 
-    let sample1 = () => [
+    const sample1 = () => [
       () => ({line: null, expect: null}),
       () => ({line: "non-placeholder", expect: null}),
       () => ({line: "non-{placeholder", expect: null}),
@@ -131,18 +139,18 @@ describe('Sampler', () => {
       () => ({line: "non-}place{holder", expect: null}),
     ];
 
-    let sample2Gen = (line, key) => {
-      let placeholder = sampler.placeholder(key);
-      let generated = line.replace('$1', placeholder);
+    const sample2Gen = (line, key) => {
+      const placeholder = sampler.placeholder(key);
+      const generated = line.replace('$1', placeholder);
 
       return {
         line: generated,
       };
     };
 
-    let sample3Gen = (line, key) => {
-      let placeholder = sampler.placeholder(key);
-      let generated = line.replace('$1', placeholder);
+    const sample3Gen = (line, key) => {
+      const placeholder = sampler.placeholder(key);
+      const generated = line.replace('$1', placeholder);
 
       return {
         line: generated,
@@ -154,14 +162,14 @@ describe('Sampler', () => {
       };
     };
 
-    let sample2 = () => [
+    const sample2 = () => [
       () => sample2Gen(`$1`, 'placeholder'),
       () => sample2Gen(`text $1 text`, 'placeholder'),
       () => sample2Gen(`$1 text text`, 'placeholder'),
       () => sample2Gen(`text text $1`, 'placeholder'),
     ];
 
-    let sample3 = () => [
+    const sample3 = () => [
       () => sample3Gen(`te${opener}xt $1 text`, 'placeholder'),
       () => sample3Gen(`text $1 te${opener}xt`, 'placeholder'),
       () => sample3Gen(`te${opener}xt $1 te${closer}xt`, 'placeholder'),
