@@ -1,6 +1,6 @@
 
-import fs = require('fs');
-import path = require('path');
+import * as path from 'path';
+import * as fs from 'fs';
 
 import { UnitMatcher } from '@intent/utils';
 

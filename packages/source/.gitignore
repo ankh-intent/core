@@ -1,0 +1,14 @@
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+
+node_modules
+ncp-debug.log
+npm-debug.log
+/**/*.js.map
+/**/*.js
+/yarn-error.log
+/.stryker-tmp
+/reports
+!wallaby.js
+!stryker.conf.js
+!/**/*.json

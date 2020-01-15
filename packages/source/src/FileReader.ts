@@ -1,5 +1,6 @@
 
-import fs = require('fs');
+import * as fs from 'fs';
+
 import { Source } from './Source';
 import { StringSource } from './StringSource';
 
