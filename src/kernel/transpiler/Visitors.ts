@@ -1,6 +1,7 @@
 
+import { Container } from '@intent/utils';
+
 import { ContextInterface } from './Context';
-import { Container } from '../../utils';
 
 export interface Visitor<D, R> {
   visit(context: ContextInterface<D, R>): R;

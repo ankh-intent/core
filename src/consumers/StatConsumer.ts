@@ -1,9 +1,10 @@
 
+import { Logger } from '@intent/utils';
+
 import { CoreConfig } from '../CoreConfig';
 
 import { CoreEvent, AbstractConsumer, StatEvent, CoreEventBus } from '../kernel/event';
 
-import { Logger } from '../utils';
 import { LogStat } from './stat/LogStat';
 import { EmittedStat } from './stat/EmittedStat';
 

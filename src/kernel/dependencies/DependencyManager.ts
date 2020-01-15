@@ -1,5 +1,6 @@
 
-import { Container, Eventable } from '../../utils';
+import { Container, Eventable } from '@intent/utils';
+
 import { TreeNode } from '../ast';
 import { DependencyNode, Identifiable } from './DependencyNode';
 

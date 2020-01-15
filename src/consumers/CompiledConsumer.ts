@@ -1,4 +1,6 @@
-import { Container } from '../utils';
+
+import { Container } from '@intent/utils';
+
 import { TreeNode } from '../kernel/ast';
 import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus } from '../kernel/event';
 import { DependencyNode, Identifiable, DependencyManager } from '../kernel/dependencies';

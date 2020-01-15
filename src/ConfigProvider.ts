@@ -1,6 +1,8 @@
+
 import * as path from 'path';
 
-import { Container, Strings } from './utils';
+import { Container, Strings } from '@intent/utils';
+
 import { BubblingFinder } from './kernel/source';
 import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from './CoreConfig';
 import { AbstractConfigProvider } from './kernel/config/AbstractConfigProvider';

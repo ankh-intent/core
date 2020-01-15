@@ -1,6 +1,7 @@
 
+import { Strings, Container } from '@intent/utils';
+
 import { Compiler, TemplateInterface } from '../compiler';
-import { Strings, Container } from '../../utils';
 
 export interface TranspilerInterface<S> {
   transpile(data: S): string[];

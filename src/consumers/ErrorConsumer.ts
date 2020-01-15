@@ -1,5 +1,5 @@
 
-import { Logger, Strings } from '../utils';
+import { Logger, Strings } from '@intent/utils';
 
 import { SyntaxError } from '../kernel/parser';
 import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel/event';

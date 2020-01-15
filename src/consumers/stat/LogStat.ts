@@ -1,7 +1,8 @@
 
+import { Logger } from '@intent/utils';
+
 import { CoreConfig } from '../../CoreConfig';
 import { BaseStat } from './BaseStat';
-import { Logger } from '../../utils';
 import { StatEvent } from '../../kernel/event';
 
 export class LogStat extends BaseStat {

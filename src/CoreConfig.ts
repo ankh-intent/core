@@ -1,4 +1,5 @@
-import { Container, UnitMatcher } from './utils';
+
+import { Container, UnitMatcher } from '@intent/utils';
 
 export interface PathsConfig {
   project: string;

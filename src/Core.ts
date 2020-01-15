@@ -1,3 +1,6 @@
+
+import { Emitter, Logger, UnitMatcher } from '@intent/utils';
+
 import { ErrorConsumer, StatConsumer, UpdateEvent, EventChainMonitor } from './consumers';
 import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
@@ -8,7 +11,6 @@ import { CoreEvent, CoreEventBus, EventChainInterface, FatalEvent, ReadyEvent, S
 import { CoreLogger } from './kernel/logging/CoreLogger';
 import { RecursiveFinder } from './kernel/source';
 import { PipelineObserverFactory } from './PipelineObserver';
-import { Emitter, Logger, UnitMatcher } from './utils';
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
 

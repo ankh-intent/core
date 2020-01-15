@@ -1,6 +1,7 @@
 
+import { Strings, Logger } from '@intent/utils';
+
 import { CoreConfig } from '../../CoreConfig';
-import { Strings, Logger } from '../../utils';
 import { CoreEvent, StatEvent } from '../../kernel/event';
 import { Source } from '../../kernel/source';
 import { BaseStat } from './BaseStat';

@@ -1,4 +1,6 @@
-import { Container } from '../../utils';
+
+import { Container } from '@intent/utils';
+
 import { TreeNode } from '../ast';
 
 export interface Identifiable<N extends TreeNode> {

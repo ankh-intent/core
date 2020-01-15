@@ -1,9 +1,12 @@
+
 import path = require('path');
+
+import { Strings } from '@intent/utils';
+
 import { CoreConfig } from '../../CoreConfig';
 import { TreeNode } from '../../kernel/ast';
 import { Identifiable } from '../../kernel/dependencies';
 
-import { Strings } from '../../utils';
 import { FileEmitResolverInterface } from './FileEmitResolverInterface';
 
 export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> implements FileEmitResolverInterface<N, T> {

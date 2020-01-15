@@ -1,3 +1,6 @@
+
+import { Container } from '@intent/utils';
+
 import {
   AnalyzedConsumer, IdentifiableFactory,
   ParseConsumer,
@@ -20,7 +23,6 @@ import { DummyWriter, FileWriter } from './kernel/source';
 import { TranspilerInterface, RootBuilder } from './kernel/transpiler';
 import { UnitInterface, Watchdog, WatchdogConfig } from './kernel/watchdog';
 import { PipelineObserver } from './PipelineObserver';
-import { Container } from './utils';
 
 export interface TranspilerConfig extends CoreConfig {
   watch?: WatchdogConfig;
