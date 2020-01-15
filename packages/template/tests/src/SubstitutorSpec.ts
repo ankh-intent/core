@@ -1,5 +1,5 @@
 
-import { pit } from '../../../util/extensions';
+import { pit } from '../util/extensions';
 
 describe('Substitutor', () => {
 

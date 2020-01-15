@@ -1,6 +1,6 @@
 
-import { pit } from '../../../util/extensions';
-import { Sampler } from '../../../../src/kernel/compiler';
+import { pit } from '../util/extensions';
+import { Sampler } from '../..';
 
 describe('Sampler', () => {
 
