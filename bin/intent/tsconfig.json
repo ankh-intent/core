@@ -16,11 +16,13 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@intent/*": ["../../src/*"]
+      "@intent/*": ["../../packages/*", "../../src/*"]
     }
   },
   "exclude": [
     "node_modules",
-    "doc"
+    "doc",
+    "build",
+    "*.i.ts"
   ]
 }

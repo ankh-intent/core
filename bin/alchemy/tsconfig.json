@@ -16,7 +16,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@intent/*": ["../../src/*"]
+      "@intent/*": ["../../packages/*", "../../src/*"]
     }
   },
   "exclude": [
