@@ -1,4 +1,6 @@
-import { BaseTokenTypes, TokenMatcher } from '../parser';
+
+import { BaseTokenTypes, TokenMatcher } from '@intent/parser';
+
 import { TokenVisitor, TreeNode } from '../ast';
 import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
 

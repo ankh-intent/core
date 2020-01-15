@@ -1,8 +1,8 @@
 import { Source } from '@intent/source';
+import { BaseTokenTypes, SyntaxError } from '@intent/parser';
 
 import { TreeNode, TokenVisitor } from '../kernel/ast';
 import { CoreEvent, AbstractConsumer, ConsumerStat, CoreEventBus } from '../kernel/event';
-import { BaseTokenTypes, SyntaxError } from '../kernel/parser';
 import { ParsedEvent, AnalyzedEvent } from './flow-events';
 
 export class AstStat extends ConsumerStat {

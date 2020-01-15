@@ -1,8 +1,8 @@
 
 import { Strings } from '@intent/utils';
 import { Region } from '@intent/source';
+import { Token, BaseTokenTypes, TokenMatcher, TypedMatcher } from '@intent/parser';
 
-import { Token, BaseTokenTypes, TokenMatcher, TypedMatcher } from '../parser';
 import { TreeNode, TokenVisitor } from '../ast';
 
 export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {

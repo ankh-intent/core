@@ -1,4 +1,5 @@
-import { TypedTokenMatcherInterface } from '@intent/kernel/parser';
+import { TypedTokenMatcherInterface } from '@intent/parser';
+
 import { IntentBuildInvokers } from '../Intent';
 import { ModuleNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';

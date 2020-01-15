@@ -1,7 +1,7 @@
 
 import { Source } from '@intent/source';
+import { BaseTokenTypes, TokenMatcher } from '@intent/parser';
 
-import { BaseTokenTypes, TokenMatcher } from '../../kernel/parser';
 import { BaseCoreEvent } from '../../kernel/event';
 
 export interface ParsedEventProps<TT extends BaseTokenTypes> {

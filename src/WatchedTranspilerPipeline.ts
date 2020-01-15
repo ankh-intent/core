@@ -1,7 +1,8 @@
 
 import { Container } from '@intent/utils';
-import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
 import { DummyWriter, FileWriter } from '@intent/source';
+import { BaseTokenTypes, TokensFactory } from '@intent/parser';
+import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
 
 import {
   AnalyzedConsumer, IdentifiableFactory,
@@ -20,7 +21,6 @@ import { CoreConfig } from './CoreConfig';
 import { TreeNode } from './kernel/ast';
 import { Identifiable, DependencyManager } from './kernel/dependencies';
 import { ReadyEvent, StopEvent } from './kernel/event';
-import { BaseTokenTypes, TokensFactory } from './kernel/parser';
 import { TranspilerInterface, RootBuilder } from './kernel/transpiler';
 import { PipelineObserver } from './PipelineObserver';
 

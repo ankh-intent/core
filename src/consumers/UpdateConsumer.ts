@@ -1,8 +1,8 @@
 
 import { StringSource, Source, FileReader } from '@intent/source';
+import { SyntaxError } from '@intent/parser';
 
 import { CoreEvent, AbstractConsumer, ConsumerStat, CoreEventBus, ErrorEvent } from '../kernel/event';
-import { SyntaxError } from '../kernel/parser';
 import { ReadedEvent, UpdateEvent } from './flow-events';
 
 export class UpdateStat extends ConsumerStat {

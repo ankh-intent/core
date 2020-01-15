@@ -1,5 +1,5 @@
 import { Source, Range } from '@intent/source';
-import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/kernel/parser';
+import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
 import { BuilderInvokers } from '@intent/kernel/transpiler';
 
 export class Alchemy {

@@ -1,4 +1,4 @@
-import { BaseTokenTypes } from '@intent/kernel/parser';
+import { BaseTokenTypes } from '@intent/parser';
 import { RootBuilder } from '@intent/kernel/transpiler';
 
 import { ModuleNode } from '../ast';

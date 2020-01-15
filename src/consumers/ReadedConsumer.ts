@@ -1,8 +1,8 @@
 
 import { Source } from '@intent/source';
+import { BaseTokenTypes, TokensFactory } from '@intent/parser';
 
 import { CoreEventBus, AbstractConsumer, CoreEvent, ConsumerStat } from '../kernel/event';
-import { BaseTokenTypes, TokensFactory } from '../kernel/parser';
 import { ReadedEvent, ParsedEvent } from './flow-events';
 
 export class ParseStat extends ConsumerStat {
