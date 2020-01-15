@@ -1,6 +1,6 @@
 
 import { CoreEvent, CoreEventConsumer } from './CoreEvent';
-import { StatEvent } from './events/StatEvent';
+import { StatEvent } from './events';
 
 export class CoreEventBus {
   private consumers: CoreEventConsumer<any, any>[] = [];
