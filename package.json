@@ -23,7 +23,7 @@
   "dependencies": {
     "chokidar": "^2.1.2",
     "express": "^4.15.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.12",
     "react": "^15.6.1",
     "react-lite": "^0.15.37",
     "serve-index": "^1.9.0",
