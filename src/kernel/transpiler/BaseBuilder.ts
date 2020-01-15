@@ -20,7 +20,7 @@ export abstract class BaseBuilder<
 > implements TokenVisitor<N> {
   protected child: I;
 
-  constructor(builders: I) {
+  protected constructor(builders: I) {
     this.child = builders;
   }
 
