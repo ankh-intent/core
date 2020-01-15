@@ -5,8 +5,6 @@ import { Token } from './Token';
 import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
 import { TypedMatcher } from './TypedMatcher';
 
-// import { Strings } from '../../utils';
-
 export interface MatcherInterface {
   value?: string;
   type?: string;
@@ -175,39 +173,6 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
   }
 
   public error(reason: string, parent?: Error): SyntaxError {
-    // const error = new SyntaxError(reason, this.context.source, this.last);
-    // const stack = (error.stack || '').split('\n').slice(2);
-    // const commons = stack
-    //   .map((line) => line.match(/at [^(]*\((.+?)(:\d+)*\)/))
-    //   .filter((match) => match)
-    //   .map((match) => match[1])
-    // ;
-    // const intersect = Strings.longestCommon(commons).map((line) => line.replace(/\/$/, ''));
-    // const max = Strings.max(stack.map((line) => line.replace(/(.*?)\s*\(.*/, '$1')));
-    //
-    // error.stack = stack.map((line) => {
-    //   for (const idx in intersect) {
-    //     const sub = intersect[idx];
-    //     const com = Strings.longestCommon([
-    //       sub,
-    //       __filename.replace('/build/', '/')
-    //     ]).pop();
-    //
-    //     if (line.indexOf(com) >= 0) {
-    //       return line
-    //         .replace(/(.*?)\s*\(([^)]+)\)/, (m, ref, loc) => {
-    //           return `${Strings.pad(ref, max, ' ')} (${loc})`;
-    //         })
-    //       ;
-    //     }
-    //   }
-    //
-    //   return line;
-    // }).join('\n');
-    // error.parent = parent;
-    //
-    // return error;
-
     return new SyntaxError(
       reason,
       this.context.source,
