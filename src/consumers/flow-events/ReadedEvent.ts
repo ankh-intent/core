@@ -1,5 +1,6 @@
 
-import { Source } from '../../kernel/source';
+import { Source } from '@intent/source';
+
 import { BaseCoreEvent } from '../../kernel/event';
 
 export interface ReadedEventProps {

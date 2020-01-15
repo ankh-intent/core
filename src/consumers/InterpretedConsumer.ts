@@ -1,7 +1,9 @@
+
+import { Source, StringSource, FileWriter } from '@intent/source';
+
 import { TreeNode } from '../kernel/ast';
 import { Identifiable } from '../kernel/dependencies';
 import { AbstractConsumer, ConsumerStat, CoreEvent, CoreEventBus, ErrorEvent } from '../kernel/event';
-import { Source, StringSource, FileWriter } from '../kernel/source';
 import { InterpretedEvent } from './flow-events';
 import { FileEmitResolverInterface } from './resolvers';
 

@@ -1,5 +1,6 @@
 
-import { Source } from '../../kernel/source';
+import { Source } from '@intent/source';
+
 import { TreeNode } from '../../kernel/ast';
 import { BaseCoreEvent } from '../../kernel/event';
 

@@ -1,5 +1,6 @@
 
-import { Region } from '../source';
+import { Region } from '@intent/source';
+
 import { TreeNode } from './TreeNode';
 
 export class AbstractNode implements TreeNode {

@@ -1,6 +1,7 @@
 
+import { StringSource, Source, FileReader } from '@intent/source';
+
 import { CoreEvent, AbstractConsumer, ConsumerStat, CoreEventBus, ErrorEvent } from '../kernel/event';
-import { StringSource, Source, FileReader } from '../kernel/source';
 import { SyntaxError } from '../kernel/parser';
 import { ReadedEvent, UpdateEvent } from './flow-events';
 

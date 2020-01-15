@@ -1,6 +1,7 @@
 
+import { Source, Range } from '@intent/source';
+
 import { Token } from './Token';
-import { Source, Range } from '../source';
 
 export enum BaseTokenTypes {
   TK_ANY = 'any',

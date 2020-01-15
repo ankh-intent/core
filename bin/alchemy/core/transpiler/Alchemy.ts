@@ -1,4 +1,4 @@
-import { Source, Range } from '@intent/kernel/source';
+import { Source, Range } from '@intent/source';
 import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/kernel/parser';
 import { BuilderInvokers } from '@intent/kernel/transpiler';
 

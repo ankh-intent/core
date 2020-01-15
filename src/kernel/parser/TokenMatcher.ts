@@ -1,4 +1,6 @@
-import { Source, Range } from '../source';
+
+import { Source, Range } from '@intent/source';
+
 import { SyntaxError } from './SyntaxError';
 import { Token } from './Token';
 import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';

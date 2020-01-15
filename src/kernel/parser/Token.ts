@@ -1,5 +1,5 @@
 
-import { Source } from '../source';
+import { Source } from '@intent/source';
 
 export class Token {
   constructor(

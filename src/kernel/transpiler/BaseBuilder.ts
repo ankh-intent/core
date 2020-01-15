@@ -1,7 +1,7 @@
 
 import { Strings } from '@intent/utils';
+import { Region } from '@intent/source';
 
-import { Region } from '../source';
 import { Token, BaseTokenTypes, TokenMatcher, TypedMatcher } from '../parser';
 import { TreeNode, TokenVisitor } from '../ast';
 

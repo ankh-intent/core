@@ -1,5 +1,5 @@
 
-import { Source } from '../source';
+import { Source } from '@intent/source';
 
 export class SyntaxError extends Error {
   public readonly source: Source;
