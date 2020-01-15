@@ -1,7 +1,7 @@
 
 import { pit } from '../../../util/extensions';
 
-import { TemplateInterface, Compiler, Sampler } from '../../../../src/core/kernel/compiler';
+import { TemplateInterface, Compiler, Sampler } from '../../../../src/kernel/compiler';
 
 describe('PipelineObserver', () => {
 
