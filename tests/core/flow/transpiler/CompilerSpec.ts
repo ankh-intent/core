@@ -92,7 +92,8 @@ describe('PipelineObserver', () => {
     describe('normalization', () => {
 
       it('should leave as is with no leading space', () => {
-        const compiler = new Compiler(null, null);
+        const sampler = new Sampler('{', '}');
+        const compiler = new Compiler(sampler, null);
 
         expect(compiler.normalize([
           'a',
@@ -106,7 +107,8 @@ describe('PipelineObserver', () => {
       });
 
       it('should remove leading whitespace', () => {
-        const compiler = new Compiler(null, null);
+        const sampler = new Sampler('{', '}');
+        const compiler = new Compiler(sampler, null);
 
         expect(compiler.normalize([
           '  a',
