@@ -19,7 +19,8 @@ export abstract class BaseBuilder<
 > implements TokenVisitor<N> {
   protected child: I;
 
-  protected constructor(builders: I) {
+  // noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
+  constructor(builders: I) {
     this.child = builders;
   }
 
