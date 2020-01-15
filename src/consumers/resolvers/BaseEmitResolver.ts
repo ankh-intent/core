@@ -1,4 +1,3 @@
-
 import path = require('path');
 
 import { Strings } from '@intent/utils';

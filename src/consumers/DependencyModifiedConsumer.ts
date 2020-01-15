@@ -1,4 +1,3 @@
-
 import { CoreConfig } from '../CoreConfig';
 import { TreeNode } from '../kernel/ast';
 import { TranspilerInterface } from '../kernel/transpiler';

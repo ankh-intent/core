@@ -1,4 +1,3 @@
-
 import { CoreEvent, CoreEventConsumer } from './CoreEvent';
 import { StatEvent } from './events';
 

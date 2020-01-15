@@ -1,4 +1,3 @@
-
 import { Strings } from '@intent/utils';
 
 import { TemplateInterface } from './TemplateInterface';

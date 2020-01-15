@@ -1,4 +1,3 @@
-
 import { Region } from '@intent/source';
 
 import { TreeNode } from './TreeNode';

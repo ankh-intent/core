@@ -1,4 +1,3 @@
-
 import { TemplateInterface } from './TemplateInterface';
 import { Sampler } from './Sampler';
 import { CompoundTemplate } from './CompoundTemplate';

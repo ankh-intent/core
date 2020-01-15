@@ -1,4 +1,3 @@
-
 import * as yargs from 'yargs';
 
 import { BubblingFinder } from '@intent/source';

@@ -1,4 +1,3 @@
-
 import { Container, Eventable } from '@intent/utils';
 
 import { TreeNode } from '../ast';

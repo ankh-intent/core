@@ -1,4 +1,3 @@
-
 import { Chip } from '../Chip';
 import { QualifierNode } from '../../transpiler/ast';
 

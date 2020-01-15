@@ -1,4 +1,3 @@
-
 import { merge, regexpify } from '@intent/config';
 import { WatchdogConfig } from '@intent/watchdog';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';

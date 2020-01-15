@@ -1,4 +1,3 @@
-
 import { PathsConfig } from '@intent/CoreConfig';
 
 import { Chip } from '../Chip';

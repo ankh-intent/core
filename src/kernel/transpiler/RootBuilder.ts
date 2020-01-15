@@ -1,4 +1,3 @@
-
 import { BaseTokenTypes, TokenMatcher } from '@intent/parser';
 
 import { TokenVisitor, TreeNode } from '../ast';

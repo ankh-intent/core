@@ -1,4 +1,3 @@
-
 import { PathsConfig } from '@intent/CoreConfig';
 import * as path from 'path';
 

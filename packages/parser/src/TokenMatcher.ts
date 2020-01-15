@@ -1,4 +1,3 @@
-
 import { Source, Range } from '@intent/source';
 
 import { SyntaxError } from './SyntaxError';

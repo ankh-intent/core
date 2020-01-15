@@ -1,4 +1,3 @@
-
 import { watch, FSWatcher } from 'chokidar';
 
 import { Eventable, ArrayConsumer, Emitter, WatchMatcher } from '@intent/utils';

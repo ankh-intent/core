@@ -1,4 +1,3 @@
-
 import { Emitter, Logger, UnitMatcher } from '@intent/utils';
 import { RecursiveFinder } from '@intent/source';
 

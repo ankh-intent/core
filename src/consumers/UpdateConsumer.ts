@@ -1,4 +1,3 @@
-
 import { StringSource, Source, FileReader } from '@intent/source';
 import { SyntaxError } from '@intent/parser';
 

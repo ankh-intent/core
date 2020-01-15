@@ -1,4 +1,3 @@
-
 import { Container } from '@intent/utils';
 import { DummyWriter, FileWriter } from '@intent/source';
 import { BaseTokenTypes, TokensFactory } from '@intent/parser';

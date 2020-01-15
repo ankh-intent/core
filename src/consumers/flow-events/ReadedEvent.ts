@@ -1,4 +1,3 @@
-
 import { Source } from '@intent/source';
 
 import { BaseCoreEvent } from '../../kernel/event';

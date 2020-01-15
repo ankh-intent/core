@@ -1,4 +1,3 @@
-
 import { Strings, Logger } from '@intent/utils';
 import { Source } from '@intent/source';
 

@@ -1,4 +1,3 @@
-
 import { CoreConfig } from '../../CoreConfig';
 import { StatEvent } from '../../kernel/event';
 

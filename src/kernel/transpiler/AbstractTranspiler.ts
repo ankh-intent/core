@@ -1,4 +1,3 @@
-
 import { Strings, Container } from '@intent/utils';
 import { Compiler, TemplateInterface } from '@intent/template';
 

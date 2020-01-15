@@ -1,4 +1,3 @@
-
 import { Source } from './Source';
 import { FileWriter } from './FileWriter';
 

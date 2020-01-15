@@ -1,4 +1,3 @@
-
 import { Container } from '@intent/utils';
 
 import { TreeNode } from '../ast';

@@ -1,4 +1,3 @@
-
 import { Emitter } from '@intent/utils';
 
 import { CoreEvent, StatEvent, AbstractConsumer, EventChainInterface } from '../kernel/event';

@@ -1,4 +1,3 @@
-
 import { Logger } from '@intent/utils';
 
 import { CoreConfig } from '../CoreConfig';

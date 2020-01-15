@@ -1,4 +1,3 @@
-
 import { Strings } from '@intent/utils';
 import { Region } from '@intent/source';
 import { Token, BaseTokenTypes, TokenMatcher, TypedMatcher } from '@intent/parser';

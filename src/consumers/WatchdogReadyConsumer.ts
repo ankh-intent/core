@@ -1,4 +1,3 @@
-
 import { Watchdog, UnitInterface, WatchItem } from '@intent/watchdog';
 
 import { TreeNode } from '../kernel/ast';

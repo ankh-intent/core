@@ -1,4 +1,3 @@
-
 import { Source } from '@intent/source';
 import { BaseTokenTypes, TokensFactory } from '@intent/parser';
 

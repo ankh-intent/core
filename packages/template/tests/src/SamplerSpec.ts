@@ -1,4 +1,3 @@
-
 import { pit } from '../util/extensions';
 import { Sampler } from '../..';
 

@@ -1,4 +1,3 @@
-
 import { Logger, Strings } from '@intent/utils';
 import { SyntaxError } from '@intent/parser';
 

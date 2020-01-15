@@ -1,4 +1,3 @@
-
 import { TreeNode } from '../../kernel/ast';
 import { BaseCoreEvent } from '../../kernel/event';
 import { DependencyNode, Identifiable } from '../../kernel/dependencies';

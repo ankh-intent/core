@@ -1,4 +1,3 @@
-
 import { pit } from '../util/extensions';
 import { Template, Sampler, Substitutor } from '../..';
 

@@ -1,4 +1,3 @@
-
 import { Source, StringSource, FileWriter } from '@intent/source';
 
 import { TreeNode } from '../kernel/ast';

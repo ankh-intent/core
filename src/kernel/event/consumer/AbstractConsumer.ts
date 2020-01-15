@@ -1,4 +1,3 @@
-
 import { CoreEvent, CoreEventConsumer } from '../CoreEvent';
 import { ErrorEvent } from '../events';
 import { CoreEventBus } from '../CoreEventBus';
