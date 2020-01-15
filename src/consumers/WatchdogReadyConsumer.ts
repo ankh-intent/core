@@ -1,7 +1,9 @@
+
+import { Watchdog, UnitInterface, WatchItem } from '@intent/watchdog';
+
 import { TreeNode } from '../kernel/ast';
 
 import { CoreEvent, AbstractConsumer, ConsumerStat, ReadyEvent, CoreEventBus } from '../kernel/event';
-import { Watchdog, UnitInterface, WatchItem } from '../kernel/watchdog';
 import { DependencyNode, Identifiable, DependencyManager } from '../kernel/dependencies';
 import { UpdateEvent } from './flow-events';
 

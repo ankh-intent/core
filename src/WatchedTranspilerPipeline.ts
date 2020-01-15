@@ -1,5 +1,6 @@
 
 import { Container } from '@intent/utils';
+import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
 
 import {
   AnalyzedConsumer, IdentifiableFactory,
@@ -21,7 +22,6 @@ import { ReadyEvent, StopEvent } from './kernel/event';
 import { BaseTokenTypes, TokensFactory } from './kernel/parser';
 import { DummyWriter, FileWriter } from './kernel/source';
 import { TranspilerInterface, RootBuilder } from './kernel/transpiler';
-import { UnitInterface, Watchdog, WatchdogConfig } from './kernel/watchdog';
 import { PipelineObserver } from './PipelineObserver';
 
 export interface TranspilerConfig extends CoreConfig {

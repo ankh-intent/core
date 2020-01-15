@@ -1,5 +1,5 @@
 
-import { WatchdogConfig } from '@intent/kernel/watchdog';
+import { WatchdogConfig } from '@intent/watchdog';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 import { ConfigProvider as BaseConfigProvider, merge, regexpify } from '@intent/ConfigProvider';
 import { Core } from '@intent/Core';
