@@ -3,15 +3,15 @@ import { Source } from '@intent/source';
 import { Compiler, Sampler, Substitutor, Template } from '@intent/template';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
-import { Chip } from './chips/Chip';
+import { Module } from './chips/Module';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
-import { ChipNode } from './transpiler/ast';
+import { ModuleNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
-import { ChipTranspiler } from './transpiler/templates/ChipTranspiler';
+import { ModuleTranspiler } from './transpiler/templates/ModuleTranspiler';
 
-export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ChipNode, Chip > {
+export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module > {
   private readonly qualifierResolver: QualifierResolver;
   private readonly useResolver: BaseUseResolver;
 
@@ -23,7 +23,7 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
       config,
       (source: Source) => new AlchemyTokenMatcher(source, source.range()),
       new AlchemyBuilder(),
-      new ChipTranspiler(
+      new ModuleTranspiler(
         new Compiler(
           sampler,
           (code, resolver) => new Template(code, substitutor, resolver),
@@ -34,25 +34,25 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     this.useResolver = new BaseUseResolver(config.paths);
   }
 
-  create(identifier: string): Chip {
-    const chip = new Chip(identifier);
-    const qualifier = this.qualifierResolver.resolve(chip);
+  create(identifier: string): Module {
+    const module = new Module(identifier);
+    const qualifier = this.qualifierResolver.resolve(module);
 
     if (qualifier) {
-      chip.name = qualifier.path('.');
+      module.name = qualifier.path('.');
     }
 
-    return chip;
+    return module;
   }
 
-  resolve(identifiable: Chip): Container<Chip> {
+  resolve(identifiable: Module): Container<Module> {
     const links = {};
 
     for (const use of Object.values(identifiable.ast.uses)) {
       const link = this.useResolver.resolve(identifiable, use.qualifier);
 
       if (!link) {
-        throw new Error(`Can't resolve chip "${use.qualifier.path('.')}"`);
+        throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
       }
 
       links[link.identifier] = link;

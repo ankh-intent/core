@@ -1,7 +1,7 @@
-import { Chip } from '../Chip';
+import { Module } from '../Module';
 import { QualifierNode } from '../../transpiler/ast';
 
 export interface UseResolverInterface {
-  supports(from: Chip, identifier: QualifierNode): boolean;
-  resolve(from: Chip, identifier: QualifierNode): Chip;
+  supports(from: Module, identifier: QualifierNode): boolean;
+  resolve(from: Module, identifier: QualifierNode): Module;
 }

@@ -1,34 +1,34 @@
 import { AbstractNode } from '@intent/kernel/ast';
 import { Identifiable } from '@intent/kernel/dependencies';
 
-import { ChipNode } from '../transpiler/ast';
+import { ModuleNode } from '../transpiler/ast';
 
-export class Chip extends AbstractNode implements Identifiable<ChipNode> {
+export class Module extends AbstractNode implements Identifiable<ModuleNode> {
   public name: string;
   public identifier: string;
-  public linked: {[name: string]: Chip} = {};
-  public ast: ChipNode;
+  public linked: {[name: string]: Module} = {};
+  public ast: ModuleNode;
 
   public constructor(identifier: string) {
     super();
     this.identifier = identifier;
   }
 
-  public link(chip: Chip) {
-    this.linked[chip.identifier] = chip;
+  public link(module: Module) {
+    this.linked[module.identifier] = module;
   }
 
-  public unlink(chip: Chip) {
-    delete this.linked[chip.identifier];
+  public unlink(module: Module) {
+    delete this.linked[module.identifier];
   }
 
-  public has(chip: Chip): boolean {
-    if (this === chip) {
+  public has(module: Module): boolean {
+    if (this === module) {
       return true;
     }
 
     for (const linked of Object.values(this.linked)) {
-      if (linked.has(chip)) {
+      if (linked.has(module)) {
         return true;
       }
     }
@@ -36,7 +36,7 @@ export class Chip extends AbstractNode implements Identifiable<ChipNode> {
     return false;
   }
 
-  public byPath(path: string): Chip|null {
+  public byPath(path: string): Module|null {
     if (this.identifier === path) {
       return this;
     }

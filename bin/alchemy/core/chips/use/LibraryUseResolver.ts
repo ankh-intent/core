@@ -2,7 +2,7 @@ import { PathsConfig } from '@intent/CoreConfig';
 import * as path from 'path';
 
 import { UseResolverInterface } from './UseResolverInterface';
-import { Chip } from '../Chip';
+import { Module } from '../Module';
 import { QualifierNode } from '../../transpiler/ast';
 
 export class LibraryUseResolver implements UseResolverInterface {
@@ -12,14 +12,14 @@ export class LibraryUseResolver implements UseResolverInterface {
     this.config = config;
   }
 
-  supports(from: Chip, identifier: QualifierNode): boolean {
+  supports(from: Module, identifier: QualifierNode): boolean {
     return identifier.name === 'Intent';
   }
 
-  public resolve(from: Chip, identifier: QualifierNode): Chip {
+  public resolve(from: Module, identifier: QualifierNode): Module {
     const relative = identifier.path('/').toLowerCase().replace(/^intent[\/\\]/, '') + '.alc';
     const resolved = path.join(this.config.internal, relative);
 
-    return new Chip(resolved);
+    return new Module(resolved);
   }
 }

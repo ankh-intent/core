@@ -1,9 +1,9 @@
-import { Chip } from '../Chip';
+import { Module } from '../Module';
 import { QualifierNode } from '../../transpiler/ast';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 
 export class LibraryQualifierResolver extends BaseQualifierResolver {
-  public resolve(from: Chip): QualifierNode|null {
+  public resolve(from: Module): QualifierNode|null {
     const base = this.config.internal;
 
     if (from.identifier.indexOf(base) < 0) {

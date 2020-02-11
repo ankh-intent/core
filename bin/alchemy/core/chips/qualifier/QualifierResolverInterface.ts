@@ -1,6 +1,6 @@
-import { Chip } from '../Chip';
+import { Module } from '../Module';
 import { QualifierNode } from '../../transpiler/ast';
 
 export interface QualifierResolverInterface {
-  resolve(from: Chip): QualifierNode|null;
+  resolve(from: Module): QualifierNode|null;
 }

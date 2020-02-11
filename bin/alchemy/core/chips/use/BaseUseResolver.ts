@@ -3,7 +3,7 @@ import { Strings } from '@intent/utils';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { LibraryUseResolver } from './LibraryUseResolver';
-import { Chip } from '../Chip';
+import { Module } from '../Module';
 import { QualifierNode } from '../../transpiler/ast';
 
 export class BaseUseResolver implements UseResolverInterface {
@@ -17,11 +17,11 @@ export class BaseUseResolver implements UseResolverInterface {
     ]
   }
 
-  supports(from: Chip, identifier: QualifierNode) {
+  supports(from: Module, identifier: QualifierNode) {
     return true;
   }
 
-  public resolve(from: Chip, identifier: QualifierNode): Chip {
+  public resolve(from: Module, identifier: QualifierNode): Module {
     for (const resolver of this.resolvers) {
       if (resolver.supports(from, identifier)) {
         const found = resolver.resolve(from, identifier);
@@ -48,6 +48,6 @@ export class BaseUseResolver implements UseResolverInterface {
         .replace(/\/[^\/]+$/, '') + identifier.name + '.alc'
     ;
 
-    return new Chip(resolved);
+    return new Module(resolved);
   }
 }

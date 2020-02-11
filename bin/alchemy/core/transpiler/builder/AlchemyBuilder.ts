@@ -1,7 +1,7 @@
 import { BaseTokenTypes } from '@intent/parser';
 import { RootBuilder } from '@intent/kernel/transpiler';
 
-import { ChipNode } from '../ast';
+import { ModuleNode } from '../ast';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';
 import { TypeBuilder } from './TypeBuilder';
 import { PropertyBuilder, PropertyChildren } from './PropertyBuilder';
@@ -9,7 +9,7 @@ import { UseBuilder, UseChildren } from './UseBuilder';
 import { TypeDefBuilder, TypeDefChildren } from './TypeDefBuilder';
 import { CanBuilder, CanChildren } from './CanBuilder';
 import { DomainBuilder, DomainChildren } from './DomainBuilder';
-import { ChipBuilder, ChipChildren } from './ChipBuilder';
+import { ModuleBuilder, ModuleChildren } from './ModuleBuilder';
 import { ConstraintBuilder, ConstraintChildren } from './ConstraintBuilder';
 
 type AlchemyGrammar =
@@ -20,10 +20,10 @@ type AlchemyGrammar =
   CanChildren &
   ConstraintChildren &
   DomainChildren &
-  ChipChildren
+  ModuleChildren
 ;
 
-export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, ChipNode> {
+export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, ModuleNode> {
   protected get builders() {
     return {
       qualifier : new QualifierBuilder(this.invokers),
@@ -34,7 +34,7 @@ export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, 
       constraint: new ConstraintBuilder(this.invokers),
       typedef   : new TypeDefBuilder(this.invokers),
       domain    : new DomainBuilder(this.invokers),
-      root      : new ChipBuilder(this.invokers),
+      root      : new ModuleBuilder(this.invokers),
     };
   }
 }

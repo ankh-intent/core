@@ -1,6 +1,6 @@
 import { PathsConfig } from '@intent/CoreConfig';
 
-import { Chip } from '../Chip';
+import { Module } from '../Module';
 import { QualifierNode } from '../../transpiler/ast';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
@@ -18,7 +18,7 @@ export class QualifierResolver implements QualifierResolverInterface {
     ]
   }
 
-  public resolve(from: Chip): QualifierNode|null {
+  public resolve(from: Module): QualifierNode|null {
     for (const resolver of this.resolvers) {
       const found = resolver.resolve(from);
 
