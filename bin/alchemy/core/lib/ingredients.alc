@@ -1,0 +1,15 @@
+domain Ingredients {
+  use Types: {
+    Grade,
+    Volume,
+    Energy,
+    Ingredient,
+  };
+
+  enum {
+    Sludge = Ingredient(name: 'Sludge', energy: 0, volume: 0.01);
+    Zhenshen = Ingredient(name: 'Zhenshen', energy: 500, volume: 1);
+    Lotus = Ingredient(name: 'Lotus', energy: 10, volume: 0.2);
+    Cinnamon = Ingredient(name: 'Cinnamon', energy: 0, volume: 0.01);
+  }
+}
