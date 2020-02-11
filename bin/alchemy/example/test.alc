@@ -1,5 +1,5 @@
 domain Test {
-  use Alchemy.Types {
+  use Alchemy.Types: {
     Ingredient: {
       Stack,
     },
