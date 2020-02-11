@@ -10,7 +10,7 @@ export class UseTranspiler extends AbstractTranspiler<UseNode> {
   public resolve(data: UseNode, key: string): any {
     switch (key) {
       case 'qualifier':
-        return data.qualifier.path();
+        return data.decomposition.qualifier.path();
     }
 
     return super.resolve(data, key);

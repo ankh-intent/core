@@ -49,10 +49,10 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     const links = {};
 
     for (const use of Object.values(identifiable.ast.uses)) {
-      const link = this.useResolver.resolve(identifiable, use.qualifier);
+      const link = this.useResolver.resolve(identifiable, use.decomposition.qualifier);
 
       if (!link) {
-        throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
+        throw new Error(`Can't resolve module "${use.decomposition.qualifier.path('.')}"`);
       }
 
       links[link.identifier] = link;

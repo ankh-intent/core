@@ -1,12 +1,12 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../Alchemy';
-import { UseNode, QualifierNode } from '../ast';
-import { BaseBuilder } from './BaseBuilder';
+import { AlchemyBuildInvokers } from '../../Alchemy';
+import { UseNode, DecompositionNode } from '../../ast';
+import { BaseBuilder } from '../BaseBuilder';
 
 export interface UseChildren extends AlchemyBuildInvokers {
-  qualifier: BuildInvoker<QualifierNode>;
+  decomposition: BuildInvoker<DecompositionNode>
 }
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
@@ -15,16 +15,12 @@ export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
       return null;
     }
 
-    const qualifier = this.child.qualifier(tokens);
-    const alias = get.identifier('as')
-      ? ensure.identifier()
-      : qualifier.deepest();
+    const decomposition = this.child.decomposition(tokens);
 
     ensure.symbol(';');
 
     return new UseNode(
-      qualifier,
-      alias,
+      decomposition,
     );
   }
 }

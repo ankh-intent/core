@@ -7,3 +7,4 @@ export * from './QualifierNode';
 export * from './TypeDefNode';
 export * from './TypeNode';
 export * from './UseNode';
+export * from './DecompositionNode';
