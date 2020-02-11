@@ -161,8 +161,27 @@ export class Alchemy {
   // }
   //
 
+  static multi: {[prop: string]: string[]} = {
+    '=': ['>', '='],
+    '>': ['=', '>'],
+    '<': ['=', '<'],
+  };
+
   protected static checkSymbol(source: Source, context: Context): BaseTokenTypes|undefined {
-    context.pos++;
+    const char = source.at(context.pos++);
+    const sequences = this.multi[char];
+
+    if (sequences) {
+      const probe = source.extract(context.pos, context.pos + 5);
+
+      for (const part of sequences) {
+        if (probe.startsWith(part)) {
+          context.pos += part.length;
+
+          break;
+        }
+      }
+    }
 
     return BaseTokenTypes.TK_SYMBOL;
   }
