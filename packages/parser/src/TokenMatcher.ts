@@ -1,9 +1,10 @@
-import { Source, Range } from '@intent/source';
+import { Source } from '@intent/source';
 
 import { SyntaxError } from './SyntaxError';
 import { Token } from './Token';
-import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
+import { BaseTokenTypes } from './Tokenizer';
 import { TypedMatcher } from './TypedMatcher';
+import { Enumerator } from './Enumerator';
 
 export interface MatcherInterface {
   value?: string;
@@ -42,48 +43,10 @@ const matcherToString = (matcher: MatcherInterface) => (
 
 export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> extends Enumerator<TT, U> {
   private readonly types: TT;
-  private readonly context: Context;
-  private readonly tokens: {[index: number]: Token} = {};
   private _matcher: TypedTokenMatcherInterface<TT>;
-  private index: number;
-  private last: number;
-
-  public constructor(tokenizer: Tokenizer<TT>, source: Source, range: Range) {
-    this.tokenizer = tokenizer;
-    this.index = 0;
-    this.last = range.from;
-    this.context = {
-      source,
-      range,
-      pos: range.from,
-    };
-  }
-
-  public get source(): Source {
-    return this.context.source;
-  }
-
-  public at(index: number, userData?: U): Token {
-    let token = this.tokens[index];
-
-    if (!token) {
-      // todo: proper token resolving
-      token = this.tokenizer(this.context, userData);
-      this.tokens[index] = token;
-    }
-
-    return token;
-  }
 
   public peek(matcher: MatcherInterface): Token|null {
-    const { range: { to } } = this.context;
-
-    if (this.index >= to) {
-      return null;
-    }
-
-    const token = this.at(this.index + 1);
-    this.last = token ? token.start : this.context.pos;
+    const token = this.at(this.current() + 1);
 
     if (token) {
       const { value, type } = matcher;
@@ -121,14 +84,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
   }
 
   public ensure(matcher: MatcherInterface): Token {
-    const { range: { to } } = this.context;
-
-    if (this.index >= to) {
-      const string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
-      throw this.error(`Unexpected end of stream, expected token with ${string}`);
-    }
-
-    const token = this.at(this.index + 1);
+    const token = this.at(this.current() + 1);
 
     if (!token) {
       throw this.error(`expect(${matcherToString(matcher)})`, `Expected token with ${matcherToString(matcher)}, but stream seems empty`);
@@ -147,31 +103,6 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     this.next();
 
     return token;
-  }
-
-  public next() {
-    this.index++;
-  }
-
-  public current(): number {
-    return this.index;
-  }
-
-  public goto(index: number): number {
-    const old = this.index;
-    this.index = index;
-
-    for (const i in this.tokens) {
-      if ((+i) === index) {
-        this.context.pos = this.tokens[i].end;
-      }
-
-      if ((+i) > index) {
-        delete this.tokens[i];
-      }
-    }
-
-    return old;
   }
 
   public error(expectation: string, reason: string, parent?: Error): SyntaxError {

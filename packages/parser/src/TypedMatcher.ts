@@ -22,11 +22,10 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
       };
     }
 
-    return (
-      base
-        ? Object.assign({}, base, match || {})
-        : match || {}
-    );
+    return {
+      type: match && match.type || base && base.type || undefined,
+      value: match && match.value || base && base.value || undefined,
+    };
   }
 
   protected types<T>(method: (m: MatcherInterface|string) => T, unwrap: boolean): TypeMatcherInterface<TT, T> {
