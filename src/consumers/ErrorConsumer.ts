@@ -57,14 +57,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
 
   private describeError(error: Error) {
     if (error instanceof SyntaxError) {
-      let stack;
-
-      if (error.parent) {
-        stack = this.fetchSyntaxStack(error);
-      } else {
-        stack = (error.stack || '').split("\n");
-      }
-
+      const stack = this.fetchSyntaxStack(error);
       const msg = stack.shift().toString();
 
       return [msg, "\n", stack.join("\n")];
@@ -146,6 +139,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
   private describeNativeError(error: Error): ErrorRef[] {
     return (error.stack || '')
       .split("\n")
+      .slice(1)
       .map(line => line.trim())
       .filter(Boolean)
       .map((line) => {
