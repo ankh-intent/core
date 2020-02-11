@@ -38,7 +38,7 @@ export class Alchemy {
     }
   }
 
-  protected static checkType(source: Source, context: Context): string {
+  protected static checkType(source: Source, context: Context): BaseTokenTypes|undefined {
     const index = context.pos;
     const char = source.at(index);
 
@@ -69,7 +69,7 @@ export class Alchemy {
     return this.checkSymbol(source, context);
   }
 
-  protected static checkWhitespace(source: Source, context: Context): string|undefined {
+  protected static checkWhitespace(source: Source, context: Context): BaseTokenTypes|undefined {
     let index = context.pos;
 
     while (source.at(index).match(/\s/)) {
@@ -83,7 +83,7 @@ export class Alchemy {
     }
   }
 
-  protected static checkString(source: Source, context: Context): string|undefined {
+  protected static checkString(source: Source, context: Context): BaseTokenTypes|undefined {
     let index = context.pos;
     const char = source.at(index++);
 
@@ -104,7 +104,7 @@ export class Alchemy {
     }
   }
 
-  protected static checkIdentifier(source: Source, context: Context): string|undefined {
+  protected static checkIdentifier(source: Source, context: Context): BaseTokenTypes|undefined {
     let index = context.pos;
 
     while (source.at(index).match(/[\w\d_]/i)) {
@@ -123,7 +123,7 @@ export class Alchemy {
   // }
   //
 
-  protected static checkSymbol(source: Source, context: Context): string {
+  protected static checkSymbol(source: Source, context: Context): BaseTokenTypes|undefined {
     context.pos++;
 
     return BaseTokenTypes.TK_SYMBOL;
