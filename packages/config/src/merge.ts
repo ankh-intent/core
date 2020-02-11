@@ -4,6 +4,10 @@ export const regexpify = (r: RegExp | string) => {
     : String(r).replace('\\\\', '\\');
 };
 
+export const unregexpify = (r: string) => {
+  return new RegExp((r || '').replace('\\', '\\\\'));
+};
+
 const isMergeable = (o: any) => {
   return (!!(o && (o === Object(o)))) && !((o instanceof Date) || (o instanceof RegExp));
 };
