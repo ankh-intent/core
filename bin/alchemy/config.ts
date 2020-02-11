@@ -2,9 +2,9 @@ import * as path from 'path';
 
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
-const root = __dirname.replace(/\/config$/, '');
-const project = process.cwd();
-const internal = path.resolve(path.join(root, '/core/lib/'));
+const cwd = process.cwd();
+const project = __dirname.replace(/\/config$/, '');
+const internal = path.resolve(path.join(project, '/core/lib/'));
 
 const config: TranspilerConfig = {
   paths: {
@@ -14,7 +14,7 @@ const config: TranspilerConfig = {
   entry: {
     index: {
       path: path.resolve(
-        path.join(root, '/example')
+        path.join(project, '/example')
       ),
       test: [
         { pattern: '.alc' },
@@ -27,12 +27,12 @@ const config: TranspilerConfig = {
     config: false,
   },
   watch: {
-    root: project,
+    root: cwd,
     aggregation: 200,
     ignore: /[\\/]\./,
   },
   output: {
-    path: project,
+    path: `${cwd}/build`,
     extension: '.a.ts',
   },
   interpreter: {
