@@ -66,6 +66,14 @@ export class Alchemy {
       }
     }
 
+    if (char === '/') {
+      const token = this.checkComment(source, context);
+
+      if (token) {
+        return token;
+      }
+    }
+
     return this.checkSymbol(source, context);
   }
 
@@ -97,10 +105,40 @@ export class Alchemy {
       index++;
     }
 
-    if ((index !== context.pos) && (at === char)) {
+    if (at === char) {
       context.pos = index + 1;
 
       return BaseTokenTypes.TK_STRING;
+    }
+  }
+
+  protected static checkComment(source: Source, context: Context): BaseTokenTypes|undefined {
+    let index = context.pos + 2;
+
+    switch (source.at(context.pos + 1)) {
+      case '/': {
+        let char;
+
+        while ((char = source.at(index)) && (char !== '\n')) {
+          index++;
+        }
+
+        context.pos = index;
+
+        return BaseTokenTypes.TK_COMMENT;
+      }
+
+      case '*': {
+        let char;
+
+        while ((char = source.at(index++))) {
+          if ((char === '*') && (source.at(index + 1) === '/')) {
+            context.pos = index + 1;
+
+            return BaseTokenTypes.TK_COMMENT;
+          }
+        }
+      }
     }
   }
 
