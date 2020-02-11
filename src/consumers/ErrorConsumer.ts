@@ -125,15 +125,11 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
       source = '';
     }
 
-    const match = error.message.match(/Failed @(.+)$/);
-
-    if (match) {
-      return [{
-        type: RefType.AST,
-        ref: match[1],
-        source,
-      }];
-    }
+    return [{
+      type: RefType.AST,
+      ref: error.expectation,
+      source,
+    }];
   }
 
   private describeNativeError(error: Error): ErrorRef[] {

@@ -36,8 +36,11 @@ export interface TokensFactory<TT extends BaseTokenTypes> {
   (source: Source): TokenMatcher<TT>;
 }
 
-export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
-  private readonly tokenizer: Tokenizer<TT, U>;
+const matcherToString = (matcher: MatcherInterface) => (
+  Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ')
+);
+
+export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> extends Enumerator<TT, U> {
   private readonly types: TT;
   private readonly context: Context;
   private readonly tokens: {[index: number]: Token} = {};
@@ -128,18 +131,17 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
     const token = this.at(this.index + 1);
 
     if (!token) {
-      const string = Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ');
-      throw this.error(`Expected token with ${string}, but stream seems empty`);
+      throw this.error(`expect(${matcherToString(matcher)})`, `Expected token with ${matcherToString(matcher)}, but stream seems empty`);
     }
 
     const { value, type } = matcher;
 
     if (value && (token.value !== value)) {
-      throw this.error(`Expected "${value}", but got "${token.value}"`);
+      throw this.error(`expect(${value})`, `Expected "${value}", but got "${token.value}"`);
     }
 
     if (type && (token.type !== type)) {
-      throw this.error(`Expected @${type}, but got @${token.type}`);
+      throw this.error(`@type(${type})`, `Expected @${type}, but got @${token.type}`);
     }
 
     this.next();
@@ -172,10 +174,11 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
     return old;
   }
 
-  public error(reason: string, parent?: Error): SyntaxError {
+  public error(expectation: string, reason: string, parent?: Error): SyntaxError {
     return new SyntaxError(
       reason,
-      this.context.source,
+      expectation,
+      this.source,
       this.last,
       parent,
     );

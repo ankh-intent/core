@@ -31,7 +31,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
         this.emit(new ReadedEvent({ source }, event));
       })
       .catch((e: Error) => {
-        this.emit(new ErrorEvent({ error: new SyntaxError(e.message, new StringSource('', path), 0, e) }, event));
+        this.emit(new ErrorEvent({ error: new SyntaxError(e.message, 'read(source)', new StringSource('', path), 0, e) }, event));
       })
     ;
   }

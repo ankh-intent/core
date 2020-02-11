@@ -46,7 +46,7 @@ export abstract class BaseBuilder<
     } catch (e) {
       tokens.goto(mark);
 
-      throw tokens.error(`Failed @${this.name}`, e);
+      throw tokens.error(this.name, `Failed @${this.name}`, e);
     }
   }
 
