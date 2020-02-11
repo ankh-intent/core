@@ -13,7 +13,7 @@ use_alias
   ::= 'as' identifier
 
 use_decomposition
-  ::= ':' '{' use_decomposition_item (',' use_decomposition_item)* ','? '}'
+  ::= ':' '{' (use_decomposition_item ',')+ '}'
 
 use_decomposition_item
   ::= qualifier use_decomposition?
