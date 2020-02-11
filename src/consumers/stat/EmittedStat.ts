@@ -21,7 +21,7 @@ export class EmittedStat extends BaseStat {
       this.config.paths.internal,
     ]);
     let cause = '<root>';
-    let parent: CoreEvent<any>|null = event;
+    let parent: CoreEvent|null = event;
 
     while (parent) {
       parent = parent.parent;

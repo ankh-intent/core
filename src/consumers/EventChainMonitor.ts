@@ -4,7 +4,7 @@ import { CoreEvent, StatEvent, AbstractConsumer, EventChainInterface } from '../
 
 export type EventChainMonitoringConsumer = (data: EventChainInterface) => any;
 
-export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsumer<E, any>{
+export class EventChainMonitor<E extends CoreEvent> extends AbstractConsumer<E, any>{
   private readonly chains: EventChain<E>[] = [];
 
   public supports(event: E): boolean {
@@ -51,7 +51,7 @@ export class EventChainMonitor<E extends CoreEvent<any>> extends AbstractConsume
   }
 }
 
-export class EventChain<E extends CoreEvent<any>> extends Emitter<EventChainMonitoringConsumer> {
+export class EventChain<E extends CoreEvent> extends Emitter<EventChainMonitoringConsumer> {
   private readonly start: Date = new Date();
   private readonly accumulated: E[] = [];
   private readonly original: E[];

@@ -24,12 +24,12 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     this.logger = logger;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === ErrorEvent.type();
   }
 
   public process(event: ErrorEvent) {
-    let parent: CoreEvent<any>|null = event;
+    let parent: CoreEvent|null = event;
 
     while (parent) {
       const { type, data } = parent;

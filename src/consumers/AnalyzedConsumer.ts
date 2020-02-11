@@ -25,7 +25,7 @@ export class AnalyzedConsumer<N extends TreeNode, T extends Identifiable<N>> ext
     this.factory = factory;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === AnalyzedEvent.type();
   }
 

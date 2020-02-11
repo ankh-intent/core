@@ -23,7 +23,7 @@ export class CoreEventBus {
     return n;
   }
 
-  public emit(event: CoreEvent<any>): CoreEvent<any> {
+  public emit(event: CoreEvent): CoreEvent {
     for (const consumer of this.consumers) {
       const processed = consumer.consume(event);
 
@@ -53,7 +53,7 @@ export class CoreEventBus {
     return event;
   }
 
-  public stat(data: any, parent: CoreEvent<any>|null = null): CoreEvent<any> {
+  public stat(data: any, parent: CoreEvent|null = null): CoreEvent {
     return this.emit(new StatEvent({ stat: data }, parent));
   }
 }

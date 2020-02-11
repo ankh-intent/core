@@ -19,7 +19,7 @@ export class ParseConsumer<N extends TreeNode, TT extends BaseTokenTypes> extend
     this.parser = parser;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === ParsedEvent.type();
   }
 

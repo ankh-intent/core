@@ -23,7 +23,7 @@ export class StatConsumer extends AbstractConsumer<StatEvent, any>{
     };
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === StatEvent.type();
   }
 

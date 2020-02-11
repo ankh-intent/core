@@ -25,7 +25,7 @@ export class CompiledConsumer<N extends TreeNode, T extends Identifiable<N>> ext
     this.tree = tree;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === CompiledEvent.type();
   }
 
@@ -40,7 +40,7 @@ export class CompiledConsumer<N extends TreeNode, T extends Identifiable<N>> ext
     );
   }
 
-  private synchronize(node: DependencyNode<N, T>, event: CoreEvent<any>) {
+  private synchronize(node: DependencyNode<N, T>, event: CoreEvent) {
     this.stat(event, new SynchronizeStat(node));
 
     const uses = this.resolver.resolve(node.identifiable);

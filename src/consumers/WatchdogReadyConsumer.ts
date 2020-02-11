@@ -41,7 +41,7 @@ export class WatchdogReadyConsumer<U extends UnitInterface, N extends TreeNode, 
     })
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return this.watchdog && (event.type === ReadyEvent.type());
   }
 

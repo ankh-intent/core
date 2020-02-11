@@ -18,7 +18,7 @@ export interface ConfigFactory<C extends CoreConfig, N extends TreeNode, T exten
 }
 
 export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> extends Emitter<CoreEventEmitter<any>> {
-  private readonly eventChainMonitor: EventChainMonitor<CoreEvent<any>>;
+  private readonly eventChainMonitor: EventChainMonitor<CoreEvent>;
 
   public readonly events: CoreEventBus;
   public readonly logger: Logger;
@@ -58,7 +58,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
   }
 
   public start(config: C): this {
-    const updates: CoreEvent<any>[] = [];
+    const updates: CoreEvent[] = [];
 
     for (const [name, entry] of Object.entries(config.entry)) {
       updates.push(
@@ -82,7 +82,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     return this;
   }
 
-  public stop(cause?: CoreEvent<any>) {
+  public stop(cause?: CoreEvent) {
     this.events.emit(new StopEvent({}, cause));
   }
 

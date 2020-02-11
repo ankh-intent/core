@@ -16,7 +16,7 @@ export class DependencyModifiedConsumer<N extends TreeNode, T extends Identifiab
     this.transpiler = transpiler;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === DependencyModifiedEvent.type();
   }
 

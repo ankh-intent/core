@@ -18,7 +18,7 @@ export class UpdateConsumer extends AbstractConsumer<UpdateEvent, any>{
     this.reader = new FileReader();
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === UpdateEvent.type();
   }
 

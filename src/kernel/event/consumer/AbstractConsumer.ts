@@ -5,8 +5,8 @@ import { CoreEventBus } from '../CoreEventBus';
 export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements CoreEventConsumer<T, E> {
   private readonly bus: CoreEventBus;
 
-  public abstract supports(event: CoreEvent<any>): boolean;
-  public abstract process(event: E): CoreEvent<any>|void;
+  public abstract supports(event: CoreEvent): boolean;
+  public abstract process(event: E): CoreEvent|void;
 
   public constructor(bus: CoreEventBus) {
     this.bus = bus;
@@ -16,7 +16,7 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     return !!this.bus.off(this);
   }
 
-  public consume(event: E): CoreEvent<any>|void {
+  public consume(event: E): CoreEvent|void {
     if (!this.supports(event)) {
       return event;
     }
@@ -28,7 +28,7 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     }
   }
 
-  public emit(event: CoreEvent<any>, propagated?: boolean): CoreEvent<any> {
+  public emit(event: CoreEvent, propagated?: boolean): CoreEvent {
     if (propagated !== undefined) {
       event.stopPropagation(!propagated);
     }
@@ -36,7 +36,7 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     return this.bus.emit(event);
   }
 
-  public stat(parent: CoreEvent<any>|null, data: any): CoreEvent<any> {
+  public stat(parent: CoreEvent|null, data: any): CoreEvent {
     return this.bus.stat(data, parent);
   }
 }

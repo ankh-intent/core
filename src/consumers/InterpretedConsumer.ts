@@ -37,7 +37,7 @@ export class InterpretedConsumer<N extends TreeNode, T extends Identifiable<N>> 
     this.writer = writer;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === InterpretedEvent.type();
   }
 

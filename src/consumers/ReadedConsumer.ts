@@ -18,7 +18,7 @@ export class ReadedConsumer<TT extends BaseTokenTypes> extends AbstractConsumer<
     this.factory = factory;
   }
 
-  public supports(event: CoreEvent<any>): boolean {
+  public supports(event: CoreEvent): boolean {
     return event.type === ReadedEvent.type();
   }
 
