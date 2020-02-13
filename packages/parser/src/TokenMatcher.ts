@@ -39,9 +39,9 @@ export interface PeekTypeMatcherInterface<TT extends BaseTokenTypes, T> {
 }
 
 export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenTypes> = {
-  peek: PeekTypeMatcherInterface<TT, string>;
-  get: TypeMatcherInterface<TT, string>;
-  except: TypeMatcherInterface<TT, string>;
+  peek: PeekTypeMatcherInterface<TT, string|null>;
+  get: TypeMatcherInterface<TT, string|null>;
+  except: TypeMatcherInterface<TT, Token|null>;
   not: TypeMatcherInterface<TT, boolean>;
   ensure: TypeMatcherInterface<TT, string>;
 }
