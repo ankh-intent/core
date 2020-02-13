@@ -17,9 +17,18 @@ export class FunctorBodyBuilder extends BaseBuilder<FunctorBodyNode, FunctorBody
     const breakAfter = [';'];
     const body: string[] = [];
     let token;
+    let braces = 0;
     let prev = null;
 
-    while ((token = except.symbol('}'))) {
+    while ((token = braces ? get.any() : except.symbol('}'))) {
+      if (token.type == 'symbol' && token.value == '{') {
+        braces++;
+      }
+
+      if (token.type == 'symbol' && token.value == '}') {
+        braces--;
+      }
+
       if (prev === 'identifier') {
         if (token.type === prev) {
           body.push(' ');
