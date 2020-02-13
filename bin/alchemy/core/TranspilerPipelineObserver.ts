@@ -36,14 +36,39 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     return module;
   }
 
-  resolve(identifiable: Module): Container<Module> {
+  resolve(module: Module): Container<Module> {
+    return this.mergeUses(
+      this.resolveUsedModules(module, module.ast.uses),
+      this.resolveDomainUses(module, module.ast.domain),
+    );
+  }
+
+  mergeUses(a: Container<Module>, b: Container<Module>): Container<Module> {
+    return {
+      ...a,
+      ...b,
+    }
+  }
+
+  resolveDomainUses(module: Module, domain: DomainNode): Container<Module> {
+    const own = this.resolveUsedModules(module, domain.uses);
+    const result: Container<Module>[] = [];
+
+    for (const sub of domain.domains.values()) {
+      result.push(this.resolveUsedModules(module, sub.uses));
+    }
+
+    return result.reduce((a, b) => this.mergeUses(a, b), own);
+  }
+
+  resolveUsedModules(module: Module, uses: UsesNode): Container<Module> {
     const links = {};
 
-    for (const use of Object.values(identifiable.ast.uses)) {
-      const link = this.useResolver.resolve(identifiable, use.decomposition.qualifier);
+    for (const [alias, use] of uses.entries) {
+      const link = this.useResolver.resolve(module, use.qualifier);
 
       if (!link) {
-        throw new Error(`Can't resolve module "${use.decomposition.qualifier.path('.')}"`);
+        throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
       }
 
       links[link.identifier] = link;
