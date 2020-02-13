@@ -1,10 +1,10 @@
 domain Types {
   domain Grade extends String {
     enum {
-      Trash = 'Trashy',
-      Low = 'Lowly',
-      Advanced = 'Advanced',
-      Profound = 'Profound',
+      Trash = 'Trashy';
+      Low = 'Lowly';
+      Advanced = 'Advanced';
+      Profound = 'Profound';
     }
   }
 

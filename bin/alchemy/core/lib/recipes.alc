@@ -16,7 +16,7 @@ domain Recipes {
   enum {
     CommonVariations = {
       Sludge: Variation(ingredients: Ingredients(), brew: [BrewPhase(outcome: [Transform.Proportional(out: I.Sludge)])]),
-    },
+    };
     PillRecipes = {
       StarCultivation: Recipe(
         name: 'Star Cultivation Pill',
@@ -37,6 +37,6 @@ domain Recipes {
           ),
         ],
       ),
-    },
+    };
   }
 }

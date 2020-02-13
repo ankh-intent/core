@@ -8,12 +8,12 @@ domain Cauldrons {
   enum {
     ProfoundCauldron = Cauldron(
       name: 'Profound Tier Cauldron',
-      volume: VolumeTier.High;
+      volume: VolumeTier.High,
       ranges: [
         { energy: EnergyTier.Low, temperature: 5000 },
         { energy: EnergyTier.Medium, temperature: 2500 },
         { energy: EnergyTier.High, temperature: 100 },
-      ];
-    ),
+      ],
+    );
   }
 }
