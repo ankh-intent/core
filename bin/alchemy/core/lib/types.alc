@@ -109,7 +109,7 @@ domain Types {
   }
 
   domain Recipes extends Recipe[] {{
-      failure: Variation;
+      failure: Variation,
     }
 
     findForIngredients(ingredients: Ingredients): Variation => {
