@@ -48,7 +48,7 @@
     "json-loader": "^0.5.4",
     "ts-node": "^8.0.3",
     "tsconfig-paths": "^3.8.0",
-    "typescript": "^3.3.3333",
+    "typescript": "^3.7.5",
     "webpack": "^3.1.0"
   }
 }
