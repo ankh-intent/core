@@ -7,13 +7,13 @@ import { CoreConfig } from '@intent/CoreConfig';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
-import { Chip } from './chips/Chip';
-import { ChipNode } from './transpiler/ast';
+import { Module } from './modules/Module';
+import { ModuleNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
 import configure from '../config';
 
-export class AlchemyCore extends Core<TranspilerConfig, ChipNode, Chip> {
+export class AlchemyCore extends Core<TranspilerConfig, ModuleNode, Module> {
   public bootstrap(config: CoreConfig): TranspilerConfig {
     return super.bootstrap(
       config,
@@ -23,7 +23,7 @@ export class AlchemyCore extends Core<TranspilerConfig, ChipNode, Chip> {
   }
 }
 
-export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent<any>> & { core: AlchemyCore } => {
+export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent> & { core: AlchemyCore } => {
   const core = new AlchemyCore();
   const config = core.bootstrap({
     ...configure,
@@ -32,12 +32,12 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
   });
 
   if (config.emit.config) {
-    console.log(util.inspect(config, {depth: null}));
+    core.logger.log(Logger.INFO, util.inspect(config, {depth: null}));
 
 //    process.exit(0);
   }
 
-  return Object.assign(<any>new Promise<CoreEvent<any>|null>((rs, rj) => {
+  return Object.assign(<any>new Promise<CoreEvent|null>((rs, rj) => {
     core.and((event) => {
       const { type, data, parent } = event;
 

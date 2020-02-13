@@ -1,0 +1,42 @@
+domain Recipes {
+  use Types: {
+    Grade,
+    Ingredients,
+    Ingredient: {
+      Stack,
+    },
+    Variation,
+    Recipe,
+    BrewPhase,
+    Transform,
+  };
+  use Ingredients as I;
+  use Pills;
+
+  enum {
+    CommonVariations = {
+      Sludge: Variation(ingredients: Ingredients(), brew: [BrewPhase(outcome: [Transform.Proportional(out: I.Sludge)])]),
+    };
+    PillRecipes = {
+      StarCultivation: Recipe(
+        name: 'Star Cultivation Pill',
+        variations: [
+          Variation(
+            grade: Grade.Low,
+            ingredients: Ingredients([Stack(I.Zhenshen), Stack(I.Lotus, 3)]),
+            brew: [BrewPhase(outcome: [Transform.Proportional(out: Pills.BeginnerStar)])],
+          ),
+          Variation(
+            grade: Grade.Advanced,
+            ingredients: Ingredients([
+              Stack(I.Zhenshen),
+              Stack(I.Lotus, 5),
+              Stack(I.Cinnamon, 1),
+            ]),
+            brew: [BrewPhase(outcome: [Transform.Proportional(out: Pills.AdvancedStar)])],
+          ),
+        ],
+      ),
+    };
+  }
+}

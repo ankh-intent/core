@@ -1,5 +1,5 @@
-import { Source, Range } from '@intent/kernel/source';
-import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/kernel/parser';
+import { Source, Range } from '@intent/source';
+import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
 import { BuilderInvokers } from '@intent/kernel/transpiler';
 
 export class Alchemy {
@@ -38,7 +38,7 @@ export class Alchemy {
     }
   }
 
-  protected static checkType(source: Source, context: Context): string {
+  protected static checkType(source: Source, context: Context): BaseTokenTypes|undefined {
     const index = context.pos;
     const char = source.at(index);
 
@@ -66,10 +66,18 @@ export class Alchemy {
       }
     }
 
+    if (char === '/') {
+      const token = this.checkComment(source, context);
+
+      if (token) {
+        return token;
+      }
+    }
+
     return this.checkSymbol(source, context);
   }
 
-  protected static checkWhitespace(source: Source, context: Context): string|undefined {
+  protected static checkWhitespace(source: Source, context: Context): BaseTokenTypes|undefined {
     let index = context.pos;
 
     while (source.at(index).match(/\s/)) {
@@ -83,7 +91,7 @@ export class Alchemy {
     }
   }
 
-  protected static checkString(source: Source, context: Context): string|undefined {
+  protected static checkString(source: Source, context: Context): BaseTokenTypes|undefined {
     let index = context.pos;
     const char = source.at(index++);
 
@@ -97,14 +105,44 @@ export class Alchemy {
       index++;
     }
 
-    if ((index !== context.pos) && (at === char)) {
+    if (at === char) {
       context.pos = index + 1;
 
       return BaseTokenTypes.TK_STRING;
     }
   }
 
-  protected static checkIdentifier(source: Source, context: Context): string|undefined {
+  protected static checkComment(source: Source, context: Context): BaseTokenTypes|undefined {
+    let index = context.pos + 2;
+
+    switch (source.at(context.pos + 1)) {
+      case '/': {
+        let char;
+
+        while ((char = source.at(index)) && (char !== '\n')) {
+          index++;
+        }
+
+        context.pos = index;
+
+        return BaseTokenTypes.TK_COMMENT;
+      }
+
+      case '*': {
+        let char;
+
+        while ((char = source.at(index++))) {
+          if ((char === '*') && (source.at(index + 1) === '/')) {
+            context.pos = index + 1;
+
+            return BaseTokenTypes.TK_COMMENT;
+          }
+        }
+      }
+    }
+  }
+
+  protected static checkIdentifier(source: Source, context: Context): BaseTokenTypes|undefined {
     let index = context.pos;
 
     while (source.at(index).match(/[\w\d_]/i)) {
@@ -123,8 +161,27 @@ export class Alchemy {
   // }
   //
 
-  protected static checkSymbol(source: Source, context: Context): string {
-    context.pos++;
+  static multi: {[prop: string]: string[]} = {
+    '=': ['>', '='],
+    '>': ['=', '>'],
+    '<': ['=', '<'],
+  };
+
+  protected static checkSymbol(source: Source, context: Context): BaseTokenTypes|undefined {
+    const char = source.at(context.pos++);
+    const sequences = this.multi[char];
+
+    if (sequences) {
+      const probe = source.extract(context.pos, context.pos + 5);
+
+      for (const part of sequences) {
+        if (probe.startsWith(part)) {
+          context.pos += part.length;
+
+          break;
+        }
+      }
+    }
 
     return BaseTokenTypes.TK_SYMBOL;
   }

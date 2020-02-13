@@ -1,8 +1,7 @@
-
-import { WatchdogConfig } from '@intent/kernel/watchdog';
+import { merge, regexpify, unregexpify } from '@intent/config';
+import { WatchdogConfig } from '@intent/watchdog';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
-import { ConfigProvider as BaseConfigProvider, merge, regexpify } from '@intent/ConfigProvider';
-import { Core } from '@intent/Core';
+import { ConfigProvider as BaseConfigProvider} from '@intent/ConfigProvider';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   protected options(defaults: Partial<TranspilerConfig>): any {
@@ -40,12 +39,12 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
   protected watch(): WatchdogConfig {
     return this.get("watch") && {
       root: this.get("watch-root"),
-      ignore: new RegExp(this.get("watch-ignore").replace('\\', '\\\\')),
+      ignore: unregexpify(this.get("watch-ignore")),
       aggregation: this.get("watch-aggregation"),
     };
   }
 
-  public build(core: Core<TranspilerConfig, any, any>): TranspilerConfig {
+  public build(core) {
     return {
       ...super.build(core),
       ...{

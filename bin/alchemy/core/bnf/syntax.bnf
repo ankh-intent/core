@@ -1,44 +1,81 @@
 
 // module
-
-chip
-  ::= 'chip' string '{' (use | domain)* can? '}'
+module
+  ::= use* domain
 
 qualifier
-  ::= identifier ('.' identifier)*
+  ::= identifier ('.' qualifier)?
 
 use
-  ::= 'use' qualifier ('as' identifier)? ';'
+  ::= 'use' qualifier (use_decomposition | use_alias) ';'
 
-domain
-  ::= 'domain' identifier ('extends' qualifier)? '{' typedef* '}'
+use_alias
+  ::= 'as' identifier
+
+use_decomposition
+  ::= ':' '{' (use_decomposition_item ',')+ '}'
+
+use_decomposition_item
+  ::= qualifier use_decomposition?
 
 // domain
-typedef
-  ::= 'type' identifier ('extends' type)? '{' property* can* constraint* '}'
+domain
+  ::= 'domain' identifier generic_definition? ('extends' domain_reference)? '{' domain_body '}'
 
-property
-  ::= identifier ':' type ';'
+domain_body
+  ::= constructor? use? domain_clause* domain_method* constructor?
 
-type
-  ::= qualifier generic?
+domain_clause
+  ::= domain | enum
 
-generic
-  ::= '<' type (',' type)* '>'
+domain_method
+  ::= identifier function
+
+enum
+  ::= 'enum' identifier? ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
+
+enum_clause
+  ::= (enum_inheritor | identifier) '=' expression
+
+enum_inheritor
+  ::= ':' qualifier
+
+constructor
+  ::= '{' (constructor_property (',' constructor_property)* ','?)? '}'
+
+constructor_property
+  ::= identifier (':' domain_reference ('=' expression)) | ('=' expression)
+
+constructor_method
+  ::= '('
+
+// domain lookup
+domain_reference
+  ::= qualifier domain_reference_generic? ('[' ']')?
+
+domain_reference_generic
+  ::= '<' domain_reference (',' domain_reference)* '>'
+
+// generic definitions
+
+generic_definition
+  ::= '<' identifier (',' identifier)* '>'
 
 // methods
-constraint
-  ::= ':' can
+method
+  ::= identifier function
 
-can
-  ::= identifier '(' canArg? ')' '{' (statement ';')* '}'
+function
+  ::= '(' function_args? ')' (':' domain_reference)? '=>' function_body
 
-canArg
+function_args
   ::= arg (',' arg)*
 
 arg
-  // no defaults thus far
-  ::= identifier ':' type
+  ::= identifier ':' domain_reference ('=' expression)?
+
+function_body
+  ::= '{' (statement ';')* '}'
 
 // statements
 statement
@@ -57,10 +94,13 @@ indexed
   ::= '[' expression ']'
 
 call
-  ::= expression '(' callArgs? ')'
+  ::= '(' call_args? ')'
 
-callArgs
-  ::= expression (',' expression)*
+call_args
+  ::= call_arg (',' call_arg)* ','?
+
+call_arg
+  ::= (identifier ':')? expression
 
 comparision
   ::= boolean (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
@@ -75,7 +115,19 @@ arithmetic2
   ::= accessor (('*' | '/' | '%' | '**') expression)*
 
 accessor
-  ::= ('(' expression ')') | literal | identifier
+  ::= ('(' expression ')') | object | array | literal | identifier
+
+object
+  ::= '{' (object_entry ',')* '}'
+
+object_entry
+  ::= identifier ':' expression
+
+array
+  ::= '[' (expression (',' expression)* ','? ']'
+
+object_entry
+  ::= identifier ':' expression
 
 literal
   ::= string | number

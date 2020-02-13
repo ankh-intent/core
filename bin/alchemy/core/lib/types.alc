@@ -1,4 +1,187 @@
+domain Types {
+  domain Grade extends String {
+    enum {
+      Trash = 'Trashy';
+      Low = 'Lowly';
+      Advanced = 'Advanced';
+      Profound = 'Profound';
+    }
+  }
 
-chip "Types" {
+  enum EnergyTier extends Number {
+    :Grade.Trash = 0;
+    :Grade.Low = 100;
+    :Grade.Advanced = 1000;
+    :Grade.Profound = 10000;
+  }
 
+  enum VolumeTier extends Number {
+    :Grade.Low = 10;
+    :Grade.Advanced = 100;
+    :Grade.Profound = 500;
+  }
+
+  domain Volume extends Number {{}
+    is GreaterOrEqual(VolumeTier.Low);
+    is LessOrEqual(VolumeTier.Profound);
+  }
+
+  domain Energy extends Number {
+    is GreaterOrEqual(EnergyTier.Trash);
+    is LessOrEqual(EnergyTier.Profound);
+  }
+
+  domain Temperature extends Number {
+    is GreaterOrEqual(0);
+  }
+
+  domain Ingredient {{
+      name: String,
+      energy: Energy,
+      volume: Volume,
+      grade: Grade = Grade.Trash,
+    }
+
+    domain Stack {{
+        ingredient: Ingredient,
+        count: PositiveNumber = 1,
+      }
+    }
+  }
+
+  domain Ingredients extends Ingredient.Stack[] {
+    combine() => {
+      let stacks = [];
+
+      each (let stack of this) {
+        let has = this.find(stack => stack.ingredient is stack.ingredient);
+
+        if (has) {
+          has.count += stack.count;
+        } else {
+          stacks.push(stack);
+        }
+      }
+
+      return Ingredients(stacks);
+    }
+  }
+
+  domain Variation {{
+      grade: Grade,
+      ingredients: Ingredients,
+      brew: BrewPhase[],
+    }
+
+    matchStack(required: Stack, stack: Stack) => {
+      return (required.ingredient is stack.ingredient) && (required.count <= stack.count);
+    }
+
+    match(stacks: Ingredients) => {
+      let required = Set(ingredients);
+
+      each (let stack of ingredients) {
+        each (let has of stacks) {
+          if (matchStack(stack, has)) {
+            required.remove(stack);
+
+            break;
+          }
+        }
+      }
+
+      return required.isEmpty;
+    }
+  }
+
+  domain Recipe {{
+      name: String,
+      variations: Variation[],
+    }
+
+    match(ingredients: Ingredients) => {
+      each (let variation of variations) {
+        if (variation.match(ingredients)) {
+          return variation;
+        }
+      }
+    }
+  }
+
+  domain Recipes extends Recipe[] {{
+      failure: Variation,
+    }
+
+    findForIngredients(ingredients: Ingredients): Variation => {
+      each (let recipe of this) {
+        if (let variation = recipe.match(ingredients)) {
+          return variation;
+        }
+      }
+
+      return failure;
+    }
+  }
+
+  domain BrewPhase extends Transform[] {{
+
+    }
+  }
+
+  domain Cauldron {{
+      name: String,
+      volume: Volume,
+      ranges: Array<EnergyRange>,
+    }
+
+    domain EnergyRange {{
+      energy: Energy,
+      temperature: Temperature,
+    }}
+
+    brew(variation: Variation, ingredients: Ingredients): Ingredients => {
+      let outcome = ingredients;
+
+      each (let phase of variation.brew) {
+        each (let transform of phase) {
+          outcome = transform(temperature, outcome);
+        }
+
+        temperature *= 0.90;
+      }
+
+      return outcome;
+    }
+  }
+
+  domain Transform {
+    domain RatioTransform {
+      domain Count extends RatioTransform {
+        (in: Ingredient.Stack) => in.count
+      }
+    }
+
+    domain Proportional extends Transform {{
+        out: Ingredient,
+        ratio: RatioTransform = RatioTransform.Count,
+      }
+
+      (temperature: Temperature, in: Ingredients): Ingredients => {
+        let processed = in.map(stack => Ingredient.Stack(
+          ingredient: out,
+          count: ratio(stack),
+        );
+
+        return Ingredients(processed).combine();
+      }
+    }
+
+    (temperature: Temperature, in: Ingredients) => {
+      return Ingredients;
+    }
+  }
+
+  domain Pill extends Ingredient {{
+
+  }}
 }

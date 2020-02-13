@@ -1,99 +1,38 @@
-chip "test" {
+domain Test {
+  use Alchemy.Types: {
+    Ingredient: {
+      Stack,
+    },
+    Recipes,
+  };
 
-  use Intent.Types as I;
+  use Alchemy.Ingredients: {
+    Zhenshen,
+    Lotus,
+  };
+  use Alchemy.Recipes: {
+    CommonVariations,
+    PillRecipes,
+  };
+  use Alchemy.Cauldrons: {
+    ProfoundCauldron,
+  };
 
-  domain Objects {
+  () => {
+    let recipes = Recipes(failure: CommonVariations.Sludge, [
+      PillRecipes.StarCultivation,
+    ]);
 
-    type Name extends I.String {
-      :disallow() {
-        return !length;
-      }
-    }
+    let temperature = 100;
+    let ingredients = [
+      Stack(ingredient: Zhenshen, count: 1),
+      Stack(ingredient: Lotus, count: 5),
+    ];
 
-    type Object {
-      name: Name;
-    }
+    @inspect
+    let variation = recipes.findForIngredients(ingredients);
 
-  }
-
-  domain Alchemist {
-    use Objects as O;
-
-    type Ingredient extends O.Object {
-      value: I.Number;
-    }
-
-    type Ingredients extends I.Collection<Ingredient> {
-      value: I.Number;
-    }
-
-    type Formula extends O.Object {
-      value: I.Number;
-      ingredients: Ingredients;
-
-      :disallow() {
-        return !ingredients.count;
-      }
-    }
-
-    type Environment {
-      formulae: Formulae;
-
-      preferred(ingredients: Ingredients, from: I.Collection<Formula>): Formula {
-
-      }
-    }
-
-    type Brew {
-      formula: Formula;
-      environment: Environment;
-    }
-
-    type Formulae {
-      all: I.Collection<Formula>;
-
-      find(ingredients: Ingredients): I.Collection<Formula> {
-
-      }
-    }
-
-    type Cauldron extends O.Object {
-      environment: Environment;
-
-      put(ingredients: Ingredients) {
-        const formulas = environment.formulae.find(ingredients);
-
-        return formulas
-          ? environment.preferred(ingredients, formulas)
-          : null;
-      }
-
-      brew(formula: Formula): Brew {
-        return Brew(formula, environment);
-      }
-    }
-
-  }
-
-  use Intent.Env as E;
-
-  can (console: E.ConsoleEmitter) {
-    const cauldron = Alchemist.Cauldron('Profound tier cauldron');
-
-    console.log(`Cauldron: ${cauldron}`);
-
-    const ingredient1 = Alchemist.Ingredient('Zhenshen', 1);
-    const ingredient2 = Alchemist.Ingredient('Lotus');
-    const ingredients = Alchemist.Ingredients(ingredient1, ingredient2);
-
-    console.log(`Ingredients: ${ingredients}`);
-
-    const formula = cauldron.put(ingredients);
-
-    console.log(`Formula: ${formula}`);
-
-    const brew = cauldron.brew(formula);
-
-    console.log(`Brew: ${brew}`);
+    @inspect
+    let outcome = ProfoundCauldron.brew(variation, ingredients);
   }
 }
