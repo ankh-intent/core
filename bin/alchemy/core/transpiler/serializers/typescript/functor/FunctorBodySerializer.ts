@@ -6,6 +6,6 @@ export interface FunctorBodySerializerChildren {
 
 export class FunctorBodySerializer extends NodeSerializer<FunctorBodyNode, FunctorBodySerializerChildren> {
   serialize(node: FunctorBodyNode): string {
-    return `${node.body}`;
+    return `${node.block.astRegion.extract()}`;
   }
 }

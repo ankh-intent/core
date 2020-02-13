@@ -54,7 +54,7 @@ domain Types {
       let stacks = [];
 
       each (let stack of this) {
-        let has = this.find(stack => stack.ingredient is stack.ingredient);
+        let has = this.find((stack: Ingredient.Stack) => stack.ingredient is stack.ingredient);
 
         if (has) {
           has.count += stack.count;

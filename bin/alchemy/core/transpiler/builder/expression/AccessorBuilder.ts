@@ -1,6 +1,14 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { ExpressionNode, ObjectNode, LiteralNode, IdentifierNode, ArrayNode } from '../../ast';
+import {
+  ExpressionNode,
+  ObjectNode,
+  LiteralNode,
+  IdentifierNode,
+  ArrayNode,
+  CallableNode,
+  FunctorArgsNode,
+} from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type AccessorChildren = {
@@ -9,11 +17,21 @@ export type AccessorChildren = {
   object: ObjectNode;
   literal: LiteralNode;
   identifier: IdentifierNode;
+  callable: CallableNode;
+  functor_args: FunctorArgsNode;
 };
 
 export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildren> {
   protected build(tokens, { get, ensure, peek }: TypedTokenMatcherInterface) {
-    if (get.symbol('(')) {
+    if (peek.symbol('(')) {
+      const callable = this.lookup('IS_FUNCTOR', tokens, this.child.callable);
+
+      if (callable) {
+        return new ExpressionNode(this.child.callable(tokens));
+      }
+
+      ensure.symbol('(');
+
       const expression = this.child.expression(tokens);
 
       ensure.symbol(')');

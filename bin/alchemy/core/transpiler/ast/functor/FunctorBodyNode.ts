@@ -1,8 +1,10 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
+import { BlockNode } from '../block';
+
 export class FunctorBodyNode extends AbstractNode {
   constructor(
-    public body: string
+    public block: BlockNode
   ) {
     super();
   }

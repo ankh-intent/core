@@ -31,28 +31,48 @@ export abstract class BaseBuilder<
   }
 
   protected get name(): string {
-    return Strings.camelCaseToHyphenCase(
+    return Strings.camelCaseToSnakeCase(
       this.constructor.name.replace(/Builder$/, '')
     );
   }
 
   public visit(tokens: TokenMatcher<TT>): N|null {
-    const mark = tokens.current();
+    const index = tokens.current();
+    const state = tokens.pushState();
 
     try {
       const node: N|null = this.build(tokens, tokens.matcher);
 
       if (node) {
-        node.astRegion = this.narrowRegion(tokens, mark);
+        node.astRegion = this.narrowRegion(tokens, index);
       } else {
-        tokens.goto(mark);
+        tokens.goto(index);
       }
+
+      tokens.popState(state);
 
       return node;
     } catch (e) {
-      tokens.goto(mark);
+      tokens.goto(index);
 
       throw this.error(tokens, this.name, `Failed @${this.name}`, e);
+    }
+  }
+
+  protected lookup<T extends TreeNode>(marker: string, tokens: TokenMatcher<TT>, invoker: BuildInvoker<T>): T|null {
+    const mark = { marker };
+
+    try {
+      tokens.mark(mark);
+
+      return invoker(tokens);
+    } catch (e) {
+      if (tokens.has(marker) > tokens.has(mark)) {
+        // relative marker found
+        throw e;
+      }
+
+      return null;
     }
   }
 

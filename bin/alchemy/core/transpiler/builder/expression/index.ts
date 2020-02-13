@@ -8,7 +8,11 @@ import {
   CallNode,
   IndexedNode,
   ChainNode,
-  LiteralNode, ArrayNode, ObjectNode, ObjectPropertyNode,
+  LiteralNode,
+  ArrayNode,
+  ObjectNode,
+  ObjectPropertyNode,
+  CallableNode,
 } from '../../ast';
 
 import { AccessorChildren, AccessorBuilder } from './AccessorBuilder';
@@ -23,6 +27,7 @@ import { ExpressionChildren, ExpressionBuilder } from './ExpressionBuilder';
 import { IdentifierChildren, IdentifierBuilder } from './IdentifierBuilder';
 import { IndexedChildren, IndexedBuilder } from './IndexedBuilder';
 import { ArrayChildren, ArrayBuilder } from './literal/ArrayBuilder';
+import { CallableChildren, CallableBuilder } from './literal/CallableBuilder';
 import { LiteralChildren, LiteralBuilder } from './literal/LiteralBuilder';
 import { ObjectChildren, ObjectBuilder } from './literal/ObjectBuilder';
 import { ObjectPropertyChildren, ObjectPropertyBuilder } from './literal/ObjectPropertyBuilder';
@@ -42,6 +47,7 @@ export type ExpressionInvokers = {
   multiplicative: ExpressionNode;
   accessor: ExpressionNode;
   literal: LiteralNode;
+  callable: CallableNode;
   array: ArrayNode;
   object: ObjectNode;
   object_property: ObjectPropertyNode;
@@ -61,6 +67,7 @@ export type ExpressionDependencies =
   LiteralChildren &
   ArrayChildren &
   ObjectChildren &
+  CallableChildren &
   ObjectPropertyChildren &
   ExpressionChildren;
 
@@ -79,6 +86,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
     multiplicative : new MultiplicativeBuilder(invokers),
     accessor       : new AccessorBuilder(invokers),
     literal        : new LiteralBuilder(invokers),
+    callable       : new CallableBuilder(invokers),
     array          : new ArrayBuilder(invokers),
     object         : new ObjectBuilder(invokers),
     object_property: new ObjectPropertyBuilder(invokers),

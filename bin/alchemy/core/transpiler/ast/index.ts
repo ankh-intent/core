@@ -6,3 +6,4 @@ export * from './reference';
 export * from './functor';
 export * from './expression';
 export * from './literal';
+export * from './block';
