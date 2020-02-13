@@ -154,13 +154,10 @@ domain Types {
     }
   }
 
-  domain Transform {{
-      (temperature: Temperature, in: Ingredients) => Ingredients,
-    }
-
+  domain Transform {
     domain Proportional extends Transform {{
         out: Ingredient,
-        ratio: (in: Ingredient.Stack) => PositiveNumber = (in: Ingredient.Stack) => in.count,
+        ratio = (in: Ingredient.Stack) => in.count,
       }
 
       (temperature: Temperature, in: Ingredients) => Ingredients {
@@ -171,6 +168,10 @@ domain Types {
 
         return Ingredients(processed).combine();
       }
+    }
+
+    (temperature: Temperature, in: Ingredients) => {
+      return Ingredients;
     }
   }
 
