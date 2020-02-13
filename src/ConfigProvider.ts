@@ -116,6 +116,12 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "default": defaults.output!.extension,
           "requiresArg": true,
         },
+        "verbose": {
+          "type": "boolean",
+          "describe": "Print native errors stack in stack-traces",
+          "default": defaults.emit!.verbose,
+          "requiresArg": false,
+        },
       },
     };
   }
@@ -136,6 +142,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
       files: this.get("output-emit-files"),
       stats: this.get("output-emit-stats"),
       config: this.get("output-emit-config"),
+      verbose: this.get("verbose"),
     };
   }
 

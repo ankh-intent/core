@@ -25,6 +25,7 @@ const config: TranspilerConfig = {
     files: true,
     stats: false,
     config: false,
+    verbose: false,
   },
   watch: {
     root: cwd,

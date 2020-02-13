@@ -1,5 +1,6 @@
 import { Logger, Strings } from '@intent/utils';
 import { SyntaxError } from '@intent/parser';
+import { CoreConfig } from '../CoreConfig';
 
 import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel/event';
 
@@ -18,11 +19,13 @@ interface ErrorRef {
 }
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
+  private readonly config: CoreConfig;
   private readonly logger: Logger;
 
-  public constructor(bus: CoreEventBus, logger: Logger) {
+  public constructor(bus: CoreEventBus, config: CoreConfig, logger: Logger) {
     super(bus);
     this.logger = logger;
+    this.config = config;
   }
 
   public supports(event: CoreEvent): boolean {
@@ -153,7 +156,11 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     }];
   }
 
-  private describeNativeError(error: Error): ErrorRef[] {
+  private describeNativeError(error: Error): ErrorRef[]|undefined {
+    if (!this.config.emit.verbose) {
+      return;
+    }
+
     return (error.stack || '')
       .split("\n")
       .slice(1)

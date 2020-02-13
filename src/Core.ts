@@ -40,7 +40,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     observer.bootstrap(this, resolved);
 
     this.events
-      .add(new ErrorConsumer(this.events, this.logger))
+      .add(new ErrorConsumer(this.events, resolved, this.logger))
       .add(new StatConsumer(this.events, resolved, this.logger))
       .add(this.eventChainMonitor)
       .add({
