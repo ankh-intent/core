@@ -37,9 +37,21 @@ export interface TokensFactory<TT extends BaseTokenTypes> {
   (source: Source): TokenMatcher<TT>;
 }
 
-const matcherToString = (matcher: MatcherInterface) => (
-  Object.keys(matcher).map((key) => `${key} "${matcher[key]}"`).join(', ')
-);
+const matcherToString = (matcher: MatcherInterface) => {
+  if (matcher.type && !matcher.value) {
+    return `@${matcher.type}()`;
+  }
+
+  if (matcher.value && !matcher.type) {
+    return `"${matcher.value}"`;
+  }
+
+  if (!(matcher.type || matcher.value)) {
+    return '<any>';
+  }
+
+  return `@${matcher.type}("${matcher.value}")`;
+};
 
 export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> extends Enumerator<TT, U> {
   private readonly types: TT;
@@ -92,12 +104,12 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
 
     const { value, type } = matcher;
 
-    if (value && (token.value !== value)) {
-      throw this.error(`expect(${value})`, `Expected "${value}", but got "${token.value}"`);
-    }
-
     if (type && (token.type !== type)) {
       throw this.error(`@type(${type})`, `Expected @${type}, but got @${token.type}`);
+    }
+
+    if (value && (token.value !== value)) {
+      throw this.error(`expect("${value}")`, `Expected "${value}", but got "${token.value}"`);
     }
 
     this.next();
@@ -115,7 +127,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     );
   }
 
-  get matcher() {
+  get matcher(): TypedTokenMatcherInterface<TT> {
     return this._matcher || (this._matcher = new TypedMatcher(this.types, this));
   }
 }
