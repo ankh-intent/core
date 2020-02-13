@@ -8,10 +8,18 @@ export type TypeGenericChildren = {
 };
 
 export class TypeGenericBuilder extends BaseBuilder<TypeGenericNode<TypeNode>, TypeGenericChildren> {
-  protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
+  protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
     const types: TypeNode[] = [];
 
     while (true) {
+      if (types.length) {
+        if (!peek.symbol(',')) {
+          break;
+        }
+
+        ensure.symbol(',');
+      }
+
       const type = this.child.type(tokens);
 
       if (type) {
