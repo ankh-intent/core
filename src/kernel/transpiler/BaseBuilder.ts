@@ -1,6 +1,12 @@
 import { Strings } from '@intent/utils';
 import { Region } from '@intent/source';
-import { Token, BaseTokenTypes, TokenMatcher, TypedMatcher } from '@intent/parser';
+import {
+  Token,
+  BaseTokenTypes,
+  TokenMatcher,
+  SyntaxError,
+  TypedTokenMatcherInterface,
+} from '@intent/parser';
 
 import { TreeNode, TokenVisitor } from '../ast';
 
@@ -46,7 +52,7 @@ export abstract class BaseBuilder<
     } catch (e) {
       tokens.goto(mark);
 
-      throw tokens.error(this.name, `Failed @${this.name}`, e);
+      throw this.error(tokens, this.name, `Failed @${this.name}`, e);
     }
   }
 
@@ -82,6 +88,19 @@ export abstract class BaseBuilder<
     return token;
   }
 
-  protected abstract build(tokens: TokenMatcher<TT>, matcher: TypedMatcher<TT>): N|null;
-}
+  public error(tokens: TokenMatcher<TT>, expectation: string|TreeNode, reason: string, parent?: Error): SyntaxError {
+    if (typeof expectation !== 'string') {
+      return new SyntaxError(
+        reason,
+        expectation.node,
+        tokens.source,
+        tokens.source.position(expectation.astRegion.from),
+        parent,
+      );
+    }
 
+    return tokens.error(expectation, reason, parent);
+  }
+
+  protected abstract build(tokens: TokenMatcher<TT>, matcher: TypedTokenMatcherInterface<TT>): N|null;
+}
