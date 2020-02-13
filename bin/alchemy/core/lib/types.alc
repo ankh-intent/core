@@ -73,11 +73,11 @@ domain Types {
       brew: BrewPhase[],
     }
 
-    matchStack(required: Stack, stack: Stack) {
+    matchStack(required: Stack, stack: Stack) => {
       return (required.ingredient is stack.ingredient) && (required.count <= stack.count);
     }
 
-    match(stacks: Ingredients) {
+    match(stacks: Ingredients) => {
       let required = Set(ingredients);
 
       each (let stack of ingredients) {
@@ -99,7 +99,7 @@ domain Types {
       variations: Variation[],
     }
 
-    match(ingredients: Ingredients) {
+    match(ingredients: Ingredients) => {
       each (let variation of variations) {
         if (variation.match(ingredients)) {
           return variation;
@@ -112,7 +112,7 @@ domain Types {
       failure: Variation;
     }
 
-    findForIngredients(ingredients: Ingredients): Variation {
+    findForIngredients(ingredients: Ingredients): Variation => {
       each (let recipe of this) {
         if (let variation = recipe.match(ingredients)) {
           return variation;
@@ -139,7 +139,7 @@ domain Types {
       temperature: Temperature,
     }}
 
-    brew(variation: Variation, ingredients: Ingredients): Ingredients {
+    brew(variation: Variation, ingredients: Ingredients): Ingredients => {
       let outcome = ingredients;
 
       each (let phase of variation.brew) {
@@ -159,8 +159,10 @@ domain Types {
     }
 
     domain Proportional extends Transform {{
-      out: Ingredient,
-      ratio: (in: Ingredient.Stack) => PositiveNumber = (in: Ingredient.Stack) => in.count,
+        out: Ingredient,
+        ratio: (in: Ingredient.Stack) => PositiveNumber = (in: Ingredient.Stack) => in.count,
+      }
+
       (temperature: Temperature, in: Ingredients) => Ingredients {
         let processed = in.map(stack => Ingredient.Stack(
           ingredient: out,
@@ -168,8 +170,8 @@ domain Types {
         );
 
         return Ingredients(processed).combine();
-      },
-    }}
+      }
+    }
   }
 
   domain Pill extends Ingredient {{
