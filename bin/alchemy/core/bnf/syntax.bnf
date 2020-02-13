@@ -4,7 +4,7 @@ module
   ::= use* domain
 
 qualifier
-  ::= identifier ('.' identifier)*
+  ::= identifier ('.' qualifier)?
 
 use
   ::= 'use' qualifier (use_decomposition | use_alias) ';'
@@ -90,6 +90,12 @@ chain
 indexed
   ::= '[' expression ']'
 
+object
+  ::= '{' (object_entry ',')* '}'
+
+object_entry
+  ::= identifier ':' expression
+
 call
   ::= '(' call_args? ')'
 
@@ -112,7 +118,7 @@ arithmetic2
   ::= accessor (('*' | '/' | '%' | '**') expression)*
 
 accessor
-  ::= ('(' expression ')') | literal | identifier
+  ::= ('(' expression ')') | object | literal | identifier
 
 literal
   ::= string | number
