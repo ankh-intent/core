@@ -13,11 +13,10 @@ export class ModuleTranspiler extends AbstractTranspiler<ModuleNode> {
 
   protected get code(): string {
     return `
-      (() => {
+      ((Alchemy) => {
         {%*uses%}
-
-        return {%*domain%};
-      })();
+        {%domain%}
+      })(window['Alchemy']);
     `;
   }
 }

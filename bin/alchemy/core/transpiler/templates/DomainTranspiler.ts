@@ -17,11 +17,6 @@ export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
     return `
       const {%identifier%} = (() => {
         {%*uses%}
-        {%*types%}
-
-        const I{%identifier%} = {
-          {%*init%},
-        };
 
         return {
           {%*construct%},
@@ -33,13 +28,10 @@ export class DomainTranspiler extends AbstractTranspiler<DomainNode> {
   public resolve(data: DomainNode, key: string): any {
     switch (key) {
       case 'names':
-        return Object.keys(data.types);
-
-      case 'init' :
-        return Object.values(data.types);
+        return [...data.domains.keys()];
 
       case 'construct':
-        return Object.values(data.types);
+        return data.ctor;
     }
 
     return super.resolve(data, key);
