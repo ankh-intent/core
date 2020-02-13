@@ -74,15 +74,7 @@ function_args
 arg
   ::= identifier ':' domain_reference ('=' expression)?
 
-function_body
-  ::= '{' (statement ';')* '}'
-
-// statements
-statement
-  ::= assignment | expression
-
-assignment
-  ::= 'let' qualifier '=' expression
+// expressions
 
 expression
   ::= comparision (chain | indexed | call)*
@@ -132,3 +124,39 @@ object_entry
 literal
   ::= string | number
 
+// method body
+block
+  ::= '{' (decorated_block_item | block_item)* '}'
+
+block_item
+  ::= if | loop | ((break | return | statement) ';')
+
+statement
+  ::= assignment | expression
+
+decorated_block_item
+  ::= '@' expression block_item
+
+assignment
+  ::= assignment_target '=' expression
+
+assignment_target
+  ::= 'let' identifier
+
+loop
+  ::= 'each' loop_iterator block
+
+if
+  ::= 'if' statement block ('else' block)?
+
+break
+  ::= 'break' | 'continue'
+
+return
+  ::= 'return' expression
+
+function_body
+  ::= block
+
+loop_iterator
+  ::= assignment_target 'of' expression

@@ -8,11 +8,13 @@ import { factory as functorBuildersFactory, FunctorInvokers } from './functor';
 import { factory as expressionBuildersFactory, ExpressionInvokers } from './expression';
 import { factory as domainBuildersFactory, DomainInvokers } from './domain';
 import { factory as domainReferenceBuildersFactory, DomainReferenceInvokers } from './domain_reference';
+import { factory as blockBuildersFactory, BlockInvokers } from './block';
 
 type AlchemyGrammar =
   DomainReferenceInvokers &
   UseInvokers &
   FunctorInvokers &
+  BlockInvokers &
   ExpressionInvokers &
   DomainInvokers &
   ModuleChildren
@@ -28,6 +30,7 @@ export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, 
       ...useBuildersFactory(this.invokers),
       ...domainBuildersFactory(this.invokers),
       ...domainReferenceBuildersFactory(this.invokers),
+      ...blockBuildersFactory(this.invokers),
     };
   }
 }
