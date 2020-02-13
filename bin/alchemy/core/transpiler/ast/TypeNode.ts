@@ -1,11 +1,13 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
 import { QualifierNode } from './QualifierNode';
+import { TypeGenericNode } from './TypeGenericNode';
 
 export class TypeNode extends AbstractNode {
   public constructor(
     public qualifier: QualifierNode,
-    public generic: any,
+    public generic: TypeGenericNode<TypeNode>|null,
+    public isArray: boolean = false,
   ) {
     super();
   }

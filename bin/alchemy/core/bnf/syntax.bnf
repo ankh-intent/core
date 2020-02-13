@@ -20,7 +20,7 @@ use_decomposition_item
 
 // domain
 domain
-  ::= 'domain' identifier generic_definition? ('extends' type_reference)? '{' domain_body '}'
+  ::= 'domain' identifier generic_definition? ('extends' domain_reference)? '{' domain_body '}'
 
 domain_body
   ::= constructor? use? domain_clause* can?
@@ -29,7 +29,7 @@ domain_clause
   ::= domain | enum
 
 enum
-  ::= 'enum' identifier ('extends' type_reference) '{' (enum_clause (',' enum_clause)*)? '}'
+  ::= 'enum' identifier ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
 
 enum_clause
   ::= (enum_inheritor | identifier) '=' expression
@@ -41,14 +41,14 @@ constructor
   ::= '{' (constructor_property (',' constructor_property)* ','?)? '}'
 
 constructor_property
-  ::= identifier (':' type_reference ('=' expression)) | ('=' expression)
+  ::= identifier (':' domain_reference ('=' expression)) | ('=' expression)
 
 constructor_method
   ::= '('
 
 // domain lookup
 domain_reference
-  ::= qualifier domain_reference_generic?
+  ::= qualifier domain_reference_generic? ('[' ']')?
 
 domain_reference_generic
   ::= '<' domain_reference (',' domain_reference)* '>'
@@ -89,12 +89,6 @@ chain
 
 indexed
   ::= '[' expression ']'
-
-object
-  ::= '{' (object_entry ',')* '}'
-
-object_entry
-  ::= identifier ':' expression
 
 call
   ::= '(' call_args? ')'

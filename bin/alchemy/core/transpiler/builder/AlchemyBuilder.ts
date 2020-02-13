@@ -4,11 +4,11 @@ import { RootBuilder } from '@intent/kernel/transpiler';
 import { ModuleNode } from '../ast';
 import { QualifierBuilder, QualifierChildren } from './QualifierBuilder';
 import { TypeBuilder, TypeChildren } from './TypeBuilder';
+import { TypeGenericBuilder, TypeGenericChildren } from './TypeGenericBuilder';
 import { TypePropertyBuilder, PropertyChildren } from './TypePropertyBuilder';
 import { DecompositionBuilder, DecompositionChildren } from './use/DecompositionBuilder';
 import { UseBuilder, UseChildren } from './use/UseBuilder';
 import { UsesBuilder, UsesChildren } from './use/UsesBuilder';
-import { TypeDefBuilder, TypeDefChildren } from './TypeDefBuilder';
 import { CanBuilder, CanChildren } from './CanBuilder';
 import { FunctorBuilder, FunctorChildren } from './functor/FunctorBuilder';
 import { FunctorArgsBuilder, FunctorArgsChildren } from './functor/FunctorArgsBuilder';
@@ -25,9 +25,9 @@ type AlchemyGrammar =
   QualifierChildren &
   UseChildren &
   TypeChildren &
+  TypeGenericChildren &
   UsesChildren &
   DecompositionChildren &
-  TypeDefChildren &
   PropertyChildren &
   CanChildren &
   FunctorChildren &
@@ -48,6 +48,7 @@ export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, 
       ...ExpressionBuilder.buildersFactory(this.invokers),
       qualifier    : new QualifierBuilder(this.invokers),
       type         : new TypeBuilder(this.invokers),
+      type_generic : new TypeGenericBuilder(this.invokers),
       property     : new TypePropertyBuilder(this.invokers),
       use          : new UseBuilder(this.invokers),
       uses         : new UsesBuilder(this.invokers),
@@ -57,7 +58,6 @@ export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, 
       args         : new FunctorArgsBuilder(this.invokers),
       block        : new FunctorBodyBuilder(this.invokers),
       constraint   : new ConstraintBuilder(this.invokers),
-      typedef      : new TypeDefBuilder(this.invokers),
       domain       : new DomainBuilder(this.invokers),
       interface    : new InterfaceBuilder(this.invokers),
       iproperty    : new InterfacePropertyBuilder(this.invokers),

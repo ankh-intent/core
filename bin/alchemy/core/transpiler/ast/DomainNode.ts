@@ -1,7 +1,7 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { FunctorNode } from './functor/FunctorNode';
-import { InterfaceNode } from './interface/InterfaceNode';
+import { FunctorNode } from './functor';
+import { InterfaceNode } from './interface';
 import { TypeNode } from './TypeNode';
 import { UsesNode } from './UsesNode';
 

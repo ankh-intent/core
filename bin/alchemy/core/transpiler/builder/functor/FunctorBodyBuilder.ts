@@ -1,7 +1,7 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
 import { AlchemyBuildInvokers } from '../../Alchemy';
-import { FunctorBodyNode } from '../../ast/functor/FunctorBodyNode';
+import { FunctorBodyNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export interface FunctorBodyChildren extends AlchemyBuildInvokers {
