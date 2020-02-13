@@ -1,11 +1,8 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { PropertyNode } from './PropertyNode';
-import { TypeNode } from './TypeNode';
+import { FunctorNode } from './functor/FunctorNode';
 
 export class CanNode extends AbstractNode {
   public name: string;
-  public args: {[name: string]: PropertyNode};
-  public returns: TypeNode | null;
-  public body: string;
+  public func: FunctorNode;
 }

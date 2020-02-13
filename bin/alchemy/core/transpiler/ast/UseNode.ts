@@ -1,6 +1,7 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
 import { DecompositionNode } from './DecompositionNode';
+import { QualifierNode } from './QualifierNode';
 
 export class UseNode extends AbstractNode {
   public constructor(
@@ -11,5 +12,9 @@ export class UseNode extends AbstractNode {
 
   get alias(): string {
     return this.decomposition.alias;
+  }
+
+  get qualifier(): QualifierNode {
+    return this.decomposition.qualifier;
   }
 }

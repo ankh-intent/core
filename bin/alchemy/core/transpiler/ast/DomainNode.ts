@@ -1,10 +1,19 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { TypeDefNode } from './TypeDefNode';
-import { UseNode } from './UseNode';
+import { FunctorNode } from './functor/FunctorNode';
+import { InterfaceNode } from './interface/InterfaceNode';
+import { TypeNode } from './TypeNode';
+import { UsesNode } from './UsesNode';
 
 export class DomainNode extends AbstractNode {
-  public identifier: string;
-  public types: {[name: string]: TypeDefNode};
-  public uses: {[name: string]: UseNode};
+  constructor(
+    public identifier: string,
+    public parent: TypeNode|null,
+    public intf: InterfaceNode,
+    public uses: UsesNode,
+    public domains: Map<string, DomainNode> = new Map(),
+    public ctor: FunctorNode|null = null,
+  ) {
+    super();
+  }
 }
