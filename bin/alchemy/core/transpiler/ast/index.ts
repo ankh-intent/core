@@ -12,3 +12,4 @@ export * from './DecompositionNode';
 export * from './functor';
 export * from './interface';
 export * from './expression';
+export * from './literal';
