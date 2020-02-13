@@ -6,9 +6,17 @@ domain Test {
     Recipes,
   };
 
-  use Alchemy.Ingredients.*;
-  use Alchemy.Recipes.*;
-  use Alchemy.Cauldrons.*;
+  use Alchemy.Ingredients: {
+    Zhenshen,
+    Lotus,
+  };
+  use Alchemy.Recipes: {
+    CommonVariations,
+    PillRecipes,
+  };
+  use Alchemy.Cauldrons: {
+    ProfoundCauldron,
+  };
 
   can() {
     let recipes = Recipes(failure: CommonVariations.Sludge, [
