@@ -70,8 +70,8 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
   private readonly types: TT;
   private _matcher: TypedTokenMatcherInterface<TT>;
 
-  public peek(matcher: MatcherInterface, offset: number = 1): Token|null {
-    const token = this.at(this.current() + offset);
+  public peek(matcher: MatcherInterface, offset: number = 0): Token|null {
+    const token = this.at(this.current() + offset + 1);
 
     if (token) {
       const { value, type } = matcher;
