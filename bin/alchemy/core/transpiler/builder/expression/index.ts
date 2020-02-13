@@ -12,7 +12,7 @@ import {
   ArrayNode,
   ObjectNode,
   ObjectPropertyNode,
-  CallableNode,
+  CallableNode, IsDomainNode,
 } from '../../ast';
 
 import { AccessorChildren, AccessorBuilder } from './AccessorBuilder';
@@ -26,6 +26,7 @@ import { ComparisionChildren, ComparisionBuilder } from './ComparisionBuilder';
 import { ExpressionChildren, ExpressionBuilder } from './ExpressionBuilder';
 import { IdentifierChildren, IdentifierBuilder } from './IdentifierBuilder';
 import { IndexedChildren, IndexedBuilder } from './IndexedBuilder';
+import { IsDomainBuilder, IsDomainChildren } from './IsDomainBuilder';
 import { ArrayChildren, ArrayBuilder } from './literal/ArrayBuilder';
 import { CallableChildren, CallableBuilder } from './literal/CallableBuilder';
 import { LiteralChildren, LiteralBuilder } from './literal/LiteralBuilder';
@@ -42,6 +43,7 @@ export type ExpressionInvokers = {
   call: CallNode;
   call_args: CallArgsNode;
   call_arg: CallArgNode;
+  is_domain: IsDomainNode;
   boolean: ExpressionNode;
   additive: ExpressionNode;
   multiplicative: ExpressionNode;
@@ -58,6 +60,7 @@ export type ExpressionDependencies =
   CallArgChildren &
   IdentifierChildren &
   CallChildren &
+  IsDomainChildren &
   ChainChildren &
   IndexedChildren &
   BooleanChildren &
@@ -81,6 +84,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
     call           : new CallBuilder(invokers),
     call_args      : new CallArgsBuilder(invokers),
     call_arg       : new CallArgBuilder(invokers),
+    is_domain      : new IsDomainBuilder(invokers),
     boolean        : new BooleanBuilder(invokers),
     additive       : new AdditiveBuilder(invokers),
     multiplicative : new MultiplicativeBuilder(invokers),

@@ -75,7 +75,7 @@ functor_arg
 
 // expressions
 expression
-  ::= comparision (chain | indexed | call)*
+  ::= comparision (chain | indexed | call | is)*
 
 chain
   ::= '.' identifier
@@ -91,6 +91,9 @@ call_args
 
 call_arg
   ::= (identifier ':')? expression
+
+is
+  ::= 'is' domain_reference
 
 comparision
   ::= boolean (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*

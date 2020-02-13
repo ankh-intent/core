@@ -8,6 +8,7 @@ export type ExpressionChildren = {
   chain: BinaryOperationNode;
   indexed: BinaryOperationNode;
   call: BinaryOperationNode;
+  is_domain: BinaryOperationNode;
 };
 
 export class ExpressionBuilder extends BaseBuilder<ExpressionNode, ExpressionChildren> {
@@ -22,6 +23,8 @@ export class ExpressionBuilder extends BaseBuilder<ExpressionNode, ExpressionChi
         operations.push(this.child.indexed(tokens));
       } else if (peek.symbol('(')) {
         operations.push(this.child.call(tokens));
+      } else if (peek.identifier('is')) {
+        operations.push(this.child.is_domain(tokens));
       } else {
         break;
       }
