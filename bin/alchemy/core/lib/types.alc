@@ -50,7 +50,7 @@ domain Types {
   }
 
   domain Ingredients extends Ingredient.Stack[] {
-    combine() {
+    combine() => {
       let stacks = [];
 
       each (let stack of this) {
