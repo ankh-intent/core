@@ -160,7 +160,7 @@ domain Types {
         ratio = (in: Ingredient.Stack) => in.count,
       }
 
-      (temperature: Temperature, in: Ingredients) => Ingredients {
+      (temperature: Temperature, in: Ingredients): Ingredients => {
         let processed = in.map(stack => Ingredient.Stack(
           ingredient: out,
           count: ratio(stack),
