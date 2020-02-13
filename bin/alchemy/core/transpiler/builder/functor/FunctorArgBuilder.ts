@@ -8,15 +8,11 @@ export type FunctorArgChildren = {
 };
 
 export class FunctorArgBuilder extends BaseBuilder<FunctorArgNode, FunctorArgChildren> {
-  protected build(tokens, { get, not }: TypedTokenMatcherInterface) {
+  protected build(tokens, { get, not, ensure }: TypedTokenMatcherInterface) {
     const name = get.identifier();
 
-    if (!name) {
-      return null;
-    }
-
-    if (not.symbol(':')) {
-      return null;
+    if (name) {
+      ensure.symbol(':');
     }
 
     const type = this.child.type(tokens);

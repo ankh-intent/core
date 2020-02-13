@@ -8,21 +8,15 @@ export type ArrayChildren = {
 };
 
 export class ArrayBuilder extends BaseBuilder<ArrayNode, ArrayChildren> {
-  protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+  protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
     const items: ExpressionNode[] = [];
 
     ensure.symbol('[');
 
-    while (true) {
-      if (items.length) {
-        ensure.symbol(',');
-      }
+    while (!peek.symbol(']')) {
+      items.push(this.child.expression(tokens));
 
-      const item = this.child.expression(tokens);
-
-      if (item) {
-        items.push(item);
-      } else {
+      if (not.symbol(',')) {
         break;
       }
     }

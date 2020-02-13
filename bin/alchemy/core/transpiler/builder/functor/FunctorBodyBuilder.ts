@@ -1,13 +1,18 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { FunctorBodyNode } from '../../ast';
+import { FunctorBodyNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorBodyChildren = {
+  expression: ExpressionNode;
 };
 
 export class FunctorBodyBuilder extends BaseBuilder<FunctorBodyNode, FunctorBodyChildren> {
   protected build(tokens, { peek, not, get, except, ensure }: TypedTokenMatcherInterface) {
+    if (!peek.symbol('{')) {
+      return new FunctorBodyNode(this.child.expression(tokens).astRegion.extract());
+    }
+
     ensure.symbol('{');
 
     const wrapBefore = ['='];

@@ -9,24 +9,19 @@ export type FunctorArgsChildren = {
 
 export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgsChildren> {
   protected build(tokens, { peek, not, get, except, ensure }: TypedTokenMatcherInterface) {
-    const args = {};
+    const args: FunctorArgNode[] = [];
 
     while (!peek.symbol(')')) {
-      if (Object.keys(args).length) {
-        ensure.symbol(',');
-      }
-
       const arg = this.child.functor_arg(tokens);
 
-      if (arg) {
-        if (args[arg.name]) {
-          throw tokens.error(`Property with the same name "${arg.name}" already present`);
-        }
+      if (arg.name && args.find(a => a.name === arg.name)) {
+        throw tokens.error(`Argument with the same name "${arg.name}" already present`);
+      }
 
-        args[arg.name] = arg;
-      } else {
-        const token = get.any();
-        throw tokens.error(`")" or method argument expected, ${token ? `"${token.value}"` : 'EOF'} found`);
+      args.push(arg);
+
+      if (not.symbol(',')) {
+        break;
       }
     }
 

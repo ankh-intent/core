@@ -8,10 +8,12 @@ export type ObjectChildren = {
 };
 
 export class ObjectBuilder extends BaseBuilder<ObjectNode, ObjectChildren> {
-  protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+  protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
+    ensure.symbol('{');
+
     const properties = new Map<string, ObjectPropertyNode>();
 
-    while (peek.identifier()) {
+    while (!peek.symbol('}')) {
       const property = this.child.object_property(tokens);
 
       if (properties.has(property.identifier)) {
@@ -20,7 +22,9 @@ export class ObjectBuilder extends BaseBuilder<ObjectNode, ObjectChildren> {
 
       properties.set(property.identifier, property);
 
-      ensure.symbol(',');
+      if (not.symbol(',')) {
+        break;
+      }
     }
 
     ensure.symbol('}');

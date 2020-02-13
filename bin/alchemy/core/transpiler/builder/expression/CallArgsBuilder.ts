@@ -8,19 +8,15 @@ export type CallArgsChildren = {
 };
 
 export class CallArgsBuilder extends BaseBuilder<CallArgsNode, CallArgsChildren> {
-  protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+  protected build(tokens, { not, peek }: TypedTokenMatcherInterface) {
     const args: CallArgNode[] = [];
 
-    while (true) {
-      if (peek.symbol(')')) {
+    while (!peek.symbol(')')) {
+      args.push(this.child.call_arg(tokens));
+
+      if (not.symbol(',')) {
         break;
       }
-
-      if (args.length) {
-        ensure.symbol(',');
-      }
-
-      args.push(this.child.call_arg(tokens))
     }
 
     return new CallArgsNode(

@@ -155,9 +155,15 @@ domain Types {
   }
 
   domain Transform {
+    domain RatioTransform {
+      domain Count extends RatioTransform {
+        (in: Ingredient.Stack) => in.count
+      }
+    }
+
     domain Proportional extends Transform {{
         out: Ingredient,
-        ratio = (in: Ingredient.Stack) => in.count,
+        ratio: RatioTransform = RatioTransform.Count,
       }
 
       (temperature: Temperature, in: Ingredients): Ingredients => {
