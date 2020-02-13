@@ -31,9 +31,9 @@ export class Template<S> implements TemplateInterface<S, string[]> {
     let str;
 
     if (data !== null) {
-      if (data instanceof Array) {
+      if (Array.isArray(data)) {
         return Strings.fold(
-          data.map((data) => this.consume(lines, match, data))
+          data.map((item) => this.consume(lines, match, item))
         );
       }
 
@@ -43,13 +43,7 @@ export class Template<S> implements TemplateInterface<S, string[]> {
         );
       }
 
-      if (typeof data === 'object') {
-        const name = (data.constructor !== Object) ? data.constructor.name : '<Unresolved>';
-
-        str = `{{ Object(${name}) }}`;
-      } else {
-        str = String(data);
-      }
+      str = String(data);
     } else {
       str = '';
     }
