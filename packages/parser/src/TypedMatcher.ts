@@ -5,6 +5,7 @@ import {
   TypedTokenMatcherInterface,
   TypeMatcherInterface,
   PeekTypeMatcherInterface,
+  IsTypeMatcherInterface,
   TokenMatcher,
 } from './TokenMatcher';
 
@@ -16,6 +17,7 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
   private _ensure: TypeMatcherInterface<TT, string>;
   private _except: TypeMatcherInterface<TT, Token|null>;
   private _not: TypeMatcherInterface<TT, boolean>;
+  private _is: IsTypeMatcherInterface<TT, boolean>;
 
   public constructor(map: TT, matcher: TokenMatcher<TT>) {
     this.map = map;
@@ -77,6 +79,23 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
     return result;
   }
 
+  protected isTypes<T>(method: (token: Token, m: MatcherInterface|string) => T): IsTypeMatcherInterface<TT, T> {
+    const result: TypeMatcherInterface<TT, T> = {} as any;
+
+    for (const type of Object.values(BaseTokenTypes)) {
+      const base = (type === BaseTokenTypes.TK_ANY) ? null : { type };
+
+      result[type] = (token: Token, match?: MatcherInterface|string) => {
+        return method(
+          token,
+          this.reconcile(base, match),
+        );
+      };
+    }
+
+    return result;
+  }
+
   public get peek(): PeekTypeMatcherInterface<TT, string|null> {
     return this._peek || (this._peek = this.peekTypes(
       this.matcher.peek.bind(this.matcher),
@@ -108,6 +127,12 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
     return this._ensure || (this._ensure = this.types(
       this.matcher.ensure.bind(this.matcher),
       true,
+    ));
+  }
+
+  public get is(): IsTypeMatcherInterface<TT, boolean> {
+    return this._is || (this._is = this.isTypes(
+      this.matcher.is.bind(this.matcher),
     ));
   }
 }

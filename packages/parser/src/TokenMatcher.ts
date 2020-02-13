@@ -19,6 +19,10 @@ interface PeekMatchInvoker<T> {
   (match?: MatcherInterface|string, offset?: number): T;
 }
 
+interface IsMatchInvoker<T> {
+  (token: Token, match?: MatcherInterface|string): T;
+}
+
 export interface TypeMatcherInterface<TT extends BaseTokenTypes, T> {
   any: MatchInvoker<Token>;
   symbol: MatchInvoker<T>;
@@ -37,6 +41,15 @@ export interface PeekTypeMatcherInterface<TT extends BaseTokenTypes, T> {
   comment: PeekMatchInvoker<T>;
   whitespace: PeekMatchInvoker<T>;
 }
+export interface IsTypeMatcherInterface<TT extends BaseTokenTypes, T> {
+  any: IsMatchInvoker<Token>;
+  symbol: IsMatchInvoker<T>;
+  string: IsMatchInvoker<T>;
+  number: IsMatchInvoker<T>;
+  identifier: IsMatchInvoker<T>;
+  comment: IsMatchInvoker<T>;
+  whitespace: IsMatchInvoker<T>;
+}
 
 export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenTypes> = {
   peek: PeekTypeMatcherInterface<TT, string|null>;
@@ -44,6 +57,7 @@ export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenType
   except: TypeMatcherInterface<TT, Token|null>;
   not: TypeMatcherInterface<TT, boolean>;
   ensure: TypeMatcherInterface<TT, string>;
+  is: IsTypeMatcherInterface<TT, boolean>;
 }
 
 export interface TokensFactory<TT extends BaseTokenTypes> {
@@ -126,6 +140,20 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     }
 
     this.next();
+
+    return token;
+  }
+
+  public is(matcher: MatcherInterface, token: Token): Token|false {
+    const { value, type } = matcher;
+
+    if (type && (token.type !== type)) {
+      return false;
+    }
+
+    if (value && (token.value !== value)) {
+      return false;
+    }
 
     return token;
   }
