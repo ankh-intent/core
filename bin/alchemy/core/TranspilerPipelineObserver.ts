@@ -1,34 +1,25 @@
 import { Container } from '@intent/utils';
 import { Source } from '@intent/source';
-import { Compiler, Sampler, Substitutor, Template } from '@intent/template';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
 import { Module } from './chips/Module';
 import { QualifierResolver } from './chips/qualifier/QualifierResolver';
 import { BaseUseResolver } from './chips/use/BaseUseResolver';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
-import { ModuleNode } from './transpiler/ast';
+import { ModuleNode, DomainNode, UsesNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
-import { ModuleTranspiler } from './transpiler/templates/ModuleTranspiler';
+import { TypescriptTranspiler } from './TypescriptTranspiler';
 
 export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module > {
   private readonly qualifierResolver: QualifierResolver;
   private readonly useResolver: BaseUseResolver;
 
   public constructor(config: TranspilerConfig) {
-    const sampler = new Sampler('{%', '%}');
-    const substitutor = new Substitutor(sampler);
-
     super(
       config,
       (source: Source) => new AlchemyTokenMatcher(source, source.range()),
       new AlchemyBuilder(),
-      new ModuleTranspiler(
-        new Compiler(
-          sampler,
-          (code, resolver) => new Template(code, substitutor, resolver),
-        ),
-      ),
+      new TypescriptTranspiler(),
     );
     this.qualifierResolver = new QualifierResolver(config.paths);
     this.useResolver = new BaseUseResolver(config.paths);
