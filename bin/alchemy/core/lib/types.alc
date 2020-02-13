@@ -9,7 +9,7 @@ domain Types {
   }
 
   enum EnergyTier extends Number {
-    :Grade.Trash = 0,
+    :Grade.Trash = 0;
     :Grade.Low = 100;
     :Grade.Advanced = 1000;
     :Grade.Profound = 10000;
