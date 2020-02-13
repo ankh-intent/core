@@ -19,4 +19,8 @@ export class Token {
   public get raw(): string {
     return this.source.extract(this.start, this.end);
   }
+
+  public describe(): string {
+    return `@${this.type}("${this.value}")`;
+  }
 }

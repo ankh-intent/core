@@ -132,11 +132,11 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     const { value, type } = matcher;
 
     if (type && (token.type !== type)) {
-      throw this.error(`@type(${type})`, `Expected @${type}, but got @${token.type}`);
+      throw this.error(matcherToString(matcher), `Expected @${type}, but got @${token.type}`);
     }
 
     if (value && (token.value !== value)) {
-      throw this.error(`expect("${value}")`, `Expected "${value}", but got "${token.value}"`);
+      throw this.error(matcherToString(matcher), `Expected "${value}", but got "${token.value}"`);
     }
 
     this.next();
