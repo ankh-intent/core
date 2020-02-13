@@ -1,19 +1,17 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
-import { DomainNode, UsesNode, FunctorNode, TypeNode, EnumNode, ExpressionNode, InterfaceNode } from '../../ast';
+import { DomainNode, UsesNode, FunctorNode, TypeNode, EnumNode, ExpressionNode, DomainInterfaceNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface DomainChildren extends AlchemyBuildInvokers {
-  type: BuildInvoker<TypeNode>;
-  enum: BuildInvoker<EnumNode>;
-  domain: BuildInvoker<DomainNode>;
-  uses: BuildInvoker<UsesNode>;
-  functor: BuildInvoker<FunctorNode>;
-  expression: BuildInvoker<ExpressionNode>;
-  interface: BuildInvoker<InterfaceNode>;
-}
+export type DomainChildren = {
+  type: TypeNode;
+  enum: EnumNode;
+  domain: DomainNode;
+  uses: UsesNode;
+  functor: FunctorNode;
+  expression: ExpressionNode;
+  domain_interface: DomainInterfaceNode;
+};
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
   protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
@@ -29,7 +27,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     ensure.symbol('{');
 
     const uses = this.child.uses(tokens);
-    const intf = this.child.interface(tokens);
+    const intf = this.child.domain_interface(tokens);
     const domains = new Map<string, DomainNode>();
     const methods = new Map<string, FunctorNode>();
     const traits = new Set<ExpressionNode>();

@@ -1,13 +1,11 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { UsesNode, UseNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface UsesChildren extends AlchemyBuildInvokers {
-  use: BuildInvoker<UseNode>;
-}
+export type UsesChildren = {
+  use: UseNode;
+};
 
 export class UsesBuilder extends BaseBuilder<UsesNode, UsesChildren> {
   protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {

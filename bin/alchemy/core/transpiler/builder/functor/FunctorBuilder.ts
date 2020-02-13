@@ -1,14 +1,12 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { FunctorNode, TypeNode, FunctorArgsNode, FunctorBodyNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface FunctorChildren extends AlchemyBuildInvokers {
-  type: BuildInvoker<TypeNode>;
-  args: BuildInvoker<FunctorArgsNode>;
-  block: BuildInvoker<FunctorBodyNode>;
+export type FunctorChildren = {
+  type: TypeNode;
+  functor_args: FunctorArgsNode;
+  functor_body: FunctorBodyNode;
 }
 
 export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
@@ -17,7 +15,7 @@ export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
       return null;
     }
 
-    const args = this.child.args(tokens);
+    const args = this.child.functor_args(tokens);
 
     ensure.symbol(')');
 
@@ -25,7 +23,7 @@ export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
 
     ensure.symbol('=>');
 
-    const body = this.child.block(tokens);
+    const body = this.child.functor_body(tokens);
 
     return new FunctorNode(
       args,

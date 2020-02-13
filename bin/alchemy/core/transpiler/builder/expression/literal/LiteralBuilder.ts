@@ -1,11 +1,10 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { AlchemyBuildInvokers } from '../../../Alchemy';
 import { LiteralNode, LiteralType } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
-export interface LiteralChildren extends AlchemyBuildInvokers {
-}
+export type LiteralChildren = {
+};
 
 export class LiteralBuilder extends BaseBuilder<LiteralNode, LiteralChildren> {
   protected build(tokens, { get, peek }: TypedTokenMatcherInterface) {

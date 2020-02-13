@@ -1,14 +1,12 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { QualifierNode, DecompositionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface DecompositionChildren extends AlchemyBuildInvokers {
-  qualifier: BuildInvoker<QualifierNode>
-  decomposition: BuildInvoker<DecompositionNode>
-}
+export type DecompositionChildren = {
+  qualifier: QualifierNode;
+  decomposition: DecompositionNode;
+};
 
 export class DecompositionBuilder extends BaseBuilder<DecompositionNode, DecompositionChildren> {
   protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {

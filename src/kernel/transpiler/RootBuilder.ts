@@ -1,14 +1,15 @@
 import { BaseTokenTypes, TokenMatcher } from '@intent/parser';
+import { Container } from '@intent/utils';
 
 import { TokenVisitor, TreeNode } from '../ast';
-import { BuilderInvokers, BuildInvoker } from './BaseBuilder';
+import { BuilderInvokers } from './BaseBuilder';
 
 export type InvokableVisitors<T> = {[name in keyof T]: TokenVisitor<any>};
-export type RootInvokers<TT extends BaseTokenTypes, G, N extends TreeNode> = G & { root: BuildInvoker<N, TT> };
+export type RootInvokers<TT extends BaseTokenTypes, G extends Container<TreeNode>, N extends TreeNode> = G & { root: N };
 
 export class RootBuilder<
   TT extends BaseTokenTypes,
-  Grammar,
+  Grammar extends Container<TreeNode>,
   Node extends TreeNode,
   Invokers extends RootInvokers<TT, Grammar, Node> = RootInvokers<TT, Grammar, Node>,
 > implements TokenVisitor<Node, TT> {
@@ -17,10 +18,8 @@ export class RootBuilder<
   public constructor() {
     this.invokers = <any>{};
 
-    for (const builder of Object.keys(this.builders)) {
-      const visitor = this.builders[builder];
-
-      this.invokers[builder] = visitor.visit.bind(visitor);
+    for (const [builder, visitor] of Object.entries(this.builders)) {
+      this.invokers[builder as keyof Invokers] = visitor.visit.bind(visitor);
     }
   }
 

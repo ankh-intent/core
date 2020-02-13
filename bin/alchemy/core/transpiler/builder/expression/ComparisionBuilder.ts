@@ -1,11 +1,9 @@
-import { BuildInvoker } from '@intent/kernel/transpiler';
-
 import { ExpressionNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
 
-export interface ComparisionChildren extends OperableChildren {
-  boolean: BuildInvoker<ExpressionNode>;
-}
+export type ComparisionChildren = OperableChildren & {
+  boolean: ExpressionNode;
+};
 
 const CMP = ['>', '<', '>=', '<=', '!=', '=='];
 

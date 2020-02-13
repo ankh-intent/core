@@ -1,8 +1,8 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { TypeNode } from './TypeNode';
+import { TypeNode } from '../reference/TypeNode';
 
-export class TypePropertyNode extends AbstractNode {
+export class FunctorArgNode extends AbstractNode {
   public constructor(
     public name: string,
     public type: TypeNode,

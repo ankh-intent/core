@@ -1,24 +1,22 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../../Alchemy';
-import { InterfaceNode, InterfacePropertyNode } from '../../../ast';
+import { DomainInterfaceNode, DomainInterfacePropertyNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
-export interface InterfaceChildren extends AlchemyBuildInvokers {
-  iproperty: BuildInvoker<InterfacePropertyNode>;
-}
+export type DomainInterfaceChildren = {
+  domain_interface_property: DomainInterfacePropertyNode;
+};
 
-export class InterfaceBuilder extends BaseBuilder<InterfaceNode, InterfaceChildren> {
+export class InterfaceBuilder extends BaseBuilder<DomainInterfaceNode, DomainInterfaceChildren> {
   protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
     if (not.symbol('{')) {
       return null;
     }
 
-    const properties = new Map<string, InterfacePropertyNode>();
+    const properties = new Map<string, DomainInterfacePropertyNode>();
 
     while (peek.identifier()) {
-      const property = this.child.iproperty(tokens);
+      const property = this.child.domain_interface_property(tokens);
 
       if (properties.has(property.identifier)) {
         throw this.error(tokens, property, `Property with same name "${property.identifier}" already exists`);
@@ -31,7 +29,7 @@ export class InterfaceBuilder extends BaseBuilder<InterfaceNode, InterfaceChildr
 
     ensure.symbol('}');
 
-    return new InterfaceNode(
+    return new DomainInterfaceNode(
       properties,
     );
   }

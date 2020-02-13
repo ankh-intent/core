@@ -1,11 +1,9 @@
-import { BuildInvoker } from '@intent/kernel/transpiler';
-
 import { ExpressionNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
 
-export interface MultiplicativeChildren extends OperableChildren {
-  accessor: BuildInvoker<ExpressionNode>;
-}
+export type MultiplicativeChildren = OperableChildren & {
+  accessor: ExpressionNode;
+};
 
 const CMP = ['*', '/', '%', '**'];
 

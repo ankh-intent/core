@@ -1,13 +1,11 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { UseNode, DecompositionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface UseChildren extends AlchemyBuildInvokers {
-  decomposition: BuildInvoker<DecompositionNode>
-}
+export type UseChildren = {
+  decomposition: DecompositionNode;
+};
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
   protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {

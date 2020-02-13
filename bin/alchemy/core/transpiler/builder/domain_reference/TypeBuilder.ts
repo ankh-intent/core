@@ -1,15 +1,13 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../Alchemy';
-import { TypeNode, QualifierNode, TypeGenericNode } from '../ast';
-import { BaseBuilder } from './BaseBuilder';
+import { TypeNode, QualifierNode, TypeGenericNode } from '../../ast';
+import { BaseBuilder } from '../BaseBuilder';
 
-export interface TypeChildren extends AlchemyBuildInvokers {
-  qualifier: BuildInvoker<QualifierNode>;
-  type: BuildInvoker<TypeNode>;
-  type_generic: BuildInvoker<TypeGenericNode<TypeNode>>;
-}
+export type TypeChildren = {
+  qualifier: QualifierNode;
+  type: TypeNode;
+  type_generic: TypeGenericNode<TypeNode>;
+};
 
 export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
   protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {

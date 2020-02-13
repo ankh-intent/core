@@ -1,15 +1,15 @@
+import { Container } from '@intent/utils';
+import { TreeNode } from '@intent/kernel/ast';
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { BinaryOperationNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface OperableChildren extends AlchemyBuildInvokers {
-  expression: BuildInvoker<ExpressionNode>;
+export type OperableChildren = {
+  expression: ExpressionNode;
 }
 
-export abstract class OperableBuilder<C extends AlchemyBuildInvokers> extends BaseBuilder<ExpressionNode, C & OperableChildren> {
+export abstract class OperableBuilder<C extends Container<TreeNode>> extends BaseBuilder<ExpressionNode, C & OperableChildren> {
   operands: string[];
 
   protected abstract buildBase(tokens: TokenMatcher): ExpressionNode;

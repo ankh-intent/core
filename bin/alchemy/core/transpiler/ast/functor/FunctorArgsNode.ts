@@ -1,10 +1,10 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { TypePropertyNode } from '../TypePropertyNode';
+import { FunctorArgNode } from './FunctorArgNode';
 
 export class FunctorArgsNode extends AbstractNode {
   constructor(
-    public args: {[name: string]: TypePropertyNode}
+    public args: {[name: string]: FunctorArgNode}
   ) {
     super();
   }

@@ -1,15 +1,13 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../Alchemy';
-import { TypeNode, EnumNode, ExpressionNode, QualifierNode } from '../ast';
-import { BaseBuilder } from './BaseBuilder';
+import { TypeNode, EnumNode, ExpressionNode, QualifierNode } from '../../ast';
+import { BaseBuilder } from '../BaseBuilder';
 
-export interface EnumChildren extends AlchemyBuildInvokers {
-  type: BuildInvoker<TypeNode>;
-  qualifier: BuildInvoker<QualifierNode>;
-  expression: BuildInvoker<ExpressionNode>;
-}
+export type EnumChildren = {
+  type: TypeNode;
+  qualifier: QualifierNode;
+  expression: ExpressionNode;
+};
 
 export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
   protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {

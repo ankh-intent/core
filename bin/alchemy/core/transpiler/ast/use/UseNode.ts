@@ -1,7 +1,7 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { DecompositionNode } from './DecompositionNode';
-import { QualifierNode } from './QualifierNode';
+import { DecompositionNode } from '../reference/DecompositionNode';
+import { QualifierNode } from '../reference/QualifierNode';
 
 export class UseNode extends AbstractNode {
   public constructor(

@@ -1,4 +1,4 @@
-import { Strings } from '@intent/utils';
+import { Strings, Container } from '@intent/utils';
 import { Region } from '@intent/source';
 import {
   Token,
@@ -14,8 +14,8 @@ export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = an
   (tokens: TokenMatcher<TT>): N;
 }
 
-export type BuilderInvokers<T, TT extends BaseTokenTypes = BaseTokenTypes> = {
-  [name in keyof T]: BuildInvoker<any, TT>;
+export type BuilderInvokers<T extends Container<TreeNode>, TT extends BaseTokenTypes = BaseTokenTypes> = {
+  [name in keyof T]: BuildInvoker<T[name], TT>;
 }
 
 export abstract class BaseBuilder<

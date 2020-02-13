@@ -1,16 +1,14 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../../Alchemy';
-import { TypeNode, ExpressionNode, InterfacePropertyNode } from '../../../ast';
+import { TypeNode, ExpressionNode, DomainInterfacePropertyNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
-export interface InterfacePropertyChildren extends AlchemyBuildInvokers {
-  type: BuildInvoker<TypeNode>;
-  expression: BuildInvoker<ExpressionNode>;
+export type DomainInterfacePropertyChildren = {
+  type: TypeNode;
+  expression: ExpressionNode;
 }
 
-export class InterfacePropertyBuilder extends BaseBuilder<InterfacePropertyNode, InterfacePropertyChildren> {
+export class InterfacePropertyBuilder extends BaseBuilder<DomainInterfacePropertyNode, DomainInterfacePropertyChildren> {
   protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
     const identifier = ensure.identifier();
     const type: TypeNode|null = get.symbol(':')
@@ -20,7 +18,7 @@ export class InterfacePropertyBuilder extends BaseBuilder<InterfacePropertyNode,
       ? this.child.expression(tokens)
       : null;
 
-    return new InterfacePropertyNode(
+    return new DomainInterfacePropertyNode(
       identifier,
       expression,
       type,

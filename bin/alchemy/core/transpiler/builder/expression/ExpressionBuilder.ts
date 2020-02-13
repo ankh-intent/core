@@ -1,48 +1,14 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker, InvokableVisitors, BuilderInvokers } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { ExpressionNode, BinaryOperationNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
-import { ArrayBuilder, ArrayChildren } from './literal/ArrayBuilder';
-import { ObjectBuilder, ObjectChildren } from './literal/ObjectBuilder';
-import { LiteralBuilder, LiteralChildren } from './literal/LiteralBuilder';
-import { AccessorBuilder, AccessorChildren } from './AccessorBuilder';
-import { AdditiveBuilder, AdditiveChildren } from './AdditiveBuilder';
-import { BooleanBuilder, BooleanChildren } from './BooleanBuilder';
-import { CallArgBuilder, CallArgChildren } from './CallArgBuilder';
-import { CallArgsBuilder, CallArgsChildren } from './CallArgsBuilder';
-import { CallBuilder, CallChildren } from './CallBuilder';
-import { ChainBuilder, ChainChildren } from './ChainBuilder';
-import { ComparisionBuilder, ComparisionChildren } from './ComparisionBuilder';
-import { IdentifierBuilder, IdentifierChildren } from './IdentifierBuilder';
-import { IndexedBuilder, IndexedChildren } from './IndexedBuilder';
-import { ObjectPropertyBuilder, ObjectPropertyChildren } from './literal/ObjectPropertyBuilder';
-import { MultiplicativeBuilder, MultiplicativeChildren } from './MultiplicativeBuilder';
 
-export type ExpressionInvokers =
-  ComparisionChildren &
-  CallArgsChildren &
-  CallArgChildren &
-  IdentifierChildren &
-  CallChildren &
-  ChainChildren &
-  IndexedChildren &
-  BooleanChildren &
-  AdditiveChildren &
-  MultiplicativeChildren &
-  AccessorChildren &
-  LiteralChildren &
-  ArrayChildren &
-  ObjectChildren &
-  ObjectPropertyChildren;
-
-export interface ExpressionChildren extends AlchemyBuildInvokers, ExpressionInvokers {
-  comparision: BuildInvoker<ExpressionNode>;
-  chain: BuildInvoker<BinaryOperationNode>;
-  indexed: BuildInvoker<BinaryOperationNode>;
-  call: BuildInvoker<BinaryOperationNode>;
-}
+export type ExpressionChildren = {
+  comparision: ExpressionNode;
+  chain: BinaryOperationNode;
+  indexed: BinaryOperationNode;
+  call: BinaryOperationNode;
+};
 
 export class ExpressionBuilder extends BaseBuilder<ExpressionNode, ExpressionChildren> {
   protected build(tokens, { peek }: TypedTokenMatcherInterface) {
@@ -69,26 +35,5 @@ export class ExpressionBuilder extends BaseBuilder<ExpressionNode, ExpressionChi
     }
 
     return base;
-  }
-
-  static buildersFactory(invokers: BuilderInvokers<ExpressionChildren>): InvokableVisitors<ExpressionChildren> {
-    return {
-      expression     : new ExpressionBuilder(invokers),
-      identifier     : new IdentifierBuilder(invokers),
-      comparision    : new ComparisionBuilder(invokers),
-      chain          : new ChainBuilder(invokers),
-      indexed        : new IndexedBuilder(invokers),
-      call           : new CallBuilder(invokers),
-      call_args      : new CallArgsBuilder(invokers),
-      call_arg       : new CallArgBuilder(invokers),
-      boolean        : new BooleanBuilder(invokers),
-      additive       : new AdditiveBuilder(invokers),
-      multiplicative : new MultiplicativeBuilder(invokers),
-      accessor       : new AccessorBuilder(invokers),
-      literal        : new LiteralBuilder(invokers),
-      array          : new ArrayBuilder(invokers),
-      object         : new ObjectBuilder(invokers),
-      object_property: new ObjectPropertyBuilder(invokers),
-    };
   }
 }

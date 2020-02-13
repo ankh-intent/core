@@ -1,13 +1,11 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { CallArgsNode, CallArgNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface CallArgsChildren extends AlchemyBuildInvokers {
-  call_arg: BuildInvoker<CallArgNode>;
-}
+export type CallArgsChildren = {
+  call_arg: CallArgNode;
+};
 
 export class CallArgsBuilder extends BaseBuilder<CallArgsNode, CallArgsChildren> {
   protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {

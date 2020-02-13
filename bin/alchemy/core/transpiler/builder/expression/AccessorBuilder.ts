@@ -1,17 +1,15 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { ExpressionNode, ObjectNode, LiteralNode, IdentifierNode, ArrayNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface AccessorChildren extends AlchemyBuildInvokers {
-  expression: BuildInvoker<ExpressionNode>;
-  array: BuildInvoker<ArrayNode>;
-  object: BuildInvoker<ObjectNode>;
-  literal: BuildInvoker<LiteralNode>;
-  identifier: BuildInvoker<IdentifierNode>;
-}
+export type AccessorChildren = {
+  expression: ExpressionNode;
+  array: ArrayNode;
+  object: ObjectNode;
+  literal: LiteralNode;
+  identifier: IdentifierNode;
+};
 
 export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildren> {
   protected build(tokens, { get, ensure, peek }: TypedTokenMatcherInterface) {

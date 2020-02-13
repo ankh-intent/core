@@ -1,9 +1,9 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { ExpressionNode } from '../expression';
-import { TypeNode } from '../TypeNode';
+import { ExpressionNode } from '../../expression';
+import { TypeNode } from '../../reference/TypeNode';
 
-export class InterfacePropertyNode extends AbstractNode {
+export class DomainInterfacePropertyNode extends AbstractNode {
   constructor(
     public identifier: string,
     public expression: ExpressionNode|null,

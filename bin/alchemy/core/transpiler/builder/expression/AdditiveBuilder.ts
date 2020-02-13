@@ -1,11 +1,9 @@
-import { BuildInvoker } from '@intent/kernel/transpiler';
-
 import { ExpressionNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
 
-export interface AdditiveChildren extends OperableChildren {
-  multiplicative: BuildInvoker<ExpressionNode>;
-}
+export type AdditiveChildren = OperableChildren & {
+  multiplicative: ExpressionNode;
+};
 
 const CMP = ['+', '-'];
 

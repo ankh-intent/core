@@ -1,11 +1,10 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
 import { FunctorBodyNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface FunctorBodyChildren extends AlchemyBuildInvokers {
-}
+export type FunctorBodyChildren = {
+};
 
 export class FunctorBodyBuilder extends BaseBuilder<FunctorBodyNode, FunctorBodyChildren> {
   protected build(tokens, { peek, not, get, except, ensure }: TypedTokenMatcherInterface) {

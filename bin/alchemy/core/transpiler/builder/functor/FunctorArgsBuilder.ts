@@ -1,12 +1,10 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
-import { BuildInvoker } from '@intent/kernel/transpiler';
 
-import { AlchemyBuildInvokers } from '../../Alchemy';
-import { FunctorArgsNode, TypePropertyNode } from '../../ast';
+import { FunctorArgsNode, FunctorArgNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export interface FunctorArgsChildren extends AlchemyBuildInvokers {
-  property: BuildInvoker<TypePropertyNode>;
+export type FunctorArgsChildren = {
+  functor_arg: FunctorArgNode;
 }
 
 export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgsChildren> {
@@ -18,7 +16,7 @@ export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgs
         ensure.symbol(',');
       }
 
-      const arg = this.child.property(tokens);
+      const arg = this.child.functor_arg(tokens);
 
       if (arg) {
         if (args[arg.name]) {
