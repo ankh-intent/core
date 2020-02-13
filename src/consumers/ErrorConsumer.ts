@@ -14,6 +14,7 @@ interface ErrorRef {
   type: RefType;
   ref: string;
   source: string;
+  combined: number;
 }
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
@@ -147,6 +148,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
     return [{
       type: RefType.AST,
       ref: error.expectation,
+      combined: 1,
       source,
     }];
   }
@@ -164,6 +166,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
           type: RefType.NATIVE,
           ref,
           source,
+          combined: 1,
         };
       })
     ;
@@ -175,8 +178,9 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
         if (current.type === RefType.AST) {
           const prev = acc[acc.length - 1];
 
-          if (prev && (prev.type === RefType.AST) && (prev.source === current.source)) {
+          if (prev && (prev.type === RefType.AST) && (prev.source === current.source) && prev.combined < 2) {
             prev.ref = `${current.ref}->${prev.ref}`;
+            prev.combined += current.combined;
           } else {
             acc.push(current);
           }
