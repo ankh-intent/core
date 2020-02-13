@@ -2,9 +2,9 @@ import { Container } from '@intent/utils';
 import { Source } from '@intent/source';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
-import { Module } from './chips/Module';
-import { QualifierResolver } from './chips/qualifier/QualifierResolver';
-import { BaseUseResolver } from './chips/use/BaseUseResolver';
+import { Module } from './modules/Module';
+import { QualifierResolver } from './modules/qualifier/QualifierResolver';
+import { BaseUseResolver } from './modules/use/BaseUseResolver';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
 import { ModuleNode, DomainNode, UsesNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';

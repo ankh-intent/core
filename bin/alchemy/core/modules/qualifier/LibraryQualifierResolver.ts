@@ -11,7 +11,7 @@ export class LibraryQualifierResolver extends BaseQualifierResolver {
     }
 
     return new QualifierNode(
-      'Intent',
+      'Alchemy',
       this.parse(base, from.identifier)
     );
   }

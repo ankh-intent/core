@@ -7,7 +7,7 @@ import { CoreConfig } from '@intent/CoreConfig';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
-import { Module } from './chips/Module';
+import { Module } from './modules/Module';
 import { ModuleNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
