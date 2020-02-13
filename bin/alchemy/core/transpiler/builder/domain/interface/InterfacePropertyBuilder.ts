@@ -13,10 +13,10 @@ export interface InterfacePropertyChildren extends AlchemyBuildInvokers {
 export class InterfacePropertyBuilder extends BaseBuilder<InterfacePropertyNode, InterfacePropertyChildren> {
   protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
     const identifier = ensure.identifier();
-    const type: TypeNode|null = get.identifier(':')
+    const type: TypeNode|null = get.symbol(':')
       ? this.child.type(tokens)
       : null;
-    const expression: ExpressionNode|null = get.identifier('=')
+    const expression: ExpressionNode|null = get.symbol('=')
       ? this.child.expression(tokens)
       : null;
 
