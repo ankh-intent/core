@@ -5,7 +5,7 @@ domain Pills {
   };
 
   enum {
-    BeginnerStar = Pill(name: 'Beginner Star Cultivation Pill', energy: 500, volume: 0.01),
-    AdvancedStar = Pill(name: 'Advanced Star Cultivation Pill', energy: 500, volume: 0.01, grade: Grade.Low),
+    BeginnerStar = Pill(name: 'Beginner Star Cultivation Pill', energy: 500, volume: 0.01);
+    AdvancedStar = Pill(name: 'Advanced Star Cultivation Pill', energy: 500, volume: 0.01, grade: Grade.Low);
   }
 }
