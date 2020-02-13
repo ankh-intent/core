@@ -4,6 +4,7 @@ import { BuildInvoker, InvokableVisitors, BuilderInvokers } from '@intent/kernel
 import { AlchemyBuildInvokers } from '../../Alchemy';
 import { ExpressionNode, BinaryOperationNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
+import { ArrayBuilder, ArrayChildren } from './literal/ArrayBuilder';
 import { ObjectBuilder, ObjectChildren } from './literal/ObjectBuilder';
 import { LiteralBuilder, LiteralChildren } from './literal/LiteralBuilder';
 import { AccessorBuilder, AccessorChildren } from './AccessorBuilder';
@@ -32,6 +33,7 @@ export type ExpressionInvokers =
   MultiplicativeChildren &
   AccessorChildren &
   LiteralChildren &
+  ArrayChildren &
   ObjectChildren &
   ObjectPropertyChildren;
 
@@ -84,6 +86,7 @@ export class ExpressionBuilder extends BaseBuilder<ExpressionNode, ExpressionChi
       multiplicative : new MultiplicativeBuilder(invokers),
       accessor       : new AccessorBuilder(invokers),
       literal        : new LiteralBuilder(invokers),
+      array          : new ArrayBuilder(invokers),
       object         : new ObjectBuilder(invokers),
       object_property: new ObjectPropertyBuilder(invokers),
     };

@@ -115,7 +115,19 @@ arithmetic2
   ::= accessor (('*' | '/' | '%' | '**') expression)*
 
 accessor
-  ::= ('(' expression ')') | object | literal | identifier
+  ::= ('(' expression ')') | object | array | literal | identifier
+
+object
+  ::= '{' (object_entry ',')* '}'
+
+object_entry
+  ::= identifier ':' expression
+
+array
+  ::= '[' (expression (',' expression)* ','? ']'
+
+object_entry
+  ::= identifier ':' expression
 
 literal
   ::= string | number

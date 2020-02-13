@@ -2,11 +2,12 @@ import { TypedTokenMatcherInterface } from '@intent/parser';
 import { BuildInvoker } from '@intent/kernel/transpiler';
 
 import { AlchemyBuildInvokers } from '../../Alchemy';
-import { ExpressionNode, ObjectNode, LiteralNode, IdentifierNode } from '../../ast';
+import { ExpressionNode, ObjectNode, LiteralNode, IdentifierNode, ArrayNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export interface AccessorChildren extends AlchemyBuildInvokers {
   expression: BuildInvoker<ExpressionNode>;
+  array: BuildInvoker<ArrayNode>;
   object: BuildInvoker<ObjectNode>;
   literal: BuildInvoker<LiteralNode>;
   identifier: BuildInvoker<IdentifierNode>;
@@ -20,6 +21,8 @@ export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildre
       ensure.symbol(')');
 
       return expression;
+    } else if (peek.symbol('[')) {
+      return new ExpressionNode(this.child.array(tokens));
     } else if (peek.symbol('{')) {
       return new ExpressionNode(this.child.object(tokens));
     }
