@@ -15,6 +15,10 @@ interface MatchInvoker<T> {
   (match?: MatcherInterface|string): T;
 }
 
+interface PeekMatchInvoker<T> {
+  (match?: MatcherInterface|string, offset?: number): T;
+}
+
 export interface TypeMatcherInterface<TT extends BaseTokenTypes, T> {
   any: MatchInvoker<Token>;
   symbol: MatchInvoker<T>;
@@ -24,9 +28,18 @@ export interface TypeMatcherInterface<TT extends BaseTokenTypes, T> {
   comment: MatchInvoker<T>;
   whitespace: MatchInvoker<T>;
 }
+export interface PeekTypeMatcherInterface<TT extends BaseTokenTypes, T> {
+  any: PeekMatchInvoker<Token>;
+  symbol: PeekMatchInvoker<T>;
+  string: PeekMatchInvoker<T>;
+  number: PeekMatchInvoker<T>;
+  identifier: PeekMatchInvoker<T>;
+  comment: PeekMatchInvoker<T>;
+  whitespace: PeekMatchInvoker<T>;
+}
 
 export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenTypes> = {
-  peek: TypeMatcherInterface<TT, string>;
+  peek: PeekTypeMatcherInterface<TT, string>;
   get: TypeMatcherInterface<TT, string>;
   except: TypeMatcherInterface<TT, string>;
   not: TypeMatcherInterface<TT, boolean>;
@@ -57,8 +70,8 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
   private readonly types: TT;
   private _matcher: TypedTokenMatcherInterface<TT>;
 
-  public peek(matcher: MatcherInterface): Token|null {
-    const token = this.at(this.current() + 1);
+  public peek(matcher: MatcherInterface, offset: number = 1): Token|null {
+    const token = this.at(this.current() + offset);
 
     if (token) {
       const { value, type } = matcher;

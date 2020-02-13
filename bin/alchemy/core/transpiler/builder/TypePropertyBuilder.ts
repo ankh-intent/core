@@ -2,14 +2,14 @@ import { TypedTokenMatcherInterface } from '@intent/parser';
 import { BuildInvoker } from '@intent/kernel/transpiler';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
-import { PropertyNode, TypeNode } from '../ast';
+import { TypeNode, TypePropertyNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
 
 export interface PropertyChildren extends AlchemyBuildInvokers {
   type: BuildInvoker<TypeNode>;
 }
 
-export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren> {
+export class TypePropertyBuilder extends BaseBuilder<TypePropertyNode, PropertyChildren> {
   protected build(tokens, { get, not }: TypedTokenMatcherInterface) {
     const name = get.identifier();
 
@@ -23,7 +23,7 @@ export class PropertyBuilder extends BaseBuilder<PropertyNode, PropertyChildren>
 
     const type = this.child.type(tokens);
 
-    return new PropertyNode(
+    return new TypePropertyNode(
       name,
       type,
     );
