@@ -18,7 +18,7 @@ export class InterfaceBuilder extends BaseBuilder<InterfaceNode, InterfaceChildr
     const properties = new Map<string, InterfacePropertyNode>();
 
     while (peek.identifier()) {
-      const property = this.child.property(tokens);
+      const property = this.child.iproperty(tokens);
 
       if (properties.has(property.identifier)) {
         throw this.error(tokens, property, `Property with same name "${property.identifier}" already exists`);
