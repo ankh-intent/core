@@ -2,11 +2,11 @@ import { TypedTokenMatcherInterface } from '@intent/parser';
 import { BuildInvoker } from '@intent/kernel/transpiler';
 
 import { AlchemyBuildInvokers } from '../Alchemy';
-import { TypeDefNode, TypeNode, PropertyNode, CanNode, ConstraintNode } from '../ast';
+import { TypeDefNode, TypeNode, TypePropertyNode, CanNode, ConstraintNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
 
 export interface TypeDefChildren extends AlchemyBuildInvokers {
-  property: BuildInvoker<PropertyNode>;
+  property: BuildInvoker<TypePropertyNode>;
   type: BuildInvoker<TypeNode>;
   can: BuildInvoker<CanNode>;
   constraint: BuildInvoker<ConstraintNode>;

@@ -25,16 +25,16 @@ export class DecompositionBuilder extends BaseBuilder<DecompositionNode, Decompo
         const decomposition = this.child.decomposition(tokens);
 
         if (children[decomposition.alias]) {
-          throw tokens.error(`Use with the same name "${decomposition.alias}" already present`);
+          throw this.error(tokens, decomposition, `Use with the same name "${decomposition.alias}" already present`);
         }
 
         children[decomposition.alias] = decomposition;
 
+        ensure.symbol(',');
+
         if (get.symbol('}')) {
           break;
         }
-
-        ensure.symbol(',');
       }
     }
 
