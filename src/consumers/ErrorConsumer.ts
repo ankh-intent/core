@@ -30,16 +30,26 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
 
   public process(event: ErrorEvent) {
     let parent: CoreEvent|null = event;
+    const causes: CoreEvent[] = [];
 
     while (parent) {
       const { type, data } = parent;
-      parent = parent.parent;
 
       if (type === ErrorEvent.type()) {
+        if (causes.length) {
+          this.flushCauses(causes);
+        }
+
         this.report(data.error);
       } else {
-        this.logger.log(Logger.ERROR, ' caused by:', type, (<any>data).identifier ? `(${(<any>data).identifier})` : '');
+        causes.push(parent);
       }
+
+      parent = parent.parent;
+    }
+
+    if (causes.length) {
+      this.flushCauses(causes);
     }
 
     return new StatEvent({
@@ -49,6 +59,15 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
         error: this.describeError(event.data.error).join("\n"),
       },
     });
+  }
+
+  protected flushCauses(causes: CoreEvent[]) {
+    this.logger.log(Logger.ERROR, ' caused by:', causes.reduce(
+      ((str, { type, data }) => ((type + ((<any>data).identifier ? `(${(<any>data).identifier})` : '')) + '->' + str)),
+      ''
+    ));
+
+    causes.splice(0, causes.length);
   }
 
   protected report(error) {
