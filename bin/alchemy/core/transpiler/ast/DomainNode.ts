@@ -12,6 +12,7 @@ export class DomainNode extends AbstractNode {
     public intf: InterfaceNode,
     public uses: UsesNode,
     public domains: Map<string, DomainNode> = new Map(),
+    public methods: Map<string, FunctorNode> = new Map(),
     public ctor: FunctorNode|null = null,
   ) {
     super();

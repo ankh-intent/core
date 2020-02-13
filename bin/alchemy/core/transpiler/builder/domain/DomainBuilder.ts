@@ -26,12 +26,12 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
       ? this.child.type(tokens)
       : null;
 
-
     ensure.symbol('{');
 
     const uses = this.child.uses(tokens);
     const intf = this.child.interface(tokens);
     const domains = new Map<string, DomainNode>();
+    const methods = new Map<string, FunctorNode>();
     const traits = new Set<ExpressionNode>();
 
     while (true) {
@@ -72,6 +72,28 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
       break;
     }
 
+    while (true) {
+      const name = get.identifier();
+
+      if (name) {
+        const method = this.child.functor(tokens);
+
+        if (method) {
+          if (methods.has(name)) {
+            throw this.error(tokens, method, `Method with the same name "${name}" already present`);
+          }
+
+          methods.set(name, method);
+
+          continue;
+        } else {
+          throw this.error(tokens, 'method', `Method body expected`);
+        }
+      }
+
+      break;
+    }
+
     const ctor = peek.symbol('(') ? this.child.functor(tokens) : null;
 
     ensure.symbol('}');
@@ -82,6 +104,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
       intf,
       uses,
       domains,
+      methods,
       ctor,
     );
   }

@@ -23,10 +23,13 @@ domain
   ::= 'domain' identifier generic_definition? ('extends' domain_reference)? '{' domain_body '}'
 
 domain_body
-  ::= constructor? use? domain_clause* can?
+  ::= constructor? use? domain_clause* domain_method* constructor?
 
 domain_clause
   ::= domain | enum
+
+domain_method
+  ::= identifier function
 
 enum
   ::= 'enum' identifier ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
