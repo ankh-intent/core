@@ -32,7 +32,7 @@ domain_method
   ::= identifier function
 
 enum
-  ::= 'enum' identifier ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
+  ::= 'enum' identifier? ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
 
 enum_clause
   ::= (enum_inheritor | identifier) '=' expression

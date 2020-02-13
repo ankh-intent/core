@@ -15,7 +15,7 @@ export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
       return null;
     }
 
-    const identifier = ensure.identifier();
+    const identifier = get.identifier() || 'enum';
     const parent: TypeNode|null = get.identifier('extends')
       ? this.child.type(tokens)
       : null;
