@@ -10,3 +10,4 @@ export * from './UseNode';
 export * from './DecompositionNode';
 
 export * from './functor';
+export * from './expression';
