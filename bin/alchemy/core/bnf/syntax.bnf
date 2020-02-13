@@ -29,7 +29,7 @@ domain_clause
   ::= domain | enum
 
 domain_method
-  ::= identifier function
+  ::= identifier functor
 
 enum
   ::= 'enum' identifier? ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
@@ -46,8 +46,8 @@ constructor
 constructor_property
   ::= identifier (':' domain_reference ('=' expression)) | ('=' expression)
 
-constructor_method
-  ::= '('
+constructor
+  ::= domain_method
 
 // domain lookup
 domain_reference
@@ -57,25 +57,23 @@ domain_reference_generic
   ::= '<' domain_reference (',' domain_reference)* '>'
 
 // generic definitions
-
 generic_definition
   ::= '<' identifier (',' identifier)* '>'
 
-// methods
-method
-  ::= identifier function
+// functor
+functor
+  ::= '(' functor_args? ')' (':' domain_reference)? '=>' functor_body
 
-function
-  ::= '(' function_args? ')' (':' domain_reference)? '=>' function_body
+functor_args
+  ::= functor_arg (',' functor_arg)*
 
-function_args
-  ::= arg (',' arg)*
+functor_body
+  ::= block
 
-arg
+functor_arg
   ::= identifier ':' domain_reference ('=' expression)?
 
 // expressions
-
 expression
   ::= comparision (chain | indexed | call)*
 
@@ -107,7 +105,10 @@ arithmetic2
   ::= accessor (('*' | '/' | '%' | '**') expression)*
 
 accessor
-  ::= ('(' expression ')') | object | array | literal | identifier
+  ::= callable | ('(' expression ')') | object | array | literal | identifier
+
+callable
+  ::= functor
 
 object
   ::= '{' (object_entry ',')* '}'
@@ -124,7 +125,7 @@ object_entry
 literal
   ::= string | number
 
-// method body
+// functor body
 block
   ::= '{' (decorated_block_item | block_item)* '}'
 
@@ -154,9 +155,6 @@ break
 
 return
   ::= 'return' expression
-
-function_body
-  ::= block
 
 loop_iterator
   ::= assignment_target 'of' expression
