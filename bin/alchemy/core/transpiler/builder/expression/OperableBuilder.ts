@@ -19,7 +19,7 @@ export abstract class OperableBuilder<C extends AlchemyBuildInvokers> extends Ba
     const operations: BinaryOperationNode[] = [];
     let operation: string|null;
 
-    while (this.operands.includes(operation = peek.symbol())) {
+    while ((operation = peek.symbol()) && this.operands.includes(operation)) {
       get.any();
 
       const expression = this.child.expression(tokens);
