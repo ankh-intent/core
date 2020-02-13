@@ -68,7 +68,7 @@ functor_args
   ::= functor_arg (',' functor_arg)*
 
 functor_body
-  ::= block
+  ::= block | expression
 
 functor_arg
   ::= identifier ':' domain_reference ('=' expression)?
@@ -132,14 +132,14 @@ literal
 block
   ::= '{' (decorated_block_item | block_item)* '}'
 
+decorated_block_item
+  ::= '@' expression block_item
+
 block_item
   ::= if | loop | ((break | return | statement) ';')
 
 statement
   ::= assignment | expression
-
-decorated_block_item
-  ::= '@' expression block_item
 
 assignment
   ::= assignment_target '=' expression

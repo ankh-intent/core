@@ -10,6 +10,7 @@ import {
   LoopIteratorNode,
   AssignmentStatementNode,
   AssignmentTargetNode,
+  ExpressionStatementNode,
 } from '../../ast';
 import { AssignStatementChildren, AssignStatementBuilder } from './AssignStatementBuilder';
 import { AssignTargetChildren, AssignTargetBuilder } from './AssignTargetBuilder';
@@ -18,6 +19,7 @@ import { BlockItemChildren, BlockItemBuilder } from './BlockItemBuilder';
 import { BlockStatementChildren, BlockStatementBuilder } from './BlockStatementBuilder';
 import { BreakStatementChildren, BreakStatementBuilder } from './BreakStatementBuilder';
 import { DecoratedStatementChildren, DecoratedStatementBuilder } from './DecoratedStatementBuilder';
+import { ExpressionStatementChildren, ExpressionStatementBuilder } from './ExpressionStatementBuilder';
 import { GenericStatementChildren, GenericStatementBuilder } from './GenericStatementBuilder';
 import { IfStatementChildren, IfStatementBuilder } from './IfStatementBuilder';
 import { LoopIteratorChildren, LoopIteratorBuilder } from './LoopIteratorBuilder';
@@ -30,6 +32,7 @@ export type BlockInvokers = {
   block_statement: StatementNode;
   decorated_statement: DecoratedStatementNode;
   statement: StatementNode;
+  expression_statement: ExpressionStatementNode;
   assignment_statement: AssignmentStatementNode;
   assignment_target: AssignmentTargetNode;
   break_statement: BreakStatementNode;
@@ -47,6 +50,7 @@ export type BlockDependencies =
   LoopIteratorChildren &
   BreakStatementChildren &
   ReturnStatementChildren &
+  ExpressionStatementChildren &
   AssignStatementChildren &
   AssignTargetChildren &
   GenericStatementChildren &
@@ -59,6 +63,7 @@ export const factory = (invokers: BuilderInvokers<BlockDependencies>): Invokable
     block_statement: new BlockStatementBuilder(invokers),
     decorated_statement: new DecoratedStatementBuilder(invokers),
     statement: new GenericStatementBuilder(invokers),
+    expression_statement: new ExpressionStatementBuilder(invokers),
     assignment_statement: new AssignStatementBuilder(invokers),
     assignment_target: new AssignTargetBuilder(invokers),
     break_statement: new BreakStatementBuilder(invokers),
