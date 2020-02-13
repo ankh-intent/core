@@ -15,6 +15,7 @@ import { AssignStatementChildren, AssignStatementBuilder } from './AssignStateme
 import { AssignTargetChildren, AssignTargetBuilder } from './AssignTargetBuilder';
 import { BlockChildren, BlockBuilder } from './BlockBuilder';
 import { BlockItemChildren, BlockItemBuilder } from './BlockItemBuilder';
+import { BlockStatementChildren, BlockStatementBuilder } from './BlockStatementBuilder';
 import { BreakStatementChildren, BreakStatementBuilder } from './BreakStatementBuilder';
 import { DecoratedStatementChildren, DecoratedStatementBuilder } from './DecoratedStatementBuilder';
 import { GenericStatementChildren, GenericStatementBuilder } from './GenericStatementBuilder';
@@ -26,6 +27,7 @@ import { ReturnStatementChildren, ReturnStatementBuilder } from './ReturnStateme
 export type BlockInvokers = {
   block: BlockNode;
   block_item: StatementNode;
+  block_statement: StatementNode;
   decorated_statement: DecoratedStatementNode;
   statement: StatementNode;
   assignment_statement: AssignmentStatementNode;
@@ -39,6 +41,7 @@ export type BlockInvokers = {
 export type BlockDependencies =
   DecoratedStatementChildren &
   BlockItemChildren &
+  BlockStatementChildren &
   IfStatementChildren &
   LoopStatementChildren &
   LoopIteratorChildren &
@@ -53,6 +56,7 @@ export const factory = (invokers: BuilderInvokers<BlockDependencies>): Invokable
   return {
     block: new BlockBuilder(invokers),
     block_item: new BlockItemBuilder(invokers),
+    block_statement: new BlockStatementBuilder(invokers),
     decorated_statement: new DecoratedStatementBuilder(invokers),
     statement: new GenericStatementBuilder(invokers),
     assignment_statement: new AssignStatementBuilder(invokers),

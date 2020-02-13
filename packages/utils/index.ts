@@ -5,3 +5,4 @@ export * from './src/Eventable';
 export * from './src/Logger';
 export * from './src/Strings';
 export * from './src/UnitMatcher';
+export * from './src/StackedQueue';

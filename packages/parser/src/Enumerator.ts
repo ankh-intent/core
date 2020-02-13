@@ -1,20 +1,20 @@
 import { Source, Range } from '@intent/source';
+import { StackedQueue } from '@intent/utils';
 import { Token } from './Token';
 import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
 
-export class Enumerator<TT extends BaseTokenTypes, U> {
+export class Enumerator<TT extends BaseTokenTypes, U> extends StackedQueue<any> {
   private readonly tokenizer: Tokenizer<TT, U>;
   private readonly tokens = new Map<number, Token>();
 
   private readonly context: Context;
   private tokenized: number = -1;
   private currentIndex: number;
-  private lasts: {[index: number]: number} = {};
 
   public constructor(tokenizer: Tokenizer<TT>, source: Source, range: Range) {
+    super();
     this.tokenizer = tokenizer;
     this.currentIndex = -1;
-    this.lasts[-1] = range.from;
     this.context = {
       source,
       range,
@@ -27,7 +27,9 @@ export class Enumerator<TT extends BaseTokenTypes, U> {
   }
 
   public get last(): number {
-    return this.lasts[this.currentIndex+1] || this.context.range.from;
+    const token = this.tokens.get(this.currentIndex + 1);
+
+    return (token && token.start) || this.context.range.from;
   }
 
   public at(index: number, userData?: any): Token | null {
@@ -44,7 +46,6 @@ export class Enumerator<TT extends BaseTokenTypes, U> {
         if (token) {
           this.tokenized++;
           this.tokens.set(this.tokenized, token);
-          this.lasts[this.tokenized] = token.start;
         } else {
           break;
         }
