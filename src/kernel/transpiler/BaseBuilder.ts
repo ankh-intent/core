@@ -31,7 +31,7 @@ export abstract class BaseBuilder<
   }
 
   protected get name(): string {
-    return Strings.camelCaseToHyphenCase(
+    return Strings.camelCaseToSnakeCase(
       this.constructor.name.replace(/Builder$/, '')
     );
   }

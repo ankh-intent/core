@@ -11,6 +11,10 @@ export class Strings {
     return text.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
   }
 
+  public static camelCaseToSnakeCase(text: string) {
+    return text.replace(/([a-zA-Z])(?=[A-Z])/g, '$1_').toLowerCase();
+  }
+
   public static shrink(string: string, to: number, left: boolean = false) {
     return (string.length > to)
       ? string.substr(0, to - 3) + '...'
