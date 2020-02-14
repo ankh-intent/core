@@ -1,10 +1,10 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { IdentifierNode } from '../expression';
+import { ExpressionNode } from '../expression';
 
 export class AssignmentTargetNode extends AbstractNode {
   constructor(
-    public target: IdentifierNode,
+    public target: ExpressionNode,
   ) {
     super();
   }

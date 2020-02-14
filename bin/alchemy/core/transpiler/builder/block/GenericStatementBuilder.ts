@@ -10,8 +10,10 @@ export type GenericStatementChildren = {
 
 export class GenericStatementBuilder extends BaseBuilder<StatementNode, GenericStatementChildren> {
   protected build(tokens, { peek }: TypedTokenMatcherInterface) {
-    if (peek.identifier('let')) {
-      return this.child.assignment_statement(tokens);
+    let assignment = this.lookup('IS_ASSIGNMENT', tokens, this.child.assignment_statement);
+
+    if (assignment) {
+      return assignment;
     }
 
     return this.child.expression_statement(tokens);

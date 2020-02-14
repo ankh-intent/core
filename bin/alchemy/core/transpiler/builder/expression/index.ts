@@ -28,6 +28,7 @@ import { ChainChildren, ChainBuilder } from './ChainBuilder';
 import { ComparisionChildren, ComparisionBuilder } from './ComparisionBuilder';
 import { ExpressionChildren, ExpressionBuilder } from './ExpressionBuilder';
 import { IdentifierChildren, IdentifierBuilder } from './IdentifierBuilder';
+import { IdentifierExpressionChildren, IdentifierExpressionBuilder } from './IdentifierExpressionBuilder';
 import { IndexedChildren, IndexedBuilder } from './IndexedBuilder';
 import { IsDomainChildren, IsDomainBuilder } from './IsDomainBuilder';
 import { ArrayChildren, ArrayBuilder } from './literal/ArrayBuilder';
@@ -57,12 +58,14 @@ export type ExpressionInvokers = {
   array: ArrayNode;
   object: ObjectNode;
   object_property: ObjectPropertyNode;
+  identifier_expression: ExpressionNode;
 };
 export type ExpressionDependencies =
   ComparisionChildren &
   CallArgsChildren &
   CallArgChildren &
   IdentifierChildren &
+  IdentifierExpressionChildren &
   CallChildren &
   IsDomainChildren &
   ChainChildren &
@@ -100,5 +103,6 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
     array          : new ArrayBuilder(invokers),
     object         : new ObjectBuilder(invokers),
     object_property: new ObjectPropertyBuilder(invokers),
+    identifier_expression: new IdentifierExpressionBuilder(invokers),
   };
 };
