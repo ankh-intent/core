@@ -167,10 +167,10 @@ domain Types {
       }
 
       (temperature: Temperature, in: Ingredients): Ingredients => {
-        let processed = in.map(stack => Ingredient.Stack(
+        let processed = in.map((stack: Ingredient.Stack) => Ingredient.Stack(
           ingredient: out,
           count: ratio(stack),
-        );
+        ));
 
         return Ingredients(processed).combine();
       }
