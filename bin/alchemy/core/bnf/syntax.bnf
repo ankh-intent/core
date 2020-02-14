@@ -75,7 +75,7 @@ functor_arg
 
 // expressions
 expression
-  ::= comparision
+  ::= boolean
 
 chain
   ::= '.' identifier
@@ -95,11 +95,11 @@ call_arg
 is
   ::= 'is' domain_reference
 
-comparision
-  ::= boolean (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
-
 boolean
-  ::= additive (('&' | '|' | '^') expression)*
+  ::= comparision (('&' | '|' | '^') expression)*
+
+comparision
+  ::= additive (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
 
 additive
   ::= multiplicative (('+' | '-') expression)*
