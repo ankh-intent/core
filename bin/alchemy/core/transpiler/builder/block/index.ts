@@ -13,7 +13,7 @@ import {
   ExpressionStatementNode,
 } from '../../ast';
 import { AssignStatementChildren, AssignStatementBuilder } from './AssignStatementBuilder';
-import { AssignTargetChildren, AssignTargetBuilder } from './AssignTargetBuilder';
+import { AssignmentTargetChildren, AssignmentTargetBuilder } from './AssignmentTargetBuilder';
 import { BlockChildren, BlockBuilder } from './BlockBuilder';
 import { BlockItemChildren, BlockItemBuilder } from './BlockItemBuilder';
 import { BlockStatementChildren, BlockStatementBuilder } from './BlockStatementBuilder';
@@ -52,7 +52,7 @@ export type BlockDependencies =
   ReturnStatementChildren &
   ExpressionStatementChildren &
   AssignStatementChildren &
-  AssignTargetChildren &
+  AssignmentTargetChildren &
   GenericStatementChildren &
   BlockChildren;
 
@@ -65,7 +65,7 @@ export const factory = (invokers: BuilderInvokers<BlockDependencies>): Invokable
     statement: new GenericStatementBuilder(invokers),
     expression_statement: new ExpressionStatementBuilder(invokers),
     assignment_statement: new AssignStatementBuilder(invokers),
-    assignment_target: new AssignTargetBuilder(invokers),
+    assignment_target: new AssignmentTargetBuilder(invokers),
     break_statement: new BreakStatementBuilder(invokers),
     return_statement: new ReturnStatementBuilder(invokers),
     if_statement: new IfStatementBuilder(invokers),

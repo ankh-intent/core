@@ -1,3 +1,4 @@
+import { AbstractNode } from '@intent/kernel/ast';
 import { BuilderInvokers, InvokableVisitors } from '@intent/kernel/transpiler';
 
 import {
@@ -12,9 +13,11 @@ import {
   ArrayNode,
   ObjectNode,
   ObjectPropertyNode,
-  CallableNode, IsDomainNode,
+  CallableNode,
+  IsDomainNode,
 } from '../../ast';
 
+import { AccessibleChildren, AccessibleBuilder } from './AccessibleBuilder';
 import { AccessorChildren, AccessorBuilder } from './AccessorBuilder';
 import { AdditiveChildren, AdditiveBuilder } from './AdditiveBuilder';
 import { BooleanChildren, BooleanBuilder } from './BooleanBuilder';
@@ -26,7 +29,7 @@ import { ComparisionChildren, ComparisionBuilder } from './ComparisionBuilder';
 import { ExpressionChildren, ExpressionBuilder } from './ExpressionBuilder';
 import { IdentifierChildren, IdentifierBuilder } from './IdentifierBuilder';
 import { IndexedChildren, IndexedBuilder } from './IndexedBuilder';
-import { IsDomainBuilder, IsDomainChildren } from './IsDomainBuilder';
+import { IsDomainChildren, IsDomainBuilder } from './IsDomainBuilder';
 import { ArrayChildren, ArrayBuilder } from './literal/ArrayBuilder';
 import { CallableChildren, CallableBuilder } from './literal/CallableBuilder';
 import { LiteralChildren, LiteralBuilder } from './literal/LiteralBuilder';
@@ -48,6 +51,7 @@ export type ExpressionInvokers = {
   additive: ExpressionNode;
   multiplicative: ExpressionNode;
   accessor: ExpressionNode;
+  accessible: AbstractNode;
   literal: LiteralNode;
   callable: CallableNode;
   array: ArrayNode;
@@ -67,6 +71,7 @@ export type ExpressionDependencies =
   AdditiveChildren &
   MultiplicativeChildren &
   AccessorChildren &
+  AccessibleChildren &
   LiteralChildren &
   ArrayChildren &
   ObjectChildren &
@@ -89,6 +94,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
     additive       : new AdditiveBuilder(invokers),
     multiplicative : new MultiplicativeBuilder(invokers),
     accessor       : new AccessorBuilder(invokers),
+    accessible     : new AccessibleBuilder(invokers),
     literal        : new LiteralBuilder(invokers),
     callable       : new CallableBuilder(invokers),
     array          : new ArrayBuilder(invokers),

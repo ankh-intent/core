@@ -74,7 +74,7 @@ domain Types {
     }
 
     matchStack(required: Stack, stack: Stack) => {
-      return (required.ingredient is stack.ingredient) && (required.count <= stack.count);
+      return (required.ingredient is stack.ingredient) & (required.count <= stack.count);
     }
 
     match(stacks: Ingredients) => {

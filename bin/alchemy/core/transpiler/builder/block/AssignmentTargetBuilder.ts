@@ -3,11 +3,11 @@ import { TypedTokenMatcherInterface } from '@intent/parser';
 import { IdentifierNode, AssignmentTargetNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export type AssignTargetChildren = {
+export type AssignmentTargetChildren = {
   identifier: IdentifierNode;
 };
 
-export class AssignTargetBuilder extends BaseBuilder<AssignmentTargetNode, AssignTargetChildren> {
+export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, AssignmentTargetChildren> {
   protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
     ensure.identifier('let');
 

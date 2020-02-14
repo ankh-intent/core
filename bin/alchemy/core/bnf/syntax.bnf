@@ -75,7 +75,7 @@ functor_arg
 
 // expressions
 expression
-  ::= comparision (chain | indexed | call | is)*
+  ::= comparision
 
 chain
   ::= '.' identifier
@@ -99,15 +99,18 @@ comparision
   ::= boolean (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
 
 boolean
-  ::= arithmetic1 (('&' | '|' | '^') expression)*
+  ::= additive (('&' | '|' | '^') expression)*
 
-arithmetic1
-  ::= arithmetic2 (('+' | '-') expression)*
+additive
+  ::= multiplicative (('+' | '-') expression)*
 
-arithmetic2
+multiplicative
   ::= accessor (('*' | '/' | '%' | '**') expression)*
 
 accessor
+  ::= accessible  (chain | indexed | call | is)*
+
+accessible
   ::= callable | ('(' expression ')') | object | array | literal | identifier
 
 callable
