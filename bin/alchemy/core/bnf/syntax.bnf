@@ -145,7 +145,7 @@ statement
   ::= assignment | expression
 
 assignment
-  ::= assignment_target '=' expression
+  ::= assignment_target ('=' | '+=' | '-=' | '/=' | '*=' | '%=' | '**=' | '|=' | '&=' | '^=') expression
 
 assignment_target
   ::= 'let' identifier
