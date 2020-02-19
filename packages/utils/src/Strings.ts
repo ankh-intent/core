@@ -15,6 +15,10 @@ export class Strings {
     return text.replace(/([a-zA-Z])(?=[A-Z])/g, '$1_').toLowerCase();
   }
 
+  public static ucFirst(text: string) {
+    return text[1].toUpperCase() + text.substr(1);
+  }
+
   public static shrink(string: string, to: number, left: boolean = false) {
     return (string.length > to)
       ? string.substr(0, to - 3) + '...'
@@ -126,7 +130,7 @@ export class Strings {
     return lines.map((line) => pad + line);
   }
 
-  public static fold(a: (string|string[])[]): string[] {
+  public static fold(a: (string|string[])[]|string): string[] {
     if (typeof a === 'string') {
       return [a];
     }

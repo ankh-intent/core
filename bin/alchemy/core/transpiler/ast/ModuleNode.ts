@@ -1,7 +1,7 @@
 import { AbstractNode } from '@intent/kernel/ast';
 
-import { DomainNode } from './domain/DomainNode';
-import { UsesNode } from './use/UsesNode';
+import { DomainNode } from './domain';
+import { UsesNode } from './use';
 
 export class ModuleNode extends AbstractNode {
   public identifier: string;
