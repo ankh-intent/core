@@ -7,11 +7,11 @@ export interface UsesSerializerChildren {
 
 export class UsesSerializer extends NodeSerializer<UsesNode, UsesSerializerChildren> {
   serialize(node: UsesNode): string {
-    return `
-    // uses
-    ${node.entries.map(([alias, use]) => (
-      `const ${alias} = ${this.child.use(use)};`
-    )).join('\n    ')}
-    `;
+    return this.wrap([
+      node.entries.length && '// uses',
+      ...node.entries.map(([alias, use]) => (
+        `const ${alias} = ${this.child.use(use)};`
+      )),
+    ], { indent: false, surround: '' });
   }
 }
