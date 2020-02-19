@@ -1,15 +1,16 @@
-import { FunctorNode, FunctorArgsNode, FunctorBodyNode } from '../../../ast';
+import { FunctorNode, FunctorArgsNode, FunctorBodyNode, TypeNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export interface FunctorSerializerChildren {
   args: FunctorArgsNode;
-  block: FunctorBodyNode;
+  type: TypeNode;
+  functor_body: FunctorBodyNode;
 }
 
 export class FunctorSerializer extends NodeSerializer<FunctorNode, FunctorSerializerChildren> {
   serialize(node: FunctorNode): string {
-    return `(${this.child.args(node.args)})${node.returns ? `: ${node.returns}` : ''} => {
-       ${this.child.block(node.body)}
-     }`;
+    return `($args: {${this.child.args(node.args)}})${node.returns ? `: ${this.child.type(node.returns)}` : ''} => ${
+      this.child.functor_body(node.body)
+    }`;
   }
 }
