@@ -8,6 +8,6 @@ export interface LoopStatementSerializerChildren {
 
 export class LoopStatementSerializer extends NodeSerializer<LoopStatementNode, LoopStatementSerializerChildren> {
   serialize(node: LoopStatementNode): string {
-    return `each (${this.child.loop_iterator(node.iterator)}) ${this.child.block(node.block)}`
+    return `\nfor (${this.child.loop_iterator(node.iterator)}) ${this.child.block(node.block)}`
   }
 }

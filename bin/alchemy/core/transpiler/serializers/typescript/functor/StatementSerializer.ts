@@ -26,13 +26,13 @@ export class StatementSerializer extends NodeSerializer<StatementNode, Statement
     } else if (node instanceof LoopStatementNode) {
       return this.child.loop_statement(node);
     } else if (node instanceof BreakStatementNode) {
-      return this.child.break_statement(node) + ';';
+      return this.child.break_statement(node);
     } else if (node instanceof ReturnStatementNode) {
-      return this.child.return_statement(node) + ';';
+      return this.child.return_statement(node);
     } else if (node instanceof AssignmentStatementNode) {
-      return this.child.assignment_statement(node) + ';';
+      return this.child.assignment_statement(node);
     } else if (node instanceof ExpressionStatementNode) {
-      return this.child.expression_statement(node) + ';';
+      return this.child.expression_statement(node);
     }
 
     throw new Error(`Unknown statement type "${node.node}"`);

@@ -9,4 +9,8 @@ export class IfStatementNode extends StatementNode {
   ) {
     super();
   }
+
+  get isAssertion() {
+    return false;
+  }
 }

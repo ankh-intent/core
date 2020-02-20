@@ -58,6 +58,14 @@ export class Alchemy {
       }
     }
 
+    if (char.match(/\d/)) {
+      const token = this.checkNumeric(source, context);
+
+      if (token) {
+        return token;
+      }
+    }
+
     if (char.match(/[\w_]/i)) {
       const token = this.checkIdentifier(source, context);
 
@@ -155,11 +163,26 @@ export class Alchemy {
       return BaseTokenTypes.TK_IDENTIFIER;
     }
   }
-  //
-  // numeric(context: Context): string {
-  //
-  // }
-  //
+
+  protected static checkNumeric(source: Source, context: Context): BaseTokenTypes|undefined {
+    let index = context.pos + 1;
+
+    while (source.at(index).match(/\d/)) {
+      index++;
+    }
+
+    if (source.at(index) === '.') {
+      index++;
+
+      while (source.at(index).match(/\d/)) {
+        index++;
+      }
+    }
+
+    context.pos = index;
+
+    return BaseTokenTypes.TK_NUMBER;
+  }
 
   static multi: {[prop: string]: string[]} = {
     '=': ['>', '='],

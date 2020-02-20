@@ -28,7 +28,7 @@ export class AccessibleBuilder extends BaseBuilder<AbstractNode, AccessibleChild
       const callable = this.lookup('IS_FUNCTOR', tokens, this.child.callable);
 
       if (callable) {
-        return this.child.callable(tokens);
+        return callable;
       }
 
       ensure.symbol('(');

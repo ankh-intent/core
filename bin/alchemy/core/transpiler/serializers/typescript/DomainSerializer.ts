@@ -14,6 +14,7 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
       this.child.uses(node.uses),
       this.serializeDomains(node),
       this.serializeConstructor(node),
+      this.serializeMethods(node),
       this.serializeReturn(node),
     ])}})()`;
   }
@@ -53,5 +54,12 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
         return 'const ctor = (...params: any[]) => params;';
       }
     }
+  }
+
+  serializeMethods(node: DomainNode) {
+    return node.methods.size && this.wrapStatements(
+      [...node.methods.entries()]
+        .map(([name, method]) => `const $method_${name} = ${this.child.functor(method)};`)
+    );
   }
 }

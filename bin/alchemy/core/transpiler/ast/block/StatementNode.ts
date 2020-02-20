@@ -5,4 +5,8 @@ export class StatementNode extends AbstractNode {
   ) {
     super();
   }
+
+  get isAssertion() {
+    return true;
+  }
 }

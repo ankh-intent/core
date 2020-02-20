@@ -2,11 +2,23 @@ import { RootSerializer } from '../RootSerializer';
 
 import { DomainReferenceSerializer, DomainReferenceSerializerChildren } from './DomainReferenceSerializer';
 import { DomainSerializer, DomainSerializerChildren } from './DomainSerializer';
+import { ArrayLiteralSerializer, ArrayLiteralSerializerChildren } from './expression/ArrayLiteralSerializer';
+import { CallableLiteralSerializer, CallableLiteralSerializerChildren } from './expression/CallableLiteralSerializer';
+import { CallArgSerializer, CallArgSerializerChildren } from './expression/CallArgSerializer';
+import { CallSerializer, CallSerializerChildren } from './expression/CallSerializer';
+import { ChainSerializer, ChainSerializerChildren } from './expression/ChainSerializer';
+import { IdentifierSerializer, IdentifierSerializerChildren } from './expression/IdentifierSerializer';
+import { IndexedSerializer, IndexedSerializerChildren } from './expression/IndexedSerializer';
+import { IsDomainSerializer, IsDomainSerializerChildren } from './expression/IsDomainSerializer';
+import { LiteralSerializer, LiteralSerializerChildren } from './expression/LiteralSerializer';
+import { ObjectLiteralSerializer, ObjectLiteralSerializerChildren } from './expression/ObjectLiteralSerializer';
+import { OperationSerializer, OperationSerializerChildren } from './expression/OperationSerializer';
+import { PrimitiveSerializer, PrimitiveSerializerChildren } from './expression/PrimitiveSerializer';
 import { AssignmentStatementSerializer, AssignmentStatementSerializerChildren } from './functor/AssignmentStatementSerializer';
 import { BlockSerializer, BlockSerializerChildren } from './functor/BlockSerializer';
 import { BreakStatementSerializer, BreakStatementSerializerChildren } from './functor/BreakStatementSerializer';
 import { DecoratedStatementSerializer, DecoratedStatementSerializerChildren } from './functor/DecoratedStatementSerializer';
-import { ExpressionSerializer, ExpressionSerializerChildren } from './functor/ExpressionSerializer';
+import { ExpressionSerializer, ExpressionSerializerChildren } from './expression/ExpressionSerializer';
 import { ExpressionStatementSerializer, ExpressionStatementSerializerChildren } from './functor/ExpressionStatementSerializer';
 import { FunctorSerializer, FunctorSerializerChildren } from './functor/FunctorSerializer';
 import { FunctorArgsSerializer, FunctorArgsSerializerChildren } from './functor/FunctorArgsSerializer';
@@ -39,6 +51,18 @@ type AlchemyGrammar =
   ExpressionSerializerChildren &
   AssignmentStatementSerializerChildren &
   ExpressionStatementSerializerChildren &
+  LiteralSerializerChildren &
+  PrimitiveSerializerChildren &
+  ArrayLiteralSerializerChildren &
+  ObjectLiteralSerializerChildren &
+  CallableLiteralSerializerChildren &
+  IdentifierSerializerChildren &
+  OperationSerializerChildren &
+  ChainSerializerChildren &
+  IndexedSerializerChildren &
+  CallSerializerChildren &
+  CallArgSerializerChildren &
+  IsDomainSerializerChildren &
   ModuleNodeSerializerChildren
 ;
 
@@ -64,6 +88,18 @@ export class TypescriptSerializer extends RootSerializer<AlchemyGrammar> {
       assignment_statement: new AssignmentStatementSerializer(this.invokers),
       expression_statement: new ExpressionStatementSerializer(this.invokers),
       decorated_statement : new DecoratedStatementSerializer(this.invokers),
+      literal             : new LiteralSerializer(this.invokers),
+      primitive           : new PrimitiveSerializer(this.invokers),
+      object_literal      : new ObjectLiteralSerializer(this.invokers),
+      array_literal       : new ArrayLiteralSerializer(this.invokers),
+      callable            : new CallableLiteralSerializer(this.invokers),
+      identifier          : new IdentifierSerializer(this.invokers),
+      operation           : new OperationSerializer(this.invokers),
+      call                : new CallSerializer(this.invokers),
+      call_arg            : new CallArgSerializer(this.invokers),
+      chain               : new ChainSerializer(this.invokers),
+      indexed             : new IndexedSerializer(this.invokers),
+      is_domain           : new IsDomainSerializer(this.invokers),
     };
   }
 }

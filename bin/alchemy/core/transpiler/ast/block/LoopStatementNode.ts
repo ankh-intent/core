@@ -9,4 +9,8 @@ export class LoopStatementNode extends StatementNode {
   ) {
     super();
   }
+
+  get isAssertion() {
+    return false;
+  }
 }

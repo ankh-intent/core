@@ -10,10 +10,8 @@ export type FunctorChildren = {
 }
 
 export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
-  protected build(tokens, { peek, not, get, except, ensure }: TypedTokenMatcherInterface) {
-    if (not.symbol('(')) {
-      return null;
-    }
+  protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
+    ensure.symbol('(');
 
     const args = this.child.functor_args(tokens);
 

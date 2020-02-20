@@ -8,4 +8,12 @@ export class FunctorBodyNode extends AbstractNode {
   ) {
     super();
   }
+
+  get isExpressionStatement() {
+    return this.block.isExpressionStatement;
+  }
+
+  get isReturnStatement() {
+    return this.block.isReturnStatement;
+  }
 }

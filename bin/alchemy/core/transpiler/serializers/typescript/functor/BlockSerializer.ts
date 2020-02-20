@@ -7,6 +7,9 @@ export interface BlockSerializerChildren {
 
 export class BlockSerializer extends NodeSerializer<BlockNode, BlockSerializerChildren> {
   serialize(node: BlockNode): string {
-    return `{${this.wrap(node.statements.map((statement) => this.child.statement(statement)))}}`;
+    return `{${this.wrap(
+      node.statements
+        .map((statement) => this.child.statement(statement) + (statement.isAssertion ? ';' : ''))
+    )}}`;
   }
 }
