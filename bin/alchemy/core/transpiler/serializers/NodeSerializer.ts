@@ -1,6 +1,7 @@
-import { TreeNode } from '@intent/kernel/ast';
-import { Walker, NodeInvokers } from '@intent/kernel/tree/Walker';
+import { TreeNode } from '@intent/kernel';
+import { Walker, NodeInvokers } from '@intent/kernel/tree';
 import { Strings } from '@intent/utils';
+import { SerializingContext } from './SerializingContext';
 
 interface WrapConfig {
   glue: string;
@@ -8,15 +9,15 @@ interface WrapConfig {
   indent: boolean;
 }
 
-export abstract class NodeSerializer<N extends TreeNode, I> extends Walker<N, string, NodeInvokers<I>> {
+export abstract class NodeSerializer<N extends TreeNode, I> extends Walker<N, SerializingContext, string, NodeInvokers<I>> {
   defaultConfig: WrapConfig = {
     glue: '\n',
     surround: '\n',
     indent: true,
   };
 
-  visit(node: N): string {
-    return this.serialize(node);
+  visit(node: N, context: SerializingContext): string {
+    return this.serialize(node, context);
   }
 
   wrapInlineList(list: any[], separator: string = ', ') {
@@ -53,5 +54,5 @@ export abstract class NodeSerializer<N extends TreeNode, I> extends Walker<N, st
     );
   }
 
-  abstract serialize(node: N): string;
+  abstract serialize(node: N, context: SerializingContext): string;
 }

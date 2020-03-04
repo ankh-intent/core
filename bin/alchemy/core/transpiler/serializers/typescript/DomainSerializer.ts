@@ -9,26 +9,28 @@ export interface DomainSerializerChildren {
 }
 
 export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerializerChildren> {
-  serialize(node: DomainNode): string {
+  serialize(node: DomainNode, context): string {
+    const sub = context.nest();
+
     return `(() => {${this.wrap([
-      this.child.uses(node.uses),
-      this.serializeDomains(node),
-      this.serializeConstructor(node),
-      this.serializeMethods(node),
-      this.serializeReturn(node),
+      this.child.uses(node.uses, sub),
+      this.serializeDomains(node, sub),
+      this.serializeConstructor(node, sub),
+      this.serializeMethods(node, sub),
+      this.serializeReturn(node, sub),
     ])}})()`;
   }
 
-  serializeDomains(node: DomainNode) {
+  serializeDomains(node: DomainNode, context) {
     return node.domains.size && this.wrapStatements([
       this.wrapStatements(
         [...node.domains.entries()]
-          .map(([alias, domain]) => `const Domain_${alias} = ${this.child.domain(domain)};`)
+          .map(([alias, domain]) => `const Domain_${alias} = ${this.child.domain(domain, context)};`)
       ),
     ]);
   }
 
-  serializeReturn(node: DomainNode) {
+  serializeReturn(node: DomainNode, context) {
     return `return {${this.wrap([
       node.domains.size && `domains: {${this.wrapInlineList(
         [...node.domains.keys()].map((alias) => `${alias}: Domain_${alias}`)
@@ -37,29 +39,29 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
     ])}};`;
   }
 
-  serializeConstructor(node: DomainNode) {
+  serializeConstructor(node: DomainNode, context) {
     if (node.parent) {
       if (node.ctor) {
         return this.wrapStatements([
-          `const ctor_1 = ${this.child.functor(node.ctor)};`,
-          `const ctor = (...params: any[]) => ctor_1(${this.child.type(node.parent)}(params));`
+          `const ctor_1 = ${this.child.functor(node.ctor, context)};`,
+          `const ctor = (...params: any[]) => ctor_1(${this.child.type(node.parent, context)}(params));`
         ]);
       } else {
-        return `const ctor = (...params: any[]) => ${this.child.type(node.parent)}(params);`
+        return `const ctor = (...params: any[]) => ${this.child.type(node.parent, context)}(params);`
       }
     } else {
       if (node.ctor) {
-        return `const ctor = ${this.child.functor(node.ctor)};`;
+        return `const ctor = ${this.child.functor(node.ctor, context)};`;
       } else {
         return 'const ctor = (...params: any[]) => params;';
       }
     }
   }
 
-  serializeMethods(node: DomainNode) {
+  serializeMethods(node: DomainNode, context) {
     return node.methods.size && this.wrapStatements(
       [...node.methods.entries()]
-        .map(([name, method]) => `const $method_${name} = ${this.child.functor(method)};`)
+        .map(([name, method]) => `const $method_${name} = ${this.child.functor(method, context)};`)
     );
   }
 }

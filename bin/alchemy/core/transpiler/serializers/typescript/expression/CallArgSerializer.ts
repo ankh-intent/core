@@ -1,4 +1,4 @@
-import { CallNode, CallArgNode, ExpressionNode } from '../../../ast';
+import { CallArgNode, ExpressionNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export interface CallArgSerializerChildren {
@@ -6,7 +6,7 @@ export interface CallArgSerializerChildren {
 }
 
 export class CallArgSerializer extends NodeSerializer<CallArgNode, CallArgSerializerChildren> {
-  serialize(node: CallArgNode): string {
-    return `/* ${node.identifier}: */ ${this.child.expression(node.expression as ExpressionNode)}`;
+  serialize(node: CallArgNode, context): string {
+    return `/* ${node.identifier}: */ ${this.child.expression(node.expression, context)}`;
   }
 }

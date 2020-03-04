@@ -3,7 +3,10 @@ import {
   IfStatementNode,
   LoopStatementNode,
   BreakStatementNode,
-  ReturnStatementNode, AssignmentStatementNode, ExpressionStatementNode, DecoratedStatementNode,
+  ReturnStatementNode,
+  AssignmentStatementNode,
+  ExpressionStatementNode,
+  DecoratedStatementNode,
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
@@ -18,21 +21,21 @@ export interface StatementSerializerChildren {
 }
 
 export class StatementSerializer extends NodeSerializer<StatementNode, StatementSerializerChildren> {
-  serialize(node: StatementNode): string {
+  serialize(node: StatementNode, context): string {
     if (node instanceof DecoratedStatementNode) {
-      return this.child.decorated_statement(node);
+      return this.child.decorated_statement(node, context);
     } else if (node instanceof IfStatementNode) {
-      return this.child.if_statement(node);
+      return this.child.if_statement(node, context);
     } else if (node instanceof LoopStatementNode) {
-      return this.child.loop_statement(node);
+      return this.child.loop_statement(node, context);
     } else if (node instanceof BreakStatementNode) {
-      return this.child.break_statement(node);
+      return this.child.break_statement(node, context);
     } else if (node instanceof ReturnStatementNode) {
-      return this.child.return_statement(node);
+      return this.child.return_statement(node, context);
     } else if (node instanceof AssignmentStatementNode) {
-      return this.child.assignment_statement(node);
+      return this.child.assignment_statement(node, context);
     } else if (node instanceof ExpressionStatementNode) {
-      return this.child.expression_statement(node);
+      return this.child.expression_statement(node, context);
     }
 
     throw new Error(`Unknown statement type "${node.node}"`);

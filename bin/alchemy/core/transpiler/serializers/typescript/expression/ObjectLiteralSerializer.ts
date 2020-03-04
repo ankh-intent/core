@@ -1,4 +1,4 @@
-import { ObjectNode, ObjectPropertyNode } from '../../../ast';
+import { ObjectNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export interface ObjectLiteralSerializerChildren {
@@ -6,7 +6,7 @@ export interface ObjectLiteralSerializerChildren {
 }
 
 export class ObjectLiteralSerializer extends NodeSerializer<ObjectNode, ObjectLiteralSerializerChildren> {
-  serialize(node: ObjectNode): string {
+  serialize(node: ObjectNode, context): string {
     return `{${this.wrapInlineList(
       [...node.properties.entries()]
         .map(([name, property]) => `${name}: ${property.astRegion.extract()}`)

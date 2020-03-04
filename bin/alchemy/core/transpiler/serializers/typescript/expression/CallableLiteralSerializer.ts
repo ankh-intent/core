@@ -6,7 +6,7 @@ export interface CallableLiteralSerializerChildren {
 }
 
 export class CallableLiteralSerializer extends NodeSerializer<CallableNode, CallableLiteralSerializerChildren> {
-  serialize(node: CallableNode): string {
-    return this.child.functor(node.functor);
+  serialize(node: CallableNode, context): string {
+    return this.child.functor(node.functor, context);
   }
 }

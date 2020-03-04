@@ -1,5 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
-import { Identifiable } from '@intent/kernel/dependencies';
+import { Identifiable, AbstractNode } from '@intent/kernel';
 
 import { ModuleNode } from '../transpiler/ast';
 

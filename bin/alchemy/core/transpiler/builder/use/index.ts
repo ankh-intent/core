@@ -1,4 +1,4 @@
-import { BuilderInvokers, InvokableVisitors } from '@intent/kernel/transpiler';
+import { BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
 import { DecompositionNode, UseNode, UsesNode } from '../../ast';
 import { DecompositionChildren, DecompositionBuilder } from './DecompositionBuilder';

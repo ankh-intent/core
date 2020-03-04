@@ -1,7 +1,7 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { ExpressionNode } from '../../expression';
-import { TypeNode } from '../../reference/TypeNode';
+import { TypeNode } from '../../reference';
 
 export class DomainInterfacePropertyNode extends AbstractNode {
   constructor(

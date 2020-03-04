@@ -6,7 +6,14 @@ export interface AssignmentStatementSerializerChildren {
 }
 
 export class AssignmentStatementSerializer extends NodeSerializer<AssignmentStatementNode, AssignmentStatementSerializerChildren> {
-  serialize(node: AssignmentStatementNode): string {
-    return `${node.operator === '=' ? 'let ' : ''}${this.child.expression(node.target.target)} ${node.operator} ${this.child.expression(node.expression)}`;
+  serialize(node: AssignmentStatementNode, context): string {
+    return (
+      (node.operator === '=' ? 'let ' : '') +
+        [
+          this.child.expression(node.target.target, context),
+          node.operator,
+          this.child.expression(node.expression, context),
+        ].join(' ')
+    );
   }
 }

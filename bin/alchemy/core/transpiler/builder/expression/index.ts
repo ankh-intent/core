@@ -1,5 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
-import { BuilderInvokers, InvokableVisitors } from '@intent/kernel/transpiler';
+import { AbstractNode, BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
 import {
   ExpressionNode,

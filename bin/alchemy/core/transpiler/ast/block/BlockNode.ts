@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 import { ExpressionStatementNode } from './ExpressionStatementNode';
 import { ReturnStatementNode } from './ReturnStatementNode';
 

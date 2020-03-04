@@ -1,4 +1,4 @@
 
-export interface Visitor<C, O> {
-  visit(context: C): O;
+export interface Visitor<N, C, O> {
+  visit(node: N, context: C): O;
 }

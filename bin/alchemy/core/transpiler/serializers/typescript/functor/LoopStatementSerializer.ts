@@ -7,7 +7,9 @@ export interface LoopStatementSerializerChildren {
 }
 
 export class LoopStatementSerializer extends NodeSerializer<LoopStatementNode, LoopStatementSerializerChildren> {
-  serialize(node: LoopStatementNode): string {
-    return `\nfor (${this.child.loop_iterator(node.iterator)}) ${this.child.block(node.block)}`
+  serialize(node: LoopStatementNode, context): string {
+    const sub = context.nest();
+
+    return `\nfor (${this.child.loop_iterator(node.iterator, sub)}) ${this.child.block(node.block, sub)}`
   }
 }

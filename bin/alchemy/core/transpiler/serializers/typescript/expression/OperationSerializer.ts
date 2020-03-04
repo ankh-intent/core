@@ -16,17 +16,17 @@ export interface OperationSerializerChildren {
 }
 
 export class OperationSerializer extends NodeSerializer<BinaryOperationNode, OperationSerializerChildren> {
-  serialize(node: BinaryOperationNode): string {
+  serialize(node: BinaryOperationNode, context): string {
     if (node instanceof CallNode) {
-      return this.child.call(node);
+      return this.child.call(node, context);
     } else if (node instanceof ChainNode) {
-      return this.child.chain(node);
+      return this.child.chain(node, context);
     } else if (node instanceof IsDomainNode) {
-      return this.child.is_domain(node);
+      return this.child.is_domain(node, context);
     } else if (node instanceof IndexedNode) {
-      return this.child.indexed(node);
+      return this.child.indexed(node, context);
     } else if (node.right instanceof ExpressionNode) {
-      return `${node.operation} (${this.child.expression(node.right)})`;
+      return `${node.operation} (${this.child.expression(node.right, context)})`;
     }
 
     throw new Error(`/* unknown operation "${node.node}" */ ${node.astRegion.extract()}`);

@@ -7,11 +7,13 @@ export interface ModuleNodeSerializerChildren {
 }
 
 export class ModuleSerializer extends NodeSerializer<ModuleNode, ModuleNodeSerializerChildren> {
-  serialize(node: ModuleNode): string {
-    return `((Alchemy) => {${this.wrap([this.child.uses(node.uses), this.serializeReturn(node)])})(window['Alchemy']);`;
+  serialize(node: ModuleNode, context): string {
+    const sub = context.nest();
+
+    return `((Alchemy) => {${this.wrap([this.child.uses(node.uses, sub), this.serializeReturn(node, sub)])})(window['Alchemy']);`;
   }
 
-  serializeReturn(node: ModuleNode): string {
-    return `return {${this.wrap([`name: "${node.domain.identifier}",`, `domain: ${this.child.domain(node.domain)},`])}};`;
+  serializeReturn(node: ModuleNode, context): string {
+    return `return {${this.wrap([`name: "${node.domain.identifier}",`, `domain: ${this.child.domain(node.domain, context)},`])}};`;
   }
 }

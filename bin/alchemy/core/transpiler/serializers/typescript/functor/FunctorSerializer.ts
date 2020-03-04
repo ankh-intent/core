@@ -8,9 +8,16 @@ export interface FunctorSerializerChildren {
 }
 
 export class FunctorSerializer extends NodeSerializer<FunctorNode, FunctorSerializerChildren> {
-  serialize(node: FunctorNode): string {
-    return `($args: {${this.child.args(node.args)}})${node.returns ? `: ${this.child.type(node.returns)}` : ''} => ${
-      this.child.functor_body(node.body)
+  serialize(node: FunctorNode, context): string {
+    const localArgs = `$args_${context.depth}`;
+
+    context.variables.set('arguments', {
+      local: localArgs,
+
+    });
+
+    return `(${localArgs}: {${this.child.args(node.args, context)}})${node.returns ? `: ${this.child.type(node.returns, context)}` : ''} => ${
+      this.child.functor_body(node.body, context)
     }`;
   }
 }

@@ -1,6 +1,6 @@
 import { Source, Range } from '@intent/source';
 import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
-import { BuilderInvokers } from '@intent/kernel/transpiler';
+import { BuilderInvokers } from '@intent/kernel';
 
 export class Alchemy {
   public static pure(context: Context, unpure?: boolean) {
@@ -223,8 +223,4 @@ export class AlchemyTokenMatcher extends TokenMatcher {
   constructor(source: Source, range: Range) {
     super(Alchemy.pure.bind(Alchemy), source, range);
   }
-}
-
-export interface AlchemyBuildInvokers extends BuilderInvokers<any> {
-
 }

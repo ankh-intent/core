@@ -8,20 +8,20 @@ export interface IfStatementSerializerChildren {
 }
 
 export class IfStatementSerializer extends NodeSerializer<IfStatementNode, IfStatementSerializerChildren> {
-  serialize(node: IfStatementNode): string {
-    const ifTrue = this.child.block(node.ifTrue);
-    const ifFalse = node.ifFalse && this.child.block(node.ifFalse);
+  serialize(node: IfStatementNode, context): string {
+    const ifTrue = this.child.block(node.ifTrue, context);
+    const ifFalse = node.ifFalse && this.child.block(node.ifFalse, context);
     const body = ifTrue + (ifFalse ? ` else ${ifFalse}` : '');
 
     if (node.condition instanceof AssignmentStatementNode) {
       return `{${this.wrap([
-        this.child.statement(node.condition) + ';',
-        `\nif (${this.child.expression(node.condition.target.target)}) ${body}`,
+        this.child.statement(node.condition, context) + ';',
+        `\nif (${this.child.expression(node.condition.target.target, context)}) ${body}`,
       ])}}`;
     }
 
     return (
-      `\nif (${this.child.statement(node.condition)}) ${body}\n`
+      `\nif (${this.child.statement(node.condition, context)}) ${body}\n`
     );
   }
 }

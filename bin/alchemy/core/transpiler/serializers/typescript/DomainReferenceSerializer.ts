@@ -6,14 +6,14 @@ export interface DomainReferenceSerializerChildren {
 }
 
 export class DomainReferenceSerializer extends NodeSerializer<TypeNode, DomainReferenceSerializerChildren> {
-  serialize(node: TypeNode): string {
-    return `${node.isArray ? 'Array<' : ''}${node.qualifier.path()}${this.serializeGeneric(node)}${node.isArray ? '>' : ''}`;
+  serialize(node: TypeNode, context): string {
+    return `${node.isArray ? 'Array<' : ''}${node.qualifier.path()}${this.serializeGeneric(node, context)}${node.isArray ? '>' : ''}`;
   }
 
-  serializeGeneric(node: TypeNode) {
+  serializeGeneric(node: TypeNode, context) {
     return (
       (node.generic && node.generic.genericTypes.length)
-        ? `<${this.wrapInlineList(node.generic.genericTypes.map((child) => this.child.type(child)))}>`
+        ? `<${this.wrapInlineList(node.generic.genericTypes.map((child) => this.child.type(child, context)))}>`
         : ''
     );
   }

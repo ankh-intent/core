@@ -6,7 +6,7 @@ export interface IndexedSerializerChildren {
 }
 
 export class IndexedSerializer extends NodeSerializer<IndexedNode, IndexedSerializerChildren> {
-  serialize(node: IndexedNode): string {
-    return `[${this.child.expression(node.right)}]`;
+  serialize(node: IndexedNode, context): string {
+    return `[${this.child.expression(node.right, context)}]`;
   }
 }

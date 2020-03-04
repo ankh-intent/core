@@ -1,9 +1,6 @@
 import { BaseTokenTypes, TokenMatcher, TypedTokenMatcherInterface } from '@intent/parser';
-import { TreeNode } from '@intent/kernel/ast';
-import { BaseBuilder as Builder, BuilderInvokers } from '@intent/kernel/transpiler';
+import { TreeNode, BaseBuilder as Builder, BuilderInvokers } from '@intent/kernel';
 import { Container } from '@intent/utils';
-
-import { AlchemyBuildInvokers } from '../Alchemy';
 
 export abstract class BaseBuilder<
   N extends TreeNode,

@@ -1,4 +1,4 @@
-import { BuilderInvokers, InvokableVisitors } from '@intent/kernel/transpiler';
+import { BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
 import { QualifierNode, TypeNode, TypeGenericNode } from '../../ast';
 import { QualifierChildren, QualifierBuilder } from './QualifierBuilder';

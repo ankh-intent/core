@@ -1,14 +1,20 @@
 import { Emitter, Logger, UnitMatcher } from '@intent/utils';
 import { RecursiveFinder } from '@intent/source';
 
-import { ErrorConsumer, StatConsumer, UpdateEvent, EventChainMonitor } from './consumers';
+import {
+  CoreLogger,
+  TreeNode,
+  Identifiable,
+  CoreEvent,
+  CoreEventBus,
+  EventChainInterface,
+  FatalEvent,
+  ReadyEvent,
+  StopEvent,
+  UpdateEvent,
+} from './kernel';
+import { ErrorConsumer, StatConsumer, EventChainMonitor } from './consumers';
 import { CoreConfig } from './CoreConfig';
-import { TreeNode } from './kernel/ast';
-
-import { Identifiable } from './kernel/dependencies';
-import { CoreEvent, CoreEventBus, EventChainInterface, FatalEvent, ReadyEvent, StopEvent } from './kernel/event';
-
-import { CoreLogger } from './kernel/logging/CoreLogger';
 import { PipelineObserverFactory } from './PipelineObserver';
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
@@ -34,8 +40,9 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     const resolved = configFactory(this, config);
     const observer = observerFactory(this, resolved);
 
-    this.events.reset();
-    this.events.add(this.eventChainMonitor);
+    this.events
+      .reset()
+      .add(this.eventChainMonitor);
 
     observer.bootstrap(this, resolved);
 
@@ -64,7 +71,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
       updates.push(
         ...this
           .matched(entry.path, entry.test)
-          .map((path) => new UpdateEvent({ path, entry: name }))
+          .map((path) => new UpdateEvent({ event: 'change', path, entry: name }))
       )
     }
 
@@ -91,7 +98,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     const paths: string[] = [];
 
     for (const matcher of matchers) {
-      const found = finder.find(root, matcher, (path) => path);
+      const found = finder.find(root, matcher);
 
       if (found) {
         paths.push(found);

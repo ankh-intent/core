@@ -6,7 +6,7 @@ export interface ExpressionStatementSerializerChildren {
 }
 
 export class ExpressionStatementSerializer extends NodeSerializer<ExpressionStatementNode, ExpressionStatementSerializerChildren> {
-  serialize(node: ExpressionStatementNode): string {
-    return this.child.expression(node.expression);
+  serialize(node: ExpressionStatementNode, context): string {
+    return this.child.expression(node.expression, context);
   }
 }

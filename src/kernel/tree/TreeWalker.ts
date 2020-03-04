@@ -1,15 +1,16 @@
 import { Visitor } from './Visitor';
 import { NodeInvokers } from './Walker';
 
-export type InvokableVisitors<T> = {[N in keyof T]: Visitor<any, any>};
-export type RootInvokers<G, N, O> = NodeInvokers<Omit<G, 'root'> & { root: N }, O>;
+export type InvokableVisitors<T> = {[N in keyof T]: Visitor<any, any, any>};
+export type RootInvokers<G, N, C, O> = NodeInvokers<Omit<G, 'root'> & { root: N }, C, O>;
 
 export class TreeWalker<
+  N,
   C,
   O,
   Grammar,
-  Invokers extends RootInvokers<Grammar, C, O> = RootInvokers<Grammar, C, O>,
-> implements Visitor<C, O> {
+  Invokers extends RootInvokers<Grammar, N, C, O> = RootInvokers<Grammar, N, C, O>,
+> implements Visitor<N, C, O> {
   protected readonly invokers: Invokers;
 
   public constructor() {
@@ -27,7 +28,7 @@ export class TreeWalker<
     };
   }
 
-  public visit(context: C): O {
-    return this.invokers.root(context as any);
+  public visit(node: N, context: C): O {
+    return this.invokers.root(node as any, context);
   }
 }

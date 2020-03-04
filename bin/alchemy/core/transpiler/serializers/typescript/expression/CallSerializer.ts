@@ -6,7 +6,7 @@ export interface CallSerializerChildren {
 }
 
 export class CallSerializer extends NodeSerializer<CallNode, CallSerializerChildren> {
-  serialize(node: CallNode): string {
-    return `(${this.wrapInlineList(node.right.args.map(this.child.call_arg))})`;
+  serialize(node: CallNode, context): string {
+    return `(${this.wrapInlineList(node.right.args.map((arg) => this.child.call_arg(arg, context)))})`;
   }
 }

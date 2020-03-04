@@ -1,4 +1,4 @@
-import { CallNode, CallArgNode, ChainNode, IdentifierNode } from '../../../ast';
+import { ChainNode, IdentifierNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export interface ChainSerializerChildren {
@@ -6,7 +6,7 @@ export interface ChainSerializerChildren {
 }
 
 export class ChainSerializer extends NodeSerializer<ChainNode, ChainSerializerChildren> {
-  serialize(node: ChainNode): string {
-    return '.' + this.child.identifier(node.right);
+  serialize(node: ChainNode, context): string {
+    return '.' + this.child.identifier(node.right, context);
   }
 }

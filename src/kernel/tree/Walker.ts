@@ -1,18 +1,19 @@
 import { Visitor } from './Visitor';
 
-export interface NodeInvoker<C, O> {
-  (context: C): O;
+export interface NodeInvoker<N, C, O> {
+  (node: N, context: C): O;
 }
 
-export type NodeInvokers<T = any, O = any> = {
-  [name in keyof T]: NodeInvoker<T[name], O>;
+export type NodeInvokers<T = any, C = any, O = any> = {
+  [name in keyof T]: NodeInvoker<T[name], C, O>;
 }
 
 export abstract class Walker<
+  N,
   C,
   O,
   I extends NodeInvokers = NodeInvokers
-> implements Visitor<C, O> {
+> implements Visitor<N, C, O> {
   protected child: I;
 
   // noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
@@ -20,6 +21,6 @@ export abstract class Walker<
     this.child = builders;
   }
 
-  abstract visit(context: C): O;
+  abstract visit(node: N, context: C): O;
 }
 

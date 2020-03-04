@@ -2,7 +2,7 @@ import * as util from 'util';
 
 import { Logger } from '@intent/utils';
 import { Core } from '@intent/Core';
-import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel/event';
+import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel';
 import { CoreConfig } from '@intent/CoreConfig';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 

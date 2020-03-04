@@ -1,5 +1,5 @@
 import { Container } from '@intent/utils';
-import { TreeNode } from '@intent/kernel/ast';
+import { TreeNode } from '@intent/kernel';
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { BinaryOperationNode, ExpressionNode } from '../../ast';

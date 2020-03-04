@@ -6,7 +6,7 @@ export interface ReturnStatementSerializerChildren {
 }
 
 export class ReturnStatementSerializer extends NodeSerializer<ReturnStatementNode, ReturnStatementSerializerChildren> {
-  serialize(node: ReturnStatementNode): string {
-    return `return${node.expression ? ' ' + this.child.expression(node.expression) : ''}`;
+  serialize(node: ReturnStatementNode, context): string {
+    return `return${node.expression ? ' ' + this.child.expression(node.expression, context) : ''}`;
   }
 }

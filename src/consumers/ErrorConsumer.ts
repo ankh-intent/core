@@ -2,7 +2,7 @@ import { Logger, Strings } from '@intent/utils';
 import { SyntaxError } from '@intent/parser';
 import { CoreConfig } from '../CoreConfig';
 
-import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel/event';
+import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel';
 
 const NATIVE_ERROR_LOC_MATCHER = /^(?:\s*at\s*)?(.*?)(?:\s*\(([^()]+)\))?$/;
 

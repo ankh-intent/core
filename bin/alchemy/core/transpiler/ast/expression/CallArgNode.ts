@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 import { ExpressionNode } from './ExpressionNode';
 
 export class CallArgNode extends AbstractNode {

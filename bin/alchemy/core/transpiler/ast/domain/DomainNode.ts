@@ -1,9 +1,9 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { FunctorNode } from '../functor';
 import { DomainInterfaceNode } from './interface';
-import { TypeNode } from '../reference/TypeNode';
-import { UsesNode } from '../use/UsesNode';
+import { TypeNode } from '../reference';
+import { UsesNode } from '../use';
 
 export class DomainNode extends AbstractNode {
   constructor(

@@ -7,8 +7,8 @@
   "scripts": {
     "executable:alchemy": "chmod +x bin/alchemy/alchemy.ts",
     "executable:intent": "chmod +x bin/intent/intent.ts",
-    "intent": "npm run executable:intent && cd bin/intent && ts-node --project tsconfig.json -r tsconfig-paths/register intent.ts",
-    "alchemy": "npm run executable:alchemy && cd bin/alchemy && ts-node --project tsconfig.json -r tsconfig-paths/register alchemy.ts",
+    "intent": "npm run executable:intent && cd bin/intent && ts-node --project src/tsconfig.json -r tsconfig-paths/register intent.ts",
+    "alchemy": "ts-node --project bin/alchemy/tsconfig.json ./bin/alchemy/alchemy.ts",
     "pack": "webpack --display-modules --progress --colors",
     "watchdog": "webpack --progress --colors --watch --watch-poll",
     "bump": "bin/bump.sh",
