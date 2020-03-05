@@ -1,5 +1,5 @@
 import {
-  BinaryOperationNode,
+  OperationNode,
   CallNode,
   ChainNode,
   IsDomainNode,
@@ -15,8 +15,14 @@ export interface OperationSerializerChildren {
   expression: ExpressionNode;
 }
 
-export class OperationSerializer extends NodeSerializer<BinaryOperationNode, OperationSerializerChildren> {
-  serialize(node: BinaryOperationNode, context): string {
+const MAP = {
+  '&': '&&',
+  '|': '||',
+};
+const mapOperations = (operation: string) => MAP[operation] || operation;
+
+export class OperationSerializer extends NodeSerializer<OperationNode, OperationSerializerChildren> {
+  serialize(node: OperationNode, context): string {
     if (node instanceof CallNode) {
       return this.child.call(node, context);
     } else if (node instanceof ChainNode) {
@@ -26,7 +32,7 @@ export class OperationSerializer extends NodeSerializer<BinaryOperationNode, Ope
     } else if (node instanceof IndexedNode) {
       return this.child.indexed(node, context);
     } else if (node.right instanceof ExpressionNode) {
-      return `${node.operation} (${this.child.expression(node.right, context)})`;
+      return `${mapOperations(node.operation)} ${this.child.expression(node.right, context)}`;
     }
 
     throw new Error(`/* unknown operation "${node.node}" */ ${node.astRegion.extract()}`);

@@ -138,12 +138,12 @@ export class Strings {
     const result: string[] = [];
 
     for (const element of a) {
-      if (typeof element === 'string') {
-        result.push(element);
-      } else {
+      if (Array.isArray(element)) {
         result.push(
           ...this.fold(element)
         );
+      } else {
+        result.push(element);
       }
     }
 

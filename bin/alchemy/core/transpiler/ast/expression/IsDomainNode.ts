@@ -1,8 +1,8 @@
 import { TypeNode } from '../reference';
-import { BinaryOperationNode } from './BinaryOperationNode';
+import { OperationNode } from './OperationNode';
 
-export class IsDomainNode extends BinaryOperationNode<TypeNode> {
+export class IsDomainNode extends OperationNode<TypeNode> {
   constructor(domain: TypeNode) {
-    super('is', domain);
+    super('is', domain, true);
   }
 }

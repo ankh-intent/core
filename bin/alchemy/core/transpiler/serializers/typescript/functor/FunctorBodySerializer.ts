@@ -9,10 +9,8 @@ export class FunctorBodySerializer extends NodeSerializer<FunctorBodyNode, Funct
   serialize(node: FunctorBodyNode, context): string {
     const sub = context.nest();
 
-    if (node.isExpressionStatement) {
-      return `{${this.wrap([
-        (node.isReturnStatement ? '' : 'return ') + this.child.block(node.block, sub),
-      ])}}`;
+    if (node.isExpressionStatement && node.isReturnStatement) {
+      return `{${this.wrap([this.child.block(node.block, sub)])}}`;
     }
 
     return this.child.block(node.block, sub);

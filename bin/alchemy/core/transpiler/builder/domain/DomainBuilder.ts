@@ -1,10 +1,20 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { DomainNode, UsesNode, FunctorNode, TypeNode, EnumNode, ExpressionNode, DomainInterfaceNode } from '../../ast';
+import {
+  DomainNode,
+  UsesNode,
+  FunctorNode,
+  TypeNode,
+  EnumNode,
+  ExpressionNode,
+  DomainInterfaceNode,
+  GenericTemplatesNode,
+} from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type DomainChildren = {
   type: TypeNode;
+  generic_templates: GenericTemplatesNode;
   enum: EnumNode;
   domain: DomainNode;
   uses: UsesNode;
@@ -20,6 +30,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     }
 
     const identifier = ensure.identifier();
+    const generics = this.child.generic_templates(tokens);
     const parent: TypeNode|null = get.identifier('extends')
       ? this.child.type(tokens)
       : null;
@@ -98,6 +109,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
     return new DomainNode(
       identifier,
+      generics,
       parent,
       intf,
       uses,

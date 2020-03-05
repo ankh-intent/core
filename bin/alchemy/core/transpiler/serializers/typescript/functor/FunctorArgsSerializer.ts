@@ -7,13 +7,10 @@ export interface FunctorArgsSerializerChildren {
 
 export class FunctorArgsSerializer extends NodeSerializer<FunctorArgsNode, FunctorArgsSerializerChildren> {
   serialize(node: FunctorArgsNode, context): string {
-    for (const arg of node.args) {
-      context.variables.set(arg.name, {
-        local: `${context.getLocalIdentifier('arguments')}.$arg_${arg.name}`,
-        type: arg.type,
-      });
-    }
-
-    return this.wrapInlineList(node.args.map((arg) => `$arg_${arg.name}: ${this.child.type(arg.type, context)}`));
+    return `{${this.wrapInlineList(
+      node.args.map((arg) => `${arg.name}: ${this.child.type(arg.type, context)}`),
+      ', ',
+      ' ',
+    )}}`;
   }
 }

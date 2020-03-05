@@ -1,21 +1,21 @@
 import { AbstractNode } from '@intent/kernel';
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { ExpressionNode, BinaryOperationNode } from '../../ast';
+import { ExpressionNode, OperationNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type AccessorChildren = {
   accessible: AbstractNode;
-  chain: BinaryOperationNode;
-  indexed: BinaryOperationNode;
-  call: BinaryOperationNode;
-  is_domain: BinaryOperationNode;
+  chain: OperationNode;
+  indexed: OperationNode;
+  call: OperationNode;
+  is_domain: OperationNode;
 };
 
 export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildren> {
   protected build(tokens, { get, ensure, peek }: TypedTokenMatcherInterface) {
     const base = this.child.accessible(tokens);
-    const operations: BinaryOperationNode[] = [];
+    const operations: OperationNode[] = [];
 
     while (true) {
       if (peek.symbol('.')) {

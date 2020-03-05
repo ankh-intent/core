@@ -2,7 +2,6 @@ import { TypedTokenMatcherInterface } from '@intent/parser';
 
 import {
   StatementNode,
-  AssignmentStatementNode,
   BreakStatementNode,
   ReturnStatementNode,
   IfStatementNode,

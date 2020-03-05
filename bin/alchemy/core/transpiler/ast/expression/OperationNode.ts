@@ -1,9 +1,10 @@
 import { AbstractNode } from '@intent/kernel';
 
-export class BinaryOperationNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
+export class OperationNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
   constructor(
     public operation: string,
     public right: N,
+    public binary: boolean = false,
   ) {
     super();
   }

@@ -1,12 +1,12 @@
 import { AbstractNode } from '@intent/kernel';
 
-import { ExpressionNode, BinaryOperationNode } from '../../../ast';
+import { ExpressionNode, OperationNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export interface ExpressionSerializerChildren {
   expression: ExpressionNode;
   literal: AbstractNode;
-  operation: BinaryOperationNode;
+  operation: OperationNode;
 }
 
 export class ExpressionSerializer extends NodeSerializer<ExpressionNode, ExpressionSerializerChildren> {
@@ -18,10 +18,12 @@ export class ExpressionSerializer extends NodeSerializer<ExpressionNode, Express
     );
 
     if (node.operations.length) {
-      code = `(${code})`;
-
       for (const operation of node.operations) {
-        code += this.child.operation(operation, context);
+        code += (operation.binary ? ' ' : '') + this.child.operation(operation, context);
+
+        if (operation.binary) {
+          code = `(${code})`;
+        }
       }
     }
 

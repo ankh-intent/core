@@ -15,6 +15,7 @@ import { ObjectLiteralSerializer, ObjectLiteralSerializerChildren } from './expr
 import { OperationSerializer, OperationSerializerChildren } from './expression/OperationSerializer';
 import { PrimitiveSerializer, PrimitiveSerializerChildren } from './expression/PrimitiveSerializer';
 import { AssignmentStatementSerializer, AssignmentStatementSerializerChildren } from './functor/AssignmentStatementSerializer';
+import { AssignmentTargetSerializerChildren, AssignmentTargetSerializer } from './functor/AssignmentTargetSerializer';
 import { BlockSerializer, BlockSerializerChildren } from './functor/BlockSerializer';
 import { BreakStatementSerializer, BreakStatementSerializerChildren } from './functor/BreakStatementSerializer';
 import { DecoratedStatementSerializer, DecoratedStatementSerializerChildren } from './functor/DecoratedStatementSerializer';
@@ -50,6 +51,7 @@ type AlchemyGrammar =
   ReturnStatementSerializerChildren &
   ExpressionSerializerChildren &
   AssignmentStatementSerializerChildren &
+  AssignmentTargetSerializerChildren &
   ExpressionStatementSerializerChildren &
   LiteralSerializerChildren &
   PrimitiveSerializerChildren &
@@ -86,6 +88,7 @@ export class TypescriptSerializer extends RootSerializer<AlchemyGrammar> {
       return_statement    : new ReturnStatementSerializer(this.invokers),
       expression          : new ExpressionSerializer(this.invokers),
       assignment_statement: new AssignmentStatementSerializer(this.invokers),
+      assignment_target   : new AssignmentTargetSerializer(this.invokers),
       expression_statement: new ExpressionStatementSerializer(this.invokers),
       decorated_statement : new DecoratedStatementSerializer(this.invokers),
       literal             : new LiteralSerializer(this.invokers),

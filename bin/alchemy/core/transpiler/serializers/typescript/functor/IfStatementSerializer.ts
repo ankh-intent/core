@@ -1,27 +1,40 @@
-import { IfStatementNode, BlockNode, StatementNode, AssignmentStatementNode, ExpressionNode } from '../../../ast';
+import {
+  IfStatementNode,
+  BlockNode,
+  StatementNode,
+  AssignmentStatementNode,
+  ExpressionNode,
+  IdentifierNode,
+} from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export interface IfStatementSerializerChildren {
   block: BlockNode;
   statement: StatementNode;
+  identifier: IdentifierNode;
   expression: ExpressionNode;
 }
 
 export class IfStatementSerializer extends NodeSerializer<IfStatementNode, IfStatementSerializerChildren> {
   serialize(node: IfStatementNode, context): string {
-    const ifTrue = this.child.block(node.ifTrue, context);
-    const ifFalse = node.ifFalse && this.child.block(node.ifFalse, context);
+    const sub = context.nest();
+    const condition = this.child.statement(node.condition, sub);
+    const ifTrue = this.child.block(node.ifTrue, sub);
+    const ifFalse = node.ifFalse && this.child.block(node.ifFalse, sub);
     const body = ifTrue + (ifFalse ? ` else ${ifFalse}` : '');
 
-    if (node.condition instanceof AssignmentStatementNode) {
+    if (node.condition instanceof AssignmentStatementNode && node.condition.isDeclaration()) {
       return `{${this.wrap([
-        this.child.statement(node.condition, context) + ';',
-        `\nif (${this.child.expression(node.condition.target.target, context)}) ${body}`,
+        condition + ';',
+        '',
+        `if (${this.child.identifier(node.condition.targetBase, sub)}) ${body}`,
       ])}}`;
     }
 
-    return (
-      `\nif (${this.child.statement(node.condition, context)}) ${body}\n`
-    );
+    return this.wrap([
+      '',
+      `if (${condition}) ${body}`,
+      '',
+    ]);
   }
 }

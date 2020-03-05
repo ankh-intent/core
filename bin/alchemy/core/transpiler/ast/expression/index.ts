@@ -1,4 +1,4 @@
-export * from './BinaryOperationNode';
+export * from './OperationNode';
 export * from './CallNode';
 export * from './CallArgNode';
 export * from './CallArgsNode';

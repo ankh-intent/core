@@ -2,12 +2,13 @@ import { AbstractNode } from '@intent/kernel';
 
 import { FunctorNode } from '../functor';
 import { DomainInterfaceNode } from './interface';
-import { TypeNode } from '../reference';
+import { TypeNode, GenericTemplatesNode } from '../reference';
 import { UsesNode } from '../use';
 
 export class DomainNode extends AbstractNode {
   constructor(
     public identifier: string,
+    public generics: GenericTemplatesNode,
     public parent: TypeNode|null,
     public intf: DomainInterfaceNode,
     public uses: UsesNode,

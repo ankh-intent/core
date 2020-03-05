@@ -2,7 +2,7 @@ import { Container } from '@intent/utils';
 import { TreeNode } from '@intent/kernel';
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
-import { BinaryOperationNode, ExpressionNode } from '../../ast';
+import { OperationNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type OperableChildren = {
@@ -16,7 +16,7 @@ export abstract class OperableBuilder<C extends Container<TreeNode>> extends Bas
 
   protected build(tokens, { peek, get }: TypedTokenMatcherInterface) {
     const base = this.buildBase(tokens);
-    const operations: BinaryOperationNode[] = [];
+    const operations: OperationNode[] = [];
     let operation: string|null;
 
     while ((operation = peek.symbol()) && this.operands.includes(operation)) {
@@ -24,9 +24,10 @@ export abstract class OperableBuilder<C extends Container<TreeNode>> extends Bas
 
       const expression = this.child.expression(tokens);
 
-      operations.push(new BinaryOperationNode(
+      operations.push(new OperationNode(
         operation,
         expression,
+        true,
       ));
     }
 

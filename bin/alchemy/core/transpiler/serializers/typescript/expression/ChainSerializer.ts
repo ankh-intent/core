@@ -7,6 +7,6 @@ export interface ChainSerializerChildren {
 
 export class ChainSerializer extends NodeSerializer<ChainNode, ChainSerializerChildren> {
   serialize(node: ChainNode, context): string {
-    return '.' + this.child.identifier(node.right, context);
+    return '.' + node.right.name;
   }
 }

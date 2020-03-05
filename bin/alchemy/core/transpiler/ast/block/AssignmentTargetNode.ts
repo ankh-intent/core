@@ -1,11 +1,19 @@
 import { AbstractNode } from '@intent/kernel';
 
-import { ExpressionNode } from '../expression';
+import { ExpressionNode, IdentifierNode } from '../expression';
 
-export class AssignmentTargetNode extends AbstractNode {
+export class AssignmentTargetNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
+  private readonly _isDeclaration: boolean;
+
   constructor(
-    public target: ExpressionNode,
+    public target: ExpressionNode<N>,
+    isDeclaration: boolean = true,
   ) {
     super();
+    this._isDeclaration = isDeclaration;
+  }
+
+  isDeclaration(): this is AssignmentTargetNode<IdentifierNode>  {
+    return this._isDeclaration;
   }
 }

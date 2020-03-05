@@ -5,7 +5,7 @@ export interface IdentifierSerializerChildren {
 }
 
 export class IdentifierSerializer extends NodeSerializer<IdentifierNode, IdentifierSerializerChildren> {
-  serialize(node: IdentifierNode): string {
-    return `${node.name}`; // todo: identifiers access
+  serialize(node: IdentifierNode, context): string {
+    return context.getLocalIdentifier(node.name) || `/* unknown */ ${node.name}`;
   }
 }

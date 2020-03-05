@@ -20,8 +20,8 @@ export abstract class NodeSerializer<N extends TreeNode, I> extends Walker<N, Se
     return this.serialize(node, context);
   }
 
-  wrapInlineList(list: any[], separator: string = ', ') {
-    return this.wrap(list, { surround: '', glue: separator, indent: false });
+  wrapInlineList(list: any[], separator: string = ', ', surround: string = '') {
+    return this.wrap(list, { surround, glue: separator, indent: false });
   }
 
   wrapStatements(list: any[]) {
@@ -34,8 +34,8 @@ export abstract class NodeSerializer<N extends TreeNode, I> extends Walker<N, Se
     let filtered = (
       Strings
         .fold(
-          items
-            .map((item) => item && String(item).split('\n'))
+          <string[][]>items
+            .map((item) => item && typeof item === 'string' && String(item).split('\n'))
             .filter(Boolean)
         )
         .filter(Boolean)

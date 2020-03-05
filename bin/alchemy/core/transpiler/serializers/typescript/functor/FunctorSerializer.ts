@@ -9,15 +9,11 @@ export interface FunctorSerializerChildren {
 
 export class FunctorSerializer extends NodeSerializer<FunctorNode, FunctorSerializerChildren> {
   serialize(node: FunctorNode, context): string {
-    const localArgs = `$args_${context.depth}`;
+    const sub = context.nest();
+    const { local } = sub.argsType(node.args);
 
-    context.variables.set('arguments', {
-      local: localArgs,
-
-    });
-
-    return `(${localArgs}: {${this.child.args(node.args, context)}})${node.returns ? `: ${this.child.type(node.returns, context)}` : ''} => ${
-      this.child.functor_body(node.body, context)
+    return `(${local}: ${this.child.args(node.args, sub)})${node.returns ? `: ${this.child.type(node.returns, sub)}` : ''} => ${
+      this.child.functor_body(node.body, sub)
     }`;
   }
 }

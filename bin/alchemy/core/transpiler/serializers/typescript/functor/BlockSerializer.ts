@@ -8,10 +8,14 @@ export interface BlockSerializerChildren {
 export class BlockSerializer extends NodeSerializer<BlockNode, BlockSerializerChildren> {
   serialize(node: BlockNode, context): string {
     const sub = context.nest();
+    const cap = !node.isExpressionStatement;
+    const statements = node.statements
+      .map((statement) => this.child.statement(statement, sub) + (cap && statement.isAssertion ? ';' : ''));
 
-    return `{${this.wrap(
-      node.statements
-        .map((statement) => this.child.statement(statement, sub) + (statement.isAssertion ? ';' : ''))
-    )}}`;
+    if (node.isExpressionStatement) {
+      return this.wrapStatements(statements);
+    }
+
+    return `{${this.wrap(statements)}}`;
   }
 }

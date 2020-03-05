@@ -11,8 +11,15 @@ export interface DomainSerializerChildren {
 export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerializerChildren> {
   serialize(node: DomainNode, context): string {
     const sub = context.nest();
+    const local = `$domain_${context.depth}_${context.types.size}`;
+
+    sub.variables.set('this', {
+      local,
+      type: context.domainType(node),
+    });
 
     return `(() => {${this.wrap([
+      `const ${local} = ${node.parent && node.parent.isArray ? '[]' : '{}'};`,
       this.child.uses(node.uses, sub),
       this.serializeDomains(node, sub),
       this.serializeConstructor(node, sub),

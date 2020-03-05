@@ -10,8 +10,16 @@ export class Region {
     this.to = to;
   }
 
+  get source() {
+    return this.from.source;
+  }
+
+  get position() {
+    return this.source.position(this.from);
+  }
+
   extract(): string {
-    const source = this.from.source;
+    const source = this.source;
 
     return source.extract(
       source.position(this.from),

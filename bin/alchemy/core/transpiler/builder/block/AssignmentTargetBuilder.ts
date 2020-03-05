@@ -11,6 +11,8 @@ export type AssignmentTargetChildren = {
 export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, AssignmentTargetChildren> {
   protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
     if (get.identifier('let')) {
+      tokens.mark('IS_ASSIGNMENT');
+
       return new AssignmentTargetNode(
         this.child.identifier_expression(tokens),
       );
@@ -18,6 +20,7 @@ export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, A
 
     return new AssignmentTargetNode(
       this.child.expression(tokens),
+      false,
     );
   }
 }

@@ -14,6 +14,8 @@ export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgs
     while (!peek.symbol(')')) {
       const arg = this.child.functor_arg(tokens);
 
+      tokens.mark('IS_FUNCTOR');
+
       if (arg.name && args.find(a => a.name === arg.name)) {
         throw tokens.error(`Argument with the same name "${arg.name}" already present`);
       }

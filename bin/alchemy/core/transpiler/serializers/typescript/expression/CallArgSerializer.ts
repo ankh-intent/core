@@ -7,6 +7,6 @@ export interface CallArgSerializerChildren {
 
 export class CallArgSerializer extends NodeSerializer<CallArgNode, CallArgSerializerChildren> {
   serialize(node: CallArgNode, context): string {
-    return `/* ${node.identifier}: */ ${this.child.expression(node.expression, context)}`;
+    return (node.identifier ? `/* ${node.identifier}: */` : '') + this.child.expression(node.expression, context);
   }
 }
