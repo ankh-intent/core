@@ -1,5 +1,6 @@
-import { DomainNode, FunctorNode, UsesNode, TypeNode } from '../../ast';
+import { DomainNode, FunctorNode, UsesNode, TypeNode, ModuleNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
+import { SerializingContext } from '../SerializingContext';
 
 export interface DomainSerializerChildren {
   uses: UsesNode;
@@ -9,13 +10,18 @@ export interface DomainSerializerChildren {
 }
 
 export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerializerChildren> {
-  serialize(node: DomainNode, context): string {
+  serialize(node: DomainNode, context: SerializingContext): string {
     const sub = context.nest();
-    const local = `$domain_${context.depth}_${context.types.size}`;
+    const local = `$${node.identifier.toLowerCase()}_domain_${context.depth}_${context.types.size}`;
+    const { type, domainType } = context.domainType(node);
 
     sub.variables.set('this', {
       local,
-      type: context.domainType(node),
+      type,
+    });
+    sub.variables.set(node.identifier, {
+      local: `Domain_${node.identifier}`,
+      type: domainType,
     });
 
     return `(() => {${this.wrap([
@@ -28,17 +34,18 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
     ])}})()`;
   }
 
-  serializeDomains(node: DomainNode, context) {
+  serializeDomains(node: DomainNode, context: SerializingContext) {
     return node.domains.size && this.wrapStatements([
       this.wrapStatements(
         [...node.domains.entries()]
-          .map(([alias, domain]) => `const Domain_${alias} = ${this.child.domain(domain, context)};`)
+          .map(([alias, domain]) => `const ${context.getLocalIdentifier(alias)} = ${this.child.domain(domain, context)};`)
       ),
     ]);
   }
 
   serializeReturn(node: DomainNode, context) {
     return `return {${this.wrap([
+      `name: "${node.identifier}",`,
       node.domains.size && `domains: {${this.wrapInlineList(
         [...node.domains.keys()].map((alias) => `${alias}: Domain_${alias}`)
       )}},`,
@@ -65,10 +72,17 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
     }
   }
 
-  serializeMethods(node: DomainNode, context) {
+  serializeMethods(node: DomainNode, context: SerializingContext) {
+    for (const [name, entry] of node.methods.entries()) {
+      context.variables.set(name, {
+        local: `$method_${name}`,
+        type: context.functorType(entry),
+      });
+    }
+
     return node.methods.size && this.wrapStatements(
       [...node.methods.entries()]
-        .map(([name, method]) => `const $method_${name} = ${this.child.functor(method, context)};`)
+        .map(([name, method]) => `const ${context.getLocalIdentifier(name)} = ${this.child.functor(method, context)};`)
     );
   }
 }

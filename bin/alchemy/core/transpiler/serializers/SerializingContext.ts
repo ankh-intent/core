@@ -1,7 +1,7 @@
 import { Container } from '@intent/utils';
 import { DomainNode } from '../ast/domain';
 import { ExpressionNode } from '../ast/expression';
-import { FunctorArgsNode } from '../ast/functor';
+import { FunctorArgsNode, FunctorNode } from '../ast/functor';
 import { TypeNode, QualifierNode, TypeGenericNode } from '../ast/reference';
 
 class Scope<T, N extends keyof T = keyof T> {
@@ -87,11 +87,34 @@ export class SerializingContext extends SerializingScope {
     return this.variables.get(variable)?.local || null;
   }
 
-  domainType(domain: DomainNode): TypeNode {
-    return new TypeNode(
+  domainType(domain: DomainNode): { type: TypeNode, domainType: TypeNode } {
+    const type = new TypeNode(
       new QualifierNode(domain.identifier),
       new TypeGenericNode<TypeNode>(
         <TypeNode[]>domain.generics.templates.filter((template) => !!template.parent).map((template) => template.parent),
+      ),
+    );
+    const domainType = new TypeNode(
+      new QualifierNode('Domain'),
+      new TypeGenericNode<TypeNode>([type]),
+    );
+
+    return {
+      type,
+      domainType,
+    }
+  }
+
+  functorType(functor: FunctorNode): TypeNode {
+    return new TypeNode(
+      new QualifierNode('Callable'),
+      new TypeGenericNode<TypeNode>(
+        [
+          new TypeNode(new QualifierNode('Arguments'), new TypeGenericNode<TypeNode>([
+            functor.returns || new TypeNode(new QualifierNode('Void'), new TypeGenericNode<TypeNode>()),
+            ...functor.args.args.map((arg) => arg.type),
+          ])),
+        ]
       ),
     );
   }
