@@ -46,6 +46,8 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
           if (config.emit.stats) {
             core.logger.log(Logger.INFO, event, util.inspect(data.stat, {
               depth: null,
+              colors: true,
+              customInspect: true,
             }));
           }
           break;

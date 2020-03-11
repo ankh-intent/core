@@ -1,3 +1,5 @@
+import * as util from 'util';
+
 export class Range {
   from: number;
   to: number;
@@ -12,6 +14,13 @@ export class Origin {
     this.source = source;
     this.line = line;
     this.column = column;
+  }
+
+  [util.inspect.custom]() {
+    return {
+      line: this.line,
+      column: this.column,
+    };
   }
 }
 
@@ -76,5 +85,12 @@ export class Source {
     }
 
     return len;
+  }
+
+  [util.inspect.custom]() {
+    return {
+      ...this,
+      content: '<...>',
+    };
   }
 }
