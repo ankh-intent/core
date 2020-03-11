@@ -1,7 +1,7 @@
 import path = require('path');
 
 import { CoreConfig } from '../../CoreConfig';
-import { TreeNode } from '../ast';
+import { TreeNode } from '@intent/ast';
 import { Identifiable } from '../dependencies';
 import { BaseEmitResolver } from './BaseEmitResolver';
 

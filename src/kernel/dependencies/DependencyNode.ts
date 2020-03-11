@@ -1,6 +1,6 @@
 import { Container } from '@intent/utils';
 
-import { TreeNode } from '../ast';
+import { TreeNode } from '@intent/ast';
 
 export interface Identifiable<N extends TreeNode> {
   identifier: string;

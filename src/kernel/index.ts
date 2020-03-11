@@ -1,4 +1,4 @@
-export * from './ast';
+export * from '@intent/ast';
 export * from './dependencies';
 export * from './event';
 export * from './resolvers';

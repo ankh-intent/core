@@ -1,6 +1,6 @@
 import { Container, Eventable } from '@intent/utils';
 
-import { TreeNode } from '../ast';
+import { TreeNode } from '@intent/ast';
 import { DependencyNode, Identifiable } from './DependencyNode';
 
 export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> extends Eventable {

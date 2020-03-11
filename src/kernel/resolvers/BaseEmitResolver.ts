@@ -3,7 +3,7 @@ import path = require('path');
 import { Strings } from '@intent/utils';
 
 import { CoreConfig } from '../../CoreConfig';
-import { TreeNode } from '../ast';
+import { TreeNode } from '@intent/ast';
 import { Identifiable } from '../dependencies';
 
 import { FileEmitResolverInterface } from './FileEmitResolverInterface';

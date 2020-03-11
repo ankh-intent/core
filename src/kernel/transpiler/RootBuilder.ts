@@ -1,7 +1,7 @@
 import { BaseTokenTypes, TokenMatcher } from '@intent/parser';
 import { Container } from '@intent/utils';
 
-import { TokenVisitor, TreeNode } from '../ast';
+import { TokenVisitor, TreeNode } from '@intent/ast';
 import { BuilderInvokers } from './BaseBuilder';
 
 export type InvokableVisitors<T> = {[name in keyof T]: TokenVisitor<any>};

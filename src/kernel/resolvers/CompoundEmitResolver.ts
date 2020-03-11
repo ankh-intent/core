@@ -1,4 +1,4 @@
-import { TreeNode } from '../ast';
+import { TreeNode } from '@intent/ast';
 import { Identifiable } from '../dependencies';
 import { FileEmitResolverInterface } from './FileEmitResolverInterface';
 

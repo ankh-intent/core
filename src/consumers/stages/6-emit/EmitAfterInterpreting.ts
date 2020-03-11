@@ -5,7 +5,7 @@ import {
   AbstractConsumer, CoreEvent, CoreEventBus, ErrorEvent,
   FileEmitResolverInterface,
 } from '../../../kernel';
-import { InterpretedEvent } from '../../flow-events';
+import { InterpretedEvent, EmittedEvent } from '../../flow-events';
 import { EmitStat } from './EmitStat';
 import { EmittedStat } from './EmittedStat';
 
@@ -35,7 +35,7 @@ export class EmitAfterInterpreting<N extends TreeNode, T extends Identifiable<N>
     this.writer
       .write(source)
       .then(() => {
-        this.emit(event, false);
+        this.emit(new EmittedEvent({ dependency, source }), false);
 
         this.stat(event, new EmittedStat(
           dependency.identifiable,

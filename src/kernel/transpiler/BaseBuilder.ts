@@ -8,7 +8,7 @@ import {
   TypedTokenMatcherInterface,
 } from '@intent/parser';
 
-import { TreeNode, TokenVisitor } from '../ast';
+import { TreeNode, TokenVisitor } from '@intent/ast';
 
 export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {
   (tokens: TokenMatcher<TT>): N;
