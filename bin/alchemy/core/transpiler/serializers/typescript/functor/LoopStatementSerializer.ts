@@ -1,10 +1,10 @@
 import { LoopStatementNode, BlockNode, LoopIteratorNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface LoopStatementSerializerChildren {
+export type LoopStatementSerializerChildren = {
   block: BlockNode;
   loop_iterator: LoopIteratorNode;
-}
+};
 
 export class LoopStatementSerializer extends NodeSerializer<LoopStatementNode, LoopStatementSerializerChildren> {
   serialize(node: LoopStatementNode, context): string {

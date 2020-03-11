@@ -1,9 +1,9 @@
 import { UsesNode, UseNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
 
-export interface UsesSerializerChildren {
+export type UsesSerializerChildren = {
   use: UseNode;
-}
+};
 
 export class UsesSerializer extends NodeSerializer<UsesNode, UsesSerializerChildren> {
   serialize(node: UsesNode, context): string {

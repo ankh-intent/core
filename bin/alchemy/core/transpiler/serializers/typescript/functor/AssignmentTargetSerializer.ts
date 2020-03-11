@@ -1,9 +1,9 @@
 import { ExpressionNode, AssignmentTargetNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface AssignmentTargetSerializerChildren {
+export type AssignmentTargetSerializerChildren = {
   expression: ExpressionNode;
-}
+};
 
 export class AssignmentTargetSerializer extends NodeSerializer<AssignmentTargetNode, AssignmentTargetSerializerChildren> {
   serialize(node: AssignmentTargetNode, context): string {

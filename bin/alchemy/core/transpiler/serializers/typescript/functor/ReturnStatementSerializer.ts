@@ -1,9 +1,9 @@
 import { ReturnStatementNode, ExpressionNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface ReturnStatementSerializerChildren {
+export type ReturnStatementSerializerChildren = {
   expression: ExpressionNode;
-}
+};
 
 export class ReturnStatementSerializer extends NodeSerializer<ReturnStatementNode, ReturnStatementSerializerChildren> {
   serialize(node: ReturnStatementNode, context): string {

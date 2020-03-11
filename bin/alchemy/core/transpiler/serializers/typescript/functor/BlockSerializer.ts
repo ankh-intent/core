@@ -1,9 +1,9 @@
 import { BlockNode, StatementNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface BlockSerializerChildren {
+export type BlockSerializerChildren = {
   statement: StatementNode;
-}
+};
 
 export class BlockSerializer extends NodeSerializer<BlockNode, BlockSerializerChildren> {
   serialize(node: BlockNode, context): string {

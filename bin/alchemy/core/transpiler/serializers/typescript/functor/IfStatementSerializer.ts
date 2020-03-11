@@ -8,12 +8,12 @@ import {
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface IfStatementSerializerChildren {
+export type IfStatementSerializerChildren = {
   block: BlockNode;
   statement: StatementNode;
   identifier: IdentifierNode;
   expression: ExpressionNode;
-}
+};
 
 export class IfStatementSerializer extends NodeSerializer<IfStatementNode, IfStatementSerializerChildren> {
   serialize(node: IfStatementNode, context): string {

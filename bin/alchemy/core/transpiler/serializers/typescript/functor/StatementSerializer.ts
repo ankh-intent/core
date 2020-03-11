@@ -10,7 +10,7 @@ import {
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface StatementSerializerChildren {
+export type StatementSerializerChildren = {
   if_statement: IfStatementNode;
   loop_statement: LoopStatementNode;
   break_statement: BreakStatementNode;
@@ -18,7 +18,7 @@ export interface StatementSerializerChildren {
   assignment_statement: AssignmentStatementNode;
   expression_statement: ExpressionStatementNode;
   decorated_statement: DecoratedStatementNode;
-}
+};
 
 export class StatementSerializer extends NodeSerializer<StatementNode, StatementSerializerChildren> {
   serialize(node: StatementNode, context): string {

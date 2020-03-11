@@ -2,10 +2,10 @@ import { SyntaxError } from '@intent/parser';
 import { LoopIteratorNode, ExpressionNode, AssignmentTargetNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface LoopIteratorSerializerChildren {
+export type LoopIteratorSerializerChildren = {
   expression: ExpressionNode;
   assignment_target: AssignmentTargetNode;
-}
+};
 
 export class LoopIteratorSerializer extends NodeSerializer<LoopIteratorNode, LoopIteratorSerializerChildren> {
   serialize(node: LoopIteratorNode, context): string {

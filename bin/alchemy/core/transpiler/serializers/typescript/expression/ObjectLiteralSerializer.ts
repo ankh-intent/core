@@ -1,9 +1,9 @@
 import { ObjectNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface ObjectLiteralSerializerChildren {
+export type ObjectLiteralSerializerChildren = {
   // object_property: ObjectPropertyNode;
-}
+};
 
 export class ObjectLiteralSerializer extends NodeSerializer<ObjectNode, ObjectLiteralSerializerChildren> {
   serialize(node: ObjectNode, context): string {

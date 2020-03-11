@@ -2,10 +2,10 @@ import { SyntaxError } from '@intent/parser';
 import { ExpressionNode, AssignmentStatementNode, AssignmentTargetNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface AssignmentStatementSerializerChildren {
+export type AssignmentStatementSerializerChildren = {
   assignment_target: AssignmentTargetNode;
   expression: ExpressionNode;
-}
+};
 
 export class AssignmentStatementSerializer extends NodeSerializer<AssignmentStatementNode, AssignmentStatementSerializerChildren> {
   serialize(node: AssignmentStatementNode, context): string {

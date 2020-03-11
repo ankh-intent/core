@@ -2,12 +2,12 @@ import { DomainNode, FunctorNode, UsesNode, TypeNode, ModuleNode } from '../../a
 import { NodeSerializer } from '../NodeSerializer';
 import { SerializingContext } from '../SerializingContext';
 
-export interface DomainSerializerChildren {
+export type DomainSerializerChildren = {
   uses: UsesNode;
   type: TypeNode;
   domain: DomainNode;
   functor: FunctorNode;
-}
+};
 
 export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerializerChildren> {
   serialize(node: DomainNode, context: SerializingContext): string {

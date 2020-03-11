@@ -1,10 +1,10 @@
 import { StatementNode, DecoratedStatementNode, ExpressionNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface DecoratedStatementSerializerChildren {
+export type DecoratedStatementSerializerChildren = {
   statement: StatementNode;
   expression: ExpressionNode;
-}
+};
 
 export class DecoratedStatementSerializer extends NodeSerializer<DecoratedStatementNode, DecoratedStatementSerializerChildren> {
   serialize(node: DecoratedStatementNode, context): string {

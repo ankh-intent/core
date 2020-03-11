@@ -1,9 +1,9 @@
 import { BlockNode, BreakStatementNode, BreakType } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface BreakStatementSerializerChildren {
+export type BreakStatementSerializerChildren = {
   block: BlockNode;
-}
+};
 
 const KEYWORDS = {
   [BreakType.Break]: 'break',

@@ -3,11 +3,11 @@ import { AbstractNode } from '@intent/kernel';
 import { ExpressionNode, OperationNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface ExpressionSerializerChildren {
+export type ExpressionSerializerChildren = {
   expression: ExpressionNode;
   literal: AbstractNode;
   operation: OperationNode;
-}
+};
 
 export class ExpressionSerializer extends NodeSerializer<ExpressionNode, ExpressionSerializerChildren> {
   serialize(node: ExpressionNode, context): string {

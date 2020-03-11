@@ -1,10 +1,10 @@
 import { ModuleNode, DomainNode, UsesNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
 
-export interface ModuleNodeSerializerChildren {
+export type ModuleNodeSerializerChildren = {
   uses: UsesNode;
   domain: DomainNode;
-}
+};
 
 export class ModuleSerializer extends NodeSerializer<ModuleNode, ModuleNodeSerializerChildren> {
   serialize(node: ModuleNode, context): string {

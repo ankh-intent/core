@@ -1,9 +1,9 @@
 import { FunctorArgsNode, TypeNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface FunctorArgsSerializerChildren {
+export type FunctorArgsSerializerChildren = {
   type: TypeNode;
-}
+};
 
 export class FunctorArgsSerializer extends NodeSerializer<FunctorArgsNode, FunctorArgsSerializerChildren> {
   serialize(node: FunctorArgsNode, context): string {

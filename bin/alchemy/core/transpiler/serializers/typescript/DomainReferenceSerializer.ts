@@ -1,9 +1,9 @@
 import { TypeNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
 
-export interface DomainReferenceSerializerChildren {
+export type DomainReferenceSerializerChildren = {
   type: TypeNode;
-}
+};
 
 export class DomainReferenceSerializer extends NodeSerializer<TypeNode, DomainReferenceSerializerChildren> {
   serialize(node: TypeNode, context): string {

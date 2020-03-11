@@ -1,8 +1,8 @@
 import { IdentifierNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface IdentifierSerializerChildren {
-}
+export type IdentifierSerializerChildren = {
+};
 
 export class IdentifierSerializer extends NodeSerializer<IdentifierNode, IdentifierSerializerChildren> {
   serialize(node: IdentifierNode, context): string {

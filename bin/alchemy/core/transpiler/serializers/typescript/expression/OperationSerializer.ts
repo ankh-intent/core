@@ -7,13 +7,13 @@ import {
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface OperationSerializerChildren {
+export type OperationSerializerChildren = {
   call: CallNode;
   chain: ChainNode;
   indexed: IndexedNode;
   is_domain: IsDomainNode;
   expression: ExpressionNode;
-}
+};
 
 const MAP = {
   '&': '&&',

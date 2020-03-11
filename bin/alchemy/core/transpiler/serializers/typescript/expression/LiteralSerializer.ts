@@ -2,13 +2,13 @@ import { AbstractNode } from '@intent/kernel';
 import { LiteralNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
-export interface LiteralSerializerChildren {
+export type LiteralSerializerChildren = {
   primitive: LiteralNode;
   object_literal: ObjectNode;
   array_literal: ArrayNode;
   callable: CallableNode;
   identifier: IdentifierNode;
-}
+};
 
 export class LiteralSerializer extends NodeSerializer<AbstractNode, LiteralSerializerChildren> {
   serialize(node: AbstractNode, context): string {
