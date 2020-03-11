@@ -13,6 +13,7 @@ import {
   SynchronizeAfterPatch,
   DependenciesResolver,
   WatchAfterReadyStage,
+  RunPlugins,
 } from './consumers';
 import { Core } from './Core';
 import { CoreConfig } from './CoreConfig';
@@ -58,6 +59,7 @@ export abstract class WatchedTranspilerPipelineObserver<
 
   public bootstrap(core: Core<C, N, T>, config: C): void {
     core.events
+      .add(new RunPlugins(core.events, core.plugins))
       .add(new ReadAfterUpdateStage(core.events))
       .add(new ParseAfterRead(core.events, this.tokensFactory, this.parser))
       .add(new PatchAfterParse(core.events, this, this.dependencyTree))

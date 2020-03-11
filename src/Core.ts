@@ -1,3 +1,4 @@
+import { PluginRegistry, Plugin } from '@intent/plugins';
 import { Emitter, Logger, UnitMatcher } from '@intent/utils';
 import { RecursiveFinder } from '@intent/source';
 
@@ -27,13 +28,19 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
   private readonly eventChainMonitor: EventChainMonitor<CoreEvent>;
 
   public readonly events: CoreEventBus;
+  public readonly plugins: PluginRegistry;
   public readonly logger: Logger;
 
   public constructor() {
     super();
     this.logger = new CoreLogger();
     this.events = new CoreEventBus();
+    this.plugins = new PluginRegistry();
     this.eventChainMonitor = new EventChainMonitor(this.events);
+  }
+
+  public registerPlugin(plugin: Plugin) {
+    this.plugins.register(plugin);
   }
 
   public bootstrap(config: CoreConfig, configFactory: ConfigFactory<C, N, T>, observerFactory: PipelineObserverFactory<C, N, T>): C {

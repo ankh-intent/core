@@ -1,4 +1,9 @@
+import { TreeNode } from '../../../ast';
 import { Visitor } from './Visitor';
+
+export type NodeIdentifiersMap = {
+  [name: string]: TreeNode;
+}
 
 export interface NodeInvoker<N, C, O> {
   (node: N, context: C): O;
@@ -12,13 +17,12 @@ export abstract class Walker<
   N,
   C,
   O,
-  I extends NodeInvokers = NodeInvokers
+  I extends NodeIdentifiersMap
 > implements Visitor<N, C, O> {
-  protected child: I;
+  protected child: NodeInvokers<I>;
 
-  // noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
-  constructor(builders: I) {
-    this.child = builders;
+  constructor(children: NodeInvokers<I>) {
+    this.child = children;
   }
 
   abstract visit(node: N, context: C): O;
