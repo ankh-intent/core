@@ -1,5 +1,5 @@
 import { TreeNode } from '@intent/kernel';
-import { Walker, NodeInvokers } from '@intent/kernel/tree';
+import { Walker, NodeIdentifiersMap } from '@intent/plugins';
 import { Strings } from '@intent/utils';
 import { SerializingContext } from './SerializingContext';
 
@@ -9,7 +9,7 @@ interface WrapConfig {
   indent: boolean;
 }
 
-export abstract class NodeSerializer<N extends TreeNode, I> extends Walker<N, SerializingContext, string, NodeInvokers<I>> {
+export abstract class NodeSerializer<N extends TreeNode, I extends NodeIdentifiersMap> extends Walker<N, SerializingContext, string, I> {
   defaultConfig: WrapConfig = {
     glue: '\n',
     surround: '\n',

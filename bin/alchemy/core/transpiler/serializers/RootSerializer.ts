@@ -1,4 +1,4 @@
-import { TreeWalker } from '@intent/kernel/tree';
+import { TreeWalker } from '@intent/plugins';
 
 import { ModuleNode } from '../ast';
 import { SerializingContext } from './SerializingContext';
