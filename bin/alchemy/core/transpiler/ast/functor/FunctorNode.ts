@@ -12,4 +12,8 @@ export class FunctorNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.args, this.returns!, this.body].filter(Boolean);
+  }
 }

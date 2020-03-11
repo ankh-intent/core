@@ -11,6 +11,10 @@ export class BlockNode extends AbstractNode {
     super();
   }
 
+  get children() {
+    return this.statements;
+  }
+
   get isExpressionStatement() {
     return (this.statements.length === 1) && this.statements[0] instanceof ExpressionStatementNode;
   }

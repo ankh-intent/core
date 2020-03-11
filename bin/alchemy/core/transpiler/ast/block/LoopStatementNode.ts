@@ -10,6 +10,10 @@ export class LoopStatementNode extends StatementNode {
     super();
   }
 
+  get children() {
+    return [this.iterator, this.block];
+  }
+
   get isAssertion() {
     return false;
   }

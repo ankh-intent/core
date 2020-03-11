@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel';
+import { AbstractNode, TreeNode } from '@intent/ast';
 
 import { FunctorNode } from '../functor';
 import { DomainInterfaceNode } from './interface';
@@ -17,5 +17,17 @@ export class DomainNode extends AbstractNode {
     public ctor: FunctorNode|null = null,
   ) {
     super();
+  }
+
+  get children(): TreeNode[] {
+    return [
+      this.generics,
+      this.parent!,
+      this.intf,
+      this.uses,
+      this.ctor!,
+      ...this.domains.values(),
+      ...this.methods.values(),
+    ].filter(Boolean);
   }
 }

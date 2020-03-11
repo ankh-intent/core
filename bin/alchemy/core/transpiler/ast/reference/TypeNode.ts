@@ -11,4 +11,8 @@ export class TypeNode extends AbstractNode {
   ) {
     super();
   }
+
+  public get children() {
+    return [this.qualifier, this.generic!].filter(Boolean);
+  }
 }

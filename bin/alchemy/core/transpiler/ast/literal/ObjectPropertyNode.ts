@@ -9,4 +9,8 @@ export class ObjectPropertyNode extends AbstractNode {
   ) {
     super();
   }
+
+  public get children() {
+    return [this.expression];
+  }
 }

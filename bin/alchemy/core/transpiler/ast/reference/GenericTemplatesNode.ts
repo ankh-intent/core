@@ -8,4 +8,8 @@ export class GenericTemplatesNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return this.templates;
+  }
 }

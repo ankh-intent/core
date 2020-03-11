@@ -8,4 +8,8 @@ export class OperationNode<N extends AbstractNode = AbstractNode> extends Abstra
   ) {
     super();
   }
+
+  get children() {
+    return [this.right];
+  }
 }

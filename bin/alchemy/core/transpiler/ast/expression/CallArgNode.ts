@@ -8,4 +8,8 @@ export class CallArgNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.expression];
+  }
 }

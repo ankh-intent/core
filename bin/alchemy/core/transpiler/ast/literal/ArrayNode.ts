@@ -8,4 +8,8 @@ export class ArrayNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return this.items;
+  }
 }

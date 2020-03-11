@@ -9,6 +9,10 @@ export class UseNode extends AbstractNode {
     super();
   };
 
+  public get children() {
+    return [this.decomposition];
+  }
+
   get alias(): string {
     return this.decomposition.alias;
   }

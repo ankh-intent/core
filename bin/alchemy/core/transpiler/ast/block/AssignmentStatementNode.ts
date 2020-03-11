@@ -12,6 +12,10 @@ export class AssignmentStatementNode<N extends AbstractNode = AbstractNode> exte
     super();
   }
 
+  get children() {
+    return [this.target, this.expression];
+  }
+
   isDeclaration(): this is AssignmentStatementNode<IdentifierNode>  {
     return this.target.isDeclaration();
   }

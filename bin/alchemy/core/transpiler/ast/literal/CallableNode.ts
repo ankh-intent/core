@@ -8,4 +8,8 @@ export class CallableNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.functor];
+  }
 }

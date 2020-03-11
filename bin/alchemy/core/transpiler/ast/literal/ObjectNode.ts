@@ -8,4 +8,8 @@ export class ObjectNode extends AbstractNode {
   ) {
     super();
   }
+
+  public get children() {
+    return [...this.properties.values()];
+  }
 }

@@ -10,6 +10,10 @@ export class QualifierNode extends AbstractNode {
     this.child = child;
   }
 
+  public get children() {
+    return [this.child!].filter(Boolean);
+  }
+
   public deepest(): string {
     return this.child
       ? this.child.deepest()

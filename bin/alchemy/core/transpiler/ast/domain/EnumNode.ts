@@ -12,4 +12,8 @@ export class EnumNode extends DomainNode {
   ) {
     super(identifier, new GenericTemplatesNode(), parent, new DomainInterfaceNode(), new UsesNode());
   }
+
+  get children() {
+    return [...super.children, ...this.values.keys(), ...this.values.values()];
+  }
 }

@@ -13,6 +13,10 @@ export class AssignmentTargetNode<N extends AbstractNode = AbstractNode> extends
     this._isDeclaration = isDeclaration;
   }
 
+  get children() {
+    return [this.target];
+  }
+
   isDeclaration(): this is AssignmentTargetNode<IdentifierNode>  {
     return this._isDeclaration;
   }

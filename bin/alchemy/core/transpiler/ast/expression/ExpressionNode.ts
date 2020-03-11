@@ -9,4 +9,8 @@ export class ExpressionNode<N extends AbstractNode = AbstractNode> extends Abstr
   ) {
     super();
   }
+
+  get children() {
+    return [this.base, ...this.operations];
+  }
 }

@@ -11,4 +11,8 @@ export class GenericTemplateNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.identifier, this.parent!, this.def!].filter(Boolean);
+  }
 }

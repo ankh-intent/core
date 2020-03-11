@@ -12,4 +12,8 @@ export class ModuleNode extends AbstractNode {
   ) {
     super();
   }
+
+  public get children() {
+    return [this.uses, this.domain];
+  }
 }

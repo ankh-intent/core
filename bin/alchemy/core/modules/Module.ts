@@ -13,6 +13,10 @@ export class Module extends AbstractNode implements Identifiable<ModuleNode> {
     this.identifier = identifier;
   }
 
+  public get children() {
+    return [this.ast, ...Object.values(this.linked)];
+  }
+
   public link(module: Module) {
     this.linked[module.identifier] = module;
   }

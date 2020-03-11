@@ -11,4 +11,8 @@ export class DomainInterfacePropertyNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.expression!, this.type!].filter(Boolean);
+  }
 }

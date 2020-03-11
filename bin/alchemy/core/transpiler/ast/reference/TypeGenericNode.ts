@@ -6,4 +6,8 @@ export class TypeGenericNode<T extends AbstractNode> extends AbstractNode {
   ) {
     super();
   }
+
+  public get children() {
+    return this.genericTypes;
+  }
 }

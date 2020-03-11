@@ -8,4 +8,8 @@ export class DomainInterfaceNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [...this.properties.values()];
+  }
 }

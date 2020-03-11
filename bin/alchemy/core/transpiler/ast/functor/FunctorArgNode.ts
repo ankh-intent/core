@@ -9,4 +9,8 @@ export class FunctorArgNode extends AbstractNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.type];
+  }
 }

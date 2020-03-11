@@ -9,6 +9,10 @@ export class UsesNode extends AbstractNode {
     super();
   };
 
+  public get children() {
+    return [...this.map.values()];
+  }
+
   public get entries(): [string, UseNode][] {
     return [...this.map.entries()];
   }
