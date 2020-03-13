@@ -2,7 +2,7 @@ import { Container } from '@intent/utils';
 import { Source } from '@intent/source';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
-import { Module } from './modules/Module';
+import { Module } from './modules';
 import { QualifierResolver } from './modules/qualifier/QualifierResolver';
 import { BaseUseResolver } from './modules/use/BaseUseResolver';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
@@ -30,20 +30,24 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     const qualifier = this.qualifierResolver.resolve(module);
 
     if (qualifier) {
-      module.name = qualifier.path('.');
+      module.qualifier = qualifier;
     }
 
     return module;
   }
 
   resolve(module: Module): Container<Module> {
-    return this.mergeUses(
-      this.resolveUsedModules(module, module.ast.uses),
-      this.resolveDomainUses(module, module.ast.domain),
+    return (
+      module.ast
+        ? this.mergeUses(
+          this.resolveUsedModules(module, module.ast.uses),
+          this.resolveDomainUses(module, module.ast.domain),
+        )
+        : {}
     );
   }
 
-  mergeUses(a: Container<Module>, b: Container<Module>): Container<Module> {
+  mergeUses(a?: Container<Module>, b?: Container<Module>): Container<Module> {
     return {
       ...a,
       ...b,
@@ -71,7 +75,7 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
         throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
       }
 
-      links[link.identifier] = link;
+      links[link.uri] = link;
     }
 
     return links;

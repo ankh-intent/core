@@ -1,10 +1,10 @@
-import { DomainNode, FunctorNode, UsesNode, TypeNode, ModuleNode } from '../../ast';
+import { DomainNode, FunctorNode, UsesNode, ReferenceNode, ModuleNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
 import { SerializingContext } from '../SerializingContext';
 
 export type DomainSerializerChildren = {
   uses: UsesNode;
-  type: TypeNode;
+  type: ReferenceNode;
   domain: DomainNode;
   functor: FunctorNode;
 };

@@ -16,7 +16,7 @@ export class BaseEmitResolver<N extends TreeNode, T extends Identifiable<N>> imp
   }
 
   protected getOriginalPath(identifiable: T): string {
-    return identifiable.identifier;
+    return identifiable.uri;
   }
 
   protected getBasePath(identifiable: T): string {

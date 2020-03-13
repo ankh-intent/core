@@ -1,17 +1,17 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { TypeNode, ExpressionNode, DomainInterfacePropertyNode } from '../../../ast';
+import { ReferenceNode, ExpressionNode, DomainInterfacePropertyNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
 export type DomainInterfacePropertyChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
   expression: ExpressionNode;
 }
 
 export class InterfacePropertyBuilder extends BaseBuilder<DomainInterfacePropertyNode, DomainInterfacePropertyChildren> {
   protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
     const identifier = ensure.identifier();
-    const type: TypeNode|null = get.symbol(':')
+    const type: ReferenceNode|null = get.symbol(':')
       ? this.child.type(tokens)
       : null;
     const expression: ExpressionNode|null = get.symbol('=')

@@ -71,7 +71,7 @@ export class SynchronizeAfterPatch<N extends TreeNode, T extends Identifiable<N>
 
     for (const dependency of unknown) {
       // todo: entry forwarding
-      this.emit(new UpdateEvent({ event: 'change', path: dependency.identifier, entry: '%C' }, event));
+      this.emit(new UpdateEvent({ event: 'change', path: dependency.uri, entry: '%C' }, event));
     }
   }
 }

@@ -1,11 +1,11 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { TypeNode, GenericTemplateNode, IdentifierNode } from '../../ast';
+import { ReferenceNode, GenericTemplateNode, IdentifierNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type GenericTemplateChildren = {
   identifier: IdentifierNode;
-  type: TypeNode;
+  type: ReferenceNode;
 };
 
 export class GenericTemplateBuilder extends BaseBuilder<GenericTemplateNode, GenericTemplateChildren> {

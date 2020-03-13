@@ -7,7 +7,7 @@ import { CoreConfig } from '@intent/CoreConfig';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
-import { Module } from './modules/Module';
+import { Module } from './modules';
 import { QualifierResolver } from './modules/qualifier/QualifierResolver';
 import { TranslatorPlugin } from './transpiler/translation';
 import { ModuleNode } from './transpiler/ast';
@@ -25,7 +25,7 @@ export class AlchemyCore extends Core<TranspilerConfig, ModuleNode, Module> {
         const qualifier = qualifierResolver.resolve(module);
 
         if (qualifier) {
-          module.name = qualifier.path('.');
+          module.qualifier = qualifier;
         }
 
         return module;

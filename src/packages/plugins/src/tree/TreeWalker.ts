@@ -11,16 +11,20 @@ export class TreeWalker<
   Grammar,
   Invokers extends RootInvokers<Grammar, N, C, O> = RootInvokers<Grammar, N, C, O>,
 > implements Visitor<N, C, O> {
-  protected readonly invokers: Invokers;
+  protected _invokers: Invokers;
 
-  public constructor() {
-    this.invokers = <any>{};
+  protected get invokers() {
+    if (!this._invokers) {
+      this._invokers = <Invokers>{};
 
-    for (const builder of Object.keys(this.visitors)) {
-      const visitor = this.visitors[builder];
+      for (const builder of Object.keys(this.visitors)) {
+        const visitor = this.visitors[builder];
 
-      this.invokers[builder] = visitor.visit.bind(visitor);
+        this._invokers[builder] = visitor.visit.bind(visitor);
+      }
     }
+
+    return this._invokers;
   }
 
   protected get visitors(): InvokableVisitors<Invokers> {

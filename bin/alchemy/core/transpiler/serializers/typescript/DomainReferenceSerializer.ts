@@ -1,16 +1,16 @@
-import { TypeNode } from '../../ast';
+import { ReferenceNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
 
 export type DomainReferenceSerializerChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
 };
 
-export class DomainReferenceSerializer extends NodeSerializer<TypeNode, DomainReferenceSerializerChildren> {
-  serialize(node: TypeNode, context): string {
+export class DomainReferenceSerializer extends NodeSerializer<ReferenceNode, DomainReferenceSerializerChildren> {
+  serialize(node: ReferenceNode, context): string {
     return `${node.isArray ? 'Array<' : ''}${node.qualifier.path()}${this.serializeGeneric(node, context)}${node.isArray ? '>' : ''}`;
   }
 
-  serializeGeneric(node: TypeNode, context) {
+  serializeGeneric(node: ReferenceNode, context) {
     return (
       (node.generic && node.generic.genericTypes.length)
         ? `<${this.wrapInlineList(node.generic.genericTypes.map((child) => this.child.type(child, context)))}>`

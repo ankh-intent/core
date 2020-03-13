@@ -14,7 +14,7 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
   }
 
   public resolve(from: Module): QualifierNode|null {
-    return this.parse(this.config.project, from.identifier);
+    return this.parse(this.config.project, from.uri);
   }
 
   protected parse(base: string, original: string): QualifierNode|null {

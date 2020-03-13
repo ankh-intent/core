@@ -1,18 +1,18 @@
 export class Scope<T, N extends keyof T = keyof T> {
-  protected readonly parent?: Scope<T, N>;
-  public readonly data: T;
+  protected readonly parentScope?: Scope<any>;
+  public readonly data: Partial<T>;
 
-  constructor(data: T, parent?: Scope<T, N>) {
-    this.parent = parent;
+  constructor(data: Partial<T>, parentScope?: Scope<any>) {
+    this.parentScope = parentScope;
     this.data = data;
   }
 
-  nest(data: T): this {
-    return Reflect.construct(this.constructor, [data, this]);
+  nest(data?: Partial<any>): Scope<any> {
+    return Reflect.construct(this.constructor, [data || {}, this]);
   }
 
   get depth(): number {
-    return 1 + (this.parent?.depth || 0);
+    return 1 + (this.parentScope?.depth || 0);
   }
 
   set(name: N, value: T[N]) {
@@ -25,7 +25,7 @@ export class Scope<T, N extends keyof T = keyof T> {
     return delete this.data[name];
   }
 
-  get(name: N): T[N]|null {
-    return this.data[name] || this.parent?.get(name) || null;
+  get(name: N): T[N]|undefined {
+    return this.data[name] || this.parentScope?.get(name);
   }
 }

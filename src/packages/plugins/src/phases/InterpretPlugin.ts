@@ -14,7 +14,7 @@ export abstract class InterpretPlugin<N extends TreeNode, T extends Identifiable
     return this.visitRoot(
       env,
       env.event.data.dependency.identifiable.ast,
-      this.createContext(env.event.data.dependency.identifiable.ast),
+      this.createContext(env),
     );
   }
 

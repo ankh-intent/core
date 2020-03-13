@@ -14,6 +14,7 @@ export class ModuleBuilder extends BaseBuilder<ModuleNode, ModuleChildren> {
     const domain = this.child.domain(tokens);
 
     return new ModuleNode(
+      tokens.source.reference,
       uses,
       domain,
     );

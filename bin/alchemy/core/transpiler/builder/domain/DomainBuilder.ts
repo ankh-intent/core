@@ -4,7 +4,7 @@ import {
   DomainNode,
   UsesNode,
   FunctorNode,
-  TypeNode,
+  ReferenceNode,
   EnumNode,
   ExpressionNode,
   DomainInterfaceNode,
@@ -13,7 +13,7 @@ import {
 import { BaseBuilder } from '../BaseBuilder';
 
 export type DomainChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
   generic_templates: GenericTemplatesNode;
   enum: EnumNode;
   domain: DomainNode;
@@ -31,9 +31,9 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
     const identifier = ensure.identifier();
     const generics = this.child.generic_templates(tokens);
-    const parent: TypeNode|null = get.identifier('extends')
+    const parent: ReferenceNode|undefined = get.identifier('extends')
       ? this.child.type(tokens)
-      : null;
+      : undefined;
 
     ensure.symbol('{');
 

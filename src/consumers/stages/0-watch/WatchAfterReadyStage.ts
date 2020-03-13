@@ -59,7 +59,7 @@ export class WatchAfterReadyStage<U extends UnitInterface, N extends TreeNode, T
     }
 
     const watches = this.watchdog
-      .watchAll(node.identifier, WatchAfterReadyStage.WATCHDOG_EVENTS)
+      .watchAll(node.uri, WatchAfterReadyStage.WATCHDOG_EVENTS)
       .map((watch) => {
         watch.emitter.and(this.event.bind(this));
 

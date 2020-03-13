@@ -1,9 +1,9 @@
-import { FunctorNode, FunctorArgsNode, FunctorBodyNode, TypeNode } from '../../../ast';
+import { FunctorNode, FunctorArgsNode, FunctorBodyNode, ReferenceNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export type FunctorSerializerChildren = {
   args: FunctorArgsNode;
-  type: TypeNode;
+  type: ReferenceNode;
   functor_body: FunctorBodyNode;
 };
 

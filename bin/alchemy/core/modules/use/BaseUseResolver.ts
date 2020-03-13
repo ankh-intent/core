@@ -35,17 +35,17 @@ export class BaseUseResolver implements UseResolverInterface {
     const search = identifier.name;
 
     for (const found of Object.keys(from.linked).map((name) => from.linked[name])) {
-      if (search === found.name) {
+      if (search === found.uri) {
         return identifier.child
           ? this.resolve(found, identifier.child)
           : found;
       }
     }
 
-    const common = Strings.longestCommon([this.config.project, from.identifier]).pop();
-    const resolved = from.identifier
+    const common = Strings.longestCommon([this.config.project, from.uri]).pop();
+    const resolved = from.uri
         .replace(new RegExp(`^${common}`), '')
-        .replace(/\/[^\/]+$/, '/') + identifier.name.toLowerCase() + '.alc'
+        .replace(/\/[^\/]+$/, '/') + search.toLowerCase() + '.alc'
     ;
 
     return new Module(common + resolved);

@@ -1,10 +1,10 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { IsDomainNode, TypeNode } from '../../ast';
+import { IsDomainNode, ReferenceNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type IsDomainChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
 };
 
 export class IsDomainBuilder extends BaseBuilder<IsDomainNode, IsDomainChildren> {

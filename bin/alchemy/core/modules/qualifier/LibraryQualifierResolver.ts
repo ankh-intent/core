@@ -6,13 +6,13 @@ export class LibraryQualifierResolver extends BaseQualifierResolver {
   public resolve(from: Module): QualifierNode|null {
     const base = this.config.internal;
 
-    if (from.identifier.indexOf(base) < 0) {
+    if (from.uri.indexOf(base) < 0) {
       return null;
     }
 
     return new QualifierNode(
       'Alchemy',
-      this.parse(base, from.identifier)
+      this.parse(base, from.uri)
     );
   }
 }

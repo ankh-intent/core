@@ -2,14 +2,14 @@ import { AbstractNode, TreeNode } from '@intent/ast';
 
 import { FunctorNode } from '../functor';
 import { DomainInterfaceNode } from './interface';
-import { TypeNode, GenericTemplatesNode } from '../reference';
+import { ReferenceNode, GenericTemplatesNode } from '../reference';
 import { UsesNode } from '../use';
 
 export class DomainNode extends AbstractNode {
   constructor(
     public identifier: string,
     public generics: GenericTemplatesNode,
-    public parent: TypeNode|null,
+    public parent: ReferenceNode|undefined,
     public intf: DomainInterfaceNode,
     public uses: UsesNode,
     public domains: Map<string, DomainNode> = new Map(),

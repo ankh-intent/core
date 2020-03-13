@@ -27,7 +27,7 @@ export class InterpretAfterSynchronization<N extends TreeNode, T extends Identif
     const { dependency } = event.data;
     this.stat(event, new InterpretStat(dependency));
 
-    const content = this.transpiler.transpile(dependency.identifiable.ast);
+    const content = this.transpiler.transpile(dependency.identifiable.ast!);
 
     return new InterpretedEvent({
       dependency,

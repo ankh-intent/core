@@ -3,9 +3,9 @@ import { Container } from '@intent/utils';
 import { TreeNode } from '@intent/ast';
 
 export interface Identifiable<N extends TreeNode> {
-  identifier: string;
+  uri: string;
   linked: Container<Identifiable<N>>;
-  ast: N;
+  ast?: N;
 }
 
 export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> implements Iterable<DependencyNode<N, T>> {
@@ -18,8 +18,8 @@ export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> imple
     this._related = related;
   }
 
-  public get identifier(): string {
-    return this.identifiable.identifier;
+  public get uri(): string {
+    return this.identifiable.uri;
   }
 
   public relations(): DependencyNode<N, T>[] {
@@ -40,13 +40,13 @@ export class DependencyNode<N extends TreeNode, T extends Identifiable<N>> imple
     return nodes;
   }
 
-  public related(identifier: string): DependencyNode<N, T>|null {
-    if (this.identifier === identifier) {
+  public related(uri: string): DependencyNode<N, T>|null {
+    if (this.uri === uri) {
       return this;
     }
 
     for (const node of this._related) {
-      const found = node.related(identifier);
+      const found = node.related(uri);
 
       if (found) {
         return found;

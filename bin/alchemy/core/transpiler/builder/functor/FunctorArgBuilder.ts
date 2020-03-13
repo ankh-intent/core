@@ -1,10 +1,10 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { TypeNode, FunctorArgNode } from '../../ast';
+import { ReferenceNode, FunctorArgNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorArgChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
 };
 
 export class FunctorArgBuilder extends BaseBuilder<FunctorArgNode, FunctorArgChildren> {

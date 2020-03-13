@@ -48,8 +48,8 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   }
 
   public add(identifiable: T): DependencyNode<N, T> {
-    const node = this.roots[identifiable.identifier] || (
-      this.roots[identifiable.identifier] = this.buildNode(identifiable)
+    const node = this.roots[identifiable.uri] || (
+      this.roots[identifiable.uri] = this.buildNode(identifiable)
     );
 
     this.emit(DependencyManager.RETAIN, node);
@@ -58,7 +58,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   }
 
   public dependency(identifiable: T): DependencyNode<N, T> {
-    return this.find(identifiable.identifier) || this.add(identifiable);
+    return this.find(identifiable.uri) || this.add(identifiable);
   }
 
   public dependants(identifiable: T): DependencyNode<N, T> {
@@ -91,7 +91,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
   }
 
   public remove(node: DependencyNode<N, T>): number {
-    let released = +(delete this.roots[node.identifier]);
+    let released = +(delete this.roots[node.uri]);
 
     for (const root of Object.values(this.roots)) {
       released += +root.release(node);
@@ -111,7 +111,7 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
       return false;
     }
 
-    const identifier = dependency.identifier;
+    const identifier = dependency.uri;
 
     for (const root of Object.values(this.roots)) {
       if (root === dependency) {

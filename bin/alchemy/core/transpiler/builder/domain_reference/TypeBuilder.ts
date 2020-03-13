@@ -1,18 +1,18 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { TypeNode, QualifierNode, TypeGenericNode } from '../../ast';
+import { ReferenceNode, QualifierNode, TypeGenericNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type TypeChildren = {
   qualifier: QualifierNode;
-  type: TypeNode;
-  type_generic: TypeGenericNode<TypeNode>;
+  type: ReferenceNode;
+  type_generic: TypeGenericNode<ReferenceNode>;
 };
 
-export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
+export class TypeBuilder extends BaseBuilder<ReferenceNode, TypeChildren> {
   protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
     const qualifier = this.child.qualifier(tokens);
-    let generic: TypeGenericNode<TypeNode>|null = null;
+    let generic: TypeGenericNode<ReferenceNode>|null = null;
     let isArray = false;
 
     if (get.symbol('<')) {
@@ -25,7 +25,7 @@ export class TypeBuilder extends BaseBuilder<TypeNode, TypeChildren> {
       ensure.symbol(']');
     }
 
-    return new TypeNode(
+    return new ReferenceNode(
       qualifier,
       generic,
       isArray,

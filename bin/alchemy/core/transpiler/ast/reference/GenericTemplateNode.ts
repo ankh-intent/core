@@ -1,13 +1,13 @@
 import { AbstractNode } from '@intent/kernel';
 
 import { IdentifierNode } from '../expression';
-import { TypeNode } from './TypeNode';
+import { ReferenceNode } from './ReferenceNode';
 
 export class GenericTemplateNode extends AbstractNode {
   public constructor(
     public identifier: IdentifierNode,
-    public parent: TypeNode | null,
-    public def: TypeNode | null,
+    public parent: ReferenceNode | null,
+    public def: ReferenceNode | null,
   ) {
     super();
   }

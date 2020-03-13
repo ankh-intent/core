@@ -1,57 +1,31 @@
-import { Identifiable, AbstractNode } from '@intent/kernel';
+import { Identifiable } from '@intent/kernel';
+import { Strings } from '@intent/utils';
 
 import { ModuleNode } from '../transpiler/ast';
+import { Domain } from './domain/Domain';
+import { DomainRegistry } from './DomainRegistry';
+import { Qualifier } from './reference';
 
-export class Module extends AbstractNode implements Identifiable<ModuleNode> {
-  public name: string;
-  public identifier: string;
+export class Module extends DomainRegistry<ModuleNode> implements Identifiable<ModuleNode> {
+  public uri: string;
+  public qualifier: Qualifier;
   public linked: {[name: string]: Module} = {};
-  public ast: ModuleNode;
+  public domain: Domain;
 
-  public constructor(identifier: string) {
+  constructor(uri: string) {
     super();
-    this.identifier = identifier;
+    this.uri = uri;
+  }
+
+  public get identifier() {
+    return this.qualifier.path();
   }
 
   public get children() {
     return [this.ast, ...Object.values(this.linked)];
   }
 
-  public link(module: Module) {
-    this.linked[module.identifier] = module;
-  }
-
-  public unlink(module: Module) {
-    delete this.linked[module.identifier];
-  }
-
-  public has(module: Module): boolean {
-    if (this === module) {
-      return true;
-    }
-
-    for (const linked of Object.values(this.linked)) {
-      if (linked.has(module)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  public byPath(path: string): Module|null {
-    if (this.identifier === path) {
-      return this;
-    }
-
-    for (const linked of Object.values(this.linked)) {
-      const found = linked.byPath(path);
-
-      if (found) {
-        return found;
-      }
-    }
-
-    return null;
+  toString() {
+    return `\nmodule "${this.identifier}" {\n${Strings.indent(String(this.domain).split('\n'), '  ').join('\n')}\n}`;
   }
 }

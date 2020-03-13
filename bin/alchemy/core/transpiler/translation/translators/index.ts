@@ -1,11 +1,17 @@
 import { IdentifiableFactory } from '@intent/consumers';
 import { DependencyManager } from '@intent/kernel';
-import { Module } from '../../../modules/Module';
+
+import { Module } from '../../../modules';
 import { ModuleNode } from '../../ast';
 import { RootTranslator } from '../RootTranslator';
 
-import { ModuleTranslator, ModuleTranslatorChildren } from './ModuleTranslator';
+import { ModuleTranslatorChildren, ModuleTranslator } from './ModuleTranslator';
+import { DomainInvokers, factory as domainTranslatorsFactory } from './domain';
+import { FunctorInvokers, factory as functorTranslatorsFactory } from './functor';
+
 type AlchemyGrammar =
+  DomainInvokers &
+  FunctorInvokers &
   ModuleTranslatorChildren
 ;
 
@@ -22,6 +28,8 @@ export class AlchemyTranslator extends RootTranslator<AlchemyGrammar> {
   protected get visitors() {
     return {
       root: new ModuleTranslator(this.invokers, this.factory, this.tree),
+      ...domainTranslatorsFactory(this.invokers),
+      ...functorTranslatorsFactory(this.invokers),
     };
   }
 }

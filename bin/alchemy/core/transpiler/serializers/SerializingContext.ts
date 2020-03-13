@@ -2,7 +2,7 @@ import { Container } from '@intent/utils';
 import { DomainNode } from '../ast/domain';
 import { ExpressionNode } from '../ast/expression';
 import { FunctorArgsNode, FunctorNode } from '../ast/functor';
-import { TypeNode, QualifierNode, TypeGenericNode } from '../ast/reference';
+import { ReferenceNode, QualifierNode, TypeGenericNode } from '../ast/reference';
 
 class Scope<T, N extends keyof T = keyof T> {
   private readonly parent?: Scope<T, N>;
@@ -42,13 +42,13 @@ class Scope<T, N extends keyof T = keyof T> {
 
 interface Variable {
   local: string;
-  type: TypeNode;
+  type: ReferenceNode;
 }
 
 interface InlineType {
   local: string;
-  type: TypeNode;
-  definition: Container<TypeNode>;
+  type: ReferenceNode;
+  definition: Container<ReferenceNode>;
 }
 
 interface SerializingScopeInterface {
@@ -87,16 +87,16 @@ export class SerializingContext extends SerializingScope {
     return this.variables.get(variable)?.local || null;
   }
 
-  domainType(domain: DomainNode): { type: TypeNode, domainType: TypeNode } {
-    const type = new TypeNode(
+  domainType(domain: DomainNode): { type: ReferenceNode, domainType: ReferenceNode } {
+    const type = new ReferenceNode(
       new QualifierNode(domain.identifier),
-      new TypeGenericNode<TypeNode>(
-        <TypeNode[]>domain.generics.templates.filter((template) => !!template.parent).map((template) => template.parent),
+      new TypeGenericNode<ReferenceNode>(
+        <ReferenceNode[]>domain.generics.templates.filter((template) => !!template.parent).map((template) => template.parent),
       ),
     );
-    const domainType = new TypeNode(
+    const domainType = new ReferenceNode(
       new QualifierNode('Domain'),
-      new TypeGenericNode<TypeNode>([type]),
+      new TypeGenericNode<ReferenceNode>([type]),
     );
 
     return {
@@ -105,13 +105,13 @@ export class SerializingContext extends SerializingScope {
     }
   }
 
-  functorType(functor: FunctorNode): TypeNode {
-    return new TypeNode(
+  functorType(functor: FunctorNode): ReferenceNode {
+    return new ReferenceNode(
       new QualifierNode('Callable'),
-      new TypeGenericNode<TypeNode>(
+      new TypeGenericNode<ReferenceNode>(
         [
-          new TypeNode(new QualifierNode('Arguments'), new TypeGenericNode<TypeNode>([
-            functor.returns || new TypeNode(new QualifierNode('Void'), new TypeGenericNode<TypeNode>()),
+          new ReferenceNode(new QualifierNode('Arguments'), new TypeGenericNode<ReferenceNode>([
+            functor.returns || new ReferenceNode(new QualifierNode('Void'), new TypeGenericNode<ReferenceNode>()),
             ...functor.args.args.map((arg) => arg.type),
           ])),
         ]
@@ -119,12 +119,12 @@ export class SerializingContext extends SerializingScope {
     );
   }
 
-  inferType(expression: ExpressionNode): TypeNode {
-    return new TypeNode(new QualifierNode('Any'), null);
+  inferType(expression: ExpressionNode): ReferenceNode {
+    return new ReferenceNode(new QualifierNode('Any'), null);
   }
 
   argsType(node: FunctorArgsNode): InlineType {
-    const type = new TypeNode(new QualifierNode(`$Arguments${this.types.size}`), null);
+    const type = new ReferenceNode(new QualifierNode(`$Arguments${this.types.size}`), null);
     const definition = {};
     const local = `$args_${this.types.size + 1}`;
 
@@ -139,7 +139,7 @@ export class SerializingContext extends SerializingScope {
 
     return this.types.set('arguments', {
       local,
-      type: new TypeNode(new QualifierNode('Arguments'), new TypeGenericNode<TypeNode>([
+      type: new ReferenceNode(new QualifierNode('Arguments'), new TypeGenericNode<ReferenceNode>([
         type,
       ])),
       definition,

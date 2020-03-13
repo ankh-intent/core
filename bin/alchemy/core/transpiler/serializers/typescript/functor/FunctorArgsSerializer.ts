@@ -1,8 +1,8 @@
-import { FunctorArgsNode, TypeNode } from '../../../ast';
+import { FunctorArgsNode, ReferenceNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export type FunctorArgsSerializerChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
 };
 
 export class FunctorArgsSerializer extends NodeSerializer<FunctorArgsNode, FunctorArgsSerializerChildren> {

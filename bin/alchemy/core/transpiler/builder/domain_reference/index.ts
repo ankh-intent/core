@@ -1,6 +1,6 @@
 import { BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
-import { QualifierNode, TypeNode, TypeGenericNode, GenericTemplatesNode, GenericTemplateNode } from '../../ast';
+import { QualifierNode, ReferenceNode, TypeGenericNode, GenericTemplatesNode, GenericTemplateNode } from '../../ast';
 import { GenericTemplateChildren, GenericTemplateBuilder } from './GenericTemplateBuilder';
 import { GenericTemplatesChildren, GenericTemplatesBuilder } from './GenericTemplatesBuilder';
 import { QualifierChildren, QualifierBuilder } from './QualifierBuilder';
@@ -9,8 +9,8 @@ import { TypeGenericChildren, TypeGenericBuilder } from './TypeGenericBuilder';
 
 export type DomainReferenceInvokers = {
   qualifier: QualifierNode;
-  type: TypeNode;
-  type_generic: TypeGenericNode<TypeNode>;
+  type: ReferenceNode;
+  type_generic: TypeGenericNode<ReferenceNode>;
   generic_templates: GenericTemplatesNode;
   generic_template: GenericTemplateNode;
 };
