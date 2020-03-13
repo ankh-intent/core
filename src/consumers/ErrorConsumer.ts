@@ -163,7 +163,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
 
     return (error.stack || '')
       .split("\n")
-      .slice(1)
+      .filter((line) => !!line.match(/^\s+at /i))
       .map(line => line.trim())
       .filter(Boolean)
       .map((line) => {

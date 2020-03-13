@@ -5,7 +5,12 @@ export class Range {
   to: number;
 }
 
-export class Origin {
+export interface OriginInterface {
+  line: number;
+  column: number;
+}
+
+export class Origin implements OriginInterface {
   public source: Source;
   public line: number;
   public column: number;
@@ -14,6 +19,10 @@ export class Origin {
     this.source = source;
     this.line = line;
     this.column = column;
+  }
+
+  toString() {
+    return `${this.source.reference}:${this.line}:${this.column}`;
   }
 
   [util.inspect.custom]() {
@@ -61,7 +70,7 @@ export class Source {
     );
   }
 
-  public position({ line, column }: Origin): number {
+  public position({ line, column }: OriginInterface): number {
     if ((line == 1) && (column == 1)) {
       return 0;
     }
@@ -77,6 +86,10 @@ export class Source {
         currentCol = 1;
       } else {
         currentCol++;
+      }
+
+      if ((currentLine > line) || ((currentLine === line) && (currentCol > column))) {
+        return Math.max(0, i - 1);
       }
 
       if ((line === currentLine) && (column === currentCol)) {
