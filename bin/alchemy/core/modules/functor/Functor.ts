@@ -10,6 +10,6 @@ export class Functor extends Translated<FunctorNode> {
   public body: FunctorBody;
 
   toString() {
-    return `(${this.args}): ${this.returns} => ${this.body}`;
+    return `(${this.args}): ${this.returns || 'void'} => ${this.body}`;
   }
 }
