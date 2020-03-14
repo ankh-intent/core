@@ -8,69 +8,84 @@ import {
   CallArgNode,
   IsDomainNode,
   OperationNode,
-  LiteralNode, CallableNode, ArrayNode, ObjectNode
+  PrimitiveNode, CallableNode, ArrayNode, ObjectNode, UnaryNode, ObjectPropertyNode, PostfixNode,
 } from '../../../../../ast';
 
-import { ArrayLiteralTranslatorChildren, ArrayLiteralTranslator } from './ArrayLiteralTranslator';
-import { CallableLiteralTranslatorChildren, CallableLiteralTranslator } from './CallableLiteralTranslator';
-import { CallArgTranslatorChildren, CallArgTranslator } from './CallArgTranslator';
-import { CallTranslatorChildren, CallTranslator } from './CallTranslator';
-import { ChainTranslatorChildren, ChainTranslator } from './ChainTranslator';
+import { ArrayLiteralTranslatorChildren, ArrayLiteralTranslator } from './literal/ArrayLiteralTranslator';
+import { CallableLiteralTranslatorChildren, CallableLiteralTranslator } from './literal/CallableLiteralTranslator';
+import {
+  ObjectLiteralPropertyTranslator,
+  ObjectLiteralPropertyTranslatorChildren,
+} from './literal/ObjectLiteralPropertyTranslator';
+import { CallArgTranslatorChildren, CallArgTranslator } from './postfix/CallArgTranslator';
+import { CallTranslatorChildren, CallTranslator } from './postfix/CallTranslator';
+import { ChainTranslatorChildren, ChainTranslator } from './postfix/ChainTranslator';
 import { ExpressionTranslatorChildren, ExpressionTranslator } from './ExpressionTranslator';
 import { IdentifierTranslatorChildren, IdentifierTranslator } from './IdentifierTranslator';
-import { IndexedTranslatorChildren, IndexedTranslator } from './IndexedTranslator';
-import { IsDomainTranslatorChildren, IsDomainTranslator } from './IsDomainTranslator';
-import { LiteralTranslatorChildren, LiteralTranslator } from './LiteralTranslator';
-import { ObjectLiteralTranslatorChildren, ObjectLiteralTranslator } from './ObjectLiteralTranslator';
+import { IndexedTranslatorChildren, IndexedTranslator } from './postfix/IndexedTranslator';
+import { IsDomainTranslatorChildren, IsDomainTranslator } from './postfix/IsDomainTranslator';
+import { LiteralTranslatorChildren, LiteralTranslator } from './literal/LiteralTranslator';
+import { ObjectLiteralTranslatorChildren, ObjectLiteralTranslator } from './literal/ObjectLiteralTranslator';
 import { OperationTranslatorChildren, OperationTranslator } from './OperationTranslator';
-import { PrimitiveTranslatorChildren, PrimitiveTranslator } from './PrimitiveTranslator';
+import { PrimitiveTranslatorChildren, PrimitiveTranslator } from './literal/PrimitiveTranslator';
+import { PostfixTranslatorChildren, PostfixTranslator } from './postfix/PostfixTranslator';
+import { UnaryTranslatorChildren, UnaryTranslator } from './unary/UnaryTranslator';
 
 export type ExpressionInvokers = {
   expression: ExpressionNode;
-  // literal: LiteralNode;
-  // primitive: LiteralNode;
-  // object_literal: ObjectNode;
-  // array_literal: ArrayNode;
-  // callable: CallableNode;
-  // identifier: IdentifierNode;
-  // operation: OperationNode;
-  // call: CallNode;
-  // call_arg: CallArgNode;
-  // chain: ChainNode;
-  // indexed: IndexedNode;
-  // is_domain: IsDomainNode;
+  literal: PrimitiveNode;
+  primitive: PrimitiveNode;
+  object_literal: ObjectNode;
+  object_property: ObjectPropertyNode;
+  array_literal: ArrayNode;
+  callable: CallableNode;
+  identifier: IdentifierNode;
+  operation: OperationNode;
+  call: CallNode;
+  call_arg: CallArgNode;
+  chain: ChainNode;
+  indexed: IndexedNode;
+  is_domain: IsDomainNode;
+  postfix: PostfixNode;
+  unary: UnaryNode;
 };
 
 export type ExpressionDependencies =
-  // ArrayLiteralTranslatorChildren &
-  // CallableLiteralTranslatorChildren &
-  // CallArgTranslatorChildren &
-  // CallTranslatorChildren &
-  // ChainTranslatorChildren &
-  // IdentifierTranslatorChildren &
-  // IndexedTranslatorChildren &
-  // IsDomainTranslatorChildren &
-  // LiteralTranslatorChildren &
-  // ObjectLiteralTranslatorChildren &
-  // OperationTranslatorChildren &
-  // PrimitiveTranslatorChildren &
+  ArrayLiteralTranslatorChildren &
+  CallableLiteralTranslatorChildren &
+  CallArgTranslatorChildren &
+  CallTranslatorChildren &
+  ChainTranslatorChildren &
+  IdentifierTranslatorChildren &
+  IndexedTranslatorChildren &
+  IsDomainTranslatorChildren &
+  LiteralTranslatorChildren &
+  ObjectLiteralTranslatorChildren &
+  ObjectLiteralPropertyTranslatorChildren &
+  OperationTranslatorChildren &
+  PrimitiveTranslatorChildren &
+  UnaryTranslatorChildren &
+  PostfixTranslatorChildren &
   ExpressionTranslatorChildren
 ;
 
 export const factory = (invokers: NodeInvokers<ExpressionDependencies>): InvokableVisitors<ExpressionInvokers> => {
   return {
-    expression    : new ExpressionTranslator(invokers),
-    // literal       : new LiteralTranslator(invokers),
-    // primitive     : new PrimitiveTranslator(invokers),
-    // object_literal: new ObjectLiteralTranslator(invokers),
-    // array_literal : new ArrayLiteralTranslator(invokers),
-    // callable      : new CallableLiteralTranslator(invokers),
-    // identifier    : new IdentifierTranslator(invokers),
-    // operation     : new OperationTranslator(invokers),
-    // call          : new CallTranslator(invokers),
-    // call_arg      : new CallArgTranslator(invokers),
-    // chain         : new ChainTranslator(invokers),
-    // indexed       : new IndexedTranslator(invokers),
-    // is_domain     : new IsDomainTranslator(invokers),
+    expression     : new ExpressionTranslator(invokers),
+    literal        : new LiteralTranslator(invokers),
+    primitive      : new PrimitiveTranslator(invokers),
+    object_literal : new ObjectLiteralTranslator(invokers),
+    object_property: new ObjectLiteralPropertyTranslator(invokers),
+    array_literal  : new ArrayLiteralTranslator(invokers),
+    callable       : new CallableLiteralTranslator(invokers),
+    identifier     : new IdentifierTranslator(invokers),
+    operation      : new OperationTranslator(invokers),
+    call           : new CallTranslator(invokers),
+    call_arg       : new CallArgTranslator(invokers),
+    chain          : new ChainTranslator(invokers),
+    indexed        : new IndexedTranslator(invokers),
+    is_domain      : new IsDomainTranslator(invokers),
+    unary          : new UnaryTranslator(invokers),
+    postfix        : new PostfixTranslator(invokers),
   };
 };

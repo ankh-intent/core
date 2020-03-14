@@ -1,12 +1,12 @@
-import { AssignmentTargetNode } from '../../../transpiler/ast';
+import { AssignmentTargetNode, ExpressionNode } from '../../../transpiler/ast';
 import { Translated } from '../../Translated';
-import { Expression } from './expression';
+import { Expression, Identifier } from './expression';
 
-export class AssignmentTarget<N extends Translated<any>> extends Translated<AssignmentTargetNode> {
-  public target: Expression;
+export class AssignmentTarget<T extends Translated<N> = any, N extends ExpressionNode = any> extends Translated<AssignmentTargetNode<N>> {
+  public target: Expression<N, T>;
   public _isDeclaration: boolean = true;
 
-  isDeclaration(): this is AssignmentTarget<any>  {
+  isDeclaration(): this is AssignmentTarget<Identifier>  {
     return this._isDeclaration;
   }
 

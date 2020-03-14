@@ -1,18 +1,19 @@
 import { AbstractNode } from '@intent/kernel';
-import { LiteralNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '../../../../../ast';
-import { NodeTranslator } from '../../../../NodeTranslator';
+import { Translated } from '../../../../../../../modules';
+import { PrimitiveNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '../../../../../../ast';
+import { NodeTranslator } from '../../../../../NodeTranslator';
 
 export type LiteralTranslatorChildren = {
-  primitive: LiteralNode;
+  primitive: PrimitiveNode;
   object_literal: ObjectNode;
   array_literal: ArrayNode;
   callable: CallableNode;
   identifier: IdentifierNode;
 };
 
-export class LiteralTranslator extends NodeTranslator<AbstractNode, LiteralTranslatorChildren> {
-  translate(node: AbstractNode, context): string {
-    if (node instanceof LiteralNode) {
+export class LiteralTranslator extends NodeTranslator<Translated<any>, LiteralTranslatorChildren> {
+  translate(node: AbstractNode, context): Translated<any> {
+    if (node instanceof PrimitiveNode) {
       return this.child.primitive(node, context);
     } else if (node instanceof ObjectNode) {
       return this.child.object_literal(node, context);
@@ -24,6 +25,6 @@ export class LiteralTranslator extends NodeTranslator<AbstractNode, LiteralTrans
       return this.child.identifier(node, context);
     }
 
-    return `/* unknown literal "${node.node}" */ ${node.astRegion.extract()}`;
+    throw new Error(`Unknown literal "${node.node}"`);
   }
 }

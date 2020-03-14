@@ -1,9 +1,10 @@
+import { Operation } from '../../../../../../modules';
 import {
   OperationNode,
   CallNode,
   ChainNode,
   IsDomainNode,
-  IndexedNode, ExpressionNode,
+  IndexedNode, ExpressionNode, PostfixNode,
 } from '../../../../../ast';
 import { NodeTranslator } from '../../../../NodeTranslator';
 
@@ -12,27 +13,28 @@ export type OperationTranslatorChildren = {
   chain: ChainNode;
   indexed: IndexedNode;
   is_domain: IsDomainNode;
+  postfix: PostfixNode;
   expression: ExpressionNode;
 };
 
-const MAP = {
-  '&': '&&',
-  '|': '||',
-};
-const mapOperations = (operation: string) => MAP[operation] || operation;
-
-export class OperationTranslator extends NodeTranslator<OperationNode, OperationTranslatorChildren> {
-  translate(node: OperationNode, context): string {
+export class OperationTranslator extends NodeTranslator<Operation, OperationTranslatorChildren> {
+  translate(node: OperationNode, c): Operation {
     if (node instanceof CallNode) {
-      return this.child.call(node, context);
+      return this.child.call(node, c);
     } else if (node instanceof ChainNode) {
-      return this.child.chain(node, context);
+      return this.child.chain(node, c);
     } else if (node instanceof IsDomainNode) {
-      return this.child.is_domain(node, context);
+      return this.child.is_domain(node, c);
     } else if (node instanceof IndexedNode) {
-      return this.child.indexed(node, context);
+      return this.child.indexed(node, c);
+    } else if (node instanceof PostfixNode) {
+      return this.child.postfix(node, c);
     } else if (node.right instanceof ExpressionNode) {
-      return `${mapOperations(node.operation)} ${this.child.expression(node.right, context)}`;
+      return Operation.create(node, c.parent, {
+        operation: node.operation,
+        binary: node.binary,
+        right: this.child.expression(node.right, c),
+      });
     }
 
     throw new Error(`/* unknown operation "${node.node}" */ ${node.astRegion.extract()}`);

@@ -17,7 +17,7 @@ export type StatementTranslatorChildren = {
   break_statement: BreakStatementNode;
   return_statement: ReturnStatementNode;
   assignment_statement: AssignmentStatementNode;
-  // expression_statement: ExpressionStatementNode;
+  expression_statement: ExpressionStatementNode;
   decorated_statement: DecoratedStatementNode;
 };
 
@@ -36,7 +36,7 @@ export class StatementTranslator extends NodeTranslator<Statement, StatementTran
     } else if (node instanceof AssignmentStatementNode) {
       return this.child.assignment_statement(node, c);
     } else if (node instanceof ExpressionStatementNode) {
-      // return this.child.expression_statement(node, context);
+      return this.child.expression_statement(node, c);
     }
 
     return Statement.create(node, c.parent, {
