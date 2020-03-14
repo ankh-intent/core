@@ -1,9 +1,9 @@
 import { AbstractNode } from '@intent/kernel';
-import { LiteralNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '../../../ast';
+import { PrimitiveNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export type LiteralSerializerChildren = {
-  primitive: LiteralNode;
+  primitive: PrimitiveNode;
   object_literal: ObjectNode;
   array_literal: ArrayNode;
   callable: CallableNode;
@@ -12,7 +12,7 @@ export type LiteralSerializerChildren = {
 
 export class LiteralSerializer extends NodeSerializer<AbstractNode, LiteralSerializerChildren> {
   serialize(node: AbstractNode, context): string {
-    if (node instanceof LiteralNode) {
+    if (node instanceof PrimitiveNode) {
       return this.child.primitive(node, context);
     } else if (node instanceof ObjectNode) {
       return this.child.object_literal(node, context);

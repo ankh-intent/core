@@ -8,14 +8,14 @@ import {
   CallNode,
   IndexedNode,
   ChainNode,
-  LiteralNode,
+  PrimitiveNode,
   ArrayNode,
   ObjectNode,
   ObjectPropertyNode,
   CallableNode,
   IsDomainNode,
   UnaryNode,
-  PostfixNode,
+  PostfixNode, OperationNode,
 } from '../../ast';
 
 import { AccessibleChildren, AccessibleBuilder } from './AccessibleBuilder';
@@ -38,6 +38,7 @@ import { LiteralChildren, LiteralBuilder } from './literal/LiteralBuilder';
 import { ObjectChildren, ObjectBuilder } from './literal/ObjectBuilder';
 import { ObjectPropertyChildren, ObjectPropertyBuilder } from './literal/ObjectPropertyBuilder';
 import { MultiplicativeChildren, MultiplicativeBuilder } from './MultiplicativeBuilder';
+import { OperationChildren, OperationBuilder } from './OperationBuilder';
 import { PostfixChildren, PostfixBuilder } from './PostfixBuilder';
 import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
 
@@ -52,13 +53,14 @@ export type ExpressionInvokers = {
   call_args: CallArgsNode;
   call_arg: CallArgNode;
   is_domain: IsDomainNode;
+  operation: OperationNode;
   boolean: ExpressionNode;
   additive: ExpressionNode;
   multiplicative: ExpressionNode;
   unary: UnaryNode;
   accessor: ExpressionNode;
   accessible: AbstractNode;
-  literal: LiteralNode;
+  literal: PrimitiveNode;
   callable: CallableNode;
   array: ArrayNode;
   object: ObjectNode;
@@ -66,6 +68,7 @@ export type ExpressionInvokers = {
   identifier_expression: ExpressionNode;
 };
 export type ExpressionDependencies =
+  OperationChildren &
   ComparisionChildren &
   CallArgsChildren &
   CallArgChildren &
@@ -92,6 +95,7 @@ export type ExpressionDependencies =
 export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): InvokableVisitors<ExpressionInvokers> => {
   return {
     expression     : new ExpressionBuilder(invokers),
+    operation      : new OperationBuilder(invokers),
     identifier     : new IdentifierBuilder(invokers),
     comparision    : new ComparisionBuilder(invokers),
     chain          : new ChainBuilder(invokers),

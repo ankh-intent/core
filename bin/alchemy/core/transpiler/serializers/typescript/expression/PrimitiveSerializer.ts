@@ -1,14 +1,14 @@
-import { LiteralNode, LiteralType } from '../../../ast';
+import { PrimitiveNode, PrimitiveType } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export type PrimitiveSerializerChildren = {
 };
 
-export class PrimitiveSerializer extends NodeSerializer<LiteralNode, PrimitiveSerializerChildren> {
-  serialize(node: LiteralNode): string {
+export class PrimitiveSerializer extends NodeSerializer<PrimitiveNode, PrimitiveSerializerChildren> {
+  serialize(node: PrimitiveNode): string {
     switch (node.type) {
-      case LiteralType.Number: return node.value;
-      case LiteralType.String: return node.value;
+      case PrimitiveType.Number: return node.value;
+      case PrimitiveType.String: return node.value;
     }
   }
 }

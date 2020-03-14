@@ -14,7 +14,7 @@ export abstract class NodeTranslator<T extends Translated<N>, I extends NodeIden
       if (e instanceof TranslationError) {
         throw new TranslationError(`Failed processing "${node.node}" AST node`, node, e);
       } else {
-        throw new TranslationError(`Failed processing "${node.node}" AST node: ${e.message}`, node, e);
+        throw new TranslationError(`Failed processing "${node.node}" AST node: ${e.message}`, node);
       }
     }
   }

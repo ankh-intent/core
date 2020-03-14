@@ -6,7 +6,7 @@ import { OperationNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type OperableChildren = {
-  expression: ExpressionNode;
+  operation: OperationNode;
 }
 
 export abstract class OperableBuilder<C extends Container<TreeNode>> extends BaseBuilder<ExpressionNode, C & OperableChildren> {
@@ -17,18 +17,9 @@ export abstract class OperableBuilder<C extends Container<TreeNode>> extends Bas
   protected build(tokens, { peek, get }: TypedTokenMatcherInterface) {
     const base = this.buildBase(tokens);
     const operations: OperationNode[] = [];
-    let operation: string|null;
 
-    while ((operation = peek.symbol()) && this.operands.includes(operation)) {
-      get.any();
-
-      const expression = this.child.expression(tokens);
-
-      operations.push(new OperationNode(
-        operation,
-        expression,
-        true,
-      ));
+    while (this.operands.includes(peek.symbol()!)) {
+      operations.push(this.child.operation(tokens));
     }
 
     if (operations.length) {

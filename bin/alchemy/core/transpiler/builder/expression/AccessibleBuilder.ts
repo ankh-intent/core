@@ -4,7 +4,7 @@ import { TypedTokenMatcherInterface } from '@intent/parser';
 import {
   ExpressionNode,
   ObjectNode,
-  LiteralNode,
+  PrimitiveNode,
   IdentifierNode,
   ArrayNode,
   CallableNode,
@@ -16,7 +16,7 @@ export type AccessibleChildren = {
   expression: ExpressionNode;
   array: ArrayNode;
   object: ObjectNode;
-  literal: LiteralNode;
+  literal: PrimitiveNode;
   identifier: IdentifierNode;
   callable: CallableNode;
   functor_args: FunctorArgsNode;

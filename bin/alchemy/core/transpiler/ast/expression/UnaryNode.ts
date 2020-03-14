@@ -1,8 +1,6 @@
-import { AbstractNode } from '@intent/kernel';
-
 import { ExpressionNode } from './ExpressionNode';
 
-export class UnaryNode<N extends AbstractNode = AbstractNode> extends ExpressionNode<N> {
+export class UnaryNode<N extends ExpressionNode = ExpressionNode> extends ExpressionNode<N> {
   constructor(
     public operation: string,
     base: N,

@@ -1,14 +1,14 @@
 import { AbstractNode } from '@intent/kernel';
 
-export enum LiteralType {
+export enum PrimitiveType {
   String,
   Number,
 }
 
-export class LiteralNode extends AbstractNode {
+export class PrimitiveNode extends AbstractNode {
   constructor(
     public value: string,
-    public type: LiteralType,
+    public type: PrimitiveType,
   ) {
     super();
   }

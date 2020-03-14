@@ -16,7 +16,6 @@ export class TranslatorPlugin extends TranslateASTPlugin<ModuleNode, Module, Tra
   }
 
   protected createContext(env): TranslationContext<undefined> {
-    console.log('creating');
     return TranslationContext.createContext(env);
   }
 

@@ -1,26 +1,26 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { LiteralNode, LiteralType } from '../../../ast';
+import { PrimitiveNode, PrimitiveType } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
 export type LiteralChildren = {
 };
 
-export class LiteralBuilder extends BaseBuilder<LiteralNode, LiteralChildren> {
+export class LiteralBuilder extends BaseBuilder<PrimitiveNode, LiteralChildren> {
   protected build(tokens, { get, peek }: TypedTokenMatcherInterface) {
     let value;
 
     if ((value = get.string())) {
-      return new LiteralNode(
+      return new PrimitiveNode(
         value,
-        LiteralType.String,
+        PrimitiveType.String,
       );
     }
 
     if ((value = get.number())) {
-      return new LiteralNode(
+      return new PrimitiveNode(
         value,
-        LiteralType.Number,
+        PrimitiveType.Number,
       );
     }
 
