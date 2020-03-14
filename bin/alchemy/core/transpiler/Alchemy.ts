@@ -195,8 +195,8 @@ export class Alchemy {
     '&': ['='],
     '|': ['='],
     '^': ['='],
-    '+': ['='],
-    '-': ['='],
+    '+': ['=', '+'],
+    '-': ['=', '-'],
   };
 
   protected static checkSymbol(source: Source, context: Context): BaseTokenTypes|undefined {

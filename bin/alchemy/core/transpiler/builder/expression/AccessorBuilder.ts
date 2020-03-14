@@ -10,6 +10,7 @@ export type AccessorChildren = {
   indexed: OperationNode;
   call: OperationNode;
   is_domain: OperationNode;
+  postfix: OperationNode;
 };
 
 export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildren> {
@@ -26,6 +27,8 @@ export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildre
         operations.push(this.child.call(tokens));
       } else if (peek.identifier('is')) {
         operations.push(this.child.is_domain(tokens));
+      } else if (peek.symbol('--') || peek.symbol('++')) {
+        operations.push(this.child.postfix(tokens));
       } else {
         break;
       }

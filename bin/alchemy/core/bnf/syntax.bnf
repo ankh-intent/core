@@ -86,6 +86,9 @@ indexed
 call
   ::= '(' call_args? ')'
 
+postfix
+  ::= '--' | '++'
+
 call_args
   ::= call_arg (',' call_arg)* ','?
 
@@ -105,10 +108,22 @@ additive
   ::= multiplicative (('+' | '-') expression)*
 
 multiplicative
-  ::= accessor (('*' | '/' | '%' | '**') expression)*
+  ::= unary (('*' | '/' | '%' | '**') expression)*
+
+unary
+  ::= ((unary_operator | unary_increment | unary_function) accessor) | accessor
+
+unary_operator
+  ::= '&' | '*' | '+' | '-' | '~' | '!'
+
+unary_increment
+  ::= '--' | '++'
+
+unary_function
+  ::= 'typeof'
 
 accessor
-  ::= accessible  (chain | indexed | call | is)*
+  ::= accessible (chain | indexed | call | is)*
 
 accessible
   ::= callable | ('(' expression ')') | object | array | literal | identifier

@@ -14,6 +14,8 @@ import {
   ObjectPropertyNode,
   CallableNode,
   IsDomainNode,
+  UnaryNode,
+  PostfixNode,
 } from '../../ast';
 
 import { AccessibleChildren, AccessibleBuilder } from './AccessibleBuilder';
@@ -36,6 +38,8 @@ import { LiteralChildren, LiteralBuilder } from './literal/LiteralBuilder';
 import { ObjectChildren, ObjectBuilder } from './literal/ObjectBuilder';
 import { ObjectPropertyChildren, ObjectPropertyBuilder } from './literal/ObjectPropertyBuilder';
 import { MultiplicativeChildren, MultiplicativeBuilder } from './MultiplicativeBuilder';
+import { PostfixChildren, PostfixBuilder } from './PostfixBuilder';
+import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
 
 export type ExpressionInvokers = {
   expression: ExpressionNode;
@@ -43,6 +47,7 @@ export type ExpressionInvokers = {
   comparision: ExpressionNode;
   chain: ChainNode;
   indexed: IndexedNode;
+  postfix: PostfixNode;
   call: CallNode;
   call_args: CallArgsNode;
   call_arg: CallArgNode;
@@ -50,6 +55,7 @@ export type ExpressionInvokers = {
   boolean: ExpressionNode;
   additive: ExpressionNode;
   multiplicative: ExpressionNode;
+  unary: UnaryNode;
   accessor: ExpressionNode;
   accessible: AbstractNode;
   literal: LiteralNode;
@@ -72,6 +78,8 @@ export type ExpressionDependencies =
   BooleanChildren &
   AdditiveChildren &
   MultiplicativeChildren &
+  UnaryChildren &
+  PostfixChildren &
   AccessorChildren &
   AccessibleChildren &
   LiteralChildren &
@@ -88,6 +96,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
     comparision    : new ComparisionBuilder(invokers),
     chain          : new ChainBuilder(invokers),
     indexed        : new IndexedBuilder(invokers),
+    postfix        : new PostfixBuilder(invokers),
     call           : new CallBuilder(invokers),
     call_args      : new CallArgsBuilder(invokers),
     call_arg       : new CallArgBuilder(invokers),
@@ -95,6 +104,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
     boolean        : new BooleanBuilder(invokers),
     additive       : new AdditiveBuilder(invokers),
     multiplicative : new MultiplicativeBuilder(invokers),
+    unary          : new UnaryBuilder(invokers),
     accessor       : new AccessorBuilder(invokers),
     accessible     : new AccessibleBuilder(invokers),
     literal        : new LiteralBuilder(invokers),

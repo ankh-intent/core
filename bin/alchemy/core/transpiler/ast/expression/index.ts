@@ -7,3 +7,5 @@ export * from './IsDomainNode';
 export * from './IndexedNode';
 export * from './ExpressionNode';
 export * from './IdentifierNode';
+export * from './UnaryNode';
+export * from './PostfixNode';
