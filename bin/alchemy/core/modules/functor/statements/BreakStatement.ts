@@ -10,6 +10,6 @@ export class BreakStatement extends Statement<BreakStatementNode> {
   public type: BreakType;
 
   toString() {
-    return `${KEYWORDS[this.type]};`;
+    return `${KEYWORDS[this.type]}`;
   }
 }

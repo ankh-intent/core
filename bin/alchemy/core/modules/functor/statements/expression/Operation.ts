@@ -15,6 +15,6 @@ export class Operation<N extends AbstractNode = AbstractNode> extends Translated
   public right: Translated<N>;
 
   toString() {
-    return `${mapOperations(this.operation)}${this.binary ? ' ' : ''}${this.right || ''}`;
+    return `${this.binary ? ' ' : ''}${mapOperations(this.operation)}${this.binary ? ' ' : ''}${this.right || ''}`;
   }
 }
