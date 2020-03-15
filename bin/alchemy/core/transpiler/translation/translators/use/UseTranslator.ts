@@ -1,9 +1,8 @@
 import { Use } from '../../../../modules';
-import { UseNode, QualifierNode, DecompositionNode } from '../../../ast';
+import { UseNode, DecompositionNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
 
 export type UseTranslatorChildren = {
-  qualifier: QualifierNode;
   decomposition: DecompositionNode;
 };
 

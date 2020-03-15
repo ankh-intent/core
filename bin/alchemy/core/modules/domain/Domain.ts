@@ -1,13 +1,13 @@
 import { Strings } from '@intent/utils';
 import { DomainNode } from '../../transpiler/ast';
 import { DomainInterface, ReferenceInterface, GenericInterface } from '../interfaces';
-import { DomainRegistry } from '../DomainRegistry';
+import { DeclarationRegistry } from '../DeclarationRegistry';
 import { Functor } from './functor';
 import { Qualifier } from '../reference';
 import { Interface } from './interface';
 import { Uses } from './use';
 
-export class Domain extends DomainRegistry<DomainNode> implements DomainInterface {
+export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
   public qualifier: Qualifier;
   public parent?: ReferenceInterface;
   public generics: GenericInterface[] = [];

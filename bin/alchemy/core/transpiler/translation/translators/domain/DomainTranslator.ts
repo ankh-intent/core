@@ -6,7 +6,7 @@ import {
   GenericTemplateNode,
   DomainInterfaceNode,
 } from '../../../ast';
-import { Domain, DomainRegistry, Qualifier } from '../../../../modules';
+import { Domain, DeclarationRegistry, Qualifier } from '../../../../modules';
 import { NodeTranslator } from '../../NodeTranslator';
 
 export type DomainTranslatorChildren = {
@@ -26,9 +26,9 @@ export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChi
       }),
     }));
 
-    DomainRegistry
+    DeclarationRegistry
       .search(c.parent)!
-      .registerDomain(domain);
+      .registerDeclaration(domain);
 
     domain.uses = this.child.uses(node.uses, context);
     domain.generics = node.generics.templates.map((g) => this.child.template(g, context));

@@ -1,4 +1,4 @@
-import { DomainReference, DomainRegistry } from '../../../../modules';
+import { DomainReference, DeclarationRegistry } from '../../../../modules';
 import { ReferenceNode, QualifierNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
 
@@ -13,7 +13,7 @@ export class DomainReferenceTranslator extends NodeTranslator<DomainReference, D
 
     reference.qualifier = this.child.qualifier(node.qualifier, context);
     reference.generics = node.generic?.genericTypes.map((g) => this.child.reference(g, context)) || [];
-    reference.domain = DomainRegistry.search(reference)!.getDomain(node.qualifier);
+    reference.domain = DeclarationRegistry.search(reference)!.getDeclaration(node.qualifier);
 
     return reference;
   }

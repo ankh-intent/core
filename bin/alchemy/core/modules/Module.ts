@@ -3,10 +3,10 @@ import { Strings } from '@intent/utils';
 
 import { ModuleNode } from '../transpiler/ast';
 import { Domain, Uses } from './domain';
-import { DomainRegistry } from './DomainRegistry';
+import { DeclarationRegistry } from './DeclarationRegistry';
 import { Qualifier } from './reference';
 
-export class Module extends DomainRegistry<ModuleNode> implements Identifiable<ModuleNode> {
+export class Module extends DeclarationRegistry<ModuleNode> implements Identifiable<ModuleNode> {
   public uri: string;
   public qualifier: Qualifier;
   public linked: {[name: string]: Module} = {};

@@ -25,9 +25,12 @@ export interface TranslatedInterface<N extends TreeNode> {
   parentNode?: TranslatedInterface<any>;
 }
 
-export interface DomainInterface extends TranslatedInterface<DomainNode>, DomainRegistryInterface {
+export interface DeclarationInterface extends DeclarationRegistryInterface {
   identifier: string;
   qualifier: Qualifier;
+}
+
+export interface DomainInterface extends TranslatedInterface<DomainNode>, DeclarationInterface {
   parent?: ReferenceInterface;
   generics: GenericInterface[];
 }
@@ -43,6 +46,6 @@ export interface GenericInterface {
   defaultsTo?: ReferenceInterface;
 }
 
-export interface DomainRegistryInterface {
-  getLocalDomain(qualifier: Qualifier): DomainInterface|undefined;
+export interface DeclarationRegistryInterface {
+  getLocalDeclaration(qualifier: Qualifier): DeclarationInterface|undefined;
 }

@@ -2,7 +2,7 @@ import { TreeNode } from '@intent/ast';
 import { PatchedASTEvent } from '@intent/consumers';
 import { Scope, PluginEnvironment } from '@intent/plugins';
 
-import { Translated, DomainRegistry, Domain, Qualifier, TranslatedConstructor, TranslatedFactory } from '../../modules';
+import { Translated, DeclarationRegistry, Domain, Qualifier, TranslatedConstructor, TranslatedFactory } from '../../modules';
 
 interface SerializingScopeInterface<P> {
   parent: P;
@@ -17,38 +17,38 @@ export class TranslationContext<P extends Translated<any>|undefined> extends Sco
   public static createContext(env: PluginEnvironment<PatchedASTEvent<any, any>>) {
     return new this<any>({
       parent: (
-        (new DomainRegistry())
-          .registerDomain(Domain.create((domain) => ({
+        (new DeclarationRegistry())
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'Number',
             }),
           })))
-          .registerDomain(Domain.create((domain) => ({
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'Boolean',
             }),
           })))
-          .registerDomain(Domain.create((domain) => ({
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'String',
             }),
           })))
-          .registerDomain(Domain.create((domain) => ({
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'Set',
             }),
           })))
-          .registerDomain(Domain.create((domain) => ({
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'Map',
             }),
           })))
-          .registerDomain(Domain.create((domain) => ({
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'Array',
             }),
           })))
-          .registerDomain(Domain.create((domain) => ({
+          .registerDeclaration(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
               name: 'Callable',
             }),

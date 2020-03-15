@@ -1,4 +1,4 @@
-import { Generic, Domain, Qualifier, DomainRegistry } from '../../../../modules';
+import { Generic, Domain, Qualifier, DeclarationRegistry } from '../../../../modules';
 import { ReferenceNode, GenericTemplateNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
 
@@ -19,7 +19,7 @@ export class GenericTemplateTranslator extends NodeTranslator<Generic, GenericTe
     }));
     generic.defaultsTo = node.def && this.child.reference(node.def, context);
 
-    DomainRegistry.search(generic)!.registerDomain(generic.domain);
+    DeclarationRegistry.search(generic)!.registerDeclaration(generic.domain);
 
     return generic;
   }
