@@ -31,7 +31,6 @@ export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChi
       .registerDomain(domain);
 
     domain.uses = this.child.uses(node.uses, context);
-    domain.intf = this.child.interface(node.intf, context);
     domain.generics = node.generics.templates.map((g) => this.child.template(g, context));
     domain.parent = node.parent && this.child.reference(node.parent, context);
 
@@ -43,6 +42,7 @@ export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChi
       domain.functors.set(method, this.child.functor(methodNode, context));
     }
 
+    domain.intf = this.child.interface(node.intf, context);
     domain.ctor = node.ctor && this.child.functor(node.ctor, context);
 
     return domain;
