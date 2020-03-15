@@ -44,7 +44,7 @@ domain Types {
 
     domain Stack {{
         ingredient: Ingredient,
-        count: PositiveNumber = 1,
+        count: Number = 1,
       }
     }
   }
