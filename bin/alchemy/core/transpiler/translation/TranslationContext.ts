@@ -20,7 +20,22 @@ export class TranslationContext<P extends Translated<any>|undefined> extends Sco
         (new DomainRegistry())
           .registerDomain(Domain.create((domain) => ({
             qualifier: Qualifier.create(domain, {
+              name: 'Number',
+            }),
+          })))
+          .registerDomain(Domain.create((domain) => ({
+            qualifier: Qualifier.create(domain, {
+              name: 'Boolean',
+            }),
+          })))
+          .registerDomain(Domain.create((domain) => ({
+            qualifier: Qualifier.create(domain, {
               name: 'String',
+            }),
+          })))
+          .registerDomain(Domain.create((domain) => ({
+            qualifier: Qualifier.create(domain, {
+              name: 'Set',
             }),
           })))
           .registerDomain(Domain.create((domain) => ({
