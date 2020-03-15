@@ -8,6 +8,10 @@ import { TranslationError } from './TranslationError';
 
 export abstract class NodeTranslator<T extends Translated<N>, I extends NodeIdentifiersMap, N extends TreeNode = TreeNode> extends Walker<N, TranslationContext<any>, T, I> {
   visit(node: N, context: TranslationContext<any>): T {
+    if (!node) {
+      throw new Error(`Failed processing "${this.name}" AST node: node is ${node}`);
+    }
+
     try {
       return this.translate(node, context);
     } catch (e) {
