@@ -4,12 +4,14 @@ import { DomainInterface, ReferenceInterface, GenericInterface } from '../interf
 import { DomainRegistry } from '../DomainRegistry';
 import { Functor } from './functor';
 import { Qualifier } from '../reference';
+import { Interface } from './interface';
 import { Uses } from './use';
 
 export class Domain extends DomainRegistry<DomainNode> implements DomainInterface {
   public qualifier: Qualifier;
   public parent?: ReferenceInterface;
   public generics: GenericInterface[] = [];
+  public intf: Interface;
   public uses: Uses;
   public ctor?: Functor;
   public functors: Map<string, Functor> = new Map();
@@ -39,6 +41,8 @@ export class Domain extends DomainRegistry<DomainNode> implements DomainInterfac
     }${
       this.parent ? ` extends ${this.parent}` : ''
     } {${
+      this.intf
+    }${
       uses.trim() ? `\n${uses}\n` : ''
     }${
       body.trim() ? `\n${body}\n` : ''

@@ -1,10 +1,18 @@
-import { DomainNode, FunctorNode, UsesNode, ReferenceNode, GenericTemplateNode } from '../../../ast';
+import {
+  DomainNode,
+  FunctorNode,
+  UsesNode,
+  ReferenceNode,
+  GenericTemplateNode,
+  DomainInterfaceNode,
+} from '../../../ast';
 import { Domain, DomainRegistry, Qualifier } from '../../../../modules';
 import { NodeTranslator } from '../../NodeTranslator';
 
 export type DomainTranslatorChildren = {
   reference: ReferenceNode;
   template: GenericTemplateNode;
+  interface: DomainInterfaceNode;
   domain: DomainNode;
   uses: UsesNode;
   functor: FunctorNode;
@@ -23,6 +31,7 @@ export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChi
       .registerDomain(domain);
 
     domain.uses = this.child.uses(node.uses, context);
+    domain.intf = this.child.interface(node.intf, context);
     domain.generics = node.generics.templates.map((g) => this.child.template(g, context));
     domain.parent = node.parent && this.child.reference(node.parent, context);
 
