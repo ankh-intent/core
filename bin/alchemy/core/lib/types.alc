@@ -54,7 +54,7 @@ domain Types {
       let stacks = [];
 
       each (let stack of this) {
-        if (let has = this.find((stack: Ingredient.Stack) => stack.ingredient is stack.ingredient)) {
+        if (let has = this.find((item: Ingredient.Stack) => item.ingredient == stack.ingredient)) {
           has.count += stack.count;
         } else {
           stacks.push(stack);
@@ -72,7 +72,7 @@ domain Types {
     }
 
     matchStack(required: Stack, stack: Stack) => {
-      return (required.ingredient is stack.ingredient) & (required.count <= stack.count);
+      return (required.ingredient == stack.ingredient) & (required.count <= stack.count);
     }
 
     match(stacks: Ingredients) => {
