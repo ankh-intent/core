@@ -6,7 +6,7 @@ export type DomainTranslatorChildren = {
   reference: ReferenceNode;
   template: GenericTemplateNode;
   domain: DomainNode;
-  // uses: UsesNode;
+  uses: UsesNode;
   functor: FunctorNode;
 };
 
@@ -22,6 +22,7 @@ export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChi
       .search(c.parent)!
       .registerDomain(domain);
 
+    domain.uses = this.child.uses(node.uses, context);
     domain.generics = node.generics.templates.map((g) => this.child.template(g, context));
     domain.parent = node.parent && this.child.reference(node.parent, context);
 

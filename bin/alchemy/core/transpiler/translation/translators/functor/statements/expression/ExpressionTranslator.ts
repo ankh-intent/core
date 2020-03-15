@@ -1,5 +1,5 @@
 import { AbstractNode } from '@intent/kernel';
-import { Expression } from '../../../../../../modules/functor/statements/expression';
+import { Expression } from '../../../../../../modules/domain/functor/statements/expression';
 
 import { ExpressionNode, OperationNode, UnaryNode } from '../../../../../ast';
 import { NodeTranslator } from '../../../../NodeTranslator';

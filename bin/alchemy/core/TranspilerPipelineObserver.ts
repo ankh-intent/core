@@ -3,8 +3,8 @@ import { Source } from '@intent/source';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
 import { Module } from './modules';
-import { QualifierResolver } from './modules/qualifier/QualifierResolver';
-import { BaseUseResolver } from './modules/use/BaseUseResolver';
+import { QualifierResolver } from './modules/resolvers/qualifier/QualifierResolver';
+import { BaseUseResolver } from './modules/resolvers/use/BaseUseResolver';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
 import { ModuleNode, DomainNode, UsesNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';

@@ -8,7 +8,7 @@ import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
 import { Module } from './modules';
-import { QualifierResolver } from './modules/qualifier/QualifierResolver';
+import { QualifierResolver } from './modules/resolvers/qualifier/QualifierResolver';
 import { TranslatorPlugin } from './transpiler/translation';
 import { ModuleNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';

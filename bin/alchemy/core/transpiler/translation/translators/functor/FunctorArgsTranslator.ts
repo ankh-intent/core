@@ -1,4 +1,4 @@
-import { FunctorArgs } from '../../../../modules/functor';
+import { FunctorArgs } from '../../../../modules/domain/functor';
 import { FunctorArgsNode, FunctorArgNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
 

@@ -1,4 +1,4 @@
-import { FunctorBody } from '../../../../modules/functor';
+import { FunctorBody } from '../../../../modules/domain/functor';
 import { FunctorBodyNode, BlockNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
 

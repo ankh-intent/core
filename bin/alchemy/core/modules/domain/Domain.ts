@@ -1,14 +1,16 @@
 import { Strings } from '@intent/utils';
 import { DomainNode } from '../../transpiler/ast';
-import { DomainRegistry } from '../DomainRegistry';
-import { Functor } from '../functor';
 import { DomainInterface, ReferenceInterface, GenericInterface } from '../interfaces';
+import { DomainRegistry } from '../DomainRegistry';
+import { Functor } from './functor';
 import { Qualifier } from '../reference';
+import { Uses } from './use';
 
 export class Domain extends DomainRegistry<DomainNode> implements DomainInterface {
   public qualifier: Qualifier;
   public parent?: ReferenceInterface;
   public generics: GenericInterface[] = [];
+  public uses: Uses;
   public ctor?: Functor;
   public functors: Map<string, Functor> = new Map();
 
@@ -29,6 +31,7 @@ export class Domain extends DomainRegistry<DomainNode> implements DomainInterfac
       parts.push(String(this.ctor));
     }
 
+    const uses = Strings.indent(String(this.uses).split('\n'), '  ').join('\n');
     const body = Strings.indent(String(parts.join('\n')).split('\n'), '  ').join('\n');
 
     return `domain ${this.qualifier}${
@@ -36,6 +39,8 @@ export class Domain extends DomainRegistry<DomainNode> implements DomainInterfac
     }${
       this.parent ? ` extends ${this.parent}` : ''
     } {${
+      uses.trim() ? `\n${uses}\n` : ''
+    }${
       body.trim() ? `\n${body}\n` : ''
     }}`;
   }

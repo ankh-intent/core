@@ -6,7 +6,7 @@ import { ModuleNode, DomainNode, UsesNode } from '../../ast';
 import { NodeTranslator } from '../NodeTranslator';
 
 export type ModuleTranslatorChildren = {
-  // uses: UsesNode;
+  uses: UsesNode;
   domain: DomainNode;
 }
 
@@ -31,6 +31,7 @@ export class ModuleTranslator extends NodeTranslator<Module, ModuleTranslatorChi
     });
     module.parentNode = c.parent;
     module.ast = node;
+    module.uses = this.child.uses(node.uses, context);
     module.domain = this.child.domain(node.domain, context);
 
     return module;

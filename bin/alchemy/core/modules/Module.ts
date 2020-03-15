@@ -2,7 +2,7 @@ import { Identifiable } from '@intent/kernel';
 import { Strings } from '@intent/utils';
 
 import { ModuleNode } from '../transpiler/ast';
-import { Domain } from './domain/Domain';
+import { Domain, Uses } from './domain';
 import { DomainRegistry } from './DomainRegistry';
 import { Qualifier } from './reference';
 
@@ -11,6 +11,7 @@ export class Module extends DomainRegistry<ModuleNode> implements Identifiable<M
   public qualifier: Qualifier;
   public linked: {[name: string]: Module} = {};
   public domain: Domain;
+  public uses: Uses;
 
   constructor(uri: string) {
     super();
@@ -26,6 +27,8 @@ export class Module extends DomainRegistry<ModuleNode> implements Identifiable<M
   }
 
   toString() {
-    return `\nmodule "${this.identifier}" {\n${Strings.indent(String(this.domain).split('\n'), '  ').join('\n')}\n}`;
+    return `${this.uses}\nmodule "${this.identifier}" {\n${
+      Strings.indent(String(this.domain).split('\n'), '  ').join('\n')
+    }\n}`;
   }
 }

@@ -6,10 +6,12 @@ import { ModuleNode } from '../../ast';
 import { RootTranslator } from '../RootTranslator';
 
 import { ModuleTranslatorChildren, ModuleTranslator } from './ModuleTranslator';
+import { UseInvokers, factory as useTranslatorsFactory } from './use';
 import { DomainInvokers, factory as domainTranslatorsFactory } from './domain';
 import { FunctorInvokers, factory as functorTranslatorsFactory } from './functor';
 
 type AlchemyGrammar =
+  UseInvokers &
   DomainInvokers &
   FunctorInvokers &
   ModuleTranslatorChildren
@@ -28,6 +30,7 @@ export class AlchemyTranslator extends RootTranslator<AlchemyGrammar> {
   protected get visitors() {
     return {
       root: new ModuleTranslator(this.invokers, this.factory, this.tree),
+      ...useTranslatorsFactory(this.invokers),
       ...domainTranslatorsFactory(this.invokers),
       ...functorTranslatorsFactory(this.invokers),
     };
