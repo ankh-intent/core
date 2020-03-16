@@ -87,7 +87,7 @@ export class Translated<N extends TreeNode, P extends TreeNode = any> {
       }
     }
 
-    const node = new this(undefined, parent) as N;
+    const node = new this(ast, parent) as N;
     const data = typeof factory === 'function' ? factory(node) : partial;
 
     return (

@@ -7,10 +7,8 @@ import {
   IdentifiableFactory,
   PatchAfterParse,
   EmitAfterInterpreting,
-  InterpretAfterSynchronization,
   ParseAfterRead,
   ReadAfterUpdateStage,
-  SynchronizeAfterPatch,
   DependenciesResolver,
   WatchAfterReadyStage,
   RunPlugins,
@@ -20,7 +18,7 @@ import { CoreConfig } from './CoreConfig';
 import {
   TreeNode, Identifiable, DependencyManager,
   ReadyEvent, StopEvent,
-  TranspilerInterface, RootBuilder,
+  RootBuilder,
   EmitResolver,
 } from './kernel';
 import { PipelineObserver } from './PipelineObserver';
@@ -41,18 +39,16 @@ export abstract class WatchedTranspilerPipelineObserver<
     DependenciesResolver<N, T>
 {
   private readonly config: C;
-  private readonly dependencyTree: DependencyManager<N, T>;
+  protected readonly dependencyTree: DependencyManager<N, T>;
   private readonly tokensFactory: TokensFactory<TT>;
   private readonly parser: RootBuilder<TT, any, N, any>;
-  private readonly transpiler: TranspilerInterface<N>;
   private readonly writer: FileWriter;
   private watchdog: Watchdog<UnitInterface>;
 
-  protected constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>, transpiler: TranspilerInterface<N>) {
+  protected constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>) {
     this.config = config;
     this.tokensFactory = tokensFactory;
     this.parser = parser;
-    this.transpiler = transpiler;
     this.dependencyTree = new DependencyManager();
     this.writer = config.emit.files ? new FileWriter() : new DummyWriter();
   }
@@ -63,8 +59,6 @@ export abstract class WatchedTranspilerPipelineObserver<
       .add(new ReadAfterUpdateStage(core.events))
       .add(new ParseAfterRead(core.events, this.tokensFactory, this.parser))
       .add(new PatchAfterParse(core.events, this, this.dependencyTree))
-      .add(new SynchronizeAfterPatch(core.events, this, this.dependencyTree))
-      .add(new InterpretAfterSynchronization(core.events, this.transpiler, config))
       .add(new EmitAfterInterpreting(core.events, new EmitResolver(config), this.writer))
       .add({
         consume: (event) => {

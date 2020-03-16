@@ -2,14 +2,12 @@ import * as util from 'util';
 
 import { Logger } from '@intent/utils';
 import { Core } from '@intent/Core';
-import { CoreEvent, ErrorEvent, StatEvent, StopEvent, DependencyManager } from '@intent/kernel';
+import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel';
 import { CoreConfig } from '@intent/CoreConfig';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
 import { Module } from './modules';
-import { QualifierResolver } from './modules/resolvers/qualifier/QualifierResolver';
-import { TranslatorPlugin } from './transpiler/translation';
 import { ModuleNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
@@ -17,23 +15,6 @@ import configure from '../config';
 
 export class AlchemyCore extends Core<TranspilerConfig, ModuleNode, Module> {
   public bootstrap(config: CoreConfig): TranspilerConfig {
-    const qualifierResolver = new QualifierResolver(config.paths);
-    const dependencyTree = new DependencyManager<ModuleNode, Module>();
-    const moduleFactory = {
-      create(identifier: string): Module {
-        const module = new Module(identifier);
-        const qualifier = qualifierResolver.resolve(module);
-
-        if (qualifier) {
-          module.qualifier = qualifier;
-        }
-
-        return module;
-      }
-    };
-
-    this.registerPlugin(new TranslatorPlugin(moduleFactory, dependencyTree));
-
     return super.bootstrap(
       config,
       (core, config) => (new ConfigProvider(config)).build(core),

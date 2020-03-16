@@ -2,7 +2,6 @@ import * as path from 'path';
 
 import { PathsConfig } from '@intent/CoreConfig';
 
-import { Module } from '../../Module';
 import { QualifierNode } from '../../../transpiler/ast';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 
@@ -13,8 +12,8 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
     this.config = config;
   }
 
-  public resolve(from: Module): QualifierNode|null {
-    return this.parse(this.config.project, from.uri);
+  public resolve(uri: string): QualifierNode|null {
+    return this.parse(this.config.project, uri);
   }
 
   protected parse(base: string, original: string): QualifierNode|null {

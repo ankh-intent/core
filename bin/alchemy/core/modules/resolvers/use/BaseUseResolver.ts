@@ -1,19 +1,22 @@
+import { IdentifiableFactory } from '@intent/consumers';
 import { PathsConfig } from '@intent/CoreConfig';
 import { Strings } from '@intent/utils';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { LibraryUseResolver } from './LibraryUseResolver';
 import { Module } from '../../Module';
-import { QualifierNode } from '../../../transpiler/ast';
+import { QualifierNode, ModuleNode } from '../../../transpiler/ast';
 
 export class BaseUseResolver implements UseResolverInterface {
-  private config: PathsConfig;
+  private readonly config: PathsConfig;
+  private readonly factory: IdentifiableFactory<ModuleNode, Module>;
   public resolvers: UseResolverInterface[];
 
-  public constructor(config: PathsConfig) {
+  public constructor(config: PathsConfig, factory: IdentifiableFactory<ModuleNode, Module>) {
     this.config = config;
+    this.factory = factory;
     this.resolvers = [
-      new LibraryUseResolver(config),
+      new LibraryUseResolver(config, factory),
     ]
   }
 
@@ -48,6 +51,6 @@ export class BaseUseResolver implements UseResolverInterface {
         .replace(/\/[^\/]+$/, '/') + search.toLowerCase() + '.alc'
     ;
 
-    return new Module(common + resolved);
+    return this.factory.create(common + resolved);
   }
 }

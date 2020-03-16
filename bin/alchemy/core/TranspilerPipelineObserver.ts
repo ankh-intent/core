@@ -1,16 +1,17 @@
+import { Core } from '@intent/Core';
 import { Container } from '@intent/utils';
 import { Source } from '@intent/source';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
 import { Module } from './modules';
-import { QualifierResolver } from './modules/resolvers/qualifier/QualifierResolver';
-import { BaseUseResolver } from './modules/resolvers/use/BaseUseResolver';
+import { QualifierResolver, BaseUseResolver } from './modules';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
 import { ModuleNode, DomainNode, UsesNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
-import { TypescriptTranspiler } from './TypescriptTranspiler';
+import { DependencyResolvingPlugin } from './transpiler/DependencyResolvingPlugin';
+import { TranslatorPlugin } from './transpiler/TranslatorPlugin';
 
-export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module > {
+export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module> {
   private readonly qualifierResolver: QualifierResolver;
   private readonly useResolver: BaseUseResolver;
 
@@ -19,15 +20,21 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
       config,
       (source: Source) => new AlchemyTokenMatcher(source, source.range()),
       new AlchemyBuilder(),
-      new TypescriptTranspiler(),
     );
     this.qualifierResolver = new QualifierResolver(config.paths);
-    this.useResolver = new BaseUseResolver(config.paths);
+    this.useResolver = new BaseUseResolver(config.paths, this);
+  }
+
+  bootstrap(core: Core<TranspilerConfig, ModuleNode, Module>, config: TranspilerConfig): void {
+    core.registerPlugin(new DependencyResolvingPlugin(this.dependencyTree, this.useResolver));
+    core.registerPlugin(new TranslatorPlugin(this, this.dependencyTree));
+
+    super.bootstrap(core, config);
   }
 
   create(identifier: string): Module {
+    const qualifier = this.qualifierResolver.resolve(identifier);
     const module = new Module(identifier);
-    const qualifier = this.qualifierResolver.resolve(module);
 
     if (qualifier) {
       module.qualifier = qualifier;
@@ -71,8 +78,8 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     for (const [alias, use] of uses.entries) {
       const link = this.useResolver.resolve(module, use.qualifier);
 
-      if (!link) {
-        throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
+      if (!(link && link.qualifier)) {
+        throw new Error(`Can't resolve module "${use.qualifier.path('.')} as ${alias}"`);
       }
 
       links[link.uri] = link;

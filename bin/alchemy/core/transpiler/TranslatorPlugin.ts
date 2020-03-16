@@ -1,13 +1,12 @@
 import { PatchedASTEvent, IdentifiableFactory } from '@intent/consumers';
-import { StatEvent, DependencyManager } from '@intent/kernel';
-import { TranslateASTPlugin, PluginEnvironment } from '@intent/plugins';
+import { DependencyManager } from '@intent/kernel';
+import { PluginEnvironment, InterpretPlugin } from '@intent/plugins';
 
-import { Module } from '../../modules';
-import { ModuleNode } from '../ast';
-import { TranslationContext } from './TranslationContext';
-import { AlchemyTranslator } from './translators';
+import { Module } from '../modules';
+import { ModuleNode } from './ast';
+import { TranslationContext, AlchemyTranslator } from './translation';
 
-export class TranslatorPlugin extends TranslateASTPlugin<ModuleNode, Module, TranslationContext<undefined>> {
+export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, TranslationContext<undefined>> {
   private readonly translator: AlchemyTranslator;
 
   constructor(factory: IdentifiableFactory<ModuleNode, Module>, tree: DependencyManager<ModuleNode, Module>) {
@@ -22,14 +21,12 @@ export class TranslatorPlugin extends TranslateASTPlugin<ModuleNode, Module, Tra
   protected visitRoot(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>, root, context): boolean | void {
     const module = this.translator.visit(root, context);
 
-    env.events.emit(new StatEvent({
-      parent: env.event,
-      stat: {
-        type: 'log',
-        message: {
-          module: String(module),
-        },
+    console.log(root, module);
+    env.events.stat({
+      type: 'log',
+      message: {
+        module: String(module),
       },
-    }));
+    });
   }
 }

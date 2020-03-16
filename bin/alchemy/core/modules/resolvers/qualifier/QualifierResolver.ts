@@ -1,6 +1,5 @@
 import { PathsConfig } from '@intent/CoreConfig';
 
-import { Module } from '../../Module';
 import { QualifierNode } from '../../../transpiler/ast';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
@@ -18,9 +17,9 @@ export class QualifierResolver implements QualifierResolverInterface {
     ]
   }
 
-  public resolve(from: Module): QualifierNode|null {
+  public resolve(uri: string): QualifierNode|null {
     for (const resolver of this.resolvers) {
-      const found = resolver.resolve(from);
+      const found = resolver.resolve(uri);
 
       if (found) {
         return found;
