@@ -18,6 +18,7 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
           "type": "string",
           "describe": "Set root directory to watch for changes",
           "default": defaults.watch!.root,
+          "path": true,
           "requiresArg": true,
         },
         "watch-ignore": {

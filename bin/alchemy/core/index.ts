@@ -25,16 +25,15 @@ export class AlchemyCore extends Core<TranspilerConfig, ModuleNode, Module> {
 
 export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<CoreEvent> & { core: AlchemyCore } => {
   const core = new AlchemyCore();
-  const config = core.bootstrap({
+  const config = core.bootstrap(<CoreConfig>{
     ...configure,
     // ... default config override here
     ...configOverride,
   });
 
   if (config.emit.config) {
-    core.logger.log(Logger.INFO, util.inspect(config, {depth: null}));
-
-//    process.exit(0);
+    core.logger.log(Logger.INFO, util.inspect(config, { depth: null }));
+    process.exit(0);
   }
 
   return Object.assign(<any>new Promise<CoreEvent|null>((rs, rj) => {

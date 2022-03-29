@@ -20,6 +20,14 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     ;
   }
 
+  protected entriesToConfigDefault(entries: string[], mapper: (v: any) => any) {
+    return entries.map((entry) => {
+      const [, name, path] = entry.match(/^([^=]+)=(.*)$/) || [null, null, null];
+
+      return `${name}=${mapper(path)}`;
+    });
+  }
+
   protected stringsToEntries(strings: string[]): Container<EntryConfig> {
     if (!strings.length) {
       return {};
@@ -67,6 +75,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "alias": "e",
           "describe": "Patterns to capture entry files to process",
           "default": this.entriesToStrings(defaults.entry!),
+          "mapper": this.entriesToConfigDefault,
           "requiresArg": true,
         },
         "work-dir": {
@@ -74,6 +83,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "alias": "d",
           "describe": "Working directory to resolve as root for namespaces",
           "default": defaults.paths!.project || process.cwd(),
+          "path": true,
           "requiresArg": true,
         },
         "lib-dir": {
@@ -81,6 +91,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "alias": "l",
           "describe": "Directory to resolve as root for internal libraries",
           "default": defaults.paths!.internal || process.cwd(),
+          "path": true,
           "requiresArg": true,
         },
       },
@@ -108,6 +119,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "alias": "o",
           "describe": "Directory to output emitted files to",
           "default": defaults.output!.path,
+          "path": true,
           "requiresArg": true,
         },
         "output-extension": {
