@@ -6,7 +6,7 @@
   "types": "bin/intent.d.ts",
   "scripts": {
     "executable:alchemy": "chmod +x bin/alchemy/alchemy.ts",
-    "alchemy": "TS_NODE_TRANSPILE_ONLY=true ts-node --project bin/alchemy/tsconfig.json -r tsconfig-paths/register ./bin/alchemy/alchemy.ts",
+    "alchemy": "ts-node --project bin/alchemy/tsconfig.json -r tsconfig-paths/register ./bin/alchemy/alchemy.ts",
     "bump": "bin/bump.sh",
     "test": "jasmine-ts --config=jasmine.json run"
   },

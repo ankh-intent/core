@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ts-node -r tsconfig-paths/register
 
 (async () => {
   const { factory } = await import('./core');
