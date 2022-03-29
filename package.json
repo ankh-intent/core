@@ -23,11 +23,11 @@
   "dependencies": {
     "chokidar": "^2.1.2",
     "express": "^4.15.3",
-    "lodash": "^4.17.12",
+    "lodash": "^4.17.21",
     "react": "^15.6.1",
     "react-lite": "^0.15.37",
     "serve-index": "^1.9.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "util": "^0.11.1",
     "yargs": "^13.2.2"
   },
