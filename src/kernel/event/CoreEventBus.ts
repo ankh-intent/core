@@ -8,8 +8,10 @@ export class CoreEventBus {
     return this.consumers.push(consumer), this;
   }
 
-  public reset() {
+  public reset(): this {
     this.consumers = [];
+
+    return this;
   }
 
   public off(consumer: CoreEventConsumer<any, any>): number {

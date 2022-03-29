@@ -8,7 +8,7 @@ import {
   TypedTokenMatcherInterface,
 } from '@intent/parser';
 
-import { TreeNode, TokenVisitor } from '../ast';
+import { TreeNode, TokenVisitor } from '@intent/ast';
 
 export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {
   (tokens: TokenMatcher<TT>): N;
@@ -76,10 +76,10 @@ export abstract class BaseBuilder<
     }
   }
 
-  protected narrowRegion(tokens: TokenMatcher<TT>, start: number): Region {
+  protected narrowRegion(tokens: TokenMatcher<TT>, start: number, end?: number): Region {
     const source = tokens.source;
     const before = this.seek(tokens, start, +1);
-    const after = this.seek(tokens, tokens.current() + 1, -1);
+    const after = this.seek(tokens, end || tokens.current() + 1, -1);
 
     let { from, to } = source.range();
 

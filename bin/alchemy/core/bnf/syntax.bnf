@@ -68,14 +68,14 @@ functor_args
   ::= functor_arg (',' functor_arg)*
 
 functor_body
-  ::= block
+  ::= block | expression
 
 functor_arg
   ::= identifier ':' domain_reference ('=' expression)?
 
 // expressions
 expression
-  ::= comparision (chain | indexed | call)*
+  ::= boolean
 
 chain
   ::= '.' identifier
@@ -86,25 +86,46 @@ indexed
 call
   ::= '(' call_args? ')'
 
+postfix
+  ::= '--' | '++'
+
 call_args
   ::= call_arg (',' call_arg)* ','?
 
 call_arg
   ::= (identifier ':')? expression
 
-comparision
-  ::= boolean (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
+is
+  ::= 'is' domain_reference
 
 boolean
-  ::= arithmetic1 (('&' | '|' | '^') expression)*
+  ::= comparision (('&' | '|' | '^') expression)*
 
-arithmetic1
-  ::= arithmetic2 (('+' | '-') expression)*
+comparision
+  ::= additive (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
 
-arithmetic2
-  ::= accessor (('*' | '/' | '%' | '**') expression)*
+additive
+  ::= multiplicative (('+' | '-') expression)*
+
+multiplicative
+  ::= unary (('*' | '/' | '%' | '**') expression)*
+
+unary
+  ::= ((unary_operator | unary_increment | unary_function) accessor) | accessor
+
+unary_operator
+  ::= '&' | '*' | '+' | '-' | '~' | '!'
+
+unary_increment
+  ::= '--' | '++'
+
+unary_function
+  ::= 'typeof'
 
 accessor
+  ::= accessible (chain | indexed | call | is)*
+
+accessible
   ::= callable | ('(' expression ')') | object | array | literal | identifier
 
 callable
@@ -129,17 +150,17 @@ literal
 block
   ::= '{' (decorated_block_item | block_item)* '}'
 
+decorated_block_item
+  ::= '@' expression block_item
+
 block_item
   ::= if | loop | ((break | return | statement) ';')
 
 statement
   ::= assignment | expression
 
-decorated_block_item
-  ::= '@' expression block_item
-
 assignment
-  ::= assignment_target '=' expression
+  ::= assignment_target ('=' | '+=' | '-=' | '/=' | '*=' | '%=' | '**=' | '|=' | '&=' | '^=') expression
 
 assignment_target
   ::= 'let' identifier

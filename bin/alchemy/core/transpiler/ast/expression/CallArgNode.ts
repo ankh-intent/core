@@ -1,10 +1,15 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
+import { ExpressionNode } from './ExpressionNode';
 
 export class CallArgNode extends AbstractNode {
   constructor(
     public identifier: string|null,
-    public expression: AbstractNode,
+    public expression: ExpressionNode,
   ) {
     super();
+  }
+
+  get children() {
+    return [this.expression];
   }
 }

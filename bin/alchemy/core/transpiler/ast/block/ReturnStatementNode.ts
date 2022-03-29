@@ -7,4 +7,8 @@ export class ReturnStatementNode extends StatementNode {
   ) {
     super();
   }
+
+  public get children() {
+    return [this.expression!].filter(Boolean);
+  }
 }

@@ -7,8 +7,8 @@
   "scripts": {
     "executable:alchemy": "chmod +x bin/alchemy/alchemy.ts",
     "executable:intent": "chmod +x bin/intent/intent.ts",
-    "intent": "npm run executable:intent && cd bin/intent && ts-node --project tsconfig.json -r tsconfig-paths/register intent.ts",
-    "alchemy": "npm run executable:alchemy && cd bin/alchemy && ts-node --project tsconfig.json -r tsconfig-paths/register alchemy.ts",
+    "intent": "npm run executable:intent && cd bin/intent && ts-node --project src/tsconfig.json -r tsconfig-paths/register intent.ts",
+    "alchemy": "TS_NODE_TRANSPILE_ONLY=true ts-node --project bin/alchemy/tsconfig.json ./bin/alchemy/alchemy.ts",
     "pack": "webpack --display-modules --progress --colors",
     "watchdog": "webpack --progress --colors --watch --watch-poll",
     "bump": "bin/bump.sh",
@@ -21,34 +21,33 @@
   "author": "ankhzet@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "chokidar": "^2.1.2",
-    "express": "^4.15.3",
+    "chokidar": "^3.5.3",
+    "express": "^4.17.3",
     "lodash": "^4.17.21",
-    "react": "^15.6.1",
-    "react-lite": "^0.15.37",
-    "serve-index": "^1.9.0",
-    "socket.io": "^2.4.0",
-    "util": "^0.11.1",
-    "yargs": "^13.2.2"
+    "react": "^17.0.2",
+    "serve-index": "^1.9.1",
+    "socket.io": "^4.4.1",
+    "util": "^0.12.4",
+    "yargs": "^17.4.0"
   },
   "bin": {
     "intent": "bin/alchemy/alchemy.ts"
   },
   "devDependencies": {
-    "@stryker-mutator/core": "^1.1.0",
-    "@stryker-mutator/html-reporter": "^1.1.0",
-    "@stryker-mutator/jasmine-runner": "^1.1.0",
-    "@stryker-mutator/typescript": "^1.1.0",
-    "@types/jasmine": "^3.3.9",
-    "@types/node": "^11.11.3",
+    "@stryker-mutator/core": "^5.6.1",
+    "@stryker-mutator/html-reporter": "^3.1.0",
+    "@stryker-mutator/jasmine-runner": "^5.6.1",
+    "@stryker-mutator/typescript": "^4.0.0",
+    "@types/jasmine": "^4.0.0",
+    "@types/node": "^17.0.23",
     "file-loader": "^0.11.2",
-    "jasmine": "^3.3.1",
-    "jasmine-core": "^3.3.0",
-    "jasmine-ts": "^0.3.0",
-    "json-loader": "^0.5.4",
-    "ts-node": "^8.0.3",
-    "tsconfig-paths": "^3.8.0",
-    "typescript": "^3.7.5",
-    "webpack": "^3.1.0"
+    "jasmine": "^3.0.0",
+    "jasmine-core": "^3.0.0",
+    "jasmine-ts": "^0.4.0",
+    "json-loader": "^0.5.7",
+    "ts-node": "^10.7.0",
+    "tsconfig-paths": "^3.14.1",
+    "typescript": "^4.6.3",
+    "webpack": "^5.70.0"
   }
 }

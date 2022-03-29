@@ -1,12 +1,16 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
-import { TypeNode } from '../reference';
+import { ReferenceNode } from '../reference';
 
 export class FunctorArgNode extends AbstractNode {
   public constructor(
-    public name: string|null,
-    public type: TypeNode,
+    public name: string,
+    public type: ReferenceNode,
   ) {
     super();
+  }
+
+  get children() {
+    return [this.type];
   }
 }

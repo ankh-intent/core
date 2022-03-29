@@ -1,13 +1,12 @@
-import { AbstractNode } from '@intent/kernel/ast';
-
 import { ExpressionNode } from '../expression';
+import { AssignmentStatementNode } from './AssignmentStatementNode';
 import { AssignmentTargetNode } from './AssignmentTargetNode';
 
-export class LoopIteratorNode extends AbstractNode {
+export class LoopIteratorNode extends AssignmentStatementNode {
   constructor(
-    public target: AssignmentTargetNode,
-    public iterable: ExpressionNode,
+    target: AssignmentTargetNode,
+    iterable: ExpressionNode,
   ) {
-    super();
+    super(target, 'of', iterable);
   }
 }

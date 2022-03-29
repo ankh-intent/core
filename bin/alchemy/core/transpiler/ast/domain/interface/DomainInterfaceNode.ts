@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { DomainInterfacePropertyNode } from './DomainInterfacePropertyNode';
 
@@ -7,5 +7,9 @@ export class DomainInterfaceNode extends AbstractNode {
     public properties: Map<string, DomainInterfacePropertyNode> = new Map(),
   ) {
     super();
+  }
+
+  get children() {
+    return [...this.properties.values()];
   }
 }

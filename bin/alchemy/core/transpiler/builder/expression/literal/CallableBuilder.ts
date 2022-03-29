@@ -8,7 +8,7 @@ export type CallableChildren = {
 };
 
 export class CallableBuilder extends BaseBuilder<CallableNode, CallableChildren> {
-  protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
+  protected build(tokens, {}: TypedTokenMatcherInterface) {
     const functor = this.child.functor(tokens);
 
     return new CallableNode(

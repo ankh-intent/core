@@ -1,15 +1,18 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
-import { DomainNode } from './domain/DomainNode';
-import { UsesNode } from './use/UsesNode';
+import { DomainNode } from './domain';
+import { UsesNode } from './use';
 
 export class ModuleNode extends AbstractNode {
-  public identifier: string;
-
   constructor(
+    public identifier: string,
     public uses: UsesNode,
     public domain: DomainNode,
   ) {
     super();
+  }
+
+  public get children() {
+    return [this.uses, this.domain];
   }
 }

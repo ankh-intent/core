@@ -1,4 +1,4 @@
-import { BuilderInvokers, InvokableVisitors } from '@intent/kernel/transpiler';
+import { BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
 import { DomainNode, EnumNode } from '../../ast';
 import { DomainChildren, DomainBuilder } from './DomainBuilder';

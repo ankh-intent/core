@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { FunctorArgNode } from './FunctorArgNode';
 
@@ -7,5 +7,9 @@ export class FunctorArgsNode extends AbstractNode {
     public args: FunctorArgNode[] = []
   ) {
     super();
+  }
+
+  get children() {
+    return this.args;
   }
 }

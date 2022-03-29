@@ -1,14 +1,18 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { ExpressionNode } from '../../expression';
-import { TypeNode } from '../../reference/TypeNode';
+import { ReferenceNode } from '../../reference';
 
 export class DomainInterfacePropertyNode extends AbstractNode {
   constructor(
     public identifier: string,
     public expression: ExpressionNode|null,
-    public type: TypeNode|null,
+    public type: ReferenceNode|null,
   ) {
     super();
+  }
+
+  get children() {
+    return [this.expression!, this.type!].filter(Boolean);
   }
 }

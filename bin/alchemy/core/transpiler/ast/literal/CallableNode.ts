@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { FunctorNode } from '../functor';
 
@@ -7,5 +7,9 @@ export class CallableNode extends AbstractNode {
     public functor: FunctorNode,
   ) {
     super();
+  }
+
+  get children() {
+    return [this.functor];
   }
 }

@@ -1,16 +1,19 @@
+import { ExpressionNode } from '../expression';
+import { QualifierNode, ReferenceNode, GenericTemplatesNode } from '../reference';
+import { UsesNode } from '../use';
 import { DomainNode } from './DomainNode';
-import { ExpressionNode } from '../expression/ExpressionNode';
-import { DomainInterfaceNode } from './interface/DomainInterfaceNode';
-import { QualifierNode } from '../reference/QualifierNode';
-import { TypeNode } from '../reference/TypeNode';
-import { UsesNode } from '../use/UsesNode';
+import { DomainInterfaceNode } from './interface';
 
 export class EnumNode extends DomainNode {
   constructor(
-    public identifier: string,
-    public parent: TypeNode|null,
+    identifier: string,
+    parent: ReferenceNode|undefined,
     public values: Map<QualifierNode, ExpressionNode> = new Map(),
   ) {
-    super(identifier, parent, new DomainInterfaceNode(), new UsesNode());
+    super(identifier, new GenericTemplatesNode(), parent, new DomainInterfaceNode(), new UsesNode());
+  }
+
+  get children() {
+    return [...super.children, ...this.values.keys(), ...this.values.values()];
   }
 }

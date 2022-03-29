@@ -44,7 +44,7 @@ domain Types {
 
     domain Stack {{
         ingredient: Ingredient,
-        count: PositiveNumber = 1,
+        count: Number = 1,
       }
     }
   }
@@ -54,9 +54,7 @@ domain Types {
       let stacks = [];
 
       each (let stack of this) {
-        let has = this.find((stack: Ingredient.Stack) => stack.ingredient is stack.ingredient);
-
-        if (has) {
+        if (let has = this.find((item: Ingredient.Stack) => item.ingredient == stack.ingredient)) {
           has.count += stack.count;
         } else {
           stacks.push(stack);
@@ -67,14 +65,46 @@ domain Types {
     }
   }
 
+  domain Transform {
+    domain RatioTransform {
+      domain Count extends RatioTransform {
+        (in: Ingredient.Stack) => in.count
+      }
+    }
+
+    domain Proportional extends Transform {{
+        out: Ingredient,
+        ratio: RatioTransform = RatioTransform.Count,
+      }
+
+      (temperature: Temperature, in: Ingredients): Ingredients => {
+        let processed = in.map((stack: Ingredient.Stack) => Ingredient.Stack(
+          ingredient: out,
+          count: ratio(stack),
+        ));
+
+        return Ingredients(processed).combine();
+      }
+    }
+
+    (temperature: Temperature, in: Ingredients) => {
+      return Ingredients;
+    }
+  }
+
+  domain BrewPhase extends Transform[] {{
+
+    }
+  }
+
   domain Variation {{
       grade: Grade,
       ingredients: Ingredients,
       brew: BrewPhase[],
     }
 
-    matchStack(required: Stack, stack: Stack) => {
-      return (required.ingredient is stack.ingredient) && (required.count <= stack.count);
+    matchStack(required: Ingredient.Stack, stack: Ingredient.Stack) => {
+      return (required.ingredient == stack.ingredient) & (required.count <= stack.count);
     }
 
     match(stacks: Ingredients) => {
@@ -123,11 +153,6 @@ domain Types {
     }
   }
 
-  domain BrewPhase extends Transform[] {{
-
-    }
-  }
-
   domain Cauldron {{
       name: String,
       volume: Volume,
@@ -151,33 +176,6 @@ domain Types {
       }
 
       return outcome;
-    }
-  }
-
-  domain Transform {
-    domain RatioTransform {
-      domain Count extends RatioTransform {
-        (in: Ingredient.Stack) => in.count
-      }
-    }
-
-    domain Proportional extends Transform {{
-        out: Ingredient,
-        ratio: RatioTransform = RatioTransform.Count,
-      }
-
-      (temperature: Temperature, in: Ingredients): Ingredients => {
-        let processed = in.map(stack => Ingredient.Stack(
-          ingredient: out,
-          count: ratio(stack),
-        );
-
-        return Ingredients(processed).combine();
-      }
-    }
-
-    (temperature: Temperature, in: Ingredients) => {
-      return Ingredients;
     }
   }
 

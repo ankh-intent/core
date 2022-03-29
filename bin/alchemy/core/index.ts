@@ -2,12 +2,12 @@ import * as util from 'util';
 
 import { Logger } from '@intent/utils';
 import { Core } from '@intent/Core';
-import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel/event';
+import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel';
 import { CoreConfig } from '@intent/CoreConfig';
 import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
 
 import { ConfigProvider } from './ConfigProvider';
-import { Module } from './modules/Module';
+import { Module } from './modules';
 import { ModuleNode } from './transpiler/ast';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
@@ -46,6 +46,8 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
           if (config.emit.stats) {
             core.logger.log(Logger.INFO, event, util.inspect(data.stat, {
               depth: null,
+              colors: true,
+              customInspect: true,
             }));
           }
           break;

@@ -1,15 +1,15 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { TypeNode, TypeGenericNode } from '../../ast';
+import { ReferenceNode, TypeGenericNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type TypeGenericChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
 };
 
-export class TypeGenericBuilder extends BaseBuilder<TypeGenericNode<TypeNode>, TypeGenericChildren> {
+export class TypeGenericBuilder extends BaseBuilder<TypeGenericNode<ReferenceNode>, TypeGenericChildren> {
   protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
-    const types: TypeNode[] = [];
+    const types: ReferenceNode[] = [];
 
     while (true) {
       if (types.length) {
@@ -30,7 +30,7 @@ export class TypeGenericBuilder extends BaseBuilder<TypeGenericNode<TypeNode>, T
     }
 
     if (types.length) {
-      return new TypeGenericNode<TypeNode>(
+      return new TypeGenericNode<ReferenceNode>(
         types,
       );
     }

@@ -2,9 +2,7 @@ import { Logger, Strings } from '@intent/utils';
 import { SyntaxError } from '@intent/parser';
 import { CoreConfig } from '../CoreConfig';
 
-import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel/event';
-
-const NATIVE_ERROR_LOC_MATCHER = /^(?:\s*at\s*)?(.*?)(?:\s*\(([^()]+)\))?$/;
+import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel';
 
 enum RefType {
   NATIVE,
@@ -163,20 +161,49 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any>{
 
     return (error.stack || '')
       .split("\n")
-      .slice(1)
+      .filter((line) => !!line.match(/^\s+at /i))
       .map(line => line.trim())
       .filter(Boolean)
       .map((line) => {
-        const [, ref = '', source = ''] = line.match(NATIVE_ERROR_LOC_MATCHER) || [,,,];
-
         return {
           type: RefType.NATIVE,
-          ref,
-          source,
           combined: 1,
+          ...this.parseFrame(line),
         };
       })
     ;
+  }
+
+  /** @copyright https://github.com/stacktracejs/error-stack-parser */
+  private parseFrame(line: string) {
+    if (line.indexOf('(eval ') > -1) {
+      line = line.replace(/eval code/g, 'eval').replace(/(\(eval at [^()]*)|(\),.*$)/g, '');
+    }
+
+    let sanitizedLine = line.replace(/^\s+/, '').replace(/\(eval code/g, '(');
+    const [rawLocation, rawSource] = sanitizedLine.match(/ (\((?:.+):\d+:\d+\)$)/) || [];
+
+    sanitizedLine = rawLocation ? sanitizedLine.replace(rawLocation, '') : sanitizedLine;
+
+    const tokens = sanitizedLine.split(/\s+/).slice(1);
+    const [source, fileName] = this.extractLocation(rawSource ? rawSource : tokens.pop()!) || [];
+    const ref = tokens.join(' ') || '';
+
+    return {
+      ref,
+      source,
+      fileName: (['eval', '<anonymous>'].indexOf(fileName) > -1) ? undefined : fileName,
+    };
+  }
+
+  private extractLocation(urlLike: string) {
+    const normalized = urlLike.replace(/[()]/g, '');
+
+    if (normalized.indexOf(':') === -1) {
+      return [normalized, normalized];
+    }
+
+    return normalized.match(/(.+?)(?::(\d+))?(?::(\d+))?$/);
   }
 
   private squashErrors(descriptors: ErrorRef[]): ErrorRef[] {

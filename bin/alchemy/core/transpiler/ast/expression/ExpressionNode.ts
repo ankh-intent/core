@@ -1,12 +1,16 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
-import { BinaryOperationNode } from './BinaryOperationNode';
+import { OperationNode } from './OperationNode';
 
-export class ExpressionNode extends AbstractNode {
+export class ExpressionNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
   constructor(
-    public base: AbstractNode,
-    public operations: BinaryOperationNode[] = [],
+    public base: N,
+    public operations: OperationNode[] = [],
   ) {
     super();
+  }
+
+  get children() {
+    return [this.base, ...this.operations];
   }
 }

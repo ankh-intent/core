@@ -9,4 +9,12 @@ export class IfStatementNode extends StatementNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.condition, this.ifTrue, this.ifFalse!].filter(Boolean);
+  }
+
+  get isAssertion() {
+    return false;
+  }
 }

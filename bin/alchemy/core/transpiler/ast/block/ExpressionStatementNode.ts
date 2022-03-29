@@ -7,4 +7,8 @@ export class ExpressionStatementNode extends StatementNode {
   ) {
     super();
   }
+
+  get children() {
+    return [...super.children, this.expression];
+  }
 }

@@ -2,7 +2,7 @@ import { Strings, Logger } from '@intent/utils';
 import { Source } from '@intent/source';
 
 import { CoreConfig } from '../../CoreConfig';
-import { CoreEvent, StatEvent } from '../../kernel/event';
+import { CoreEvent, StatEvent } from '../../kernel';
 import { BaseStat } from './BaseStat';
 
 export class EmittedStat extends BaseStat {

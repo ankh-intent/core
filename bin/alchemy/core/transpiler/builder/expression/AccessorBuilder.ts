@@ -1,58 +1,42 @@
+import { AbstractNode } from '@intent/kernel';
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import {
-  ExpressionNode,
-  ObjectNode,
-  LiteralNode,
-  IdentifierNode,
-  ArrayNode,
-  CallableNode,
-  FunctorArgsNode,
-} from '../../ast';
+import { ExpressionNode, OperationNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type AccessorChildren = {
-  expression: ExpressionNode;
-  array: ArrayNode;
-  object: ObjectNode;
-  literal: LiteralNode;
-  identifier: IdentifierNode;
-  callable: CallableNode;
-  functor_args: FunctorArgsNode;
+  accessible: AbstractNode;
+  chain: OperationNode;
+  indexed: OperationNode;
+  call: OperationNode;
+  is_domain: OperationNode;
+  postfix: OperationNode;
 };
 
 export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildren> {
   protected build(tokens, { get, ensure, peek }: TypedTokenMatcherInterface) {
-    if (peek.symbol('(')) {
-      const callable = this.lookup('IS_FUNCTOR', tokens, this.child.callable);
+    const base = this.child.accessible(tokens);
+    const operations: OperationNode[] = [];
 
-      if (callable) {
-        return new ExpressionNode(this.child.callable(tokens));
+    while (true) {
+      if (peek.symbol('.')) {
+        operations.push(this.child.chain(tokens));
+      } else if (peek.symbol('[')) {
+        operations.push(this.child.indexed(tokens));
+      } else if (peek.symbol('(')) {
+        operations.push(this.child.call(tokens));
+      } else if (peek.identifier('is')) {
+        operations.push(this.child.is_domain(tokens));
+      } else if (peek.symbol('--') || peek.symbol('++')) {
+        operations.push(this.child.postfix(tokens));
+      } else {
+        break;
       }
-
-      ensure.symbol('(');
-
-      const expression = this.child.expression(tokens);
-
-      ensure.symbol(')');
-
-      return expression;
-    } else if (peek.symbol('[')) {
-      return new ExpressionNode(this.child.array(tokens));
-    } else if (peek.symbol('{')) {
-      return new ExpressionNode(this.child.object(tokens));
     }
-
-    const literal = this.child.literal(tokens);
-
-    if (literal) {
-      return new ExpressionNode(literal);
-    }
-
-    const identifier = this.child.identifier(tokens);
 
     return new ExpressionNode(
-      identifier,
+      base,
+      operations,
     );
   }
 }

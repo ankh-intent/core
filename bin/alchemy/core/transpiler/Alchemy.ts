@@ -1,6 +1,6 @@
 import { Source, Range } from '@intent/source';
 import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
-import { BuilderInvokers } from '@intent/kernel/transpiler';
+import { BuilderInvokers } from '@intent/kernel';
 
 export class Alchemy {
   public static pure(context: Context, unpure?: boolean) {
@@ -52,6 +52,14 @@ export class Alchemy {
 
     if (char.match(/\s/)) {
       const token = this.checkWhitespace(source, context);
+
+      if (token) {
+        return token;
+      }
+    }
+
+    if (char.match(/\d/)) {
+      const token = this.checkNumeric(source, context);
 
       if (token) {
         return token;
@@ -155,16 +163,40 @@ export class Alchemy {
       return BaseTokenTypes.TK_IDENTIFIER;
     }
   }
-  //
-  // numeric(context: Context): string {
-  //
-  // }
-  //
+
+  protected static checkNumeric(source: Source, context: Context): BaseTokenTypes|undefined {
+    let index = context.pos + 1;
+
+    while (source.at(index).match(/\d/)) {
+      index++;
+    }
+
+    if (source.at(index) === '.') {
+      index++;
+
+      while (source.at(index).match(/\d/)) {
+        index++;
+      }
+    }
+
+    context.pos = index;
+
+    return BaseTokenTypes.TK_NUMBER;
+  }
 
   static multi: {[prop: string]: string[]} = {
     '=': ['>', '='],
-    '>': ['=', '>'],
-    '<': ['=', '<'],
+    '>': ['='],
+    '<': ['='],
+    '!': ['='],
+    '*': ['*=', '=', '*'],
+    '/': ['='],
+    '%': ['='],
+    '&': ['='],
+    '|': ['='],
+    '^': ['='],
+    '+': ['=', '+'],
+    '-': ['=', '-'],
   };
 
   protected static checkSymbol(source: Source, context: Context): BaseTokenTypes|undefined {
@@ -191,8 +223,4 @@ export class AlchemyTokenMatcher extends TokenMatcher {
   constructor(source: Source, range: Range) {
     super(Alchemy.pure.bind(Alchemy), source, range);
   }
-}
-
-export interface AlchemyBuildInvokers extends BuilderInvokers<any> {
-
 }

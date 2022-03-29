@@ -1,4 +1,4 @@
-import { BuilderInvokers, InvokableVisitors } from '@intent/kernel/transpiler';
+import { BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
 import { FunctorNode, FunctorArgsNode, FunctorBodyNode, FunctorArgNode, BlockNode } from '../../ast';
 import { FunctorArgChildren, FunctorArgBuilder } from './FunctorArgBuilder';

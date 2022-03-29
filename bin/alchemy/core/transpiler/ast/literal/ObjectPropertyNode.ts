@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 import { ExpressionNode } from '../expression';
 
@@ -8,5 +8,9 @@ export class ObjectPropertyNode extends AbstractNode {
     public expression: ExpressionNode,
   ) {
     super();
+  }
+
+  public get children() {
+    return [this.expression];
   }
 }

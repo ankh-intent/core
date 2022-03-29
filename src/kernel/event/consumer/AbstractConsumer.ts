@@ -3,7 +3,7 @@ import { ErrorEvent } from '../events';
 import { CoreEventBus } from '../CoreEventBus';
 
 export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements CoreEventConsumer<T, E> {
-  private readonly bus: CoreEventBus;
+  protected readonly bus: CoreEventBus;
 
   public abstract supports(event: CoreEvent): boolean;
   public abstract process(event: E): CoreEvent|void;

@@ -8,4 +8,8 @@ export class DecoratedStatementNode extends StatementNode {
   ) {
     super();
   }
+
+  get children() {
+    return [this.decorator, this.item];
+  }
 }

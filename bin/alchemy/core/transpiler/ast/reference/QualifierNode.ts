@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 
 export class QualifierNode extends AbstractNode {
   public name: string;
@@ -8,6 +8,10 @@ export class QualifierNode extends AbstractNode {
     super();
     this.name = name;
     this.child = child;
+  }
+
+  public get children() {
+    return [this.child!].filter(Boolean);
   }
 
   public deepest(): string {

@@ -1,16 +1,17 @@
+import { Core } from '@intent/Core';
 import { Container } from '@intent/utils';
 import { Source } from '@intent/source';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
 
-import { Module } from './modules/Module';
-import { QualifierResolver } from './modules/qualifier/QualifierResolver';
-import { BaseUseResolver } from './modules/use/BaseUseResolver';
+import { Module } from './modules';
+import { QualifierResolver, BaseUseResolver } from './modules';
 import { AlchemyTokenMatcher } from './transpiler/Alchemy';
 import { ModuleNode, DomainNode, UsesNode } from './transpiler/ast';
 import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
-import { TypescriptTranspiler } from './TypescriptTranspiler';
+import { DependencyResolvingPlugin } from './transpiler/DependencyResolvingPlugin';
+import { TranslatorPlugin } from './transpiler/TranslatorPlugin';
 
-export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module > {
+export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module> {
   private readonly qualifierResolver: QualifierResolver;
   private readonly useResolver: BaseUseResolver;
 
@@ -19,31 +20,41 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
       config,
       (source: Source) => new AlchemyTokenMatcher(source, source.range()),
       new AlchemyBuilder(),
-      new TypescriptTranspiler(),
     );
     this.qualifierResolver = new QualifierResolver(config.paths);
-    this.useResolver = new BaseUseResolver(config.paths);
+    this.useResolver = new BaseUseResolver(config.paths, this);
+  }
+
+  bootstrap(core: Core<TranspilerConfig, ModuleNode, Module>, config: TranspilerConfig): void {
+    core.registerPlugin(new DependencyResolvingPlugin(this.dependencyTree, this.useResolver));
+    core.registerPlugin(new TranslatorPlugin(this, this.dependencyTree));
+
+    super.bootstrap(core, config);
   }
 
   create(identifier: string): Module {
+    const qualifier = this.qualifierResolver.resolve(identifier);
     const module = new Module(identifier);
-    const qualifier = this.qualifierResolver.resolve(module);
 
     if (qualifier) {
-      module.name = qualifier.path('.');
+      module.qualifier = qualifier;
     }
 
     return module;
   }
 
   resolve(module: Module): Container<Module> {
-    return this.mergeUses(
-      this.resolveUsedModules(module, module.ast.uses),
-      this.resolveDomainUses(module, module.ast.domain),
+    return (
+      module.ast
+        ? this.mergeUses(
+          this.resolveUsedModules(module, module.ast.uses),
+          this.resolveDomainUses(module, module.ast.domain),
+        )
+        : {}
     );
   }
 
-  mergeUses(a: Container<Module>, b: Container<Module>): Container<Module> {
+  mergeUses(a?: Container<Module>, b?: Container<Module>): Container<Module> {
     return {
       ...a,
       ...b,
@@ -67,11 +78,11 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     for (const [alias, use] of uses.entries) {
       const link = this.useResolver.resolve(module, use.qualifier);
 
-      if (!link) {
-        throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
+      if (!(link && link.qualifier)) {
+        throw new Error(`Can't resolve module "${use.qualifier.path('.')} as ${alias}"`);
       }
 
-      links[link.identifier] = link;
+      links[link.uri] = link;
     }
 
     return links;

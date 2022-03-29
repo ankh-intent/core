@@ -1,10 +1,10 @@
 import { TypedTokenMatcherInterface } from '@intent/parser';
 
-import { TypeNode, EnumNode, ExpressionNode, QualifierNode } from '../../ast';
+import { ReferenceNode, EnumNode, ExpressionNode, QualifierNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type EnumChildren = {
-  type: TypeNode;
+  type: ReferenceNode;
   qualifier: QualifierNode;
   expression: ExpressionNode;
 };
@@ -16,9 +16,9 @@ export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
     }
 
     const identifier = get.identifier() || 'enum';
-    const parent: TypeNode|null = get.identifier('extends')
+    const parent: ReferenceNode|undefined = get.identifier('extends')
       ? this.child.type(tokens)
-      : null;
+      : undefined;
 
 
     ensure.symbol('{');

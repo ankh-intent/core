@@ -2,6 +2,7 @@
 import { BaseCoreEvent } from '../CoreEvent';
 
 export interface UpdateEventProps {
+  event: 'add' | 'change' | 'unlink',
   path: string;
   entry: string;
 }

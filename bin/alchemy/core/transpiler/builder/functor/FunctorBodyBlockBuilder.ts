@@ -5,7 +5,7 @@ import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorBodyBlockChildren = {
   block: BlockNode;
-  block_statement: StatementNode;
+  expression_statement: StatementNode;
 };
 
 export class FunctorBodyBlockBuilder extends BaseBuilder<BlockNode, FunctorBodyBlockChildren> {
@@ -15,7 +15,7 @@ export class FunctorBodyBlockBuilder extends BaseBuilder<BlockNode, FunctorBodyB
     }
 
     return new BlockNode([
-      this.child.block_statement(tokens),
+      this.child.expression_statement(tokens),
     ]);
   }
 }

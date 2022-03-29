@@ -1,15 +1,19 @@
-import { AbstractNode } from '@intent/kernel/ast';
+import { AbstractNode } from '@intent/kernel';
 import { FunctorArgsNode } from './FunctorArgsNode';
 
-import { TypeNode } from '../reference/TypeNode';
+import { ReferenceNode } from '../reference';
 import { FunctorBodyNode } from './FunctorBodyNode';
 
 export class FunctorNode extends AbstractNode {
   public constructor(
     public args: FunctorArgsNode,
-    public returns: TypeNode | null,
+    public returns: ReferenceNode | null,
     public body: FunctorBodyNode,
   ) {
     super();
+  }
+
+  get children() {
+    return [this.args, this.returns!, this.body].filter(Boolean);
   }
 }

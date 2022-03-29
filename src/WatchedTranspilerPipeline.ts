@@ -4,23 +4,23 @@ import { BaseTokenTypes, TokensFactory } from '@intent/parser';
 import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
 
 import {
-  AnalyzedConsumer, IdentifiableFactory,
-  ParseConsumer,
-  InterpretedConsumer,
-  EmitResolver,
-  DependencyModifiedConsumer,
-  ReadedConsumer,
-  UpdateConsumer,
-  CompiledConsumer,
+  IdentifiableFactory,
+  PatchAfterParse,
+  EmitAfterInterpreting,
+  ParseAfterRead,
+  ReadAfterUpdateStage,
   DependenciesResolver,
-  WatchdogReadyConsumer,
+  WatchAfterReadyStage,
+  RunPlugins,
 } from './consumers';
 import { Core } from './Core';
 import { CoreConfig } from './CoreConfig';
-import { TreeNode } from './kernel/ast';
-import { Identifiable, DependencyManager } from './kernel/dependencies';
-import { ReadyEvent, StopEvent } from './kernel/event';
-import { TranspilerInterface, RootBuilder } from './kernel/transpiler';
+import {
+  TreeNode, Identifiable, DependencyManager,
+  ReadyEvent, StopEvent,
+  RootBuilder,
+  EmitResolver,
+} from './kernel';
 import { PipelineObserver } from './PipelineObserver';
 
 export interface TranspilerConfig extends CoreConfig {
@@ -39,31 +39,27 @@ export abstract class WatchedTranspilerPipelineObserver<
     DependenciesResolver<N, T>
 {
   private readonly config: C;
-  private readonly dependencyTree: DependencyManager<N, T>;
+  protected readonly dependencyTree: DependencyManager<N, T>;
   private readonly tokensFactory: TokensFactory<TT>;
   private readonly parser: RootBuilder<TT, any, N, any>;
-  private readonly transpiler: TranspilerInterface<N>;
   private readonly writer: FileWriter;
   private watchdog: Watchdog<UnitInterface>;
 
-  protected constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>, transpiler: TranspilerInterface<N>) {
+  protected constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>) {
     this.config = config;
     this.tokensFactory = tokensFactory;
     this.parser = parser;
-    this.transpiler = transpiler;
     this.dependencyTree = new DependencyManager();
     this.writer = config.emit.files ? new FileWriter() : new DummyWriter();
   }
 
   public bootstrap(core: Core<C, N, T>, config: C): void {
     core.events
-      .add(new UpdateConsumer(core.events))
-      .add(new ReadedConsumer(core.events, this.tokensFactory))
-      .add(new ParseConsumer(core.events, this.parser))
-      .add(new AnalyzedConsumer(core.events, this, this.dependencyTree))
-      .add(new CompiledConsumer(core.events, this, this.dependencyTree))
-      .add(new DependencyModifiedConsumer(core.events, this.transpiler, config))
-      .add(new InterpretedConsumer(core.events, new EmitResolver(config), this.writer))
+      .add(new RunPlugins(core.events, core.plugins))
+      .add(new ReadAfterUpdateStage(core.events))
+      .add(new ParseAfterRead(core.events, this.tokensFactory, this.parser))
+      .add(new PatchAfterParse(core.events, this, this.dependencyTree))
+      .add(new EmitAfterInterpreting(core.events, new EmitResolver(config), this.writer))
       .add({
         consume: (event) => {
           if (event instanceof ReadyEvent) {
@@ -83,7 +79,7 @@ export abstract class WatchedTranspilerPipelineObserver<
     if (config.watch) {
       this.watchdog = new Watchdog(config.watch);
 
-      core.events.add(new WatchdogReadyConsumer(core.events, this.watchdog, this.dependencyTree));
+      core.events.add(new WatchAfterReadyStage(core.events, this.watchdog, this.dependencyTree));
     }
   }
 
