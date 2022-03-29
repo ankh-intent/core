@@ -1,4 +1,4 @@
-import path = require('path');
+import * as path from 'path';
 
 const REGEXP_GUARD = /[|\\{}()[\]^$+*?.]/g;
 

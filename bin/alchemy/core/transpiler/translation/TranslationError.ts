@@ -3,7 +3,7 @@ import { SyntaxError } from '@intent/parser';
 
 export class TranslationError extends SyntaxError {
   public readonly node: TreeNode;
-  public readonly parent?: Error;
+  declare public readonly parent?: Error;
 
   public constructor(message: string, node: TreeNode, parent?: Error) {
     super(
