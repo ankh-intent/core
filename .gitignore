@@ -11,7 +11,7 @@ npm-debug.log
 /yarn-error.log
 /.stryker-tmp
 /reports
-!webpack.config.js
+!webpack.config.old.js
 !wallaby.js
 !stryker.conf.js
 !/**/*.json
