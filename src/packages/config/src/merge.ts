@@ -1,11 +1,11 @@
 export const regexpify = (r: RegExp | string) => {
   return (typeof r === 'string')
     ? r
-    : String(r).replace('\\\\', '\\');
+    : String(r).replace(/\\\\/g, '\\');
 };
 
 export const unregexpify = (r: string) => {
-  return new RegExp((r || '').replace('\\', '\\\\'));
+  return new RegExp((r || '').replace(/\\/g, '\\\\'));
 };
 
 const isMergeable = (o: any) => {

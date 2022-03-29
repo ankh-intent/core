@@ -6,11 +6,7 @@
   "types": "bin/intent.d.ts",
   "scripts": {
     "executable:alchemy": "chmod +x bin/alchemy/alchemy.ts",
-    "executable:intent": "chmod +x bin/intent/intent.ts",
-    "intent": "npm run executable:intent && cd bin/intent && ts-node --project src/tsconfig.json -r tsconfig-paths/register intent.ts",
-    "alchemy": "TS_NODE_TRANSPILE_ONLY=true ts-node --project bin/alchemy/tsconfig.json ./bin/alchemy/alchemy.ts",
-    "pack": "webpack --display-modules --progress --colors",
-    "watchdog": "webpack --progress --colors --watch --watch-poll",
+    "alchemy": "TS_NODE_TRANSPILE_ONLY=true ts-node --project bin/alchemy/tsconfig.json -r tsconfig-paths/register ./bin/alchemy/alchemy.ts",
     "bump": "bin/bump.sh",
     "test": "jasmine-ts --config=jasmine.json run"
   },
@@ -35,6 +31,7 @@
     "@stryker-mutator/jasmine-runner": "^5.6.1",
     "@stryker-mutator/typescript": "^4.0.0",
     "@types/jasmine": "^4.0.0",
+    "@types/lodash": "^4.14.180",
     "@types/node": "^17.0.23",
     "jasmine": "^3.0.0",
     "jasmine-core": "^3.0.0",
