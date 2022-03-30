@@ -1,9 +1,9 @@
 import * as path from 'path';
 
 import { Strings } from '@intent/utils';
+import { TreeNode } from '@intent/ast';
 
 import { CoreConfig } from '../../CoreConfig';
-import { TreeNode } from '@intent/ast';
 import { Identifiable } from '../dependencies';
 
 import { FileEmitResolverInterface } from './FileEmitResolverInterface';

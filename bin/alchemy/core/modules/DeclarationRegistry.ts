@@ -3,6 +3,8 @@ import { TranslatedInterface, DeclarationRegistryInterface, DeclarationInterface
 import { Qualifier } from './reference';
 import { Translated } from './Translated';
 
+const makePath = (...parts: (string|null|undefined|false)[]) => parts.filter(Boolean).join('.');
+
 export class DeclarationRegistry<N extends TreeNode> extends Translated<N> implements DeclarationRegistryInterface {
   private _declarations = new Map<string, DeclarationInterface>();
 
@@ -21,7 +23,10 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
   }
 
   public get namespace() {
-    return [DeclarationRegistry.search(this.parentNode)?.namespace, this.identifier].filter(Boolean).join('.');
+    return makePath(
+      DeclarationRegistry.search(this.parentNode)?.namespace,
+      this.identifier,
+    );
   }
 
   [Symbol.iterator]() {

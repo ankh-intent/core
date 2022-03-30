@@ -68,13 +68,13 @@ describe('PipelineObserver', () => {
       ];
 
       pit('should emit template instead of lines with placeholders', sample1, (data) => {
-        expect(compiler.compileLines(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code, () => null)).toEqual(data.expect);
       });
     });
 
     describe('factory', () => {
       it('should invoke template factory on template detection', () => {
-        const factory = jasmine.createSpy('factory', () => {});
+        const factory = jasmine.createSpy<() => TemplateInterface<any, any>>('factory', () => ({}) as any);
         const sampler = new Sampler('{', '}');
         const resolver = (data, key) => data[key];
         const compiler = new Compiler<any, any>(

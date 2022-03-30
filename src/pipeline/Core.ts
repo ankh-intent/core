@@ -13,9 +13,9 @@ import {
   ReadyEvent,
   StopEvent,
   UpdateEvent,
-} from './kernel';
-import { ErrorConsumer, StatConsumer, EventChainMonitor } from './consumers';
-import { CoreConfig } from './CoreConfig';
+} from '../kernel';
+import { ErrorConsumer, StatConsumer, EventChainMonitor } from '../consumers';
+import { CoreConfig } from '../CoreConfig';
 import { PipelineObserverFactory } from './PipelineObserver';
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
@@ -112,7 +112,6 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
       }
     }
 
-    console.log(paths);
 
     return paths;
   }

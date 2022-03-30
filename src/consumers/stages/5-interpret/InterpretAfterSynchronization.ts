@@ -3,7 +3,9 @@ import {
   TreeNode,
   TranspilerInterface,
   Identifiable,
-  CoreEvent, AbstractConsumer, CoreEventBus,
+  CoreEvent,
+  AbstractConsumer,
+  CoreEventBus,
 } from '../../../kernel';
 
 import { InterpretedEvent, DependencyModifiedEvent } from '../../flow-events';

@@ -1,4 +1,15 @@
-#!/usr/bin/env ts-node -r tsconfig-paths/register
+#!/usr/bin/env ts-node --project tsconfig.json
+
+import * as path from 'path';
+import { register } from 'tsconfig-paths';
+import { compilerOptions } from './tsconfig.json';
+
+console.log(compilerOptions.baseUrl);
+const baseUrl = path.resolve(compilerOptions.baseUrl);
+const cleanup = register({
+  baseUrl,
+  paths: compilerOptions.paths
+});
 
 (async () => {
   const { factory } = await import('./core');
@@ -12,5 +23,6 @@
 
     process.exit(1);
   } finally {
+    // cleanup();
   }
 })();

@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
+import { TranspilerConfig } from '@intent/pipeline';
 
 const cwd = process.cwd();
 const project = __dirname.replace(/\/config$/, '');
@@ -22,7 +22,7 @@ const config: TranspilerConfig = {
     },
   },
   emit: {
-    files: true,
+    files: false,
     stats: false,
     config: false,
     verbose: false,

@@ -1,7 +1,6 @@
-import { Core } from '@intent/Core';
 import { Container } from '@intent/utils';
 import { Source } from '@intent/source';
-import { TranspilerConfig, WatchedTranspilerPipelineObserver } from '@intent/WatchedTranspilerPipeline';
+import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
 import { Module } from './modules';
 import { QualifierResolver, BaseUseResolver } from './modules';

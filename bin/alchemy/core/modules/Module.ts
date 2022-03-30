@@ -27,6 +27,11 @@ export class Module extends DeclarationRegistry<ModuleNode> implements Identifia
   }
 
   toString() {
+    if (!this.qualifier) {
+      console.clear();
+      console.log(this);
+      process.exit(1);
+    }
     return `${this.uses}\nmodule "${this.identifier}" {\n${
       Strings.indent(String(this.domain).split('\n'), '  ').join('\n')
     }\n}`;

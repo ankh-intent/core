@@ -1,6 +1,6 @@
 import { merge, regexpify, unregexpify } from '@intent/config';
 import { WatchdogConfig } from '@intent/watchdog';
-import { TranspilerConfig } from '@intent/WatchedTranspilerPipeline';
+import { TranspilerConfig } from '@intent/pipeline';
 import { ConfigProvider as BaseConfigProvider} from '@intent/ConfigProvider';
 
 export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {

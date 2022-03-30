@@ -12,15 +12,15 @@ import {
   DependenciesResolver,
   WatchAfterReadyStage,
   RunPlugins,
-} from './consumers';
+} from '../consumers';
 import { Core } from './Core';
-import { CoreConfig } from './CoreConfig';
+import { CoreConfig } from '../CoreConfig';
 import {
   TreeNode, Identifiable, DependencyManager,
   ReadyEvent, StopEvent,
   RootBuilder,
   EmitResolver,
-} from './kernel';
+} from '../kernel';
 import { PipelineObserver } from './PipelineObserver';
 
 export interface TranspilerConfig extends CoreConfig {

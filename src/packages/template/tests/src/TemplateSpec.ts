@@ -3,10 +3,6 @@ import { Template, Sampler, Substitutor } from '../../index';
 
 describe('Template', () => {
 
-  describe('constructor()', () => {
-
-  });
-
   describe('apply()', () => {
     const resolver = (data, key) => data[key];
     let sampler;

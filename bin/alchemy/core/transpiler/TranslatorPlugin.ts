@@ -21,7 +21,8 @@ export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, Transl
   protected visitRoot(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>, root, context): boolean | void {
     const module = this.translator.visit(root, context);
 
-    console.log(root, module);
+    // console.log(root, module);
+
     env.events.stat({
       type: 'log',
       message: {

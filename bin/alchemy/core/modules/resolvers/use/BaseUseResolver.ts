@@ -1,6 +1,6 @@
-import { IdentifiableFactory } from '@intent/consumers';
-import { PathsConfig } from '@intent/CoreConfig';
 import { Strings } from '@intent/utils';
+import { PathsConfig } from '@intent/CoreConfig';
+import { IdentifiableFactory } from '@intent/consumers';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { LibraryUseResolver } from './LibraryUseResolver';

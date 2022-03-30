@@ -1,6 +1,7 @@
+import * as path from 'path';
+
 import { IdentifiableFactory } from '@intent/consumers';
 import { PathsConfig } from '@intent/CoreConfig';
-import * as path from 'path';
 
 import { UseResolverInterface } from './UseResolverInterface';
 import { Module } from '../../Module';

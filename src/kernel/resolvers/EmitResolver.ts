@@ -1,5 +1,5 @@
-import { CoreConfig } from '../../CoreConfig';
 import { TreeNode } from '@intent/ast';
+import { CoreConfig } from '../../CoreConfig';
 import { Identifiable } from '../dependencies';
 
 import { BaseEmitResolver } from './BaseEmitResolver';
