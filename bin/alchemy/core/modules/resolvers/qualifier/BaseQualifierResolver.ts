@@ -8,6 +8,7 @@ import { QualifierResolverInterface } from './QualifierResolverInterface';
 
 export class BaseQualifierResolver implements QualifierResolverInterface {
     protected config: PathsConfig;
+    protected _cache: Map<string, QualifierNode | null> = new Map();
 
     public constructor(config: PathsConfig) {
         this.config = config;
@@ -18,6 +19,13 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
     }
 
     protected parse(base: string, original: string): QualifierNode | null {
+        const key = `${base}:${original}`;
+        const has = this._cache.get(key);
+
+        if (has) {
+            return has;
+        }
+
         const relative = original.startsWith(base) ? original.slice(base.length) : original;
         const parts = relative
             .replace(/\.[^.]+$/ig, '')
@@ -26,9 +34,13 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
             .map(startCase)
         ;
 
-        return parts.reverse().reduce(
+        const node = parts.reverse().reduce(
             (child: QualifierNode | null, id) => new QualifierNode(id, child),
             null,
         );
+
+        this._cache.set(key, node);
+
+        return node;
     }
 }
