@@ -4,7 +4,6 @@ import * as path from 'path';
 import { register } from 'tsconfig-paths';
 import { compilerOptions } from './tsconfig.json';
 
-console.log(compilerOptions.baseUrl);
 const baseUrl = path.resolve(compilerOptions.baseUrl);
 const cleanup = register({
   baseUrl,
@@ -23,6 +22,6 @@ const cleanup = register({
 
     process.exit(1);
   } finally {
-    // cleanup();
+    cleanup();
   }
 })();
