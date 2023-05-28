@@ -9,14 +9,14 @@ export interface TemplateFactoryInterface<S, R> {
 
 export class Compiler<S, R> {
   private readonly sampler: Sampler;
-  private readonly factory: TemplateFactoryInterface<S, R>|null;
+  private readonly factory: TemplateFactoryInterface<S, R> | null;
 
-  public constructor(sampler: Sampler, factory: TemplateFactoryInterface<S, R>|null = null) {
+  public constructor(sampler: Sampler, factory: TemplateFactoryInterface<S, R> | null = null) {
     this.sampler = sampler;
     this.factory = factory;
   }
 
-  public compileLines(code: string, resolver: DataResolver<S>): (string|TemplateInterface<S, R>)[] {
+  public compileLines(code: string, resolver: DataResolver<S>): (string | TemplateInterface<S, R>)[] {
     const cleaned = this.cleanup(code);
 
     return cleaned.map((line) => {
@@ -28,25 +28,25 @@ export class Compiler<S, R> {
 
   public compile(code: string, resolver: DataResolver<S>): TemplateInterface<S, R> {
     return new CompoundTemplate<S, R>(
-      this.compileLines(code, resolver)
+      this.compileLines(code, resolver),
     );
   }
 
   private cleanup(code: string): string[] {
     return code
       ? this.normalize(
-          code
-            .replace(/(^[\n\r]+|\s+$)/g, '')
-            .split('\n')
-            .map(String)
-        )
+        code
+          .replace(/(^[\n\r]+|\s+$)/g, '')
+          .split('\n')
+          .map(String),
+      )
       : []
-    ;
+      ;
   }
 
   public normalize(lines: string[]): string[] {
     for (const line of lines) {
-      if (line.trim() === "") {
+      if (line.trim() === '') {
         continue;
       }
 

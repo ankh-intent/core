@@ -1,27 +1,27 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ts-node --project tsconfig.json
 
 import * as path from 'path';
-import * as tsConfigPaths from 'tsconfig-paths';
+import { register } from 'tsconfig-paths';
+import { compilerOptions } from './tsconfig.json';
 
-const tsConfig = require('./tsconfig.json');
-const baseUrl = path.resolve(__dirname, tsConfig.compilerOptions.baseUrl);
-const cleanup = tsConfigPaths.register({
-  baseUrl,
-  paths: tsConfig.compilerOptions.paths
+const baseUrl = path.resolve(compilerOptions.baseUrl);
+const cleanup = register({
+    baseUrl,
+    paths: compilerOptions.paths,
 });
 
 (async () => {
-  const { factory } = await import('./core');
+    const { factory } = await import('./core');
 
-  try {
-    await factory();
+    try {
+        await factory();
 
-    console.log('Done.');
-  } catch (e) {
-    console.error(e);
+        console.log('Done.');
+    } catch (e) {
+        console.error(e);
 
-    process.exit(1);
-  } finally {
-    cleanup();
-  }
+        process.exit(1);
+    } finally {
+        cleanup();
+    }
 })();

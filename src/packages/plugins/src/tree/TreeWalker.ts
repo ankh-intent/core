@@ -1,7 +1,7 @@
 import { Visitor } from './Visitor';
 import { NodeInvokers } from './Walker';
 
-export type InvokableVisitors<T> = {[N in keyof T]: Visitor<any, any, any>};
+export type InvokableVisitors<T> = { [N in keyof T]: Visitor<any, any, any> };
 export type RootInvokers<G, N, C, O> = NodeInvokers<Omit<G, 'root'> & { root: N }, C, O>;
 
 export class TreeWalker<
@@ -28,8 +28,7 @@ export class TreeWalker<
   }
 
   protected get visitors(): InvokableVisitors<Invokers> {
-    return <any>{
-    };
+    return <any>{};
   }
 
   public visit(node: N, context: C): O {

@@ -1,12 +1,11 @@
 import { AbstractNode } from '@intent/kernel';
 
 export class StatementNode extends AbstractNode {
-  constructor(
-  ) {
-    super();
-  }
+    constructor() {
+        super();
+    }
 
-  get isAssertion() {
-    return true;
-  }
+    get isAssertion() {
+        return true;
+    }
 }

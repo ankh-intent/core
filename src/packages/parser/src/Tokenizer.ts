@@ -20,5 +20,5 @@ export interface Context {
 }
 
 export interface Tokenizer<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
-  (context: Context, userData?: U): Token|undefined;
+  (context: Context, userData?: U): Token | undefined;
 }

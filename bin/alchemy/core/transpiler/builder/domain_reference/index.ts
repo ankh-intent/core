@@ -8,25 +8,25 @@ import { TypeChildren, TypeBuilder } from './TypeBuilder';
 import { TypeGenericChildren, TypeGenericBuilder } from './TypeGenericBuilder';
 
 export type DomainReferenceInvokers = {
-  qualifier: QualifierNode;
-  type: ReferenceNode;
-  type_generic: TypeGenericNode<ReferenceNode>;
-  generic_templates: GenericTemplatesNode;
-  generic_template: GenericTemplateNode;
+    qualifier: QualifierNode;
+    type: ReferenceNode;
+    type_generic: TypeGenericNode<ReferenceNode>;
+    generic_templates: GenericTemplatesNode;
+    generic_template: GenericTemplateNode;
 };
 export type DomainReferenceDependencies =
-  QualifierChildren &
-  TypeChildren &
-  TypeGenericChildren &
-  GenericTemplatesChildren &
-  GenericTemplateChildren;
+    QualifierChildren &
+    TypeChildren &
+    TypeGenericChildren &
+    GenericTemplatesChildren &
+    GenericTemplateChildren;
 
 export const factory = (invokers: BuilderInvokers<DomainReferenceDependencies>): InvokableVisitors<DomainReferenceInvokers> => {
-  return {
-    qualifier        : new QualifierBuilder(invokers),
-    type             : new TypeBuilder(invokers),
-    type_generic     : new TypeGenericBuilder(invokers),
-    generic_templates: new GenericTemplatesBuilder(invokers),
-    generic_template : new GenericTemplateBuilder(invokers),
-  };
+    return {
+        qualifier: new QualifierBuilder(invokers),
+        type: new TypeBuilder(invokers),
+        type_generic: new TypeGenericBuilder(invokers),
+        generic_templates: new GenericTemplatesBuilder(invokers),
+        generic_template: new GenericTemplateBuilder(invokers),
+    };
 };

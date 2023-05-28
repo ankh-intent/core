@@ -3,10 +3,10 @@ import { AssignmentStatementNode } from './AssignmentStatementNode';
 import { AssignmentTargetNode } from './AssignmentTargetNode';
 
 export class LoopIteratorNode extends AssignmentStatementNode {
-  constructor(
-    target: AssignmentTargetNode,
-    iterable: ExpressionNode,
-  ) {
-    super(target, 'of', iterable);
-  }
+    constructor(
+        target: AssignmentTargetNode,
+        iterable: ExpressionNode,
+    ) {
+        super(target, 'of', iterable);
+    }
 }

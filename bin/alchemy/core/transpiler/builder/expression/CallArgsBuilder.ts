@@ -4,23 +4,23 @@ import { CallArgsNode, CallArgNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type CallArgsChildren = {
-  call_arg: CallArgNode;
+    call_arg: CallArgNode;
 };
 
 export class CallArgsBuilder extends BaseBuilder<CallArgsNode, CallArgsChildren> {
-  protected build(tokens, { not, peek }: TypedTokenMatcherInterface) {
-    const args: CallArgNode[] = [];
+    protected build(tokens, { not, peek }: TypedTokenMatcherInterface) {
+        const args: CallArgNode[] = [];
 
-    while (!peek.symbol(')')) {
-      args.push(this.child.call_arg(tokens));
+        while (!peek.symbol(')')) {
+            args.push(this.child.call_arg(tokens));
 
-      if (not.symbol(',')) {
-        break;
-      }
+            if (not.symbol(',')) {
+                break;
+            }
+        }
+
+        return new CallArgsNode(
+            args,
+        );
     }
-
-    return new CallArgsNode(
-      args,
-    );
-  }
 }

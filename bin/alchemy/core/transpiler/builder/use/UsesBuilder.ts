@@ -4,27 +4,27 @@ import { UsesNode, UseNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type UsesChildren = {
-  use: UseNode;
+    use: UseNode;
 };
 
 export class UsesBuilder extends BaseBuilder<UsesNode, UsesChildren> {
-  protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
-    const uses = new Map<string, UseNode>();
+    protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
+        const uses = new Map<string, UseNode>();
 
-    while (true) {
-      const use = this.child.use(tokens);
+        while (true) {
+            const use = this.child.use(tokens);
 
-      if (!use) {
-        break;
-      }
+            if (!use) {
+                break;
+            }
 
-      if (uses.has(use.alias)) {
-        throw this.error(tokens, use, `Use with the same name "${use.alias}" already present`);
-      }
+            if (uses.has(use.alias)) {
+                throw this.error(tokens, use, `Use with the same name "${use.alias}" already present`);
+            }
 
-      uses.set(use.alias, use);
+            uses.set(use.alias, use);
+        }
+
+        return new UsesNode(uses);
     }
-
-    return new UsesNode(uses);
-  }
 }

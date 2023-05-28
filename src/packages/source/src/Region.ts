@@ -1,4 +1,3 @@
-
 import { Origin } from './Source';
 
 export class Region {

@@ -4,13 +4,13 @@ import { IsDomainNode, ReferenceNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type IsDomainChildren = {
-  type: ReferenceNode;
+    type: ReferenceNode;
 };
 
 export class IsDomainBuilder extends BaseBuilder<IsDomainNode, IsDomainChildren> {
-  protected build(tokens, { ensure }: TypedTokenMatcherInterface) {
-    ensure.identifier('is');
+    protected build(tokens, { ensure }: TypedTokenMatcherInterface) {
+        ensure.identifier('is');
 
-    return new IsDomainNode(this.child.type(tokens));
-  }
+        return new IsDomainNode(this.child.type(tokens));
+    }
 }

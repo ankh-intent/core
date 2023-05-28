@@ -1,21 +1,21 @@
 import { AbstractNode, BuilderInvokers, InvokableVisitors } from '@intent/kernel';
 
 import {
-  ExpressionNode,
-  IdentifierNode,
-  CallArgNode,
-  CallArgsNode,
-  CallNode,
-  IndexedNode,
-  ChainNode,
-  PrimitiveNode,
-  ArrayNode,
-  ObjectNode,
-  ObjectPropertyNode,
-  CallableNode,
-  IsDomainNode,
-  UnaryNode,
-  PostfixNode, OperationNode,
+    ExpressionNode,
+    IdentifierNode,
+    CallArgNode,
+    CallArgsNode,
+    CallNode,
+    IndexedNode,
+    ChainNode,
+    PrimitiveNode,
+    ArrayNode,
+    ObjectNode,
+    ObjectPropertyNode,
+    CallableNode,
+    IsDomainNode,
+    UnaryNode,
+    PostfixNode, OperationNode,
 } from '../../ast';
 
 import { AccessibleChildren, AccessibleBuilder } from './AccessibleBuilder';
@@ -43,79 +43,79 @@ import { PostfixChildren, PostfixBuilder } from './PostfixBuilder';
 import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
 
 export type ExpressionInvokers = {
-  expression: ExpressionNode;
-  identifier: IdentifierNode;
-  comparision: ExpressionNode;
-  chain: ChainNode;
-  indexed: IndexedNode;
-  postfix: PostfixNode;
-  call: CallNode;
-  call_args: CallArgsNode;
-  call_arg: CallArgNode;
-  is_domain: IsDomainNode;
-  operation: OperationNode;
-  boolean: ExpressionNode;
-  additive: ExpressionNode;
-  multiplicative: ExpressionNode;
-  unary: UnaryNode;
-  accessor: ExpressionNode;
-  accessible: AbstractNode;
-  literal: PrimitiveNode;
-  callable: CallableNode;
-  array: ArrayNode;
-  object: ObjectNode;
-  object_property: ObjectPropertyNode;
-  identifier_expression: ExpressionNode;
+    expression: ExpressionNode;
+    identifier: IdentifierNode;
+    comparision: ExpressionNode;
+    chain: ChainNode;
+    indexed: IndexedNode;
+    postfix: PostfixNode;
+    call: CallNode;
+    call_args: CallArgsNode;
+    call_arg: CallArgNode;
+    is_domain: IsDomainNode;
+    operation: OperationNode;
+    boolean: ExpressionNode;
+    additive: ExpressionNode;
+    multiplicative: ExpressionNode;
+    unary: UnaryNode;
+    accessor: ExpressionNode;
+    accessible: AbstractNode;
+    literal: PrimitiveNode;
+    callable: CallableNode;
+    array: ArrayNode;
+    object: ObjectNode;
+    object_property: ObjectPropertyNode;
+    identifier_expression: ExpressionNode;
 };
 export type ExpressionDependencies =
-  OperationChildren &
-  ComparisionChildren &
-  CallArgsChildren &
-  CallArgChildren &
-  IdentifierChildren &
-  IdentifierExpressionChildren &
-  CallChildren &
-  IsDomainChildren &
-  ChainChildren &
-  IndexedChildren &
-  BooleanChildren &
-  AdditiveChildren &
-  MultiplicativeChildren &
-  UnaryChildren &
-  PostfixChildren &
-  AccessorChildren &
-  AccessibleChildren &
-  LiteralChildren &
-  ArrayChildren &
-  ObjectChildren &
-  CallableChildren &
-  ObjectPropertyChildren &
-  ExpressionChildren;
+    OperationChildren &
+    ComparisionChildren &
+    CallArgsChildren &
+    CallArgChildren &
+    IdentifierChildren &
+    IdentifierExpressionChildren &
+    CallChildren &
+    IsDomainChildren &
+    ChainChildren &
+    IndexedChildren &
+    BooleanChildren &
+    AdditiveChildren &
+    MultiplicativeChildren &
+    UnaryChildren &
+    PostfixChildren &
+    AccessorChildren &
+    AccessibleChildren &
+    LiteralChildren &
+    ArrayChildren &
+    ObjectChildren &
+    CallableChildren &
+    ObjectPropertyChildren &
+    ExpressionChildren;
 
 export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): InvokableVisitors<ExpressionInvokers> => {
-  return {
-    expression     : new ExpressionBuilder(invokers),
-    operation      : new OperationBuilder(invokers),
-    identifier     : new IdentifierBuilder(invokers),
-    comparision    : new ComparisionBuilder(invokers),
-    chain          : new ChainBuilder(invokers),
-    indexed        : new IndexedBuilder(invokers),
-    postfix        : new PostfixBuilder(invokers),
-    call           : new CallBuilder(invokers),
-    call_args      : new CallArgsBuilder(invokers),
-    call_arg       : new CallArgBuilder(invokers),
-    is_domain      : new IsDomainBuilder(invokers),
-    boolean        : new BooleanBuilder(invokers),
-    additive       : new AdditiveBuilder(invokers),
-    multiplicative : new MultiplicativeBuilder(invokers),
-    unary          : new UnaryBuilder(invokers),
-    accessor       : new AccessorBuilder(invokers),
-    accessible     : new AccessibleBuilder(invokers),
-    literal        : new LiteralBuilder(invokers),
-    callable       : new CallableBuilder(invokers),
-    array          : new ArrayBuilder(invokers),
-    object         : new ObjectBuilder(invokers),
-    object_property: new ObjectPropertyBuilder(invokers),
-    identifier_expression: new IdentifierExpressionBuilder(invokers),
-  };
+    return {
+        expression: new ExpressionBuilder(invokers),
+        operation: new OperationBuilder(invokers),
+        identifier: new IdentifierBuilder(invokers),
+        comparision: new ComparisionBuilder(invokers),
+        chain: new ChainBuilder(invokers),
+        indexed: new IndexedBuilder(invokers),
+        postfix: new PostfixBuilder(invokers),
+        call: new CallBuilder(invokers),
+        call_args: new CallArgsBuilder(invokers),
+        call_arg: new CallArgBuilder(invokers),
+        is_domain: new IsDomainBuilder(invokers),
+        boolean: new BooleanBuilder(invokers),
+        additive: new AdditiveBuilder(invokers),
+        multiplicative: new MultiplicativeBuilder(invokers),
+        unary: new UnaryBuilder(invokers),
+        accessor: new AccessorBuilder(invokers),
+        accessible: new AccessibleBuilder(invokers),
+        literal: new LiteralBuilder(invokers),
+        callable: new CallableBuilder(invokers),
+        array: new ArrayBuilder(invokers),
+        object: new ObjectBuilder(invokers),
+        object_property: new ObjectPropertyBuilder(invokers),
+        identifier_expression: new IdentifierExpressionBuilder(invokers),
+    };
 };

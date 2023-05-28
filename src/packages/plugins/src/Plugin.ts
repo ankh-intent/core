@@ -30,19 +30,26 @@ export abstract class Plugin<E extends CoreEvent = CoreEvent> {
 
   public supports(event: E) {
     switch (this.phase) {
-      case PluginPhase.Update: return event.type === UpdateEvent.type();
-      case PluginPhase.Read: return event.type === ReadedEvent.type();
-      case PluginPhase.Parse: return event.type === ParsedEvent.type();
-      case PluginPhase.Patch: return event.type === PatchedASTEvent.type();
-      case PluginPhase.Sync: return event.type === DependencyModifiedEvent.type();
-      case PluginPhase.Interpret: return event.type === InterpretedEvent.type();
-      case PluginPhase.Emit: return event.type === EmittedEvent.type();
+      case PluginPhase.Update:
+        return event.type === UpdateEvent.type();
+      case PluginPhase.Read:
+        return event.type === ReadedEvent.type();
+      case PluginPhase.Parse:
+        return event.type === ParsedEvent.type();
+      case PluginPhase.Patch:
+        return event.type === PatchedASTEvent.type();
+      case PluginPhase.Sync:
+        return event.type === DependencyModifiedEvent.type();
+      case PluginPhase.Interpret:
+        return event.type === InterpretedEvent.type();
+      case PluginPhase.Emit:
+        return event.type === EmittedEvent.type();
     }
 
     return false;
   }
 
-  public process(env: PluginEnvironment<E>): boolean|void {
+  public process(env: PluginEnvironment<E>): boolean | void {
 
   }
 }

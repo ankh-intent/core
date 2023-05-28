@@ -3,7 +3,7 @@ import * as fs from 'fs';
 
 import { UnitMatcher } from '../../utils';
 
-type PathConsumer<T> = (path: string) => T|undefined;
+type PathConsumer<T> = (path: string) => T | undefined;
 
 export class Finder {
   private readonly exclude: PathConsumer<boolean>[];

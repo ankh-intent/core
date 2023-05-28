@@ -5,15 +5,15 @@ import { DomainNode } from './DomainNode';
 import { DomainInterfaceNode } from './interface';
 
 export class EnumNode extends DomainNode {
-  constructor(
-    identifier: string,
-    parent: ReferenceNode|undefined,
-    public values: Map<QualifierNode, ExpressionNode> = new Map(),
-  ) {
-    super(identifier, new GenericTemplatesNode(), parent, new DomainInterfaceNode(), new UsesNode());
-  }
+    constructor(
+        identifier: string,
+        parent: ReferenceNode | undefined,
+        public values: Map<QualifierNode, ExpressionNode> = new Map(),
+    ) {
+        super(identifier, new GenericTemplatesNode(), parent, new DomainInterfaceNode(), new UsesNode());
+    }
 
-  get children() {
-    return [...super.children, ...this.values.keys(), ...this.values.values()];
-  }
+    get children() {
+        return [...super.children, ...this.values.keys(), ...this.values.values()];
+    }
 }

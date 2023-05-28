@@ -12,7 +12,7 @@ export interface WatchdogConfig {
 export class Watchdog<U extends UnitInterface> {
   private uid: number = 0;
   private readonly config: WatchdogConfig;
-  private readonly watches: {[index: number]: WatchItem<U>};
+  private readonly watches: { [index: number]: WatchItem<U> };
 
   public active: boolean;
 
@@ -58,7 +58,7 @@ export class Watchdog<U extends UnitInterface> {
     return this.watches[item.uid] = item;
   }
 
-  public watchAll(pattern: string|RegExp, events: string[]): WatchItem<U>[] {
+  public watchAll(pattern: string | RegExp, events: string[]): WatchItem<U>[] {
     return events.map(event => this.watch({
       event,
       pattern,

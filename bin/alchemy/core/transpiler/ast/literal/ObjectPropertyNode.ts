@@ -3,14 +3,14 @@ import { AbstractNode } from '@intent/kernel';
 import { ExpressionNode } from '../expression';
 
 export class ObjectPropertyNode extends AbstractNode {
-  constructor(
-    public identifier: string,
-    public expression: ExpressionNode,
-  ) {
-    super();
-  }
+    constructor(
+        public identifier: string,
+        public expression: ExpressionNode,
+    ) {
+        super();
+    }
 
-  public get children() {
-    return [this.expression];
-  }
+    public get children() {
+        return [this.expression];
+    }
 }

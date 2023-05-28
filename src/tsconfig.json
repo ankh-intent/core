@@ -1,26 +1,28 @@
 {
-  "compilerOptions": {
-    "outDir": "..",
-    "rootDir": ".",
-    "inlineSourceMap": true,
-    "noEmit": true,
-    "module": "commonjs",
-    "target": "es6",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true,
-    "strictNullChecks": true,
-    "lib": [
-      "es2017"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@intent/*": ["packages/*"]
-    }
-  },
-  "exclude": [
-    "../node_modules",
-    "../bin"
-  ]
+    "compilerOptions": {
+        "outDir": "..",
+        "rootDir": ".",
+        "inlineSourceMap": true,
+        "noEmit": true,
+        "module": "commonjs",
+        "target": "es6",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true,
+        "strictNullChecks": true,
+        "lib": [
+            "es2017"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@intent/*": [
+                "packages/*"
+            ]
+        }
+    },
+    "exclude": [
+        "../node_modules",
+        "../bin"
+    ]
 }

@@ -4,14 +4,14 @@ import { LoopIterator } from './LoopIterator';
 import { Statement } from './Statement';
 
 export class LoopStatement extends Statement<LoopStatementNode> {
-  public iterator: LoopIterator;
-  public block: Block;
+    public iterator: LoopIterator;
+    public block: Block;
 
-  get isAssertion() {
-    return false;
-  }
+    get isAssertion() {
+        return false;
+    }
 
-  toString() {
-    return `each (${this.iterator}) ${this.block}`;
-  }
+    toString() {
+        return `each (${this.iterator}) ${this.block}`;
+    }
 }

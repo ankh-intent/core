@@ -1,6 +1,14 @@
-import * as yargs from 'yargs';
+import { resolve } from 'path';
+import { usage } from 'yargs';
+import { escapeRegExp } from 'lodash';
 
 import { BubblingFinder } from '../../source';
+
+type OptionDescriptor = {
+  path?: boolean;
+  default?: any;
+  mapper?: (v: any, m: (v: any) => any) => any;
+};
 
 export abstract class AbstractConfigProvider<O, C> {
   private _argv;
@@ -16,7 +24,7 @@ export abstract class AbstractConfigProvider<O, C> {
 
   protected argv() {
     const map = this.options(
-      this.defaults()
+      this.defaults(),
     );
     const options = {};
 
@@ -25,20 +33,30 @@ export abstract class AbstractConfigProvider<O, C> {
         continue;
       }
 
-      for (const option of Object.keys(map[group])) {
-        options[option] = Object.assign(
-          { group: group + ':', },
-          map[group][option]
+      const cwd = resolve(process.cwd());
+      const regexp = new RegExp(`^${escapeRegExp(cwd)}`);
+      const entries: [string, OptionDescriptor][] = Object.entries(map[group]);
+      const remapPath = (v) => v.replace(regexp, '.');
+
+      for (const [name, { path, default: d, mapper, ...option }] of entries) {
+        if (path || mapper) {
+          (option as any).default = mapper ? mapper(d, remapPath) : remapPath(d);
+        } else {
+          (option as any).default = d;
+        }
+
+        options[name] = Object.assign(
+          { group: group + ':' },
+          option,
         );
       }
     }
 
-    const built = yargs
-      .usage(this.usage())
-      .help("help")
+    const built = usage(this.usage())
+      .help('help')
       .version()
-      .alias("help", "h")
-      .alias("version", "v")
+      .alias('help', 'h')
+      .alias('version', 'v')
       .options(options)
     ;
 
@@ -76,5 +94,6 @@ export abstract class AbstractConfigProvider<O, C> {
   }
 
   protected abstract options(def: Partial<O>): any;
+
   public abstract build(core: C): O;
 }

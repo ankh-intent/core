@@ -1,40 +1,39 @@
 import { Logger } from '@intent/utils';
 
 import { CoreConfig } from '../CoreConfig';
-
 import { CoreEvent, AbstractConsumer, StatEvent, CoreEventBus } from '../kernel';
 
 import { LogStat } from './stat/LogStat';
 import { EmittedStat } from './stat/EmittedStat';
 
-export class StatConsumer extends AbstractConsumer<StatEvent, any>{
-  private readonly logger: Logger;
-  private readonly processors: {
-    log: LogStat;
-    emitted: EmittedStat;
-  };
-
-  public constructor(bus: CoreEventBus, config: CoreConfig, logger: Logger) {
-    super(bus);
-    this.logger = logger;
-    this.processors = {
-      log: new LogStat(config, this.logger),
-      emitted: new EmittedStat(config, this.logger),
+export class StatConsumer extends AbstractConsumer<StatEvent, any> {
+    private readonly logger: Logger;
+    private readonly processors: {
+        log: LogStat;
+        emitted: EmittedStat;
     };
-  }
 
-  public supports(event: CoreEvent): boolean {
-    return event.type === StatEvent.type();
-  }
+    public constructor(bus: CoreEventBus, config: CoreConfig, logger: Logger) {
+        super(bus);
+        this.logger = logger;
+        this.processors = {
+            log: new LogStat(config, this.logger),
+            emitted: new EmittedStat(config, this.logger),
+        };
+    }
 
-  public process(event: StatEvent) {
-    const stat = event.data.stat;
-    const processor = this.processors[stat.type];
+    public supports(event: CoreEvent): boolean {
+        return event.type === StatEvent.type();
+    }
 
-    return (
-      processor
-        ? processor.process(event, stat)
-        : event
-    );
-  }
+    public process(event: StatEvent) {
+        const stat = event.data.stat;
+        const processor = this.processors[stat.type];
+
+        return (
+            processor
+                ? processor.process(event, stat)
+                : event
+        );
+    }
 }

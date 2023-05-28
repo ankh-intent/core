@@ -4,27 +4,27 @@ import { ArrayNode, ExpressionNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
 export type ArrayChildren = {
-  expression: ExpressionNode;
+    expression: ExpressionNode;
 };
 
 export class ArrayBuilder extends BaseBuilder<ArrayNode, ArrayChildren> {
-  protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
-    const items: ExpressionNode[] = [];
+    protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
+        const items: ExpressionNode[] = [];
 
-    ensure.symbol('[');
+        ensure.symbol('[');
 
-    while (!peek.symbol(']')) {
-      items.push(this.child.expression(tokens));
+        while (!peek.symbol(']')) {
+            items.push(this.child.expression(tokens));
 
-      if (not.symbol(',')) {
-        break;
-      }
+            if (not.symbol(',')) {
+                break;
+            }
+        }
+
+        ensure.symbol(']');
+
+        return new ArrayNode(
+            items,
+        );
     }
-
-    ensure.symbol(']');
-
-    return new ArrayNode(
-      items,
-    );
-  }
 }

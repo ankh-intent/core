@@ -1,4 +1,3 @@
-
 export class Logger {
   static INFO = 0;
   static WARNING = 1;
@@ -19,7 +18,7 @@ export class Logger {
     console[Logger.levelToStr(level)].call(
       console,
       `[${this.timestamp()}] ${this.name}${classifier ? `/${classifier}` : ''}:`,
-      ...out
+      ...out,
     );
   }
 

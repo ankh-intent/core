@@ -3,40 +3,41 @@ import { ErrorEvent } from '../events';
 import { CoreEventBus } from '../CoreEventBus';
 
 export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements CoreEventConsumer<T, E> {
-  protected readonly bus: CoreEventBus;
+    protected readonly bus: CoreEventBus;
 
-  public abstract supports(event: CoreEvent): boolean;
-  public abstract process(event: E): CoreEvent|void;
+    public abstract supports(event: CoreEvent): boolean;
 
-  public constructor(bus: CoreEventBus) {
-    this.bus = bus;
-  }
+    public abstract process(event: E): CoreEvent | void;
 
-  public detach(): boolean {
-    return !!this.bus.off(this);
-  }
-
-  public consume(event: E): CoreEvent|void {
-    if (!this.supports(event)) {
-      return event;
+    public constructor(bus: CoreEventBus) {
+        this.bus = bus;
     }
 
-    try {
-      return this.process(event);
-    } catch (error) {
-      return new ErrorEvent({ error }, event);
-    }
-  }
-
-  public emit(event: CoreEvent, propagated?: boolean): CoreEvent {
-    if (propagated !== undefined) {
-      event.stopPropagation(!propagated);
+    public detach(): boolean {
+        return !!this.bus.off(this);
     }
 
-    return this.bus.emit(event);
-  }
+    public consume(event: E): CoreEvent | void {
+        if (!this.supports(event)) {
+            return event;
+        }
 
-  public stat(parent: CoreEvent|null, data: any): CoreEvent {
-    return this.bus.stat(data, parent);
-  }
+        try {
+            return this.process(event);
+        } catch (error) {
+            return new ErrorEvent({ error }, event);
+        }
+    }
+
+    public emit(event: CoreEvent, propagated?: boolean): CoreEvent {
+        if (propagated !== undefined) {
+            event.stopPropagation(!propagated);
+        }
+
+        return this.bus.emit(event);
+    }
+
+    public stat(parent: CoreEvent | null, data: any): CoreEvent {
+        return this.bus.stat(data, parent);
+    }
 }

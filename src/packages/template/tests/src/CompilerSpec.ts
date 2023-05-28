@@ -13,22 +13,22 @@ describe('PipelineObserver', () => {
       });
 
       const sample1 = () => [
-        () => ({code: null, expect: []}),
-        () => ({code: "", expect: []}),
+        () => ({ code: null, expect: [] }),
+        () => ({ code: '', expect: [] }),
       ];
 
       const sample2 = () => [
-        () => ({code: "", expect: 0}),
-        () => ({code: "abc\n", expect: 1}),
-        () => ({code: "a{b}c\n1\n1", expect: 3}),
-        () => ({code: "a{b}c\n\n1", expect: 3}),
-        () => ({code: "\n1\n1", expect: 2}),
-        () => ({code: "\n1\n1\n\n", expect: 2}),
+        () => ({ code: '', expect: 0 }),
+        () => ({ code: 'abc\n', expect: 1 }),
+        () => ({ code: 'a{b}c\n1\n1', expect: 3 }),
+        () => ({ code: 'a{b}c\n\n1', expect: 3 }),
+        () => ({ code: '\n1\n1', expect: 2 }),
+        () => ({ code: '\n1\n1\n\n', expect: 2 }),
       ];
 
       const sample3 = () => [
-        () => ({code: "abc", expect: ["abc"]}),
-        () => ({code: "a[b]c", expect: ["a[b]c"]}),
+        () => ({ code: 'abc', expect: ['abc'] }),
+        () => ({ code: 'a[b]c', expect: ['a[b]c'] }),
       ];
 
       pit('should compile empty template to no-op', sample1, (data) => {
@@ -62,24 +62,24 @@ describe('PipelineObserver', () => {
 
 
       const sample1 = () => [
-        () => ({code: "no", expect: ["no"]}),
-        () => ({code: "{ %no%}", expect: ["{ %no%}"]}),
-        () => ({code: key1, expect: [jasmine.any(Template)]}),
+        () => ({ code: 'no', expect: ['no'] }),
+        () => ({ code: '{ %no%}', expect: ['{ %no%}'] }),
+        () => ({ code: key1, expect: [jasmine.any(Template)] }),
       ];
 
       pit('should emit template instead of lines with placeholders', sample1, (data) => {
-        expect(compiler.compileLines(data.code)).toEqual(data.expect);
+        expect(compiler.compileLines(data.code, () => null)).toEqual(data.expect);
       });
     });
 
     describe('factory', () => {
       it('should invoke template factory on template detection', () => {
-        const factory = jasmine.createSpy('factory', () => {});
+        const factory = jasmine.createSpy<() => TemplateInterface<any, any>>('factory', () => ({}) as any);
         const sampler = new Sampler('{', '}');
         const resolver = (data, key) => data[key];
         const compiler = new Compiler<any, any>(
           sampler,
-          factory
+          factory,
         );
 
         compiler.compile(sampler.placeholder('key'), resolver);

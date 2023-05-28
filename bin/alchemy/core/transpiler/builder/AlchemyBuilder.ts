@@ -11,27 +11,27 @@ import { factory as domainReferenceBuildersFactory, DomainReferenceInvokers } fr
 import { factory as blockBuildersFactory, BlockInvokers } from './block';
 
 type AlchemyGrammar =
-  DomainReferenceInvokers &
-  UseInvokers &
-  FunctorInvokers &
-  BlockInvokers &
-  ExpressionInvokers &
-  DomainInvokers &
-  ModuleChildren
-;
+    DomainReferenceInvokers &
+    UseInvokers &
+    FunctorInvokers &
+    BlockInvokers &
+    ExpressionInvokers &
+    DomainInvokers &
+    ModuleChildren
+    ;
 
 export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, ModuleNode> {
-  protected get builders() {
-    return {
-      root: new ModuleBuilder(this.invokers),
+    protected get builders() {
+        return {
+            root: new ModuleBuilder(this.invokers),
 
-      ...expressionBuildersFactory(this.invokers),
-      ...functorBuildersFactory(this.invokers),
-      ...useBuildersFactory(this.invokers),
-      ...domainBuildersFactory(this.invokers),
-      ...domainReferenceBuildersFactory(this.invokers),
-      ...blockBuildersFactory(this.invokers),
-    };
-  }
+            ...expressionBuildersFactory(this.invokers),
+            ...functorBuildersFactory(this.invokers),
+            ...useBuildersFactory(this.invokers),
+            ...domainBuildersFactory(this.invokers),
+            ...domainReferenceBuildersFactory(this.invokers),
+            ...blockBuildersFactory(this.invokers),
+        };
+    }
 }
 

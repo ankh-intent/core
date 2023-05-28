@@ -7,13 +7,13 @@ import { WatchdogConfig } from './Watchdog';
 import { AggregatedEmitter } from './AggregatedEmitter';
 
 export class WatchItem<U extends UnitInterface> extends Eventable {
-  public static EVENT  = 'event';
+  public static EVENT = 'event';
   public static DETACH = 'detach';
 
   private readonly matcher: WatchMatcher;
-  private watcher: FSWatcher|null = null;
+  private watcher: FSWatcher | null = null;
   private debounced: number;
-  private _emitter: Emitter<ArrayConsumer<U>>|null;
+  private _emitter: Emitter<ArrayConsumer<U>> | null;
 
   public readonly uid: number;
 
@@ -48,10 +48,10 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     }
 
     this.watcher = watch(strict ? (pattern as string) : config.root, {
-        ignored: config.ignore,
-        persistent: true,
-        ignoreInitial: true,
-      })
+      ignored: config.ignore,
+      persistent: true,
+      ignoreInitial: true,
+    })
       .on(event, handler)
     ;
 
@@ -101,7 +101,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     return this._emitter;
   }
 
-  public setEmitter(emitter: Emitter<ArrayConsumer<U>>|null) {
+  public setEmitter(emitter: Emitter<ArrayConsumer<U>> | null) {
     if (this._emitter === emitter) {
       return;
     }

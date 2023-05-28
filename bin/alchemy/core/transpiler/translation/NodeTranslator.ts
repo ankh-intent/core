@@ -7,27 +7,27 @@ import { TranslationContext } from './TranslationContext';
 import { TranslationError } from './TranslationError';
 
 export abstract class NodeTranslator<T extends Translated<N>, I extends NodeIdentifiersMap, N extends TreeNode = TreeNode> extends Walker<N, TranslationContext<any>, T, I> {
-  visit(node: N, context: TranslationContext<any>): T {
-    if (!node) {
-      throw new Error(`Failed processing "${this.name}" AST node: node is ${node}`);
+    visit(node: N, context: TranslationContext<any>): T {
+        if (!node) {
+            throw new Error(`Failed processing "${this.name}" AST node: node is ${node}`);
+        }
+
+        try {
+            return this.translate(node, context);
+        } catch (e) {
+            if (e instanceof TranslationError) {
+                throw new TranslationError(`Failed processing "${node.node}" AST node`, node, e);
+            } else {
+                throw new TranslationError(`Failed processing "${node.node}" AST node: ${e.message}`, node);
+            }
+        }
     }
 
-    try {
-      return this.translate(node, context);
-    } catch (e) {
-      if (e instanceof TranslationError) {
-        throw new TranslationError(`Failed processing "${node.node}" AST node`, node, e);
-      } else {
-        throw new TranslationError(`Failed processing "${node.node}" AST node: ${e.message}`, node);
-      }
+    protected get name(): string {
+        return Strings.camelCaseToSnakeCase(
+            this.constructor.name.replace(/Translator$/, ''),
+        );
     }
-  }
 
-  protected get name(): string {
-    return Strings.camelCaseToSnakeCase(
-      this.constructor.name.replace(/Translator$/, '')
-    );
-  }
-
-  abstract translate(node: N, context: TranslationContext<any>): T;
+    abstract translate(node: N, context: TranslationContext<any>): T;
 }

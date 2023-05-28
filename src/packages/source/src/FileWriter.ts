@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { Source } from './Source';
 
 export class FileWriter {
-  public write(source: Source, encoding: string = 'utf8'): Promise<Source> {
+  public write(source: Source, encoding: BufferEncoding = 'utf8'): Promise<Source> {
     return <Promise<Source>>this.assumeDir(path.dirname(source.reference))
       .then(() => new Promise((rs, rj) => {
           fs.writeFile(
@@ -13,9 +13,9 @@ export class FileWriter {
             { encoding },
             (e) => e ? rj(e) : rs(source),
           );
-        })
+        }),
       )
-    ;
+      ;
   }
 
   protected assumeDir(dir: string): Promise<string> {
@@ -28,7 +28,7 @@ export class FileWriter {
 
           this.assumeDir(path.dirname(dir))
             .then(() => {
-              fs.mkdir(dir, (e) => e ? rj(e) : rs(dir))
+              fs.mkdir(dir, (e) => e ? rj(e) : rs(dir));
             })
             .catch(rj)
           ;
