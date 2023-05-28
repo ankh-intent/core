@@ -13,9 +13,9 @@ export class FileWriter {
             { encoding },
             (e) => e ? rj(e) : rs(source),
           );
-        })
+        }),
       )
-    ;
+      ;
   }
 
   protected assumeDir(dir: string): Promise<string> {
@@ -28,7 +28,7 @@ export class FileWriter {
 
           this.assumeDir(path.dirname(dir))
             .then(() => {
-              fs.mkdir(dir, (e) => e ? rj(e) : rs(dir))
+              fs.mkdir(dir, (e) => e ? rj(e) : rs(dir));
             })
             .catch(rj)
           ;

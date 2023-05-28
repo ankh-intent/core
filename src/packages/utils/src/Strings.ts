@@ -130,7 +130,7 @@ export class Strings {
     return lines.map((line) => pad + line);
   }
 
-  public static fold(a: (string|string[])[]|string): string[] {
+  public static fold(a: (string | string[])[] | string): string[] {
     if (typeof a === 'string') {
       return [a];
     }
@@ -140,7 +140,7 @@ export class Strings {
     for (const element of a) {
       if (Array.isArray(element)) {
         result.push(
-          ...this.fold(element)
+          ...this.fold(element),
         );
       } else {
         result.push(element);
@@ -178,6 +178,7 @@ export class Strings {
   }
 
   public static clear(str: string): string {
-    return str.length < 12 ? str : (' ' + str).slice(1);;
+    return str.length < 12 ? str : (' ' + str).slice(1);
+
   }
 }

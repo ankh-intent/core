@@ -5,11 +5,11 @@ import { FunctorArgs } from './FunctorArgs';
 import { FunctorBody } from './FunctorBody';
 
 export class Functor extends Translated<FunctorNode> {
-  public args: FunctorArgs;
-  public returns: ReferenceInterface|null;
-  public body: FunctorBody;
+    public args: FunctorArgs;
+    public returns: ReferenceInterface | null;
+    public body: FunctorBody;
 
-  toString() {
-    return `(${this.args}): ${this.returns || 'void'} => ${this.body}`;
-  }
+    toString() {
+        return `(${this.args}): ${this.returns || 'void'} => ${this.body}`;
+    }
 }

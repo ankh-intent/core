@@ -5,21 +5,21 @@ import { ReturnStatementNode } from './ReturnStatementNode';
 import { StatementNode } from './StatementNode';
 
 export class BlockNode extends AbstractNode {
-  constructor(
-    public statements: StatementNode[] = [],
-  ) {
-    super();
-  }
+    constructor(
+        public statements: StatementNode[] = [],
+    ) {
+        super();
+    }
 
-  get children() {
-    return this.statements;
-  }
+    get children() {
+        return this.statements;
+    }
 
-  get isExpressionStatement() {
-    return (this.statements.length === 1) && this.statements[0] instanceof ExpressionStatementNode;
-  }
+    get isExpressionStatement() {
+        return (this.statements.length === 1) && this.statements[0] instanceof ExpressionStatementNode;
+    }
 
-  get isReturnStatement() {
-    return (this.statements.length === 1) && this.statements[0] instanceof ReturnStatementNode;
-  }
+    get isReturnStatement() {
+        return (this.statements.length === 1) && this.statements[0] instanceof ReturnStatementNode;
+    }
 }

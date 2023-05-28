@@ -11,28 +11,28 @@ import { DomainInvokers, factory as domainTranslatorsFactory } from './domain';
 import { FunctorInvokers, factory as functorTranslatorsFactory } from './functor';
 
 type AlchemyGrammar =
-  UseInvokers &
-  DomainInvokers &
-  FunctorInvokers &
-  ModuleTranslatorChildren
-;
+    UseInvokers &
+    DomainInvokers &
+    FunctorInvokers &
+    ModuleTranslatorChildren
+    ;
 
 export class AlchemyTranslator extends RootTranslator<AlchemyGrammar> {
-  private readonly factory: IdentifiableFactory<ModuleNode, Module>;
-  private readonly tree: DependencyManager<ModuleNode, Module>;
+    private readonly factory: IdentifiableFactory<ModuleNode, Module>;
+    private readonly tree: DependencyManager<ModuleNode, Module>;
 
-  constructor(factory: IdentifiableFactory<ModuleNode, Module>, tree: DependencyManager<ModuleNode, Module>) {
-    super();
-    this.factory = factory;
-    this.tree = tree;
-  }
+    constructor(factory: IdentifiableFactory<ModuleNode, Module>, tree: DependencyManager<ModuleNode, Module>) {
+        super();
+        this.factory = factory;
+        this.tree = tree;
+    }
 
-  protected get visitors() {
-    return {
-      root: new ModuleTranslator(this.invokers, this.factory, this.tree),
-      ...useTranslatorsFactory(this.invokers),
-      ...domainTranslatorsFactory(this.invokers),
-      ...functorTranslatorsFactory(this.invokers),
-    };
-  }
+    protected get visitors() {
+        return {
+            root: new ModuleTranslator(this.invokers, this.factory, this.tree),
+            ...useTranslatorsFactory(this.invokers),
+            ...domainTranslatorsFactory(this.invokers),
+            ...functorTranslatorsFactory(this.invokers),
+        };
+    }
 }

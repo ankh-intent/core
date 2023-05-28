@@ -4,63 +4,63 @@ import { ReferenceNode, EnumNode, ExpressionNode, QualifierNode } from '../../as
 import { BaseBuilder } from '../BaseBuilder';
 
 export type EnumChildren = {
-  type: ReferenceNode;
-  qualifier: QualifierNode;
-  expression: ExpressionNode;
+    type: ReferenceNode;
+    qualifier: QualifierNode;
+    expression: ExpressionNode;
 };
 
 export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
-  protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
-    if (not.identifier('enum')) {
-      return null;
-    }
-
-    const identifier = get.identifier() || 'enum';
-    const parent: ReferenceNode|undefined = get.identifier('extends')
-      ? this.child.type(tokens)
-      : undefined;
-
-
-    ensure.symbol('{');
-
-    const values = new Map<QualifierNode, ExpressionNode>();
-
-    while (true) {
-      const inherit = get.symbol(':');
-
-      if (!peek.identifier()) {
-        if (inherit) {
-          throw this.error(tokens, 'qualifier', `Expected enum name qualifier`)
+    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+        if (not.identifier('enum')) {
+            return null;
         }
 
-        break;
-      }
+        const identifier = get.identifier() || 'enum';
+        const parent: ReferenceNode | undefined = get.identifier('extends')
+            ? this.child.type(tokens)
+            : undefined;
 
-      const value = this.child.qualifier(tokens);
 
-      if ([...values.keys()].find(q => q.path() === value.path())) {
-        throw this.error(tokens, '@identifier()', `Enum value with the same name "${value.path()}" already present`);
-      }
+        ensure.symbol('{');
 
-      ensure.symbol('=');
+        const values = new Map<QualifierNode, ExpressionNode>();
 
-      const expression = this.child.expression(tokens);
+        while (true) {
+            const inherit = get.symbol(':');
 
-      if (!expression) {
-        throw this.error(tokens, 'expression()', `Expected expression here`);
-      }
+            if (!peek.identifier()) {
+                if (inherit) {
+                    throw this.error(tokens, 'qualifier', `Expected enum name qualifier`);
+                }
 
-      values.set(value, expression);
+                break;
+            }
 
-      ensure.symbol(';');
+            const value = this.child.qualifier(tokens);
+
+            if ([...values.keys()].find(q => q.path() === value.path())) {
+                throw this.error(tokens, '@identifier()', `Enum value with the same name "${value.path()}" already present`);
+            }
+
+            ensure.symbol('=');
+
+            const expression = this.child.expression(tokens);
+
+            if (!expression) {
+                throw this.error(tokens, 'expression()', `Expected expression here`);
+            }
+
+            values.set(value, expression);
+
+            ensure.symbol(';');
+        }
+
+        ensure.symbol('}');
+
+        return new EnumNode(
+            identifier,
+            parent,
+            values,
+        );
     }
-
-    ensure.symbol('}');
-
-    return new EnumNode(
-      identifier,
-      parent,
-      values,
-    );
-  }
 }

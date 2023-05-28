@@ -1,3 +1,3 @@
-export * from  './Decomposition';
-export * from  './Use';
-export * from  './Uses';
+export * from './Decomposition';
+export * from './Use';
+export * from './Uses';

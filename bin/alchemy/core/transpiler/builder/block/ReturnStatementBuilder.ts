@@ -4,19 +4,19 @@ import { ReturnStatementNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type ReturnStatementChildren = {
-  expression: ExpressionNode;
+    expression: ExpressionNode;
 };
 
 export class ReturnStatementBuilder extends BaseBuilder<ReturnStatementNode, ReturnStatementChildren> {
-  protected build(tokens, { peek, ensure }: TypedTokenMatcherInterface) {
-    ensure.identifier('return');
+    protected build(tokens, { peek, ensure }: TypedTokenMatcherInterface) {
+        ensure.identifier('return');
 
-    if (!peek.symbol(';')) {
-      return new ReturnStatementNode(
-        this.child.expression(tokens),
-      );
+        if (!peek.symbol(';')) {
+            return new ReturnStatementNode(
+                this.child.expression(tokens),
+            );
+        }
+
+        return new ReturnStatementNode();
     }
-
-    return new ReturnStatementNode();
-  }
 }

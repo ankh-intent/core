@@ -5,7 +5,7 @@ import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
 export class Sampler implements SamplerInterface {
   private readonly opener: string;
   private readonly closer: string;
-  private readonly cache : {[key: string]: string} = {};
+  private readonly cache: { [key: string]: string } = {};
 
   public constructor(opener: string, closer: string) {
     if (!(opener && closer)) {
@@ -38,7 +38,7 @@ export class Sampler implements SamplerInterface {
     return cached;
   }
 
-  public next(subject: string, from: number = 0): MatchedPlaceholder|null {
+  public next(subject: string, from: number = 0): MatchedPlaceholder | null {
     if (!subject) {
       return null;
     }
@@ -66,7 +66,7 @@ export class Sampler implements SamplerInterface {
       return {
         open,
         close,
-        key : subject.substring(open + this.opener.length, close - this.closer.length),
+        key: subject.substring(open + this.opener.length, close - this.closer.length),
         next: (found === undefined) ? close : found,
       };
     }
@@ -74,7 +74,7 @@ export class Sampler implements SamplerInterface {
     return null;
   }
 
-  public prev(subject: string, from?: number): MatchedPlaceholder|null {
+  public prev(subject: string, from?: number): MatchedPlaceholder | null {
     if (!subject) {
       return null;
     }
@@ -106,7 +106,7 @@ export class Sampler implements SamplerInterface {
       return {
         open,
         close,
-        key : subject.substring(open + this.opener.length, close - this.closer.length),
+        key: subject.substring(open + this.opener.length, close - this.closer.length),
         next: (found === undefined) ? open : found,
       };
     }

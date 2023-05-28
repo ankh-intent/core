@@ -4,24 +4,24 @@ import { BlockNode, LoopStatementNode, LoopIteratorNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type LoopStatementChildren = {
-  block: BlockNode;
-  loop_iterator: LoopIteratorNode;
+    block: BlockNode;
+    loop_iterator: LoopIteratorNode;
 };
 
 export class LoopStatementBuilder extends BaseBuilder<LoopStatementNode, LoopStatementChildren> {
-  protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
-    ensure.identifier('each');
-    ensure.symbol('(');
+    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+        ensure.identifier('each');
+        ensure.symbol('(');
 
-    const iterator = this.child.loop_iterator(tokens);
+        const iterator = this.child.loop_iterator(tokens);
 
-    ensure.symbol(')');
+        ensure.symbol(')');
 
-    const block = this.child.block(tokens);
+        const block = this.child.block(tokens);
 
-    return new LoopStatementNode(
-      iterator,
-      block,
-    );
-  }
+        return new LoopStatementNode(
+            iterator,
+            block,
+        );
+    }
 }

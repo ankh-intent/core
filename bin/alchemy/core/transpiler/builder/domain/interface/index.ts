@@ -5,16 +5,16 @@ import { DomainInterfaceChildren, InterfaceBuilder } from './InterfaceBuilder';
 import { DomainInterfacePropertyChildren, InterfacePropertyBuilder } from './InterfacePropertyBuilder';
 
 export type DomainInterfaceInvokers = {
-  domain_interface: DomainInterfaceNode;
-  domain_interface_property: DomainInterfacePropertyNode;
+    domain_interface: DomainInterfaceNode;
+    domain_interface_property: DomainInterfacePropertyNode;
 };
 export type DomainInterfaceDependencies =
-  DomainInterfaceChildren &
-  DomainInterfacePropertyChildren;
+    DomainInterfaceChildren &
+    DomainInterfacePropertyChildren;
 
 export const factory = (invokers: BuilderInvokers<DomainInterfaceDependencies>): InvokableVisitors<DomainInterfaceInvokers> => {
-  return {
-    domain_interface         : new InterfaceBuilder(invokers),
-    domain_interface_property: new InterfacePropertyBuilder(invokers),
-  };
+    return {
+        domain_interface: new InterfaceBuilder(invokers),
+        domain_interface_property: new InterfacePropertyBuilder(invokers),
+    };
 };

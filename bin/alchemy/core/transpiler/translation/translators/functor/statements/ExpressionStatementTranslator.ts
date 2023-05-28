@@ -3,13 +3,13 @@ import { ExpressionNode, ExpressionStatementNode } from '../../../../ast';
 import { NodeTranslator } from '../../../NodeTranslator';
 
 export type ExpressionStatementTranslatorChildren = {
-  expression: ExpressionNode;
+    expression: ExpressionNode;
 };
 
 export class ExpressionStatementTranslator extends NodeTranslator<ExpressionStatement, ExpressionStatementTranslatorChildren> {
-  translate(node: ExpressionStatementNode, c): ExpressionStatement {
-    return ExpressionStatement.create(node, c.parent, {
-      expression: this.child.expression(node.expression, c),
-    });
-  }
+    translate(node: ExpressionStatementNode, c): ExpressionStatement {
+        return ExpressionStatement.create(node, c.parent, {
+            expression: this.child.expression(node.expression, c),
+        });
+    }
 }

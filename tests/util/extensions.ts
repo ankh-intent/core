@@ -1,14 +1,13 @@
-
 const pit = (text, provider, block) => {
-  const data = provider();
+    const data = provider();
 
-  for (const test of data) {
-    it(text, () => {
-      return block(test());
-    });
-  }
+    for (const test of data) {
+        it(text, () => {
+            return block(test());
+        });
+    }
 };
 
 export {
-  pit,
-}
+    pit,
+};

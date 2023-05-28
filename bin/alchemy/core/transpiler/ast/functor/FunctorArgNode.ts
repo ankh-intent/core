@@ -3,14 +3,14 @@ import { AbstractNode } from '@intent/kernel';
 import { ReferenceNode } from '../reference';
 
 export class FunctorArgNode extends AbstractNode {
-  public constructor(
-    public name: string,
-    public type: ReferenceNode,
-  ) {
-    super();
-  }
+    public constructor(
+        public name: string,
+        public type: ReferenceNode,
+    ) {
+        super();
+    }
 
-  get children() {
-    return [this.type];
-  }
+    get children() {
+        return [this.type];
+    }
 }

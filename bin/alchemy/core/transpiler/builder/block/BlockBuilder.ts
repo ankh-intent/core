@@ -4,23 +4,23 @@ import { BlockNode, StatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type BlockChildren = {
-  block_statement: StatementNode;
+    block_statement: StatementNode;
 };
 
 export class BlockBuilder extends BaseBuilder<BlockNode, BlockChildren> {
-  protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
-    const statements: StatementNode[] = [];
+    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+        const statements: StatementNode[] = [];
 
-    ensure.symbol('{');
+        ensure.symbol('{');
 
-    while (!peek.symbol('}')) {
-      statements.push(this.child.block_statement(tokens));
+        while (!peek.symbol('}')) {
+            statements.push(this.child.block_statement(tokens));
+        }
+
+        ensure.symbol('}');
+
+        return new BlockNode(
+            statements,
+        );
     }
-
-    ensure.symbol('}');
-
-    return new BlockNode(
-      statements,
-    );
-  }
 }

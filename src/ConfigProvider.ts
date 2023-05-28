@@ -7,183 +7,180 @@ import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, P
 import { Core } from './pipeline';
 
 export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T, Core<T, any, any>> {
-  protected entriesToStrings(entries: Container<EntryConfig>): string[] {
-    // -e index=./src/{.int} -e tests=./tests/{.ts,.js}
-    return Object.entries(entries)
-      .map(([name, e]) => {
-        const path = e.path.replace(/[\\/]$/, '');
-        const patterns = e.test.map(({ pattern }) => pattern);
+    protected entriesToStrings(entries: Container<EntryConfig>): string[] {
+        // -e index=./src/{.int} -e tests=./tests/{.ts,.js}
+        return Object.entries(entries).map(([name, e]) => {
+            const path = e.path.replace(/[\\/]$/, '');
+            const patterns = e.test.map(({ pattern }) => pattern);
 
-        return `${name}=${path}/{${patterns.join(',')}}`;
-      })
-    ;
-  }
-
-  protected entriesToConfigDefault(entries: string[], mapper: (v: any) => any) {
-    return entries.map((entry) => {
-      const [, name, path] = entry.match(/^([^=]+)=(.*)$/) || [null, null, null];
-
-      return `${name}=${mapper(path)}`;
-    });
-  }
-
-  protected stringsToEntries(strings: string[]): Container<EntryConfig> {
-    if (!strings.length) {
-      return {};
+            return `${name}=${path}/{${patterns.join(',')}}`;
+        });
     }
 
-    const config = {};
+    protected entriesToConfigDefault(entries: string[], mapper: (v: any) => any) {
+        return entries.map((entry) => {
+            const [, name, path] = entry.match(/^([^=]+)=(.*)$/) || [null, null, null];
 
-    for (const string of strings) {
-      const [, name, pattern] = string.match(/^([^=]+)=(.*)$/) || [null, null, null];
+            return `${name}=${mapper(path)}`;
+        });
+    }
 
-      if (name && pattern) {
-        const [, path, patterns] = pattern.match(/^(.*){(.*)}$/) || [null, null, null];
-
-        if (path && patterns) {
-          const test = patterns
-            .split(',')
-            .filter(Boolean)
-            .map(test => ({
-              event: 'change',
-              pattern: new RegExp(`${Strings.escapeRegExp(test)}$`),
-            }))
-          ;
-
-          if (test.length) {
-            config[name] = { path, test };
-          } else {
-            throw new Error(`Can't parse entry test pattern configuration: "${patterns}"`);
-          }
-        } else {
-          throw new Error(`Can't parse entry path configuration: "${pattern}"`);
+    protected stringsToEntries(strings: string[]): Container<EntryConfig> {
+        if (!strings.length) {
+            return {};
         }
-      } else {
-        throw new Error(`Can't parse entry configuration: "${string}"`);
-      }
+
+        const config = {};
+
+        for (const string of strings) {
+            const [, name, pattern] = string.match(/^([^=]+)=(.*)$/) || [null, null, null];
+
+            if (name && pattern) {
+                const [, path, patterns] = pattern.match(/^(.*){(.*)}$/) || [null, null, null];
+
+                if (path && patterns) {
+                    const test = patterns
+                        .split(',')
+                        .filter(Boolean)
+                        .map(test => ({
+                            event: 'change',
+                            pattern: new RegExp(`${Strings.escapeRegExp(test)}$`),
+                        }))
+                    ;
+
+                    if (test.length) {
+                        config[name] = { path, test };
+                    } else {
+                        throw new Error(`Can't parse entry test pattern configuration: "${patterns}"`);
+                    }
+                } else {
+                    throw new Error(`Can't parse entry path configuration: "${pattern}"`);
+                }
+            } else {
+                throw new Error(`Can't parse entry configuration: "${string}"`);
+            }
+        }
+
+        return config;
     }
 
-    return config;
-  }
+    protected options(defaults: Partial<T>): any {
+        return {
+            'Basic options': {
+                'entry': {
+                    'type': 'array',
+                    'alias': 'e',
+                    'describe': 'Patterns to capture entry files to process',
+                    'default': this.entriesToStrings(defaults.entry!),
+                    'mapper': this.entriesToConfigDefault,
+                    'requiresArg': true,
+                },
+                'work-dir': {
+                    'type': 'string',
+                    'alias': 'd',
+                    'describe': 'Working directory to resolve as root for namespaces',
+                    'default': defaults.paths!.project || process.cwd(),
+                    'path': true,
+                    'requiresArg': true,
+                },
+                'lib-dir': {
+                    'type': 'string',
+                    'alias': 'l',
+                    'describe': 'Directory to resolve as root for internal libraries',
+                    'default': defaults.paths!.internal || process.cwd(),
+                    'path': true,
+                    'requiresArg': true,
+                },
+                'lib-name': {
+                    'type': 'string',
+                    'alias': 'n',
+                    'describe': 'Internal libraries root identifier',
+                    'default': defaults.paths!.internalName,
+                    'requiresArg': true,
+                },
+            },
+            'Emit options': {
+                'output-emit-files': {
+                    'type': 'boolean',
+                    'describe': 'Emit files',
+                    'default': defaults.emit!.files,
+                    'requiresArg': false,
+                },
+                'output-emit-stats': {
+                    'type': 'boolean',
+                    'describe': 'Emit compilation stat event to console output',
+                    'default': defaults.emit!.stats,
+                    'requiresArg': false,
+                },
+                'output-emit-config': {
+                    'type': 'boolean',
+                    'describe': 'Emit to console the config, reconciled form command-line',
+                    'default': defaults.emit!.config,
+                    'requiresArg': false,
+                },
+                'output-dir': {
+                    'type': 'string',
+                    'alias': 'o',
+                    'describe': 'Directory to output emitted files to',
+                    'default': defaults.output!.path,
+                    'path': true,
+                    'requiresArg': true,
+                },
+                'output-extension': {
+                    'type': 'string',
+                    'describe': 'Extension to emit files with',
+                    'default': defaults.output!.extension,
+                    'requiresArg': true,
+                },
+                'verbose': {
+                    'type': 'boolean',
+                    'describe': 'Print native errors stack in stack-traces',
+                    'default': defaults.emit!.verbose,
+                    'requiresArg': false,
+                },
+            },
+        };
+    }
 
-  protected options(defaults: Partial<T>): any {
-    return {
-      "Basic options": {
-        "entry": {
-          "type": "array",
-          "alias": "e",
-          "describe": "Patterns to capture entry files to process",
-          "default": this.entriesToStrings(defaults.entry!),
-          "mapper": this.entriesToConfigDefault,
-          "requiresArg": true,
-        },
-        "work-dir": {
-          "type": "string",
-          "alias": "d",
-          "describe": "Working directory to resolve as root for namespaces",
-          "default": defaults.paths!.project || process.cwd(),
-          "path": true,
-          "requiresArg": true,
-        },
-        "lib-dir": {
-          "type": "string",
-          "alias": "l",
-          "describe": "Directory to resolve as root for internal libraries",
-          "default": defaults.paths!.internal || process.cwd(),
-          "path": true,
-          "requiresArg": true,
-        },
-        "lib-name": {
-          "type": "string",
-          "alias": "n",
-          "describe": "Internal libraries root identifier",
-          "default": defaults.paths!.internalName,
-          "requiresArg": true,
-        },
-      },
-      "Emit options": {
-        "output-emit-files": {
-          "type": "boolean",
-          "describe": "Emit files",
-          "default": defaults.emit!.files,
-          "requiresArg": false,
-        },
-        "output-emit-stats": {
-          "type": "boolean",
-          "describe": "Emit compilation stat event to console output",
-          "default": defaults.emit!.stats,
-          "requiresArg": false,
-        },
-        "output-emit-config": {
-          "type": "boolean",
-          "describe": "Emit to console the config, reconciled form command-line",
-          "default": defaults.emit!.config,
-          "requiresArg": false,
-        },
-        "output-dir": {
-          "type": "string",
-          "alias": "o",
-          "describe": "Directory to output emitted files to",
-          "default": defaults.output!.path,
-          "path": true,
-          "requiresArg": true,
-        },
-        "output-extension": {
-          "type": "string",
-          "describe": "Extension to emit files with",
-          "default": defaults.output!.extension,
-          "requiresArg": true,
-        },
-        "verbose": {
-          "type": "boolean",
-          "describe": "Print native errors stack in stack-traces",
-          "default": defaults.emit!.verbose,
-          "requiresArg": false,
-        },
-      },
-    };
-  }
+    private paths(): PathsConfig {
+        return {
+            project: path.resolve(this.get('work-dir')),
+            internal: path.resolve(this.get('lib-dir')),
+            internalName: this.get('lib-name'),
+        } satisfies PathsConfig;
+    }
 
-  private paths(): PathsConfig {
-    return {
-      project: path.resolve(this.get("work-dir")),
-      internal: path.resolve(this.get("lib-dir")),
-      internalName: this.get("lib-name"),
-    } satisfies PathsConfig;
-  }
+    private entry() {
+        return this.stringsToEntries(this.get('entry'));
+    }
 
-  private entry() {
-    return this.stringsToEntries(this.get("entry"));
-  }
+    protected emit(): EmitConfig {
+        return {
+            files: this.get('output-emit-files'),
+            stats: this.get('output-emit-stats'),
+            config: this.get('output-emit-config'),
+            verbose: this.get('verbose'),
+        };
+    }
 
-  protected emit(): EmitConfig {
-    return {
-      files: this.get("output-emit-files"),
-      stats: this.get("output-emit-stats"),
-      config: this.get("output-emit-config"),
-      verbose: this.get("verbose"),
-    };
-  }
+    private output(): OutputConfig {
+        return <OutputConfig>{
+            extension: this.get('output-extension'),
+            path: path.resolve(this.get('output-dir')),
+        };
+    }
 
-  private output(): OutputConfig {
-    return <OutputConfig> {
-      extension: this.get("output-extension"),
-      path: path.resolve(this.get("output-dir")),
-    };
-  }
+    protected interpreter(): InterpreterConfig {
+        return {};
+    }
 
-  protected interpreter(): InterpreterConfig {
-    return {
-    };
-  }
-
-  public build(core: Core<T, any, any>) {
-    return <T> {
-      paths: this.paths(),
-      entry: this.entry(),
-      emit: this.emit(),
-      output: this.output(),
-      interpreter: this.interpreter(),
-    };
-  }
+    public build(core: Core<T, any, any>) {
+        return <T>{
+            paths: this.paths(),
+            entry: this.entry(),
+            emit: this.emit(),
+            output: this.output(),
+            interpreter: this.interpreter(),
+        };
+    }
 }

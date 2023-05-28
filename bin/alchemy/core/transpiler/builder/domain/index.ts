@@ -6,18 +6,18 @@ import { EnumChildren, EnumBuilder } from './EnumBuilder';
 import { factory as interfaceBuildersFactory, DomainInterfaceDependencies, DomainInterfaceInvokers } from './interface';
 
 export type DomainInvokers = DomainInterfaceInvokers & {
-  domain: DomainNode;
-  enum: EnumNode;
+    domain: DomainNode;
+    enum: EnumNode;
 };
 export type DomainDependencies =
-  DomainChildren &
-  EnumChildren &
-  DomainInterfaceDependencies;
+    DomainChildren &
+    EnumChildren &
+    DomainInterfaceDependencies;
 
 export const factory = (invokers: BuilderInvokers<DomainDependencies>): InvokableVisitors<DomainInvokers> => {
-  return {
-    domain: new DomainBuilder(invokers),
-    enum  : new EnumBuilder(invokers),
-    ...interfaceBuildersFactory(invokers),
-  };
+    return {
+        domain: new DomainBuilder(invokers),
+        enum: new EnumBuilder(invokers),
+        ...interfaceBuildersFactory(invokers),
+    };
 };

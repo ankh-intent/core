@@ -1,4 +1,3 @@
-
 const pit = (text, provider, block) => {
   const data = provider();
 
@@ -11,4 +10,4 @@ const pit = (text, provider, block) => {
 
 export {
   pit,
-}
+};

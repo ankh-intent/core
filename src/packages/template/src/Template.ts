@@ -22,24 +22,24 @@ export class Template<S> implements TemplateInterface<S, string[]> {
         this.line,
         data,
         this.consume,
-        this.resolver
-      )
+        this.resolver,
+      ),
     );
   }
 
-  protected consume(lines: string|string[], match: MatchedPlaceholder, data: any): string[] {
+  protected consume(lines: string | string[], match: MatchedPlaceholder, data: any): string[] {
     let str;
 
     if (data !== null) {
       if (Array.isArray(data)) {
         return Strings.fold(
-          data.map((item) => this.consume(lines, match, item))
+          data.map((item) => this.consume(lines, match, item)),
         );
       }
 
       if (typeof data === 'object') {
         return Strings.fold(
-          Object.values(data).map((data) => this.consume(lines, match, data))
+          Object.values(data).map((data) => this.consume(lines, match, data)),
         );
       }
 
@@ -51,11 +51,11 @@ export class Template<S> implements TemplateInterface<S, string[]> {
     return (
       (typeof lines === 'string')
         ? [
-            lines.substr(0, match.open) + str + lines.substr(match.close)
-          ]
+          lines.substr(0, match.open) + str + lines.substr(match.close),
+        ]
         : lines.map((line: string) => (
-            line.substr(0, match.open) + str + line.substr(match.close)
-          ))
+          line.substr(0, match.open) + str + line.substr(match.close)
+        ))
     );
   }
 }

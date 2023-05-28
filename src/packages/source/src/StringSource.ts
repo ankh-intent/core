@@ -1,4 +1,3 @@
-
 import { Source } from './Source';
 
 export class StringSource extends Source {

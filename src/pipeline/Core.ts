@@ -3,16 +3,16 @@ import { Emitter, Logger, UnitMatcher } from '@intent/utils';
 import { RecursiveFinder } from '@intent/source';
 
 import {
-  CoreLogger,
-  TreeNode,
-  Identifiable,
-  CoreEvent,
-  CoreEventBus,
-  EventChainInterface,
-  FatalEvent,
-  ReadyEvent,
-  StopEvent,
-  UpdateEvent,
+    CoreLogger,
+    TreeNode,
+    Identifiable,
+    CoreEvent,
+    CoreEventBus,
+    EventChainInterface,
+    FatalEvent,
+    ReadyEvent,
+    StopEvent,
+    UpdateEvent,
 } from '../kernel';
 import { ErrorConsumer, StatConsumer, EventChainMonitor } from '../consumers';
 import { CoreConfig } from '../CoreConfig';
@@ -21,99 +21,99 @@ import { PipelineObserverFactory } from './PipelineObserver';
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
 
 export interface ConfigFactory<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> {
-  (core: Core<C, N, T>, config: CoreConfig): C;
+    (core: Core<C, N, T>, config: CoreConfig): C;
 }
 
 export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> extends Emitter<CoreEventEmitter<any>> {
-  private readonly eventChainMonitor: EventChainMonitor<CoreEvent>;
+    private readonly eventChainMonitor: EventChainMonitor<CoreEvent>;
 
-  public readonly events: CoreEventBus;
-  public readonly plugins: PluginRegistry;
-  public readonly logger: Logger;
+    public readonly events: CoreEventBus;
+    public readonly plugins: PluginRegistry;
+    public readonly logger: Logger;
 
-  public constructor() {
-    super();
-    this.logger = new CoreLogger();
-    this.events = new CoreEventBus();
-    this.plugins = new PluginRegistry();
-    this.eventChainMonitor = new EventChainMonitor(this.events);
-  }
+    public constructor() {
+        super();
+        this.logger = new CoreLogger();
+        this.events = new CoreEventBus();
+        this.plugins = new PluginRegistry();
+        this.eventChainMonitor = new EventChainMonitor(this.events);
+    }
 
-  public registerPlugin(plugin: Plugin) {
-    this.plugins.register(plugin);
-  }
+    public registerPlugin(plugin: Plugin) {
+        this.plugins.register(plugin);
+    }
 
-  public bootstrap(config: CoreConfig, configFactory: ConfigFactory<C, N, T>, observerFactory: PipelineObserverFactory<C, N, T>): C {
-    const resolved = configFactory(this, config);
-    const observer = observerFactory(this, resolved);
+    public bootstrap(config: CoreConfig, configFactory: ConfigFactory<C, N, T>, observerFactory: PipelineObserverFactory<C, N, T>): C {
+        const resolved = configFactory(this, config);
+        const observer = observerFactory(this, resolved);
 
-    this.events
-      .reset()
-      .add(this.eventChainMonitor);
+        this.events
+            .reset()
+            .add(this.eventChainMonitor);
 
-    observer.bootstrap(this, resolved);
+        observer.bootstrap(this, resolved);
 
-    this.events
-      .add(new ErrorConsumer(this.events, resolved, this.logger))
-      .add(new StatConsumer(this.events, resolved, this.logger))
-      .add(this.eventChainMonitor)
-      .add({
-        consume: (event) => {
-          this.emit(event);
+        this.events
+            .add(new ErrorConsumer(this.events, resolved, this.logger))
+            .add(new StatConsumer(this.events, resolved, this.logger))
+            .add(this.eventChainMonitor)
+            .add({
+                consume: (event) => {
+                    this.emit(event);
 
-          if (event instanceof FatalEvent) {
-            this.stop();
-          }
+                    if (event instanceof FatalEvent) {
+                        this.stop();
+                    }
+                },
+            })
+        ;
+
+        return resolved;
+    }
+
+    public start(config: C): this {
+        const updates: CoreEvent[] = [];
+
+        for (const [name, entry] of Object.entries(config.entry)) {
+            updates.push(
+                ...this
+                    .matched(entry.path, entry.test)
+                    .map((path) => new UpdateEvent({ event: 'change', path, entry: name })),
+            );
         }
-      })
-    ;
 
-    return resolved;
-  }
+        this.eventChainMonitor
+            .monitor(updates)
+            .once((data: EventChainInterface) => {
+                this.events.emit(new ReadyEvent(data));
+            })
+        ;
 
-  public start(config: C): this {
-    const updates: CoreEvent[] = [];
+        for (const update of updates) {
+            this.events.emit(update);
+        }
 
-    for (const [name, entry] of Object.entries(config.entry)) {
-      updates.push(
-        ...this
-          .matched(entry.path, entry.test)
-          .map((path) => new UpdateEvent({ event: 'change', path, entry: name }))
-      )
+        return this;
     }
 
-    this.eventChainMonitor
-      .monitor(updates)
-      .once((data: EventChainInterface) => {
-        this.events.emit(new ReadyEvent(data))
-      })
-    ;
-
-    for (const update of updates) {
-      this.events.emit(update);
+    public stop(cause?: CoreEvent) {
+        this.events.emit(new StopEvent({}, cause));
     }
 
-    return this;
-  }
+    protected matched(root: string, matchers: UnitMatcher[]) {
+        const finder = new RecursiveFinder();
+        const paths: string[] = [];
 
-  public stop(cause?: CoreEvent) {
-    this.events.emit(new StopEvent({}, cause));
-  }
+        for (const matcher of matchers) {
+            const found = finder.find(root, matcher);
 
-  protected matched(root: string, matchers: UnitMatcher[]) {
-    const finder = new RecursiveFinder();
-    const paths: string[] = [];
+            if (found) {
+                paths.push(found);
+            }
+        }
 
-    for (const matcher of matchers) {
-      const found = finder.find(root, matcher);
 
-      if (found) {
-        paths.push(found);
-      }
+        return paths;
     }
-
-
-    return paths;
-  }
 }
 

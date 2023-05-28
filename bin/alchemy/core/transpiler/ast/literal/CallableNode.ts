@@ -3,13 +3,13 @@ import { AbstractNode } from '@intent/kernel';
 import { FunctorNode } from '../functor';
 
 export class CallableNode extends AbstractNode {
-  constructor(
-    public functor: FunctorNode,
-  ) {
-    super();
-  }
+    constructor(
+        public functor: FunctorNode,
+    ) {
+        super();
+    }
 
-  get children() {
-    return [this.functor];
-  }
+    get children() {
+        return [this.functor];
+    }
 }

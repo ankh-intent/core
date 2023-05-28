@@ -12,15 +12,15 @@ export interface MatcherInterface {
 }
 
 interface MatchInvoker<T> {
-  (match?: MatcherInterface|string): T;
+  (match?: MatcherInterface | string): T;
 }
 
 interface PeekMatchInvoker<T> {
-  (match?: MatcherInterface|string, offset?: number): T;
+  (match?: MatcherInterface | string, offset?: number): T;
 }
 
 interface IsMatchInvoker<T> {
-  (token: Token, match?: MatcherInterface|string): T;
+  (token: Token, match?: MatcherInterface | string): T;
 }
 
 export interface TypeMatcherInterface<TT extends BaseTokenTypes, T> {
@@ -32,6 +32,7 @@ export interface TypeMatcherInterface<TT extends BaseTokenTypes, T> {
   comment: MatchInvoker<T>;
   whitespace: MatchInvoker<T>;
 }
+
 export interface PeekTypeMatcherInterface<TT extends BaseTokenTypes, T> {
   any: PeekMatchInvoker<Token>;
   symbol: PeekMatchInvoker<T>;
@@ -41,6 +42,7 @@ export interface PeekTypeMatcherInterface<TT extends BaseTokenTypes, T> {
   comment: PeekMatchInvoker<T>;
   whitespace: PeekMatchInvoker<T>;
 }
+
 export interface IsTypeMatcherInterface<TT extends BaseTokenTypes, T> {
   any: IsMatchInvoker<Token>;
   symbol: IsMatchInvoker<T>;
@@ -52,9 +54,9 @@ export interface IsTypeMatcherInterface<TT extends BaseTokenTypes, T> {
 }
 
 export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenTypes> = {
-  peek: PeekTypeMatcherInterface<TT, string|null>;
-  get: TypeMatcherInterface<TT, string|null>;
-  except: TypeMatcherInterface<TT, Token|null>;
+  peek: PeekTypeMatcherInterface<TT, string | null>;
+  get: TypeMatcherInterface<TT, string | null>;
+  except: TypeMatcherInterface<TT, Token | null>;
   not: TypeMatcherInterface<TT, boolean>;
   ensure: TypeMatcherInterface<TT, string>;
   is: IsTypeMatcherInterface<TT, boolean>;
@@ -84,7 +86,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
   private readonly types: TT;
   private _matcher: TypedTokenMatcherInterface<TT>;
 
-  public peek(matcher: MatcherInterface, offset: number = 0): Token|null {
+  public peek(matcher: MatcherInterface, offset: number = 0): Token | null {
     const token = this.at(this.current() + offset + 1);
 
     if (token) {
@@ -102,7 +104,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     return token;
   }
 
-  public get(matcher: MatcherInterface): Token|null {
+  public get(matcher: MatcherInterface): Token | null {
     const token = this.peek(matcher);
 
     if (token) {
@@ -116,7 +118,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     return !this.get(matcher);
   }
 
-  public except(matcher: MatcherInterface): Token|null {
+  public except(matcher: MatcherInterface): Token | null {
     return this.peek(matcher)
       ? null
       : this.get({});
@@ -144,7 +146,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     return token;
   }
 
-  public is(matcher: MatcherInterface, token: Token): Token|false {
+  public is(matcher: MatcherInterface, token: Token): Token | false {
     const { value, type } = matcher;
 
     if (type && (token.type !== type)) {

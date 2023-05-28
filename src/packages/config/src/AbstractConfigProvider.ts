@@ -24,7 +24,7 @@ export abstract class AbstractConfigProvider<O, C> {
 
   protected argv() {
     const map = this.options(
-      this.defaults()
+      this.defaults(),
     );
     const options = {};
 
@@ -46,17 +46,17 @@ export abstract class AbstractConfigProvider<O, C> {
         }
 
         options[name] = Object.assign(
-          { group: group + ':', },
+          { group: group + ':' },
           option,
         );
       }
     }
 
     const built = usage(this.usage())
-      .help("help")
+      .help('help')
       .version()
-      .alias("help", "h")
-      .alias("version", "v")
+      .alias('help', 'h')
+      .alias('version', 'v')
       .options(options)
     ;
 
@@ -94,5 +94,6 @@ export abstract class AbstractConfigProvider<O, C> {
   }
 
   protected abstract options(def: Partial<O>): any;
+
   public abstract build(core: C): O;
 }

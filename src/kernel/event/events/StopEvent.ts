@@ -1,4 +1,3 @@
-
 import { BaseCoreEvent } from '../CoreEvent';
 
 export interface StopEventProps {

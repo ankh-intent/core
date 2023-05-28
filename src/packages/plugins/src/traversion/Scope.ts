@@ -25,7 +25,7 @@ export class Scope<T, N extends keyof T = keyof T> {
     return delete this.data[name];
   }
 
-  get(name: N): T[N]|undefined {
+  get(name: N): T[N] | undefined {
     return this.data[name] || this.parentScope?.get(name);
   }
 }

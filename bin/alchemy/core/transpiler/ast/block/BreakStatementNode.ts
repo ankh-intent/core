@@ -1,14 +1,14 @@
 import { StatementNode } from './StatementNode';
 
 export enum BreakType {
-  Break,
-  Continue,
+    Break,
+    Continue,
 }
 
 export class BreakStatementNode extends StatementNode {
-  constructor(
-    public type: BreakType,
-  ) {
-    super();
-  }
+    constructor(
+        public type: BreakType,
+    ) {
+        super();
+    }
 }

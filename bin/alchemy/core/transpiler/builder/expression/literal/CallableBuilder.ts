@@ -4,15 +4,15 @@ import { FunctorNode, CallableNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
 export type CallableChildren = {
-  functor: FunctorNode;
+    functor: FunctorNode;
 };
 
 export class CallableBuilder extends BaseBuilder<CallableNode, CallableChildren> {
-  protected build(tokens, {}: TypedTokenMatcherInterface) {
-    const functor = this.child.functor(tokens);
+    protected build(tokens, {}: TypedTokenMatcherInterface) {
+        const functor = this.child.functor(tokens);
 
-    return new CallableNode(
-      functor,
-    );
-  }
+        return new CallableNode(
+            functor,
+        );
+    }
 }

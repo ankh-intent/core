@@ -1,2 +1,2 @@
-export * from  './Interface';
-export * from  './InterfaceProperty';
+export * from './Interface';
+export * from './InterfaceProperty';

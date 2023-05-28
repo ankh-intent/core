@@ -7,10 +7,10 @@ import { CompoundEmitResolver } from './CompoundEmitResolver';
 import { InternalEmitResolver } from './InternalEmitResolver';
 
 export class EmitResolver<N extends TreeNode, T extends Identifiable<N>> extends CompoundEmitResolver<N, T> {
-  public constructor(config: CoreConfig) {
-    super([
-      new InternalEmitResolver(config, '@lib'),
-      new BaseEmitResolver(config),
-    ]);
-  }
+    public constructor(config: CoreConfig) {
+        super([
+            new InternalEmitResolver(config, '@lib'),
+            new BaseEmitResolver(config),
+        ]);
+    }
 }

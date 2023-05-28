@@ -3,17 +3,17 @@ import { LoopStatementNode, BlockNode, LoopIteratorNode } from '../../../../ast'
 import { NodeTranslator } from '../../../NodeTranslator';
 
 export type LoopStatementTranslatorChildren = {
-  block: BlockNode;
-  loop_iterator: LoopIteratorNode;
+    block: BlockNode;
+    loop_iterator: LoopIteratorNode;
 };
 
 export class LoopStatementTranslator extends NodeTranslator<LoopStatement, LoopStatementTranslatorChildren> {
-  translate(node: LoopStatementNode, c): LoopStatement {
-    const { node: loop, context } = c.spawn(LoopStatement, node);
+    translate(node: LoopStatementNode, c): LoopStatement {
+        const { node: loop, context } = c.spawn(LoopStatement, node);
 
-    loop.iterator = this.child.loop_iterator(node.iterator, context);
-    loop.block = this.child.block(node.block, c);
+        loop.iterator = this.child.loop_iterator(node.iterator, context);
+        loop.block = this.child.block(node.block, c);
 
-    return loop;
-  }
+        return loop;
+    }
 }

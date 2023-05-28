@@ -25,7 +25,7 @@ export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> exten
           },
         },
         parent: env.event,
-      }))
+      }));
     }
   }
 

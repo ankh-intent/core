@@ -1,4 +1,3 @@
-
 import { Source } from '../../source';
 
 export class Token {

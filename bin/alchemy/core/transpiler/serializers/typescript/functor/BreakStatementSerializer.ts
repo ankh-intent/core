@@ -2,16 +2,16 @@ import { BlockNode, BreakStatementNode, BreakType } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
 
 export type BreakStatementSerializerChildren = {
-  block: BlockNode;
+    block: BlockNode;
 };
 
 const KEYWORDS = {
-  [BreakType.Break]: 'break',
-  [BreakType.Continue]: 'continue',
+    [BreakType.Break]: 'break',
+    [BreakType.Continue]: 'continue',
 };
 
 export class BreakStatementSerializer extends NodeSerializer<BreakStatementNode, BreakStatementSerializerChildren> {
-  serialize(node: BreakStatementNode): string {
-    return KEYWORDS[node.type];
-  }
+    serialize(node: BreakStatementNode): string {
+        return KEYWORDS[node.type];
+    }
 }

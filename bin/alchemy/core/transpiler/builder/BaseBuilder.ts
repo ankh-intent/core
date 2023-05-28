@@ -3,11 +3,10 @@ import { TreeNode, BaseBuilder as Builder, BuilderInvokers } from '@intent/kerne
 import { Container } from '@intent/utils';
 
 export abstract class BaseBuilder<
-  N extends TreeNode,
-  I extends Container<TreeNode>,
-  TT extends BaseTokenTypes = BaseTokenTypes,
+    N extends TreeNode,
+    I extends Container<TreeNode>,
+    TT extends BaseTokenTypes = BaseTokenTypes,
 >
-  extends Builder<TT, N, BuilderInvokers<I, TT>>
-{
-  protected abstract build(tokens: TokenMatcher<TT>, matcher: TypedTokenMatcherInterface<TT>): N|null
+    extends Builder<TT, N, BuilderInvokers<I, TT>> {
+    protected abstract build(tokens: TokenMatcher<TT>, matcher: TypedTokenMatcherInterface<TT>): N | null
 }

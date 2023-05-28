@@ -20,11 +20,11 @@ export abstract class InterpretPlugin<N extends TreeNode, T extends Identifiable
 
   protected abstract createContext(env: PluginEnvironment<PatchedASTEvent<N, T>>): C;
 
-  protected visitRoot(env: PluginEnvironment<PatchedASTEvent<N, T>>, root: N, context: C): boolean|void {
+  protected visitRoot(env: PluginEnvironment<PatchedASTEvent<N, T>>, root: N, context: C): boolean | void {
     return this.visit(root, context);
   }
 
-  protected visit(node: TreeNode, context: C): boolean|void {
+  protected visit(node: TreeNode, context: C): boolean | void {
     if (false === this.pre(node, context)) {
       return false;
     }
@@ -36,13 +36,13 @@ export abstract class InterpretPlugin<N extends TreeNode, T extends Identifiable
     return this.post(node, context);
   }
 
-  protected pre(node: TreeNode, context: C): boolean|void {
+  protected pre(node: TreeNode, context: C): boolean | void {
   }
 
-  protected child(node: TreeNode, context: C): boolean|void {
+  protected child(node: TreeNode, context: C): boolean | void {
     return this.visit(node, context);
   }
 
-  protected post(node: TreeNode, context: C): boolean|void {
+  protected post(node: TreeNode, context: C): boolean | void {
   }
 }

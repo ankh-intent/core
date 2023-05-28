@@ -4,10 +4,10 @@ import { Translated } from '../../../../../Translated';
 import { Expression } from '../Expression';
 
 export class ObjectProperty extends Translated<ObjectPropertyNode> {
-  public identifier: string;
-  public expression: Expression;
+    public identifier: string;
+    public expression: Expression;
 
-  toString() {
-    return `${this.identifier}: ${this.expression}`;
-  }
+    toString() {
+        return `${this.identifier}: ${this.expression}`;
+    }
 }

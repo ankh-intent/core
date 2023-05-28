@@ -1,28 +1,31 @@
 {
-  "compilerOptions": {
-    "outDir": ".",
-    "rootDir": "../..",
-    "inlineSourceMap": true,
-    "noEmit": true,
-    "module": "NodeNext",
-    "target": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true,
-    "strictNullChecks": true,
-    "lib": [
-      "ESNext"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@intent/*": ["../../src/packages/*", "../../src/*"]
-    }
-  },
-  "exclude": [
-    "../node_modules",
-    "doc",
-    "./build",
-    "*.a.ts"
-  ]
+    "compilerOptions": {
+        "outDir": ".",
+        "rootDir": "../..",
+        "inlineSourceMap": true,
+        "noEmit": true,
+        "module": "NodeNext",
+        "target": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true,
+        "strictNullChecks": true,
+        "lib": [
+            "ESNext"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@intent/*": [
+                "../../src/packages/*",
+                "../../src/*"
+            ]
+        }
+    },
+    "exclude": [
+        "../node_modules",
+        "doc",
+        "./build",
+        "*.a.ts"
+    ]
 }

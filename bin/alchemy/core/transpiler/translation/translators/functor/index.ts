@@ -8,26 +8,26 @@ import { FunctorTranslator, FunctorTranslatorChildren } from './FunctorTranslato
 import { StatementInvokers, StatementDependencies, factory as statementsTranslatorsFactory } from './statements';
 
 export type FunctorInvokers = StatementInvokers & {
-  functor: FunctorNode;
-  functor_args: FunctorArgsNode;
-  functor_arg: FunctorArgNode;
-  functor_body: FunctorBodyNode;
+    functor: FunctorNode;
+    functor_args: FunctorArgsNode;
+    functor_arg: FunctorArgNode;
+    functor_body: FunctorBodyNode;
 };
 
 export type FunctorDependencies =
-  FunctorArgsTranslatorChildren &
-  FunctorArgTranslatorChildren &
-  FunctorBodyTranslatorChildren &
-  StatementDependencies &
-  FunctorTranslatorChildren
-;
+    FunctorArgsTranslatorChildren &
+    FunctorArgTranslatorChildren &
+    FunctorBodyTranslatorChildren &
+    StatementDependencies &
+    FunctorTranslatorChildren
+    ;
 
 export const factory = (invokers: NodeInvokers<FunctorDependencies>): InvokableVisitors<FunctorInvokers> => {
-  return {
-    functor     : new FunctorTranslator(invokers),
-    functor_args: new FunctorArgsTranslator(invokers),
-    functor_arg : new FunctorArgTranslator(invokers),
-    functor_body: new FunctorBodyTranslator(invokers),
-    ...statementsTranslatorsFactory(invokers),
-  };
+    return {
+        functor: new FunctorTranslator(invokers),
+        functor_args: new FunctorArgsTranslator(invokers),
+        functor_arg: new FunctorArgTranslator(invokers),
+        functor_body: new FunctorBodyTranslator(invokers),
+        ...statementsTranslatorsFactory(invokers),
+    };
 };

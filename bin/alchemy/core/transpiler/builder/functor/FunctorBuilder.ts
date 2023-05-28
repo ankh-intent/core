@@ -4,31 +4,31 @@ import { FunctorNode, ReferenceNode, FunctorArgsNode, FunctorBodyNode } from '..
 import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorChildren = {
-  type: ReferenceNode;
-  functor_args: FunctorArgsNode;
-  functor_body: FunctorBodyNode;
+    type: ReferenceNode;
+    functor_args: FunctorArgsNode;
+    functor_body: FunctorBodyNode;
 }
 
 export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
-  protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
-    ensure.symbol('(');
+    protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
+        ensure.symbol('(');
 
-    const args = this.child.functor_args(tokens);
+        const args = this.child.functor_args(tokens);
 
-    ensure.symbol(')');
+        ensure.symbol(')');
 
-    tokens.mark('IS_FUNCTOR');
+        tokens.mark('IS_FUNCTOR');
 
-    const returns = get.symbol(':') ? this.child.type(tokens) : null;
+        const returns = get.symbol(':') ? this.child.type(tokens) : null;
 
-    ensure.symbol('=>');
+        ensure.symbol('=>');
 
-    const body = this.child.functor_body(tokens);
+        const body = this.child.functor_body(tokens);
 
-    return new FunctorNode(
-      args,
-      returns,
-      body,
-    );
-  }
+        return new FunctorNode(
+            args,
+            returns,
+            body,
+        );
+    }
 }

@@ -6,22 +6,22 @@ import { compilerOptions } from './tsconfig.json';
 
 const baseUrl = path.resolve(compilerOptions.baseUrl);
 const cleanup = register({
-  baseUrl,
-  paths: compilerOptions.paths
+    baseUrl,
+    paths: compilerOptions.paths,
 });
 
 (async () => {
-  const { factory } = await import('./core');
+    const { factory } = await import('./core');
 
-  try {
-    await factory();
+    try {
+        await factory();
 
-    console.log('Done.');
-  } catch (e) {
-    console.error(e);
+        console.log('Done.');
+    } catch (e) {
+        console.error(e);
 
-    process.exit(1);
-  } finally {
-    cleanup();
-  }
+        process.exit(1);
+    } finally {
+        cleanup();
+    }
 })();

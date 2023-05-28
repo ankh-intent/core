@@ -3,9 +3,9 @@ import { Translated } from '../../../../../Translated';
 import { Functor } from '../../../Functor';
 
 export class Callable extends Translated<CallableNode> {
-  public functor: Functor;
+    public functor: Functor;
 
-  toString() {
-    return `${this.functor}`;
-  }
+    toString() {
+        return `${this.functor}`;
+    }
 }
