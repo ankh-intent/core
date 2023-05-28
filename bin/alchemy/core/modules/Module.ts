@@ -1,7 +1,7 @@
 import { Identifiable } from '@intent/kernel';
 import { Strings } from '@intent/utils';
 
-import { ModuleNode } from '../transpiler/ast';
+import { ModuleNode, QualifierNode } from '../transpiler/ast';
 import { Domain, Uses } from './domain';
 import { DeclarationRegistry } from './DeclarationRegistry';
 import { Qualifier } from './reference';
@@ -13,9 +13,10 @@ export class Module extends DeclarationRegistry<ModuleNode> implements Identifia
   public domain: Domain;
   public uses: Uses;
 
-  constructor(uri: string) {
+  constructor(uri: string, qualifier: Qualifier) {
     super();
     this.uri = uri;
+    this.qualifier = qualifier;
   }
 
   public get identifier() {
@@ -27,11 +28,6 @@ export class Module extends DeclarationRegistry<ModuleNode> implements Identifia
   }
 
   toString() {
-    if (!this.qualifier) {
-      console.clear();
-      console.log(this);
-      process.exit(1);
-    }
     return `${this.uses}\nmodule "${this.identifier}" {\n${
       Strings.indent(String(this.domain).split('\n'), '  ').join('\n')
     }\n}`;

@@ -33,13 +33,12 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
 
   create(identifier: string): Module {
     const qualifier = this.qualifierResolver.resolve(identifier);
-    const module = new Module(identifier);
 
     if (qualifier) {
-      module.qualifier = qualifier;
+      return new Module(identifier, qualifier);
     }
 
-    return module;
+    throw new Error(`Can't resolve qualifier for "${identifier}"`);
   }
 
   resolve(module: Module): Container<Module> {

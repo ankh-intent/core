@@ -17,8 +17,8 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
   }
 
   protected parse(base: string, original: string): QualifierNode|null {
-    const parts = original
-      .substr(base.length)
+    const relative = original.startsWith(base) ? original.slice(base.length) : original;
+    const parts = relative
       .replace(/\.[^.]+$/ig, '')
       .split(path.sep)
       .filter((p) => p.trim() !== '')
