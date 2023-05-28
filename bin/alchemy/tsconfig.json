@@ -4,7 +4,7 @@
     "rootDir": "../..",
     "inlineSourceMap": true,
     "noEmit": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
     "target": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
