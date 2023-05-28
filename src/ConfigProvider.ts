@@ -93,6 +93,13 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
           "path": true,
           "requiresArg": true,
         },
+        "lib-name": {
+          "type": "string",
+          "alias": "n",
+          "describe": "Internal libraries root identifier",
+          "default": defaults.paths!.internalName,
+          "requiresArg": true,
+        },
       },
       "Emit options": {
         "output-emit-files": {
@@ -138,10 +145,11 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
   }
 
   private paths(): PathsConfig {
-    return <PathsConfig>{
+    return {
       project: path.resolve(this.get("work-dir")),
       internal: path.resolve(this.get("lib-dir")),
-    };
+      internalName: this.get("lib-name"),
+    } satisfies PathsConfig;
   }
 
   private entry() {
@@ -169,7 +177,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
     };
   }
 
-  public build(core) {
+  public build(core: Core<T, any, any>) {
     return <T> {
       paths: this.paths(),
       entry: this.entry(),

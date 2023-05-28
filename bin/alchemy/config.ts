@@ -10,6 +10,7 @@ const config: TranspilerConfig = {
   paths: {
     project,
     internal,
+    internalName: 'Alchemy',
   },
   entry: {
     index: {

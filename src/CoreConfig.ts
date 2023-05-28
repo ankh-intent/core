@@ -3,7 +3,8 @@ import { Container, UnitMatcher } from '@intent/utils';
 
 export interface PathsConfig {
   project: string;
-  internal: string;
+  internal: string
+  internalName: string;
 }
 
 export interface EntryConfig {

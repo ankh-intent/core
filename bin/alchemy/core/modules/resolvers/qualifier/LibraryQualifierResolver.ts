@@ -10,7 +10,7 @@ export class LibraryQualifierResolver extends BaseQualifierResolver {
     }
 
     return new QualifierNode(
-      'Alchemy',
+      this.config.internalName,
       this.parse(base, uri)
     );
   }
