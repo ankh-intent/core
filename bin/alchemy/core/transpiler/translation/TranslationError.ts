@@ -10,7 +10,7 @@ export class TranslationError extends SyntaxError {
             message,
             node.node,
             node.astRegion.source,
-            node.astRegion.source.position(node.astRegion.from),
+            node.astRegion.position,
             parent,
         );
     }

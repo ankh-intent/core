@@ -113,8 +113,8 @@ export abstract class BaseBuilder<
             return new SyntaxError(
                 reason,
                 expectation.node,
-                tokens.source,
-                tokens.source.position(expectation.astRegion.from),
+                expectation.astRegion.source,
+                expectation.astRegion.position,
                 parent,
             );
         }
