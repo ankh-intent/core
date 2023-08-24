@@ -97,8 +97,8 @@ export abstract class BaseBuilder<
         );
     }
 
-    protected seek(tokens: TokenMatcher<TT>, start: number, delta: number): Token | undefined {
-        let token;
+    protected seek(tokens: TokenMatcher<TT>, start: number, delta: number): Token | null {
+        let token: Token | null = null;
 
         do {
             start += delta;
