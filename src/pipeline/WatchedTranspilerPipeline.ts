@@ -1,7 +1,7 @@
-import { Container } from '@intent/utils';
-import { DummyWriter, FileWriter } from '@intent/source';
-import { BaseTokenTypes, TokensFactory } from '@intent/parser';
-import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
+import {Container} from '@intent/utils';
+import {DummyWriter, FileWriter} from '@intent/source';
+import {BaseTokenTypes, TokensFactory} from '@intent/parser';
+import {UnitInterface, Watchdog, WatchdogConfig} from '@intent/watchdog';
 
 import {
     IdentifiableFactory,
@@ -13,15 +13,15 @@ import {
     WatchAfterReadyStage,
     RunPlugins,
 } from '../consumers';
-import { Core } from './Core';
-import { CoreConfig } from '../CoreConfig';
+import {Core} from './Core';
+import {CoreConfig} from '../CoreConfig';
 import {
     TreeNode, Identifiable, DependencyManager,
     ReadyEvent, StopEvent,
     RootBuilder,
     EmitResolver,
 } from '../kernel';
-import { PipelineObserver } from './PipelineObserver';
+import {PipelineObserver} from './PipelineObserver';
 
 export interface TranspilerConfig extends CoreConfig {
     watch?: WatchdogConfig;

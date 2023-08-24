@@ -1,3 +1,3 @@
 export interface Container<T> {
-  [name: string]: T;
+    [name: string]: T;
 }

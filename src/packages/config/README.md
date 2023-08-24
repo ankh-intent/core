@@ -5,5 +5,5 @@ Intent language configuration provider.
 ### Changelog
 
 - 0.0.10 &rarr; 0.0.11
-  - Split into separate package.
+    - Split into separate package.
     

@@ -1,39 +1,39 @@
 {
-  "name": "intent",
-  "version": "0.0.10",
-  "description": "Intent language compiler core",
-  "main": "build/bin/intent.ts",
-  "types": "bin/intent.d.ts",
-  "scripts": {
-    "executable:alchemy": "chmod +x bin/alchemy/alchemy.ts",
-    "alchemy": "(cd bin/alchemy && ./alchemy.ts)",
-    "bump": "bin/bump.sh",
-    "test": "jasmine-ts --config=jasmine.json run '**/*Spec.ts'"
-  },
-  "keywords": [
-    "intent",
-    "intent-core"
-  ],
-  "author": "ankhzet@gmail.com",
-  "license": "ISC",
-  "dependencies": {
-    "chokidar": "^3.5.3",
-    "lodash": "^4.17.21",
-    "util": "^0.12.4",
-    "yargs": "^17.4.0"
-  },
-  "bin": {
-    "intent": "bin/alchemy/alchemy.ts"
-  },
-  "devDependencies": {
-    "@types/jasmine": "^3.0.0",
-    "@types/lodash": "^4.14.180",
-    "@types/node": "^17.0.23",
-    "jasmine": "^3.0.0",
-    "jasmine-core": "^3.0.0",
-    "jasmine-ts": "^0.4.0",
-    "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.0.4"
-  }
+    "name": "intent",
+    "version": "0.0.10",
+    "description": "Intent language compiler core",
+    "main": "build/bin/intent.ts",
+    "types": "bin/intent.d.ts",
+    "scripts": {
+        "executable:alchemy": "chmod +x bin/alchemy/alchemy.ts",
+        "alchemy": "(cd bin/alchemy && ./alchemy.ts)",
+        "bump": "bin/bump.sh",
+        "test": "jasmine-ts --config=jasmine.json run '**/*Spec.ts'"
+    },
+    "keywords": [
+        "intent",
+        "intent-core"
+    ],
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "dependencies": {
+        "chokidar": "^3.5.3",
+        "lodash": "^4.17.21",
+        "util": "^0.12.4",
+        "yargs": "^17.4.0"
+    },
+    "bin": {
+        "intent": "bin/alchemy/alchemy.ts"
+    },
+    "devDependencies": {
+        "@types/jasmine": "^3.0.0",
+        "@types/lodash": "^4.14.180",
+        "@types/node": "^17.0.23",
+        "jasmine": "^3.0.0",
+        "jasmine-core": "^3.0.0",
+        "jasmine-ts": "^0.4.0",
+        "ts-node": "^10.9.1",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.0.4"
+    }
 }

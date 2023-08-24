@@ -1,8 +1,8 @@
-import { Logger, Strings } from '@intent/utils';
-import { SyntaxError } from '@intent/parser';
-import { CoreConfig } from '../CoreConfig';
+import {Logger, Strings} from '@intent/utils';
+import {SyntaxError} from '@intent/parser';
+import {CoreConfig} from '../CoreConfig';
 
-import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '../kernel';
+import {CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent} from '../kernel';
 
 enum RefType {
     NATIVE,
@@ -35,7 +35,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         const causes: CoreEvent[] = [];
 
         while (parent) {
-            const { type, data } = parent;
+            const {type, data} = parent;
 
             if (type === ErrorEvent.type()) {
                 if (causes.length) {
@@ -229,7 +229,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
             }, [] as any)
             .map(def => (
                 (def.type === RefType.AST)
-                    ? { ...def, ref: `AST::${def.ref}` }
+                    ? {...def, ref: `AST::${def.ref}`}
                     : def
             ))
             ;

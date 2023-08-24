@@ -1,12 +1,12 @@
-import { Container } from '@intent/utils';
+import {Container} from '@intent/utils';
 
 import {
     TreeNode,
     Identifiable, DependencyNode, DependencyManager,
     AbstractConsumer, CoreEvent, CoreEventBus, UpdateEvent,
 } from '../../../kernel';
-import { PatchedASTEvent, DependencyModifiedEvent } from '../../flow-events';
-import { SynchronizeStat } from './SynchronizeStat';
+import {PatchedASTEvent, DependencyModifiedEvent} from '../../flow-events';
+import {SynchronizeStat} from './SynchronizeStat';
 
 export interface DependenciesResolver<N extends TreeNode, T extends Identifiable<N>> {
     resolve(identifiable: T): Container<T>;
@@ -27,12 +27,12 @@ export class SynchronizeAfterPatch<N extends TreeNode, T extends Identifiable<N>
     }
 
     public process(event: PatchedASTEvent<N, T>) {
-        const { dependency } = event.data;
+        const {dependency} = event.data;
 
         this.synchronize(dependency, event);
 
         return new DependencyModifiedEvent<N, T>(
-            { dependency },
+            {dependency},
             event,
         );
     }
@@ -71,7 +71,7 @@ export class SynchronizeAfterPatch<N extends TreeNode, T extends Identifiable<N>
 
         for (const dependency of unknown) {
             // todo: entry forwarding
-            this.emit(new UpdateEvent({ event: 'change', path: dependency.uri, entry: '%C' }, event));
+            this.emit(new UpdateEvent({event: 'change', path: dependency.uri, entry: '%C'}, event));
         }
     }
 }

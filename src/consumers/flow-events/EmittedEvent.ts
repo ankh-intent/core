@@ -1,5 +1,5 @@
-import { Source } from '@intent/source';
-import { BaseCoreEvent, DependencyNode, Identifiable, TreeNode } from '../../kernel';
+import {Source} from '@intent/source';
+import {BaseCoreEvent, DependencyNode, Identifiable, TreeNode} from '../../kernel';
 
 export interface EmittedEventProps<N extends TreeNode, T extends Identifiable<N>> {
     dependency: DependencyNode<N, T>;

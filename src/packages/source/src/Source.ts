@@ -1,109 +1,109 @@
-import * as util from 'util';
+import { inspect } from 'util';
 
 export class Range {
-  from: number;
-  to: number;
+    from: number;
+    to: number;
 }
 
 export interface OriginInterface {
-  line: number;
-  column: number;
+    line: number;
+    column: number;
 }
 
 export class Origin implements OriginInterface {
-  public source: Source;
-  public line: number;
-  public column: number;
+    public source: Source;
+    public line: number;
+    public column: number;
 
-  public constructor(source: Source, line: number, column: number) {
-    this.source = source;
-    this.line = line;
-    this.column = column;
-  }
+    public constructor(source: Source, line: number, column: number) {
+        this.source = source;
+        this.line = line;
+        this.column = column;
+    }
 
-  toString() {
-    return `${this.source.reference}:${this.line}:${this.column}`;
-  }
+    toString() {
+        return `${this.source.reference}:${this.line}:${this.column}`;
+    }
 
-  [util.inspect.custom]() {
-    return {
-      line: this.line,
-      column: this.column,
-    };
-  }
+    [inspect.custom]() {
+        return {
+            line: this.line,
+            column: this.column,
+        };
+    }
 }
 
 export class Source {
-  public readonly content: string;
-  public readonly reference: any;
+    public readonly content: string;
+    public readonly reference: any;
 
-  public extract(start: number, end: number): string {
-    return this.content.substr(start, end - start);
-  }
-
-  public at(index: number): string {
-    return this.content.charAt(index);
-  }
-
-  public range(): Range {
-    return { from: 0, to: this.content.length };
-  }
-
-  public location(pos: number): Origin {
-    let line = 1;
-    let col = 1;
-    let i = 0;
-
-    while (i < pos) {
-      if (this.at(i++) === '\n') {
-        line++;
-        col = 1;
-      } else {
-        col++;
-      }
+    public extract(start: number, end: number): string {
+        return this.content.slice(start, end - start);
     }
 
-    return new Origin(
-      this,
-      line,
-      col,
-    );
-  }
-
-  public position({ line, column }: OriginInterface): number {
-    if ((line == 1) && (column == 1)) {
-      return 0;
+    public at(index: number): string {
+        return this.content.charAt(index);
     }
 
-    const len = this.content.length;
-    let currentLine = 1;
-    let currentCol = 1;
-    let i = 0;
-
-    while (i < len) {
-      if (this.at(i++) === '\n') {
-        currentLine++;
-        currentCol = 1;
-      } else {
-        currentCol++;
-      }
-
-      if ((currentLine > line) || ((currentLine === line) && (currentCol > column))) {
-        return Math.max(0, i - 1);
-      }
-
-      if ((line === currentLine) && (column === currentCol)) {
-        return i;
-      }
+    public range(): Range {
+        return { from: 0, to: this.content.length };
     }
 
-    return len;
-  }
+    public location(pos: number): Origin {
+        let line = 1;
+        let col = 1;
+        let i = 0;
 
-  [util.inspect.custom]() {
-    return {
-      ...this,
-      content: '<...>',
-    };
-  }
+        while (i < pos) {
+            if (this.at(i++) === '\n') {
+                line++;
+                col = 1;
+            } else {
+                col++;
+            }
+        }
+
+        return new Origin(
+            this,
+            line,
+            col,
+        );
+    }
+
+    public position({ line, column }: OriginInterface): number {
+        if ((line == 1) && (column == 1)) {
+            return 0;
+        }
+
+        const len = this.content.length;
+        let currentLine = 1;
+        let currentCol = 1;
+        let i = 0;
+
+        while (i < len) {
+            if (this.at(i++) === '\n') {
+                currentLine++;
+                currentCol = 1;
+            } else {
+                currentCol++;
+            }
+
+            if ((currentLine > line) || ((currentLine === line) && (currentCol > column))) {
+                return Math.max(0, i - 1);
+            }
+
+            if ((line === currentLine) && (column === currentCol)) {
+                return i;
+            }
+        }
+
+        return len;
+    }
+
+    [inspect.custom]() {
+        return {
+            ...this,
+            content: '<...>',
+        };
+    }
 }

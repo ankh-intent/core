@@ -1,4 +1,4 @@
-import { TreeNode, BaseCoreEvent, DependencyNode, Identifiable } from '../../kernel';
+import {TreeNode, BaseCoreEvent, DependencyNode, Identifiable} from '../../kernel';
 
 export interface InterpretedEventProps<N extends TreeNode, T extends Identifiable<N>> {
     content: string;
