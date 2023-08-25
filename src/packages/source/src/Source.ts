@@ -38,7 +38,7 @@ export class Source {
     public readonly reference: any;
 
     public extract(start: number, end: number): string {
-        return this.content.slice(start, end - start);
+        return this.content.slice(start, end);
     }
 
     public at(index: number): string {
