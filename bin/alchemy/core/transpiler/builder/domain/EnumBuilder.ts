@@ -16,7 +16,7 @@ export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
         }
 
         const identifier = get.identifier() || 'enum';
-        const parent: ReferenceNode | undefined = get.identifier('extends')
+        const parent: ReferenceNode | undefined = get.identifier('of')
             ? this.child.type(tokens)
             : undefined;
 

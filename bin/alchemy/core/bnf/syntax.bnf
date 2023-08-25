@@ -20,10 +20,10 @@ use_decomposition_item
 
 // domain
 domain
-  ::= 'domain' identifier generic_definition? ('extends' domain_reference)? '{' domain_body '}'
+  ::= 'domain' identifier generic_definition? ('of' domain_reference)? '{' domain_body '}'
 
 domain_body
-  ::= constructor? use? domain_clause* domain_method* constructor?
+  ::= constructor_properties? use? domain_clause* domain_method* constructor_method?
 
 domain_clause
   ::= domain | enum
@@ -32,7 +32,7 @@ domain_method
   ::= identifier functor
 
 enum
-  ::= 'enum' identifier? ('extends' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
+  ::= 'enum' identifier? ('of' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
 
 enum_clause
   ::= (enum_inheritor | identifier) '=' expression
@@ -40,14 +40,18 @@ enum_clause
 enum_inheritor
   ::= ':' qualifier
 
-constructor
+constructor_properties
   ::= '{' (constructor_property (',' constructor_property)* ','?)? '}'
 
 constructor_property
-  ::= identifier (':' domain_reference ('=' expression)) | ('=' expression)
+  ::= identifier (':' type_reference ('=' expression)) | ('=' expression)
 
-constructor
-  ::= domain_method
+constructor_method
+  ::= 'do'? functor
+
+// types
+type_reference
+  ::= domain_reference
 
 // domain lookup
 domain_reference
@@ -58,11 +62,11 @@ domain_reference_generic
 
 // generic definitions
 generic_definition
-  ::= '<' identifier (',' identifier)* '>'
+  ::= '<' identifier (',' identifier)* ','? '>'
 
 // functor
 functor
-  ::= '(' functor_args? ')' (':' domain_reference)? '=>' functor_body
+  ::= '(' functor_args? ')' (':' type_reference)? '=>' functor_body
 
 functor_args
   ::= functor_arg (',' functor_arg)*
@@ -71,11 +75,14 @@ functor_body
   ::= block | expression
 
 functor_arg
-  ::= identifier ':' domain_reference ('=' expression)?
+  ::= identifier ':' type_reference ('=' expression)?
 
 // expressions
 expression
   ::= boolean
+
+parenthesis
+  ::= '(' expression ')'
 
 chain
   ::= '.' identifier
@@ -86,47 +93,47 @@ indexed
 call
   ::= '(' call_args? ')'
 
-postfix
-  ::= '--' | '++'
-
 call_args
   ::= call_arg (',' call_arg)* ','?
 
 call_arg
   ::= (identifier ':')? expression
 
+boolean
+  ::= comparison ((('&' | '|' | '^') expression) | is)*
+
 is
   ::= 'is' domain_reference
 
-boolean
-  ::= comparision (('&' | '|' | '^') expression)*
-
-comparision
+comparison
   ::= additive (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
 
 additive
   ::= multiplicative (('+' | '-') expression)*
 
 multiplicative
-  ::= unary (('*' | '/' | '%' | '**') expression)*
+  ::= applicative (('*' | '/' | '%' | '**') expression)*
+
+applicative
+  ::= (unary_function | unary_operator)* unary (is)*
 
 unary
-  ::= ((unary_operator | unary_increment | unary_function) accessor) | accessor
+  ::= unary_mutator? assignable unary_mutator? call*
 
 unary_operator
-  ::= '&' | '*' | '+' | '-' | '~' | '!'
+  ::= '+' | '-' | '~' | '!'
 
-unary_increment
+unary_mutator
   ::= '--' | '++'
 
 unary_function
   ::= 'typeof'
 
-accessor
-  ::= accessible (chain | indexed | call | is)*
+assignable
+  ::= accessible (call? (chain | indexed))*
 
 accessible
-  ::= callable | ('(' expression ')') | object | array | literal | identifier
+  ::= identifier | literal | object | array | match | callable | parenthesis
 
 callable
   ::= functor
@@ -134,11 +141,8 @@ callable
 object
   ::= '{' (object_entry ',')* '}'
 
-object_entry
-  ::= identifier ':' expression
-
 array
-  ::= '[' (expression (',' expression)* ','? ']'
+  ::= '[' (expression (',' expression)* ','?)? ']'
 
 object_entry
   ::= identifier ':' expression
@@ -148,22 +152,37 @@ literal
 
 // functor body
 block
-  ::= '{' (decorated_block_item | block_item)* '}'
+  ::= '{' decorated_block_item* '}'
+
+decorator
+  ::= '@' expression
 
 decorated_block_item
-  ::= '@' expression block_item
+  ::= decorator? block_item
 
 block_item
-  ::= if | loop | ((break | return | statement) ';')
+  ::= if | loop | label | ((break | return | statement) ';')
+
+label
+  ::= identifier ':'
 
 statement
-  ::= assignment | expression
+  ::= ((declaration | assignable) assignment_token)? expression
 
-assignment
-  ::= assignment_target ('=' | '+=' | '-=' | '/=' | '*=' | '%=' | '**=' | '|=' | '&=' | '^=') expression
+assignment_token
+  ::= '=' | '+=' | '-=' | '/=' | '*=' | '%=' | '**=' | '|=' | '&=' | '^='
 
-assignment_target
-  ::= 'let' identifier
+declaration
+  ::= 'let' identifier (':' type_reference)
+
+match
+  ::= 'match' (expression) '{' match_statement+ default_match_statement? '}'
+
+match_statement
+  ::= expression ':' (block | decorated_block_item)
+
+default_match_statement
+  ::= 'else' (block | decorated_block_item)
 
 loop
   ::= 'each' loop_iterator block
@@ -172,10 +191,10 @@ if
   ::= 'if' statement block ('else' block)?
 
 break
-  ::= 'break' | 'continue'
+  ::= ('break' | 'continue') (('@' identifier) | expression)?
 
 return
   ::= 'return' expression
 
 loop_iterator
-  ::= assignment_target 'of' expression
+  ::= declaration 'of' expression

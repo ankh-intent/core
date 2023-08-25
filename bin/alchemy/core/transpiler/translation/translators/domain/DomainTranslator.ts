@@ -42,7 +42,7 @@ export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChi
             domain.functors.set(method, this.child.functor(methodNode, context));
         }
 
-        domain.intf = this.child.interface(node.intf, context);
+        domain.intf = this.child.interface(node.interfaced, context);
         domain.ctor = node.ctor && this.child.functor(node.ctor, context);
 
         return domain;

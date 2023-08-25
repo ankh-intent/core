@@ -31,14 +31,14 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
         const identifier = ensure.identifier();
         const generics = this.child.generic_templates(tokens);
-        const parent: ReferenceNode | undefined = get.identifier('extends')
+        const parent: ReferenceNode | undefined = get.identifier('of')
             ? this.child.type(tokens)
             : undefined;
 
         ensure.symbol('{');
 
         const uses = this.child.uses(tokens);
-        const intf = this.child.domain_interface(tokens);
+        const interfaced = this.child.domain_interface(tokens);
         const domains = new Map<string, DomainNode>();
         const methods = new Map<string, FunctorNode>();
         const traits = new Set<ExpressionNode>();
@@ -111,7 +111,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
             identifier,
             generics,
             parent,
-            intf,
+            interfaced,
             uses,
             domains,
             methods,

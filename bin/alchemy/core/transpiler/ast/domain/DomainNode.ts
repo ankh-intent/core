@@ -10,7 +10,7 @@ export class DomainNode extends AbstractNode {
         public identifier: string,
         public generics: GenericTemplatesNode,
         public parent: ReferenceNode | undefined,
-        public intf: DomainInterfaceNode,
+        public interfaced: DomainInterfaceNode,
         public uses: UsesNode,
         public domains: Map<string, DomainNode> = new Map(),
         public methods: Map<string, FunctorNode> = new Map(),
@@ -23,7 +23,7 @@ export class DomainNode extends AbstractNode {
         return [
             this.generics,
             this.parent!,
-            this.intf,
+            this.interfaced,
             this.uses,
             this.ctor!,
             ...this.domains.values(),
