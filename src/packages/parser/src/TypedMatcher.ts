@@ -47,7 +47,7 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
                 const matcher = this.reconcile(base, match);
                 const matched: any = method(matcher);
 
-                if (unwrap && matcher.type && matched && matched.type) {
+                if (unwrap && matcher.type && matched?.type) {
                     return matched.value;
                 }
 
