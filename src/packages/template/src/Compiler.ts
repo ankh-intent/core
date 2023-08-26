@@ -65,8 +65,8 @@ export class Compiler<S, R> {
 
             return lines.map((line: string) => (
                 line.startsWith(whitespace)
-                    ? line.substr(whitespace.length)
-                    : line
+                    ? line.slice(whitespace.length)
+                    : line.trimStart()
             ));
         }
 

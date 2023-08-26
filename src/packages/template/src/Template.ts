@@ -51,10 +51,10 @@ export class Template<S> implements TemplateInterface<S, string[]> {
         return (
             (typeof lines === 'string')
                 ? [
-                    lines.substr(0, match.open) + str + lines.substr(match.close),
+                    lines.slice(0, match.open) + str + lines.slice(match.close),
                 ]
                 : lines.map((line: string) => (
-                    line.substr(0, match.open) + str + line.substr(match.close)
+                    line.slice(0, match.open) + str + line.slice(match.close)
                 ))
         );
     }

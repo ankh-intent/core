@@ -15,7 +15,7 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
     }
 
     public substitute(line: string, data: S, consumer: MatchConsumer<S>, resolver: DataResolver<S, keyof S>): any {
-        const seeker = new ReverseSeeker(this.sampler, line);
+        const seeker = new Seeker(this.sampler, line);
         let match;
         let result = line;
 
@@ -32,17 +32,20 @@ export class Substitutor<S> implements SubstitutorInterface<S, string[]> {
 }
 
 export class Seeker {
-    protected readonly sampler: SamplerInterface;
+    protected readonly sample: (subject: string | null, from?: number) => MatchedPlaceholder | null;
     protected readonly line: string;
-    protected current: MatchedPlaceholder | null;
+    protected current?: MatchedPlaceholder | null = undefined;
 
-    public constructor(sampler: SamplerInterface, line: string) {
-        this.sampler = sampler;
+    public constructor(sampler: SamplerInterface, line: string, forward?: boolean) {
         this.line = line;
+        this.sample = forward ? sampler.next : sampler.prev;
     }
 
     public seek(): MatchedPlaceholder | null {
-        return this.sampler.next(this.line, this.current ? this.current.next : 0);
+        return this.sample(
+            this.line,
+            this.current?.next
+        );
     }
 
     public next(): MatchedPlaceholder | null {
@@ -54,20 +57,14 @@ export class Seeker {
 
         match = this.seek();
 
-        if (match && this.current && this.current.open === match.open) {
-            throw new Error('Same');
-        }
-
-        if (!match) {
+        if (match) {
+            if (this.current && this.current.open === match.open) {
+                throw new Error('Same');
+            }
+        } else {
             match = null;
         }
 
         return this.current = match;
-    }
-}
-
-export class ReverseSeeker extends Seeker {
-    public seek(): MatchedPlaceholder | null {
-        return this.sampler.prev(this.line, this.current ? this.current.next : undefined);
     }
 }

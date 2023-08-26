@@ -2,11 +2,10 @@ import { pit } from '@intent/tests';
 import { Template, Sampler, Substitutor } from '../src';
 
 describe('Template', () => {
-
     describe('apply()', () => {
-        const resolver = (data, key) => data[key];
-        let sampler;
-        let substitutor;
+        const resolver = <T>(data: T, key: keyof T) => data[key];
+        let sampler: Sampler;
+        let substitutor: Substitutor<any>;
 
         beforeEach(() => {
             sampler = new Sampler('{', '}');
@@ -105,7 +104,5 @@ describe('Template', () => {
 
             expect(template.apply({ b: null })).toEqual(['ac']);
         });
-
     });
-
 });

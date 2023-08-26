@@ -18,6 +18,8 @@ export class Sampler implements SamplerInterface {
 
         this.opener = opener;
         this.closer = closer;
+        this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
     }
 
     public placeholder(key: string): string {
@@ -43,6 +45,10 @@ export class Sampler implements SamplerInterface {
             return null;
         }
 
+        if (from === undefined) {
+            from = 0;
+        }
+
         let found = undefined;
         let open = Strings.lookup(subject, from, this.opener);
 
@@ -66,7 +72,7 @@ export class Sampler implements SamplerInterface {
             return {
                 open,
                 close,
-                key: subject.substring(open + this.opener.length, close - this.closer.length),
+                key: subject.slice(open + this.opener.length, close - this.closer.length),
                 next: (found === undefined) ? close : found,
             };
         }
@@ -106,7 +112,7 @@ export class Sampler implements SamplerInterface {
             return {
                 open,
                 close,
-                key: subject.substring(open + this.opener.length, close - this.closer.length),
+                key: subject.slice(open + this.opener.length, close - this.closer.length),
                 next: (found === undefined) ? open : found,
             };
         }
