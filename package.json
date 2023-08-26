@@ -2,7 +2,6 @@
     "name": "intent",
     "version": "0.0.10",
     "description": "Intent language compiler core",
-    "type": "module",
     "main": "build/bin/intent.ts",
     "types": "bin/intent.d.ts",
     "scripts": {

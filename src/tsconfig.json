@@ -12,6 +12,8 @@
         "downlevelIteration": true,
         "strictNullChecks": true,
         "esModuleInterop": true,
+        "noImplicitAny": true,
+        "noErrorTruncation": true,
         "lib": [
             "es2017"
         ],
