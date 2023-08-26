@@ -1,6 +1,5 @@
 import { pit } from '../util/extensions';
 
-import { TemplateInterface, Compiler, Sampler } from '../../index';
 
 describe('PipelineObserver', () => {
 

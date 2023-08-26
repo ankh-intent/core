@@ -38,7 +38,7 @@ export class Sampler implements SamplerInterface {
         return cached;
     }
 
-    public next(subject: string, from: number = 0): MatchedPlaceholder | null {
+    public next(subject: string | null, from?: number): MatchedPlaceholder | null {
         if (!subject) {
             return null;
         }
@@ -74,7 +74,7 @@ export class Sampler implements SamplerInterface {
         return null;
     }
 
-    public prev(subject: string, from?: number): MatchedPlaceholder | null {
+    public prev(subject: string | null, from?: number): MatchedPlaceholder | null {
         if (!subject) {
             return null;
         }

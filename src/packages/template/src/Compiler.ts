@@ -19,11 +19,15 @@ export class Compiler<S, R> {
     public compileLines(code: string, resolver: DataResolver<S>): (string | TemplateInterface<S, R>)[] {
         const cleaned = this.cleanup(code);
 
-        return cleaned.map((line) => {
-            return (this.sampler.next(line, 0) && this.factory)
+        if (!cleaned) {
+            return [];
+        }
+
+        return cleaned.map((line) => (
+            (this.sampler.next(line, 0) && this.factory)
                 ? this.factory(line, resolver)
-                : line;
-        });
+                : line
+        ));
     }
 
     public compile(code: string, resolver: DataResolver<S>): TemplateInterface<S, R> {
@@ -32,16 +36,17 @@ export class Compiler<S, R> {
         );
     }
 
-    private cleanup(code: string): string[] {
-        return code
-            ? this.normalize(
-                code
-                    .replace(/(^[\n\r]+|\s+$)/g, '')
-                    .split('\n')
-                    .map(String),
-            )
-            : []
-            ;
+    private cleanup(code: string): string[] | void {
+        if (!code) {
+            return;
+        }
+
+        return this.normalize(
+            code
+                .replace(/(^[\n\r]+|\s+$)/g, '')
+                .split('\n')
+                .map(String),
+        );
     }
 
     public normalize(lines: string[]): string[] {

@@ -13,5 +13,5 @@ npm-debug.log
 /reports
 !webpack.config.old.js
 !wallaby.js
-!stryker.conf.js
+!stryker.conf.mjs
 !/**/*.json

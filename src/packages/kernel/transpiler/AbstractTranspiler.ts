@@ -3,7 +3,6 @@ import { Compiler, TemplateInterface } from '@intent/template';
 
 export interface TranspilerInterface<S> {
     transpile(data: S): string[];
-
     keyed(data: any): string[];
 }
 

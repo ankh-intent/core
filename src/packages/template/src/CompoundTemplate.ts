@@ -1,4 +1,4 @@
-import { Strings } from '../../utils';
+import { Strings } from '@intent/utils';
 
 import { TemplateInterface } from './TemplateInterface';
 
@@ -12,7 +12,7 @@ export class CompoundTemplate<S, R> implements TemplateInterface<S, R> {
     }
 
     public apply(data: S): R {
-        return <any>Strings.fold(
+        return <R>Strings.fold(
             this.lines.map((line: Templateable<S, R>) => (
                 typeof line === 'string'
                     ? <any>line

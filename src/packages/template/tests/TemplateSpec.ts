@@ -1,5 +1,5 @@
-import { pit } from '../util/extensions';
-import { Template, Sampler, Substitutor } from '../../index';
+import { pit } from '@intent/tests';
+import { Template, Sampler, Substitutor } from '../src';
 
 describe('Template', () => {
 

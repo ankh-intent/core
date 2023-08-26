@@ -1,4 +1,4 @@
-import { Strings } from '../../utils';
+import { Strings } from '@intent/utils';
 
 import { TemplateInterface } from './TemplateInterface';
 import { DataResolver, SubstitutorInterface } from './Substitutor';
@@ -28,7 +28,7 @@ export class Template<S> implements TemplateInterface<S, string[]> {
     }
 
     protected consume(lines: string | string[], match: MatchedPlaceholder, data: any): string[] {
-        let str;
+        let str: string;
 
         if (data !== null) {
             if (Array.isArray(data)) {

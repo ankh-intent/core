@@ -112,7 +112,6 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
             }
         }
 
-
         return paths;
     }
 }
