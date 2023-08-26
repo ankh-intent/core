@@ -1,4 +1,4 @@
-import { IfStatementNode } from '../../../../transpiler/ast';
+import { IfStatementNode } from '../../../../transpiler';
 import { Block } from './Block';
 import { Statement } from './Statement';
 

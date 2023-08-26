@@ -1,5 +1,5 @@
 import { ReferenceInterface, DomainInterface } from '../interfaces';
-import { ReferenceNode } from '../../transpiler/ast';
+import { ReferenceNode } from '../../transpiler';
 import { Translated } from '../Translated';
 import { Qualifier } from './Qualifier';
 

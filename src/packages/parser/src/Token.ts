@@ -1,9 +1,9 @@
-import { Source } from '../../source';
+import { SourceInterface } from '@intent/source';
 
-export class Token {
+export class Token<T = string> {
     constructor(
-        public readonly source: Source,
-        public readonly type: string,
+        public readonly source: SourceInterface,
+        public readonly type: T,
         public readonly start: number,
         public readonly end: number,
     ) {
@@ -12,7 +12,7 @@ export class Token {
     public get value(): string {
         return (this.type === 'string')
             ? this.source.extract(this.start + 1, this.end - 1)
-            : this.source.extract(this.start, this.end);
+            : this.raw;
     }
 
     public get raw(): string {

@@ -1,4 +1,4 @@
-import { ExpressionNode } from '../../../../../../transpiler/ast';
+import { ExpressionNode } from '../../../../../../transpiler';
 import { Operation } from '../Operation';
 
 export class Indexed extends Operation<ExpressionNode> {

@@ -1,0 +1,3 @@
+native domain Callable<Arguments, Result> {{
+    @callable (...arguments: Arguments): Result
+}}

@@ -1,4 +1,4 @@
-import { QualifierNode } from '../../transpiler/ast';
+import { QualifierNode } from '../../transpiler';
 import { Translated } from '../Translated';
 
 export class Qualifier extends Translated<QualifierNode> {

@@ -1,4 +1,4 @@
-import { ExpressionNode } from '../../../../../transpiler/ast';
+import { ExpressionNode } from '../../../../../transpiler';
 
 import { Translated } from '../../../../Translated';
 import { Operation } from './Operation';

@@ -1,4 +1,4 @@
-import { CallArgNode } from '../../../../../../transpiler/ast';
+import { CallArgNode } from '../../../../../../transpiler';
 import { Translated } from '../../../../../Translated';
 import { Expression } from '../Expression';
 

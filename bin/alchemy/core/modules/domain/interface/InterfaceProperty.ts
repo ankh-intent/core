@@ -1,4 +1,4 @@
-import { DomainInterfacePropertyNode } from '../../../transpiler/ast';
+import { DomainInterfacePropertyNode } from '../../../transpiler';
 import { ReferenceInterface } from '../../interfaces';
 import { Translated } from '../../Translated';
 import { Expression } from '../functor';

@@ -1,4 +1,4 @@
-import { TreeNode } from '../../../ast';
+import { TreeNode } from '@intent/ast';
 import { Visitor } from './Visitor';
 
 export type NodeIdentifiersMap = {

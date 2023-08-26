@@ -1,4 +1,4 @@
-import { CoreEvent } from '../../../kernel/event';
+import { CoreEvent } from '@intent/kernel';
 import { Plugin } from './Plugin';
 
 export class PluginRegistry {

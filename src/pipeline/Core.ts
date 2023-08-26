@@ -1,7 +1,6 @@
 import { PluginRegistry, Plugin } from '@intent/plugins';
 import { Emitter, Logger, UnitMatcher } from '@intent/utils';
 import { RecursiveFinder } from '@intent/source';
-
 import {
     CoreLogger,
     TreeNode,
@@ -13,9 +12,10 @@ import {
     ReadyEvent,
     StopEvent,
     UpdateEvent,
-} from '../kernel';
-import { ErrorConsumer, StatConsumer, EventChainMonitor } from '../consumers';
-import { CoreConfig } from '../CoreConfig';
+} from '@intent/kernel';
+import { ErrorConsumer, StatConsumer, EventChainMonitor } from '@intent/consumers';
+import { CoreConfig } from '@intent/config';
+
 import { PipelineObserverFactory } from './PipelineObserver';
 
 type CoreEventEmitter<T> = (event: CoreEvent<T>) => any;
@@ -54,8 +54,8 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
         observer.bootstrap(this, resolved);
 
         this.events
-            .add(new ErrorConsumer(this.events, resolved, this.logger))
-            .add(new StatConsumer(this.events, resolved, this.logger))
+            .add(new ErrorConsumer(this.events, this.logger, resolved.emit.verbose))
+            .add(new StatConsumer(this.events, this.logger, [resolved.paths.project, resolved.paths.internal]))
             .add(this.eventChainMonitor)
             .add({
                 consume: (event) => {
@@ -97,7 +97,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     }
 
     public stop(cause?: CoreEvent) {
-        this.events.emit(new StopEvent({}, cause));
+        this.events.emit(new StopEvent(cause));
     }
 
     protected matched(root: string, matchers: UnitMatcher[]) {

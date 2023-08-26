@@ -11,7 +11,7 @@ type OptionDescriptor = {
 };
 
 export abstract class AbstractConfigProvider<O, C> {
-    private _argv;
+    private _argv: any;
     private readonly _defaults: Partial<O>;
 
     public constructor(defaults: Partial<O>) {
@@ -36,7 +36,7 @@ export abstract class AbstractConfigProvider<O, C> {
             const cwd = resolve(process.cwd());
             const regexp = new RegExp(`^${escapeRegExp(cwd)}`);
             const entries: [string, OptionDescriptor][] = Object.entries(map[group]);
-            const remapPath = (v) => v.replace(regexp, '.');
+            const remapPath = (v: unknown) => String(v).replace(regexp, '.');
 
             for (const [name, { path, default: d, mapper, ...option }] of entries) {
                 if (path || mapper) {
@@ -87,10 +87,11 @@ export abstract class AbstractConfigProvider<O, C> {
             throw new Error('Can\'t find "package.json" file');
         }
 
-        return `${data.name} ${data.version}\n` +
+        return (
+            `${data.name} ${data.version}\n` +
             `${data.description}\n` +
             `Usage: ${data.name} [<options>] [<entry>]`
-            ;
+        );
     }
 
     protected abstract options(def: Partial<O>): any;

@@ -1,4 +1,4 @@
-import { QualifierNode } from '../../../transpiler/ast';
+import { QualifierNode } from '../../../transpiler';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 
 export class LibraryQualifierResolver extends BaseQualifierResolver {

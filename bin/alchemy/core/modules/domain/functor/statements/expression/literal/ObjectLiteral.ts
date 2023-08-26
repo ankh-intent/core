@@ -1,5 +1,5 @@
 import { Strings } from '@intent/utils';
-import { ObjectNode } from '../../../../../../transpiler/ast';
+import { ObjectNode } from '../../../../../../transpiler';
 import { Translated } from '../../../../../Translated';
 
 import { ObjectProperty } from './ObjectProperty';

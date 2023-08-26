@@ -1,4 +1,4 @@
-import { Source } from '../../source';
+import { SourceInterface } from '@intent/source';
 
 import { SyntaxError } from './SyntaxError';
 import { Token } from './Token';
@@ -63,7 +63,7 @@ export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenType
 }
 
 export interface TokensFactory<TT extends BaseTokenTypes> {
-    (source: Source): TokenMatcher<TT>;
+    (source: SourceInterface): TokenMatcher<TT>;
 }
 
 const matcherToString = (matcher: MatcherInterface) => {
@@ -160,9 +160,9 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
         return token;
     }
 
-    public error(expectation: string, reason: string, parent?: Error): SyntaxError {
+    public error(expectation: string, message: string, parent?: Error): SyntaxError {
         return new SyntaxError(
-            reason,
+            message,
             expectation,
             this.source,
             this.last,

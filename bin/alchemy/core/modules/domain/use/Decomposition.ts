@@ -1,6 +1,6 @@
 import { Strings } from '@intent/utils';
 
-import { DecompositionNode } from '../../../transpiler/ast';
+import { DecompositionNode } from '../../../transpiler';
 import { Qualifier } from '../../reference';
 import { Translated } from '../../Translated';
 

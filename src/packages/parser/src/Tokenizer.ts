@@ -1,4 +1,4 @@
-import { Source, Range } from '../../source';
+import { SourceInterface, RangeInterface } from '@intent/source';
 
 import { Token } from './Token';
 
@@ -14,11 +14,11 @@ export enum BaseTokenTypes {
 }
 
 export interface Context {
-    source: Source;
-    range: Range;
+    source: SourceInterface;
+    range: RangeInterface;
     pos: number;
 }
 
 export interface Tokenizer<TT extends BaseTokenTypes = BaseTokenTypes, U = any> {
-    (context: Context, userData?: U): Token | undefined;
+    (context: Context, userData?: U): Token<TT> | undefined;
 }

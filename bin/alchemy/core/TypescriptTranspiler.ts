@@ -1,6 +1,6 @@
 import { TranspilerInterface } from '@intent/kernel';
 
-import { ModuleNode } from './transpiler/ast';
+import { ModuleNode } from './transpiler';
 import { TypescriptSerializer, SerializingContext } from './transpiler/serializers';
 
 export class TypescriptTranspiler implements TranspilerInterface<ModuleNode> {

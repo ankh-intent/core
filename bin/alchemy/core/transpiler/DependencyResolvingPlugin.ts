@@ -1,7 +1,7 @@
+import { Container } from '@intent/utils';
 import { PatchedASTEvent, SynchronizeStat } from '@intent/consumers';
 import { DependencyManager, DependencyNode, UpdateEvent } from '@intent/kernel';
 import { PluginEnvironment, InterpretPlugin } from '@intent/plugins';
-import { Container } from '@intent/utils';
 
 import { Module, UseResolverInterface } from '../modules';
 import { ModuleNode, DomainNode, UsesNode } from './ast';
@@ -16,7 +16,7 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
         this.resolver = resolver;
     }
 
-    protected createContext(env) {
+    protected createContext(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>) {
         return env.event.data.dependency;
     }
 
@@ -30,17 +30,15 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
         const known: DependencyNode<ModuleNode, Module>[] = [];
 
         for (const dependency of nodes) {
-            // todo: some type trickery is going on here
-            let resolved: any = dependency;
-
             if (typeof dependency === 'string') {
-                // attach new nodes
-                unknown.push(
-                    resolved = this.tree.add(uses[dependency]),
-                );
-            }
+                const resolved = this.tree.add(uses[dependency]);
 
-            known.push(resolved);
+                // attach new nodes
+                unknown.push(resolved);
+                known.push(resolved);
+            } else {
+                known.push(dependency);
+            }
         }
 
         node.relate(known);
@@ -94,7 +92,7 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
             const link = this.resolver.resolve(module, use.qualifier);
 
             if (!link) {
-                throw new Error(`Can't resolve module "${use.qualifier.path('.')}"`);
+                throw new Error(`Can't resolve module "${use.qualifier.path('.')}" as "${alias}"`);
             }
 
             links[link.uri] = link;

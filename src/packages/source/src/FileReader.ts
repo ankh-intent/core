@@ -1,16 +1,13 @@
-import * as fs from 'fs';
+import { readFile } from 'node:fs/promises';
 
-import { Source } from './Source';
+import { SourceInterface } from './interfaces';
 import { StringSource } from './StringSource';
 
 export class FileReader {
-    public read(path: string, encoding: BufferEncoding = 'utf8'): Promise<Source> {
-        return new Promise((rs, rj) => {
-            fs.readFile(path, encoding, function (err, data) {
-                return err
-                    ? rj(err)
-                    : rs(new StringSource(data, path));
-            });
-        });
+    public async read(path: string, encoding: BufferEncoding = 'utf8'): Promise<SourceInterface> {
+        return new StringSource(
+            await readFile(path, { encoding }),
+            path,
+        );
     }
 }

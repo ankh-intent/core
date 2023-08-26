@@ -1,4 +1,4 @@
-import { StatementNode } from '../../../../transpiler/ast';
+import { StatementNode } from '../../../../transpiler';
 import { Translated } from '../../../Translated';
 
 export class Statement<N extends StatementNode = StatementNode> extends Translated<N> {

@@ -1,4 +1,4 @@
-import { PrimitiveNode, PrimitiveType } from '../../../../../../transpiler/ast';
+import { PrimitiveNode, PrimitiveType } from '../../../../../../transpiler';
 import { Translated } from '../../../../../Translated';
 
 export class PrimitiveLiteral extends Translated<PrimitiveNode> {

@@ -1,4 +1,4 @@
-import { GenericTemplateNode } from '../../transpiler/ast';
+import { GenericTemplateNode } from '../../transpiler';
 import { GenericInterface, ReferenceInterface, DomainInterface } from '../interfaces';
 import { Translated } from '../Translated';
 

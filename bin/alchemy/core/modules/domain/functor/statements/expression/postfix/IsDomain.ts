@@ -1,4 +1,4 @@
-import { ReferenceNode } from '../../../../../../transpiler/ast';
+import { ReferenceNode } from '../../../../../../transpiler';
 import { Operation } from '../Operation';
 
 export class IsDomain extends Operation<ReferenceNode> {

@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TokenMatcher } from '@intent/parser';
 
 import { DomainNode, ModuleNode, UsesNode } from '../ast';
 import { BaseBuilder } from './BaseBuilder';
@@ -9,7 +9,7 @@ export type ModuleChildren = {
 };
 
 export class ModuleBuilder extends BaseBuilder<ModuleNode, ModuleChildren> {
-    protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher) {
         const uses = this.child.uses(tokens);
         const domain = this.child.domain(tokens);
 

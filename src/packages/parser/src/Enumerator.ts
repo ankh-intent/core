@@ -1,5 +1,5 @@
-import { Source, Range } from '../../source';
-import { StackedQueue } from '../../utils';
+import { SourceInterface, RangeInterface } from '@intent/source';
+import { StackedQueue } from '@intent/utils';
 import { Token } from './Token';
 import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
 
@@ -11,7 +11,7 @@ export class Enumerator<TT extends BaseTokenTypes, U> extends StackedQueue<any> 
     private tokenized: number = -1;
     private currentIndex: number;
 
-    public constructor(tokenizer: Tokenizer<TT>, source: Source, range: Range) {
+    public constructor(tokenizer: Tokenizer<TT>, source: SourceInterface, range: RangeInterface) {
         super();
         this.tokenizer = tokenizer;
         this.currentIndex = -1;
@@ -22,7 +22,7 @@ export class Enumerator<TT extends BaseTokenTypes, U> extends StackedQueue<any> 
         };
     }
 
-    public get source(): Source {
+    public get source(): SourceInterface {
         return this.context.source;
     }
 

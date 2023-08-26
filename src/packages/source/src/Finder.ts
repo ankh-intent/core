@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as fs from 'fs';
+import { join, dirname } from 'node:path';
+import { statSync, readdirSync } from 'node:fs';
 
 import { UnitMatcher } from '../../utils';
 
@@ -33,14 +33,14 @@ export class Finder {
     }
 
     public dir<T>(root: string, matcher: UnitMatcher, consumer: PathConsumer<T>): T | undefined {
-        if (fs.statSync(root).isFile()) {
+        if (statSync(root).isFile()) {
             return;
         }
 
-        const entries = fs.readdirSync(root);
+        const entries = readdirSync(root);
 
         for (const entry of entries) {
-            const found = this.accept(entry) && consumer(path.join(root, entry));
+            const found = this.accept(entry) && consumer(join(root, entry));
 
             if (found) {
                 return found;
@@ -67,7 +67,7 @@ export class BubblingFinder extends Finder {
             return found;
         }
 
-        const parent = path.dirname(root);
+        const parent = dirname(root);
 
         return (
             parent

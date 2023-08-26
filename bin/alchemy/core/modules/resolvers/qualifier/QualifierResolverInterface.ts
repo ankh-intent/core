@@ -1,4 +1,4 @@
-import { QualifierNode } from '../../../transpiler/ast';
+import { QualifierNode } from '../../../transpiler';
 
 export interface QualifierResolverInterface {
     resolve(uri: string): QualifierNode | null;

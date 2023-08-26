@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { FunctorNode, ReferenceNode, FunctorArgsNode, FunctorBodyNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -10,7 +10,7 @@ export type FunctorChildren = {
 }
 
 export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
-    protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
         ensure.symbol('(');
 
         const args = this.child.functor_args(tokens);

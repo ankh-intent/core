@@ -1,4 +1,4 @@
-import * as util from 'util';
+import { InspectOptionsStylized, inspect } from 'util';
 
 import { Region } from '@intent/source';
 
@@ -15,12 +15,13 @@ export abstract class AbstractNode implements TreeNode {
         return (<any>this.constructor).name.replace(/Node$/, '').toLowerCase();
     }
 
-    [util.inspect.custom](depth, options) {
+    [inspect.custom](options: InspectOptionsStylized) {
         const { astRegion, ...rest } = this;
+        const depth = options.depth ?? null;
 
-        return options.stylize(this.constructor.name, 'special') + ' ' + util.inspect(rest, {
+        return options.stylize(this.constructor.name, 'special') + ' ' + inspect(rest, {
             ...options,
-            depth: options.depth === null ? null : Math.max(options.depth - 1, 0),
+            depth: depth && Math.max(depth - 1, 0),
         });
     }
 }

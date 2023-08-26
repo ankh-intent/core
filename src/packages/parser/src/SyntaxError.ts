@@ -1,12 +1,12 @@
-import { Source } from '../../source';
+import { SourceInterface } from '@intent/source';
 
 export class SyntaxError extends Error {
     public readonly expectation: string;
-    public readonly source: Source;
+    public readonly source: SourceInterface;
     public readonly pos: number;
     public readonly parent?: Error;
 
-    public constructor(message: string, expectation: string, source: Source, pos: number, parent?: Error) {
+    public constructor(message: string, expectation: string, source: SourceInterface, pos: number, parent?: Error) {
         const { line, column } = source.location(pos);
         const start = source.position({ line, column: 1 });
         const end = source.position({ line, column: Infinity });

@@ -1,4 +1,4 @@
-import { CallableNode } from '../../../../../../transpiler/ast';
+import { CallableNode } from '../../../../../../transpiler';
 import { Translated } from '../../../../../Translated';
 import { Functor } from '../../../Functor';
 

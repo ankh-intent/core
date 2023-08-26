@@ -1,10 +1,10 @@
-import {watch, FSWatcher} from 'chokidar';
+import { watch, FSWatcher } from 'chokidar';
 
-import {Eventable, ArrayConsumer, Emitter, WatchMatcher} from '../../utils';
+import { Eventable, ArrayConsumer, Emitter, WatchMatcher } from '../../utils';
 
-import {UnitInterface} from './Unit';
-import {WatchdogConfig} from './Watchdog';
-import {AggregatedEmitter} from './AggregatedEmitter';
+import { UnitInterface } from './Unit';
+import { WatchdogConfig } from './Watchdog';
+import { AggregatedEmitter } from './AggregatedEmitter';
 
 export class WatchItem<U extends UnitInterface> extends Eventable {
     public static EVENT = 'event';
@@ -32,13 +32,13 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
             return this;
         }
 
-        const {pattern, event} = this.matcher;
+        const { pattern, event } = this.matcher;
         const strict = !(pattern instanceof RegExp);
         const bound = this.event.bind(this, event);
         let handler = bound;
 
         if (!strict) {
-            handler = (path: string, ...rest) => {
+            handler = (path: string, ...rest: any[]) => {
                 if (!path.match(<RegExp>pattern)) {
                     return;
                 }
@@ -72,8 +72,8 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
         return this;
     }
 
-    protected event(event: string, path: string, ...payload) {
-        const data = {event, path, payload};
+    protected event(event: string, path: string, ...payload: any[]) {
+        const data = { event, path, payload };
 
         this._emitter && this._emitter.emit([data]);
         this.emit(WatchItem.EVENT, data);

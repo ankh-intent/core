@@ -15,9 +15,9 @@ export class Eventable {
     }
 
     once(event: string, handler: Function): number {
-        let uid;
+        let uid: number;
 
-        return uid = this.on(event, (...args) => {
+        return uid = this.on(event, (...args: any[]) => {
             this.off(event, uid);
 
             return handler(...args);

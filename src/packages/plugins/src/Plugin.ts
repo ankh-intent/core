@@ -1,11 +1,12 @@
+import { CoreEvent, CoreEventBus, UpdateEvent } from '@intent/kernel';
 import {
     ReadedEvent,
     ParsedEvent,
     PatchedASTEvent,
     DependencyModifiedEvent,
-    InterpretedEvent, EmittedEvent,
-} from '../../../consumers';
-import { CoreEvent, CoreEventBus, UpdateEvent } from '../../../kernel';
+    InterpretedEvent,
+    EmittedEvent,
+} from '@intent/consumers';
 
 export enum PluginPhase {
     Update,
@@ -23,9 +24,7 @@ export interface PluginEnvironment<E extends CoreEvent> {
 }
 
 export abstract class Plugin<E extends CoreEvent = CoreEvent> {
-    constructor(
-        public phase: PluginPhase,
-    ) {
+    constructor(public phase: PluginPhase) {
     }
 
     public supports(event: E) {
@@ -44,12 +43,12 @@ export abstract class Plugin<E extends CoreEvent = CoreEvent> {
                 return event.type === InterpretedEvent.type();
             case PluginPhase.Emit:
                 return event.type === EmittedEvent.type();
+            default:
+                return false;
         }
-
-        return false;
     }
 
-    public process(env: PluginEnvironment<E>): boolean | void {
+    public process(_env: PluginEnvironment<E>): boolean | void {
 
     }
 }

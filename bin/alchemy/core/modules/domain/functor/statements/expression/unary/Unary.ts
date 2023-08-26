@@ -1,4 +1,4 @@
-import { UnaryNode } from '../../../../../../transpiler/ast';
+import { UnaryNode } from '../../../../../../transpiler';
 import { Expression } from '../Expression';
 
 export class Unary<N extends UnaryNode = UnaryNode> extends Expression<N, Expression<N>> {

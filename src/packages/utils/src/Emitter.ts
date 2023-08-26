@@ -5,12 +5,12 @@ export class Emitter<F extends Function> {
 
     private eventable = new Eventable();
 
-    public emit(...args): number {
+    public emit(...args: any[]): number {
         return this.eventable.emit(Emitter.EMIT, ...args);
     }
 
     public and(handler: F, once = false): number {
-        const shifter = (...args) => {
+        const shifter = (...args: any[]) => {
             args.pop(); // remove event from top
 
             return handler(...args);

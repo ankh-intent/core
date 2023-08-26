@@ -1,13 +1,13 @@
-import * as util from 'util';
+import { inspect } from 'util';
 
 import { Logger } from '@intent/utils';
 import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel';
 import { TranspilerConfig, Core } from '@intent/pipeline';
-import { CoreConfig } from '@intent/CoreConfig';
+import { CoreConfig } from '@intent/config';
 
 import { ConfigProvider } from './ConfigProvider';
 import { Module } from './modules';
-import { ModuleNode } from './transpiler/ast';
+import { ModuleNode } from './transpiler';
 import { TranspilerPipelineObserver } from './TranspilerPipelineObserver';
 
 import configure from '../config';
@@ -31,7 +31,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
     });
 
     if (config.emit.config) {
-        core.logger.log(Logger.INFO, util.inspect(config, { depth: null }));
+        core.logger.log(Logger.INFO, inspect(config, { depth: null }));
         process.exit(0);
     }
 
@@ -42,7 +42,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
             switch (type) {
                 case StatEvent.type():
                     if (config.emit.stats) {
-                        core.logger.log(Logger.INFO, event, util.inspect(data.stat, {
+                        core.logger.log(Logger.INFO, event, inspect(data.stat, {
                             depth: null,
                             colors: true,
                             customInspect: true,
@@ -51,7 +51,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
                     break;
 
                 case StopEvent.type(): {
-                    if (parent instanceof ErrorEvent) {
+                    if (parent?.is(ErrorEvent)) {
                         rj(parent);
                     } else {
                         rs(parent);

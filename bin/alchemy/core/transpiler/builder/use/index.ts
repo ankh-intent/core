@@ -10,6 +10,7 @@ export type UseInvokers = {
     use: UseNode;
     uses: UsesNode;
 };
+
 export type UseDependencies =
     DecompositionChildren &
     UseChildren &

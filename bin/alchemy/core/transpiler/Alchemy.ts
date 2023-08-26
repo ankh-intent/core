@@ -1,6 +1,5 @@
-import { Source, Range } from '@intent/source';
+import { SourceInterface, RangeInterface } from '@intent/source';
 import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
-import { BuilderInvokers } from '@intent/kernel';
 
 export class Alchemy {
     public static pure(context: Context, unpure?: boolean) {
@@ -8,7 +7,7 @@ export class Alchemy {
             return this.tokenizer(context);
         }
 
-        let token;
+        let token: Token | undefined;
 
         while ((token = this.tokenizer(context))) {
             if (token.type !== BaseTokenTypes.TK_WHITESPACE) {
@@ -38,7 +37,7 @@ export class Alchemy {
         }
     }
 
-    protected static checkType(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkType(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         const index = context.pos;
         const char = source.at(index);
 
@@ -85,7 +84,7 @@ export class Alchemy {
         return this.checkSymbol(source, context);
     }
 
-    protected static checkWhitespace(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkWhitespace(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         let index = context.pos;
 
         while (source.at(index).match(/\s/)) {
@@ -99,7 +98,7 @@ export class Alchemy {
         }
     }
 
-    protected static checkString(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkString(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         let index = context.pos;
         const char = source.at(index++);
 
@@ -120,12 +119,12 @@ export class Alchemy {
         }
     }
 
-    protected static checkComment(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkComment(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         let index = context.pos + 2;
 
         switch (source.at(context.pos + 1)) {
             case '/': {
-                let char;
+                let char: string;
 
                 while ((char = source.at(index)) && (char !== '\n')) {
                     index++;
@@ -137,7 +136,7 @@ export class Alchemy {
             }
 
             case '*': {
-                let char;
+                let char: string;
 
                 while ((char = source.at(index++))) {
                     if ((char === '*') && (source.at(index + 1) === '/')) {
@@ -150,10 +149,10 @@ export class Alchemy {
         }
     }
 
-    protected static checkIdentifier(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkIdentifier(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         let index = context.pos;
 
-        while (source.at(index).match(/[\w\d_]/i)) {
+        while (source.at(index).match(/[\w_]/i)) {
             index++;
         }
 
@@ -164,7 +163,7 @@ export class Alchemy {
         }
     }
 
-    protected static checkNumeric(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkNumeric(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         let index = context.pos + 1;
 
         while (source.at(index).match(/\d/)) {
@@ -199,7 +198,7 @@ export class Alchemy {
         '-': ['=', '-'],
     };
 
-    protected static checkSymbol(source: Source, context: Context): BaseTokenTypes | undefined {
+    protected static checkSymbol(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         const char = source.at(context.pos++);
         const sequences = this.multi[char];
 
@@ -220,7 +219,7 @@ export class Alchemy {
 }
 
 export class AlchemyTokenMatcher extends TokenMatcher {
-    constructor(source: Source, range: Range) {
+    constructor(source: SourceInterface, range: RangeInterface) {
         super(Alchemy.pure.bind(Alchemy), source, range);
     }
 }

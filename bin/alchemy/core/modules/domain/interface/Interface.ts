@@ -1,5 +1,5 @@
 import { Strings } from '@intent/utils';
-import { DomainInterfaceNode } from '../../../transpiler/ast';
+import { DomainInterfaceNode } from '../../../transpiler';
 import { Translated } from '../../Translated';
 import { InterfaceProperty } from './InterfaceProperty';
 

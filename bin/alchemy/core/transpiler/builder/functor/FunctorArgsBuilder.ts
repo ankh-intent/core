@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { FunctorArgsNode, FunctorArgNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type FunctorArgsChildren = {
 }
 
 export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgsChildren> {
-    protected build(tokens, { peek, not, get, except, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, not }: TypedTokenMatcherInterface) {
         const args: FunctorArgNode[] = [];
 
         while (!peek.symbol(')')) {
@@ -16,8 +16,11 @@ export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgs
 
             tokens.mark('IS_FUNCTOR');
 
-            if (arg.name && args.find(a => a.name === arg.name)) {
-                throw tokens.error(`Argument with the same name "${arg.name}" already present`);
+            if (arg.name && args.find((a) => a.name === arg.name)) {
+                throw tokens.error(
+                    `Argument with the same name "${arg.name}" already present`,
+                    'Error in functor declaration'
+                );
             }
 
             args.push(arg);
