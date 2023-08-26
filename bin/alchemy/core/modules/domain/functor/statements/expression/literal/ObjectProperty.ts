@@ -1,4 +1,4 @@
-import { ObjectPropertyNode } from '../../../../../../transpiler/ast';
+import { ObjectPropertyNode } from '../../../../../../transpiler';
 import { Translated } from '../../../../../Translated';
 
 import { Expression } from '../Expression';

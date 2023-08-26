@@ -1,5 +1,5 @@
 import { Strings } from '@intent/utils';
-import { BlockNode } from '../../../../transpiler/ast';
+import { BlockNode } from '../../../../transpiler';
 
 import { Translated } from '../../../Translated';
 import { ExpressionStatement } from './ExpressionStatement';

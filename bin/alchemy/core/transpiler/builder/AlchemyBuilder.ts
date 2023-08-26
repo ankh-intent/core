@@ -18,7 +18,7 @@ type AlchemyGrammar =
     ExpressionInvokers &
     DomainInvokers &
     ModuleChildren
-    ;
+;
 
 export class AlchemyBuilder extends RootBuilder<BaseTokenTypes, AlchemyGrammar, ModuleNode> {
     protected get builders() {

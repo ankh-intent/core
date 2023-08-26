@@ -1,6 +1,7 @@
+import { TreeNode, Identifiable } from '@intent/kernel';
+import { CoreConfig } from '@intent/config';
+
 import { Core } from './Core';
-import { CoreConfig } from '../CoreConfig';
-import { TreeNode, Identifiable } from '../kernel';
 
 export interface PipelineObserver<C extends CoreConfig, N extends TreeNode, T extends Identifiable<N>> {
     bootstrap(core: Core<C, N, T>, config: C): void;

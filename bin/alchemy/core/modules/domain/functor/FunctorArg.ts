@@ -1,4 +1,4 @@
-import { FunctorArgNode } from '../../../transpiler/ast';
+import { FunctorArgNode } from '../../../transpiler';
 import { ReferenceInterface } from '../../interfaces';
 import { Translated } from '../../Translated';
 

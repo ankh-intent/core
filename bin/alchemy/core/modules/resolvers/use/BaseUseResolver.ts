@@ -1,11 +1,11 @@
 import { Strings } from '@intent/utils';
-import { PathsConfig } from '@intent/CoreConfig';
+import { PathsConfig } from '@intent/config';
 import { IdentifiableFactory } from '@intent/consumers';
 
+import { QualifierNode, ModuleNode } from '../../../transpiler';
+import { Module } from '../../Module';
 import { UseResolverInterface } from './UseResolverInterface';
 import { LibraryUseResolver } from './LibraryUseResolver';
-import { Module } from '../../Module';
-import { QualifierNode, ModuleNode } from '../../../transpiler/ast';
 
 export class BaseUseResolver implements UseResolverInterface {
     private readonly config: PathsConfig;

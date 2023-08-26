@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TokenMatcher } from '@intent/parser';
 
 import { UsesNode, UseNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type UsesChildren = {
 };
 
 export class UsesBuilder extends BaseBuilder<UsesNode, UsesChildren> {
-    protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher) {
         const uses = new Map<string, UseNode>();
 
         while (true) {

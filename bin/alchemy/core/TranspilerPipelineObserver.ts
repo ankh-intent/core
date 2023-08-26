@@ -1,14 +1,17 @@
 import { Container } from '@intent/utils';
-import { Source } from '@intent/source';
+import { SourceInterface } from '@intent/source';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
-import { Module } from './modules';
-import { QualifierResolver, BaseUseResolver } from './modules';
-import { AlchemyTokenMatcher } from './transpiler/Alchemy';
-import { ModuleNode, DomainNode, UsesNode } from './transpiler/ast';
-import { AlchemyBuilder } from './transpiler/builder/AlchemyBuilder';
-import { DependencyResolvingPlugin } from './transpiler/DependencyResolvingPlugin';
-import { TranslatorPlugin } from './transpiler/TranslatorPlugin';
+import { Module, QualifierResolver, BaseUseResolver } from './modules';
+import {
+    AlchemyTokenMatcher,
+    ModuleNode,
+    DomainNode,
+    UsesNode,
+    AlchemyBuilder,
+    DependencyResolvingPlugin,
+    TranslatorPlugin,
+} from './transpiler';
 
 export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module> {
     private readonly qualifierResolver: QualifierResolver;
@@ -16,9 +19,9 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
 
     public constructor(config: TranspilerConfig) {
         super(
-            config,
-            (source: Source) => new AlchemyTokenMatcher(source, source.range()),
+            (source: SourceInterface) => new AlchemyTokenMatcher(source, source.range()),
             new AlchemyBuilder(),
+            config.emit.files,
         );
         this.qualifierResolver = new QualifierResolver(config.paths);
         this.useResolver = new BaseUseResolver(config.paths, this);

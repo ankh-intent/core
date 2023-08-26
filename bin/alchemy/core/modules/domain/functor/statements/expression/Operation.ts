@@ -1,6 +1,6 @@
 import { AbstractNode } from '@intent/ast';
 
-import { OperationNode } from '../../../../../transpiler/ast';
+import { OperationNode } from '../../../../../transpiler';
 import { Translated } from '../../../../Translated';
 
 const MAP = {

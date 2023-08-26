@@ -1,0 +1,14 @@
+native domain Iterator<E> {{
+        value: E | Void;
+        cast(iterable: Iterable<E>): self;
+    }
+
+    trait IsDone is Void;
+
+    domain Done is IsDone;
+
+    domain Value is {{
+        value: E;
+        next(): Iterator<E>;
+    }}
+}

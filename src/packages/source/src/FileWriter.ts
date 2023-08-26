@@ -1,49 +1,19 @@
-import * as path from 'path';
-import * as fs from 'fs';
+import path from 'node:path';
+import { writeFile, mkdir } from 'node:fs/promises';
 
-import { Source } from './Source';
+import { SourceInterface } from './interfaces';
 
 export class FileWriter {
-  public write(source: Source, encoding: BufferEncoding = 'utf8'): Promise<Source> {
-    return <Promise<Source>>this.assumeDir(path.dirname(source.reference))
-      .then(() => new Promise((rs, rj) => {
-          fs.writeFile(
-            source.reference,
-            source.content,
-            { encoding },
-            (e) => e ? rj(e) : rs(source),
-          );
-        }),
-      )
-      ;
-  }
+    public async write(source: SourceInterface, encoding: BufferEncoding = 'utf8'): Promise<SourceInterface> {
+        await this.assumeDir(path.dirname(source.reference));
+        await writeFile(source.reference, source.content, { encoding });
 
-  protected assumeDir(dir: string): Promise<string> {
-    return <Promise<string>>new Promise((rs, rj) => {
-      try {
-        fs.exists(dir, (exists) => {
-          if (exists) {
-            return rs(dir);
-          }
+        return source;
+    }
 
-          this.assumeDir(path.dirname(dir))
-            .then(() => {
-              fs.mkdir(dir, (e) => e ? rj(e) : rs(dir));
-            })
-            .catch(rj)
-          ;
-        });
-      } catch (e) {
-        rj(e);
-      }
-    }).catch((e) => {
-      if (e instanceof Error) {
-        if (e.message.match(/EEXIST/)) {
-          return;
-        }
-      }
+    protected async assumeDir(dir: string): Promise<string> {
+        await mkdir(dir, { recursive: true });
 
-      throw e;
-    });
-  };
+        return dir;
+    };
 }

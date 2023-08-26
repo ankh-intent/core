@@ -5,8 +5,8 @@ use Intent.Types: {
   Sure,
 };
 
-domain Players extends Sure.Collection<Player> {
-  with (size > 1);
+domain Players of Sure.Collection<Player> {
+  is (size > 1);
 
   domain Player {{
     id: PositiveNumber;

@@ -1,13 +1,5 @@
-use Intent.Types.Math: {
-    NaturalNumber,
-    PositiveNumber,
-};
-
-domain Score extends NaturalNumber {
-  domain Winning extends Score {{
-      max: PositiveNumber;
+domain Score of Number.Natural {
+    domain Winning is {{ max: Number.Positive }
+        is GreaterOrEqual(max);
     }
-
-    is GreaterOrEqual(max);
-  }
 }

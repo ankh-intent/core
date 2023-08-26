@@ -1,30 +1,30 @@
-import { TreeNode } from '../../../ast';
+import { TreeNode } from '@intent/ast';
 import { Visitor } from './Visitor';
 
 export type NodeIdentifiersMap = {
-  [name: string]: TreeNode;
+    [name: string]: TreeNode;
 }
 
 export interface NodeInvoker<N, C, O> {
-  (node: N, context: C): O;
+    (node: N, context: C): O;
 }
 
 export type NodeInvokers<T = any, C = any, O = any> = {
-  [name in keyof T]: NodeInvoker<T[name], C, O>;
+    [name in keyof T]: NodeInvoker<T[name], C, O>;
 }
 
 export abstract class Walker<
-  N,
-  C,
-  O,
-  I extends NodeIdentifiersMap
+    N,
+    C,
+    O,
+    I extends NodeIdentifiersMap
 > implements Visitor<N, C, O> {
-  protected child: NodeInvokers<I>;
+    protected child: NodeInvokers<I>;
 
-  constructor(children: NodeInvokers<I>) {
-    this.child = children;
-  }
+    constructor(children: NodeInvokers<I>) {
+        this.child = children;
+    }
 
-  abstract visit(node: N, context: C): O;
+    abstract visit(node: N, context: C): O;
 }
 

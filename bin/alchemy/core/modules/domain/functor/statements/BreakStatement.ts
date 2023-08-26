@@ -1,4 +1,4 @@
-import { BreakType, BreakStatementNode } from '../../../../transpiler/ast';
+import { BreakType, BreakStatementNode } from '../../../../transpiler';
 import { Statement } from './Statement';
 
 const KEYWORDS = {

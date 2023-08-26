@@ -1,7 +1,7 @@
 import { Identifiable } from '@intent/kernel';
 import { Strings } from '@intent/utils';
 
-import { ModuleNode, QualifierNode } from '../transpiler/ast';
+import { ModuleNode, QualifierNode } from '../transpiler';
 import { Domain, Uses } from './domain';
 import { DeclarationRegistry } from './DeclarationRegistry';
 import { Qualifier } from './reference';

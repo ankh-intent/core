@@ -1,4 +1,4 @@
-import { LoopStatementNode } from '../../../../transpiler/ast';
+import { LoopStatementNode } from '../../../../transpiler';
 import { Block } from './Block';
 import { LoopIterator } from './LoopIterator';
 import { Statement } from './Statement';

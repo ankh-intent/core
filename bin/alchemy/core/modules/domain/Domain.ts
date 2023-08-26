@@ -1,5 +1,5 @@
 import { Strings } from '@intent/utils';
-import { DomainNode } from '../../transpiler/ast';
+import { DomainNode } from '../../transpiler';
 import { DomainInterface, ReferenceInterface, GenericInterface } from '../interfaces';
 import { DeclarationRegistry } from '../DeclarationRegistry';
 import { Functor } from './functor';

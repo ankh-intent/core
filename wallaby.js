@@ -1,28 +1,27 @@
-
 module.exports = function (wallaby) {
-  return {
-    name: 'Intent compiler',
+    return {
+        name: 'Intent compiler',
 
-    files: [
-      'src/**/*.ts',
-      'tests/util/**/*.ts',
-    ],
+        files: [
+            'src/**/*.ts',
+            'tests/util/**/*.ts',
+        ],
 
-    tests: [
-      'tests/**/*Spec.ts',
-    ],
+        tests: [
+            'tests/**/*Spec.ts',
+        ],
 
-    compilers: {
-      '**/*.ts*': wallaby.compilers.typeScript({
-        module: "commonjs",
-        target: "es5",
-      })
-    },
+        compilers: {
+            '**/*.ts*': wallaby.compilers.typeScript({
+                module: 'commonjs',
+                target: 'es5',
+            }),
+        },
 
-    env: {
-      type: 'node',
-    },
+        env: {
+            type: 'node',
+        },
 
-    testFramework: 'jasmine',
-  };
+        testFramework: 'jasmine',
+    };
 };

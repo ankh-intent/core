@@ -1,6 +1,6 @@
-import { PathsConfig } from '@intent/CoreConfig';
+import { PathsConfig } from '@intent/config';
 
-import { QualifierNode } from '../../../transpiler/ast';
+import { QualifierNode } from '../../../transpiler';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 import { BaseQualifierResolver } from './BaseQualifierResolver';
 import { LibraryQualifierResolver } from './LibraryQualifierResolver';

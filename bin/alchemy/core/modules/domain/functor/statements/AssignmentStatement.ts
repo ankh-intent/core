@@ -1,4 +1,4 @@
-import { AssignmentStatementNode, ExpressionNode } from '../../../../transpiler/ast';
+import { AssignmentStatementNode, ExpressionNode } from '../../../../transpiler';
 import { Translated } from '../../../Translated';
 import { AssignmentTarget } from './AssignmentTarget';
 import { Expression, Identifier } from './expression';

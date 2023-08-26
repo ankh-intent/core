@@ -1,0 +1,4 @@
+domain Stream {
+    domain Consumer<Input, Output, Context> of Callable<[Input, Context], Output> {}
+    domain Matcher<Input, Context> of Consumer<Input, Boolean, Context> {}
+}

@@ -1,4 +1,4 @@
-import { FunctorBodyNode } from '../../../transpiler/ast';
+import { FunctorBodyNode } from '../../../transpiler';
 import { Translated } from '../../Translated';
 import { Block } from './statements';
 

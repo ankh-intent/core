@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { BlockNode, StatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type FunctorBodyBlockChildren = {
 };
 
 export class FunctorBodyBlockBuilder extends BaseBuilder<BlockNode, FunctorBodyBlockChildren> {
-    protected build(tokens, { peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface) {
         if (peek.symbol('{')) {
             return this.child.block(tokens);
         }

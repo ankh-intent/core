@@ -1,4 +1,4 @@
-import { FunctorArgsNode } from '../../../transpiler/ast';
+import { FunctorArgsNode } from '../../../transpiler';
 import { Translated } from '../../Translated';
 import { FunctorArg } from './FunctorArg';
 

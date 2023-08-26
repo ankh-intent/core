@@ -1,0 +1,3 @@
+domain Sure {
+    trait NonEmpty is Not(Void);
+}

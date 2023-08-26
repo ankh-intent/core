@@ -2,7 +2,15 @@ import { Container } from '@intent/utils';
 import { DummyWriter, FileWriter } from '@intent/source';
 import { BaseTokenTypes, TokensFactory } from '@intent/parser';
 import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
-
+import {
+    TreeNode,
+    Identifiable,
+    DependencyManager,
+    ReadyEvent,
+    StopEvent,
+    RootBuilder,
+    EmitResolver,
+} from '@intent/kernel';
 import {
     IdentifiableFactory,
     PatchAfterParse,
@@ -12,15 +20,10 @@ import {
     DependenciesResolver,
     WatchAfterReadyStage,
     RunPlugins,
-} from '../consumers';
+} from '@intent/consumers';
+import { CoreConfig } from '@intent/config';
+
 import { Core } from './Core';
-import { CoreConfig } from '../CoreConfig';
-import {
-    TreeNode, Identifiable, DependencyManager,
-    ReadyEvent, StopEvent,
-    RootBuilder,
-    EmitResolver,
-} from '../kernel';
 import { PipelineObserver } from './PipelineObserver';
 
 export interface TranspilerConfig extends CoreConfig {
@@ -33,22 +36,19 @@ export abstract class WatchedTranspilerPipelineObserver<
     C extends TranspilerConfig = TranspilerConfig,
     TT extends BaseTokenTypes = BaseTokenTypes,
 >
-    implements PipelineObserver<C, N, T>,
-        IdentifiableFactory<N, T>,
-        DependenciesResolver<N, T> {
-    private readonly config: C;
+    implements PipelineObserver<C, N, T>, IdentifiableFactory<N, T>, DependenciesResolver<N, T>
+{
     protected readonly dependencyTree: DependencyManager<N, T>;
     private readonly tokensFactory: TokensFactory<TT>;
     private readonly parser: RootBuilder<TT, any, N, any>;
     private readonly writer: FileWriter;
     private watchdog: Watchdog<UnitInterface>;
 
-    protected constructor(config: C, tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>) {
-        this.config = config;
+    protected constructor(tokensFactory: TokensFactory<TT>, parser: RootBuilder<TT, any, N, any>, emit: boolean) {
         this.tokensFactory = tokensFactory;
         this.parser = parser;
         this.dependencyTree = new DependencyManager();
-        this.writer = config.emit.files ? new FileWriter() : new DummyWriter();
+        this.writer = emit ? new FileWriter() : new DummyWriter();
     }
 
     public bootstrap(core: Core<C, N, T>, config: C): void {
@@ -80,7 +80,7 @@ export abstract class WatchedTranspilerPipelineObserver<
         }
     }
 
-    resolve(identifiable: T): Container<T> {
+    resolve(_identifiable: T): Container<T> {
         return {};
     }
 

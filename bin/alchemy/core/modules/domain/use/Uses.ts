@@ -1,4 +1,4 @@
-import { UsesNode } from '../../../transpiler/ast';
+import { UsesNode } from '../../../transpiler';
 import { Translated } from '../../Translated';
 import { Use } from './Use';
 

@@ -1,5 +1,5 @@
 import { Module } from '../../Module';
-import { QualifierNode } from '../../../transpiler/ast';
+import { QualifierNode } from '../../../transpiler';
 
 export interface UseResolverInterface {
     supports(from: Module, identifier: QualifierNode): boolean;

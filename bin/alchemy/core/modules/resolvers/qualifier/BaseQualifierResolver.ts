@@ -1,9 +1,9 @@
 import { sep } from 'path';
 import { startCase } from 'lodash';
 
-import { PathsConfig } from '@intent/CoreConfig';
+import { PathsConfig } from '@intent/config';
 
-import { QualifierNode } from '../../../transpiler/ast';
+import { QualifierNode } from '../../../transpiler';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
 
 export class BaseQualifierResolver implements QualifierResolverInterface {

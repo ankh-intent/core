@@ -18,7 +18,7 @@ domain NumberConsumer<In: number, Out> extends Consumer<In, Out> {}
  */
 
 import { TreeNode } from '@intent/ast';
-import { DomainNode } from '../transpiler/ast';
+import { DomainNode } from '../transpiler';
 import { Qualifier } from './reference';
 
 export interface TranslatedInterface<N extends TreeNode> {

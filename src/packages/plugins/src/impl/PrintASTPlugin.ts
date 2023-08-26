@@ -1,39 +1,36 @@
-import { Identifiable, StatEvent } from '../../../../kernel';
-import { TreeNode } from '../../../ast';
+import { Identifiable, StatEvent } from '@intent/kernel';
+import { TreeNode } from '@intent/ast';
+import { PatchedASTEvent } from '@intent/consumers';
 import { InterpretPlugin } from '../phases';
+import { PluginEnvironment } from '../Plugin';
 
 interface PrintContext {
-  depth: number;
-  data: string[];
+    depth: number;
+    data: string[];
 }
 
 export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> extends InterpretPlugin<N, T, PrintContext> {
-  protected createContext(env): PrintContext {
-    return {
-      depth: -1,
-      data: [],
-    };
-  }
-
-  protected visitRoot(env, root: N, context: PrintContext) {
-    if (false !== super.visitRoot(env, root, context)) {
-      env.events.emit(new StatEvent({
-        stat: {
-          type: 'log',
-          message: {
-            ast: context.data.join('\n'),
-          },
-        },
-        parent: env.event,
-      }));
+    protected createContext(): PrintContext {
+        return {
+            depth: -1,
+            data: [],
+        };
     }
-  }
 
-  protected visit(node: TreeNode, context: PrintContext) {
-    return super.visit(node, { ...context, depth: context.depth + 1 });
-  }
+    protected visitRoot(env: PluginEnvironment<PatchedASTEvent<N, T>>, root: N, context: PrintContext) {
+        if (false !== super.visitRoot(env, root, context)) {
+            env.events.emit(new StatEvent(env.event, {
+                type: 'log',
+                stat: {
+                    ast: context.data.join('\n'),
+                },
+            }));
+        }
+    }
 
-  protected pre(node: TreeNode, context: PrintContext): boolean | void {
-    context.data.push(`${''.padStart(context.depth * 2, ' ')}${node.node}`);
-  }
+    protected visit(node: TreeNode, context: PrintContext) {
+        context.data.push(`${''.padStart(context.depth * 2, ' ')}${node.node}`);
+
+        return super.visit(node, { ...context, depth: context.depth + 1 });
+    }
 }

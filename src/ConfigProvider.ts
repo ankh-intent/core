@@ -2,8 +2,8 @@ import * as path from 'path';
 
 import { Container, Strings } from '@intent/utils';
 import { AbstractConfigProvider } from '@intent/config';
+import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from '@intent/config';
 
-import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from './CoreConfig';
 import { Core } from './pipeline';
 
 export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T, Core<T, any, any>> {
