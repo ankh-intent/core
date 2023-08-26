@@ -22,6 +22,9 @@
             "@intent/*": [
                 "../../src/packages/*",
                 "../../src/*"
+            ],
+            "@alchemy/*": [
+                "./packages/*"
             ]
         }
     },

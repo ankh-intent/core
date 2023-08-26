@@ -1,0 +1,41 @@
+import { PatchedASTEvent, IdentifiableFactory } from '@intent/consumers';
+import { DependencyManager } from '@intent/kernel';
+import { PluginEnvironment, InterpretPlugin } from '@intent/plugins';
+
+import { ModuleNode } from '@alchemy/ast';
+import { Module } from '@alchemy/modules';
+
+import { TranslationContext, AlchemyTranslator } from './translation';
+
+export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, TranslationContext<undefined>> {
+    private readonly translator: AlchemyTranslator;
+
+    constructor(factory: IdentifiableFactory<ModuleNode, Module>, tree: DependencyManager<ModuleNode, Module>) {
+        super();
+        this.translator = new AlchemyTranslator(factory, tree);
+    }
+
+    protected createContext(env: PluginEnvironment<PatchedASTEvent<any, any>>): TranslationContext<undefined> {
+        return TranslationContext.createContext(env);
+    }
+
+    protected visitRoot(
+        env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>,
+        root: ModuleNode,
+        context: TranslationContext<undefined>
+    ): boolean | void {
+        const module = this.translator.visit(root, context);
+
+        // console.log(root, module);
+
+        env.events.stat({
+            type: 'log',
+            message: {
+                log: {
+                    module,
+                    moduleString: String(module),
+                },
+            },
+        });
+    }
+}

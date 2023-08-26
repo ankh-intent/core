@@ -1,4 +1,4 @@
-import { InspectOptionsStylized, inspect } from 'util';
+import { InspectOptionsStylized, inspect } from 'node:util';
 
 import { Region } from '@intent/source';
 

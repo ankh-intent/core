@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { resolve } from 'node:path';
 
 import { Container, Strings } from '@intent/utils';
 import { AbstractConfigProvider } from '@intent/config';
@@ -142,8 +142,8 @@ export class ConfigProvider<T extends CoreConfig, C> extends AbstractConfigProvi
 
     private paths(): PathsConfig {
         return {
-            project: path.resolve(this.get('work-dir')),
-            internal: path.resolve(this.get('lib-dir')),
+            project: resolve(this.get('work-dir')),
+            internal: resolve(this.get('lib-dir')),
             internalName: this.get('lib-name'),
         } satisfies PathsConfig;
     }
@@ -164,7 +164,7 @@ export class ConfigProvider<T extends CoreConfig, C> extends AbstractConfigProvi
     private output(): OutputConfig {
         return <OutputConfig>{
             extension: this.get('output-extension'),
-            path: path.resolve(this.get('output-dir')),
+            path: resolve(this.get('output-dir')),
         };
     }
 

@@ -1,4 +1,4 @@
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 
 import { SourceInterface, RangeInterface, OriginInterface, LocationInterface } from '../interfaces';
 import { Origin } from './Origin';
