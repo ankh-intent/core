@@ -14,4 +14,14 @@ export class DecompositionNode extends AbstractNode {
     get children(): TreeNode[] {
         return [this.qualifier, ...Object.values(this.items)];
     }
+
+    inspect(): any {
+        if (Object.keys(this.items).length) {
+            return this;
+        }
+
+        const { items, ...rest } = this;
+
+        return rest;
+    }
 }

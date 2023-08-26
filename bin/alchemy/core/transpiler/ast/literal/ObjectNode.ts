@@ -12,4 +12,8 @@ export class ObjectNode extends AbstractNode {
     public get children() {
         return [...this.properties.values()];
     }
+
+    inspect(): any {
+        return this.properties;
+    }
 }

@@ -16,4 +16,8 @@ export class UsesNode extends AbstractNode {
     public get entries(): [string, UseNode][] {
         return [...this.map.entries()];
     }
+
+    inspect(): any {
+        return this.map;
+    }
 }

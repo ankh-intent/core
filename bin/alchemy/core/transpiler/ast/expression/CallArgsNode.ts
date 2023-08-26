@@ -12,4 +12,8 @@ export class CallArgsNode extends AbstractNode {
     get children() {
         return this.args;
     }
+
+    inspect(): any {
+        return this.args;
+    }
 }

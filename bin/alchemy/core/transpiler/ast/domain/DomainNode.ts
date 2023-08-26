@@ -30,4 +30,19 @@ export class DomainNode extends AbstractNode {
             ...this.methods.values(),
         ].filter(Boolean);
     }
+
+    inspect(): any {
+        const { domains, methods, uses, parent, ctor, generics, interfaced, ...rest } = this;
+
+        return {
+            ...(uses.map.size && { uses }),
+            ...(domains.size && { domains }),
+            ...(methods.size && { methods }),
+            ...(parent && { parent }),
+            ...(generics.templates.length && { generics }),
+            ...(interfaced.properties.size && { interfaced }),
+            ...rest,
+            ...(ctor && { ctor }),
+        };
+    }
 }

@@ -12,4 +12,8 @@ export class GenericTemplatesNode extends AbstractNode {
     get children() {
         return this.templates;
     }
+
+    inspect(): any {
+        return this.templates;
+    }
 }

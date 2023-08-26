@@ -32,6 +32,7 @@ export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, Transl
             message: {
                 log: {
                     module: String(module),
+                    root,
                 },
             },
         });

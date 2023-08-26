@@ -12,4 +12,8 @@ export class ArrayNode extends AbstractNode {
     get children() {
         return this.items;
     }
+
+    inspect(): any {
+        return this.items;
+    }
 }

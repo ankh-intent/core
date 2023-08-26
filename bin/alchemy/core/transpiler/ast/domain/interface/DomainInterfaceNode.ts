@@ -12,4 +12,10 @@ export class DomainInterfaceNode extends AbstractNode {
     get children() {
         return [...this.properties.values()];
     }
+
+    inspect(): any {
+        return {
+            properties: this.properties,
+        };
+    }
 }

@@ -15,4 +15,13 @@ export class ModuleNode extends AbstractNode {
     public get children() {
         return [this.uses, this.domain];
     }
+
+    inspect(): any {
+        const { uses, ...rest } = this;
+
+        return {
+            ...(uses.map.size && { uses }),
+            ...rest,
+        };
+    }
 }

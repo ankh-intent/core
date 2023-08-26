@@ -30,10 +30,10 @@ export type TranslatedFactory<T> = Partial<T> | ((intermediate: T) => Partial<T>
 const isASTNode = <AST extends TreeNode>(node?: any): node is AST => (
     !!(node && node.astRegion)
 );
-const isTranslated = <P extends Translated<any>, N extends Translated<any>>(nodeOrFactory?: P | TranslatedFactory<N> | Partial<N>): nodeOrFactory is P => (
+const isTranslated = <P extends Translated<any>, N extends Translated<any>>(nodeOrFactory?: P | TranslatedFactory<N>): nodeOrFactory is P => (
     nodeOrFactory instanceof Translated
 );
-const isFactory = <N>(factoryOrData?: TranslatedFactory<N> | Partial<N>): factoryOrData is TranslatedFactory<N> => (
+const isFactory = <N>(factoryOrData?: TranslatedFactory<N>): factoryOrData is TranslatedFactory<N> => (
     typeof factoryOrData === 'function'
 );
 
@@ -51,16 +51,16 @@ export class Translated<N extends TreeNode, P extends TreeNode = any> {
         this: T,
         ast: AST,
         parentNode: P | undefined,
-        factoryOrData?: TranslatedFactory<N> | Partial<N>,
+        factoryOrData?: TranslatedFactory<N>,
     ): N;
     static create<T extends TranslatedConstructor<Translated<any>>, N extends InstanceType<T>, P extends Translated<any>>(
         this: T,
         parentNode: P,
-        factoryOrData?: TranslatedFactory<N> | Partial<N>,
+        factoryOrData?: TranslatedFactory<N>,
     ): N;
     static create<T extends TranslatedConstructor<Translated<any>>, N extends InstanceType<T>>(
         this: T,
-        factoryOrData?: TranslatedFactory<N> | Partial<N>,
+        factoryOrData?: TranslatedFactory<N>,
     ): N;
 
     static create<
@@ -72,10 +72,10 @@ export class Translated<N extends TreeNode, P extends TreeNode = any> {
     >(this: T, ...args: any[]): N {
         let ast: AST | undefined;
         let parent: P | undefined;
-        let factory: TranslatedFactory<N> | Partial<N> | undefined;
+        let factory: TranslatedFactory<N> | undefined;
         let partial: Partial<N> | undefined;
 
-        for (const arg of arguments) {
+        for (const arg of args) {
             if (isASTNode<AST>(arg)) {
                 ast = arg;
             } else if (isTranslated<P, N>(arg)) {

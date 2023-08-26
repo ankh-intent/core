@@ -25,4 +25,14 @@ export class QualifierNode extends AbstractNode {
             ? this.name + join + this.child.path(join)
             : this.name;
     }
+
+    inspect(): any {
+        if (this.child) {
+            return this;
+        }
+
+        const { child, ...rest } = this;
+
+        return rest;
+    }
 }
