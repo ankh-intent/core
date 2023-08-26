@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node --project tsconfig.json
+#!/usr/bin/env -S cross-env TS_NODE_PROJECT=tsconfig.json node -r ts-node/register
 
 import * as path from 'path';
 import { register } from 'tsconfig-paths';

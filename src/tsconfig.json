@@ -5,12 +5,13 @@
         "inlineSourceMap": true,
         "noEmit": true,
         "module": "commonjs",
-        "target": "es6",
+        "target": "es2017",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
         "downlevelIteration": true,
         "strictNullChecks": true,
+        "esModuleInterop": true,
         "lib": [
             "es2017"
         ],
