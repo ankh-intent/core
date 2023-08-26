@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { StatementNode, DecoratedStatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type BlockStatementChildren = {
 };
 
 export class BlockStatementBuilder extends BaseBuilder<StatementNode, BlockStatementChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface) {
         if (peek.symbol('@')) {
             return this.child.decorated_statement(tokens);
         } else {

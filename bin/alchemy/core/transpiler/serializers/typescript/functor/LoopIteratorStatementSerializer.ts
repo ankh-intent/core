@@ -1,6 +1,7 @@
 import { SyntaxError } from '@intent/parser';
 import { LoopIteratorNode, ExpressionNode, AssignmentTargetNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type LoopIteratorSerializerChildren = {
     expression: ExpressionNode;
@@ -8,7 +9,7 @@ export type LoopIteratorSerializerChildren = {
 };
 
 export class LoopIteratorSerializer extends NodeSerializer<LoopIteratorNode, LoopIteratorSerializerChildren> {
-    serialize(node: LoopIteratorNode, context): string {
+    serialize(node: LoopIteratorNode, context: SerializingContext): string {
         if (node.isDeclaration()) {
             const identifier = node.targetBase.name;
 

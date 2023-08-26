@@ -1,1 +1,1 @@
-export * from './LogStat';
+export * from './LogStatProcessor';

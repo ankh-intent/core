@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ReferenceNode, EnumNode, ExpressionNode, QualifierNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -10,7 +10,7 @@ export type EnumChildren = {
 };
 
 export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
         if (not.identifier('enum')) {
             return null;
         }

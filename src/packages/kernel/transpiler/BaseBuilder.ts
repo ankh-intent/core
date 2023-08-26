@@ -22,7 +22,7 @@ export abstract class BaseBuilder<
     TT extends BaseTokenTypes,
     N extends TreeNode,
     I extends BuilderInvokers<any, TT>,
-> implements TokenVisitor<N> {
+> implements TokenVisitor<N, TT> {
     protected child: I;
 
     // noinspection TypeScriptAbstractClassConstructorCanBeMadeProtected
@@ -97,13 +97,13 @@ export abstract class BaseBuilder<
         );
     }
 
-    protected seek(tokens: TokenMatcher<TT>, start: number, delta: number): Token | null {
-        let token: Token | null = null;
+    protected seek(tokens: TokenMatcher<TT>, start: number, delta: number): Token<TT> | null {
+        let token: Token<TT> | null = null;
 
         do {
             start += delta;
             token = tokens.at(start, true);
-        } while (token && (token.type === BaseTokenTypes.TK_WHITESPACE));
+        } while (token?.type === BaseTokenTypes.TK_WHITESPACE);
 
         return token;
     }

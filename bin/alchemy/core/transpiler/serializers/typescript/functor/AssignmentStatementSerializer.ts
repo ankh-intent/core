@@ -1,6 +1,7 @@
 import { SyntaxError } from '@intent/parser';
 import { ExpressionNode, AssignmentStatementNode, AssignmentTargetNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type AssignmentStatementSerializerChildren = {
     assignment_target: AssignmentTargetNode;
@@ -8,7 +9,7 @@ export type AssignmentStatementSerializerChildren = {
 };
 
 export class AssignmentStatementSerializer extends NodeSerializer<AssignmentStatementNode, AssignmentStatementSerializerChildren> {
-    serialize(node: AssignmentStatementNode, context): string {
+    serialize(node: AssignmentStatementNode, context: SerializingContext): string {
         if (node.isDeclaration()) {
             const identifier = node.targetBase.name;
 

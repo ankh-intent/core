@@ -47,5 +47,5 @@ export interface GenericInterface {
 }
 
 export interface DeclarationRegistryInterface {
-    getLocalDeclaration(qualifier: Qualifier): DeclarationInterface | undefined;
+    getLocalDeclaration<D>(qualifier: Qualifier): (DeclarationInterface & D) | undefined;
 }

@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 import { ExpressionNode, UnaryNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
@@ -10,7 +10,7 @@ const OPS = ['+', '-', '++', '--', '!'];
 const COM = ['typeof'];
 
 export class UnaryBuilder extends BaseBuilder<ExpressionNode, UnaryChildren> {
-    protected build(tokens, { peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
         let symbol = peek.symbol();
 
         if (symbol && OPS.includes(symbol)) {

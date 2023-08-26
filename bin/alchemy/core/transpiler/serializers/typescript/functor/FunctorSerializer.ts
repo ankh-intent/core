@@ -1,5 +1,6 @@
 import { FunctorNode, FunctorArgsNode, FunctorBodyNode, ReferenceNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type FunctorSerializerChildren = {
     args: FunctorArgsNode;
@@ -8,7 +9,7 @@ export type FunctorSerializerChildren = {
 };
 
 export class FunctorSerializer extends NodeSerializer<FunctorNode, FunctorSerializerChildren> {
-    serialize(node: FunctorNode, context): string {
+    serialize(node: FunctorNode, context: SerializingContext): string {
         const sub = context.nest();
         const { local } = sub.argsType(node.args);
 

@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TokenMatcher } from '@intent/parser';
 
 import { FunctorNode, CallableNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
@@ -8,7 +8,7 @@ export type CallableChildren = {
 };
 
 export class CallableBuilder extends BaseBuilder<CallableNode, CallableChildren> {
-    protected build(tokens, {}: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher) {
         const functor = this.child.functor(tokens);
 
         return new CallableNode(

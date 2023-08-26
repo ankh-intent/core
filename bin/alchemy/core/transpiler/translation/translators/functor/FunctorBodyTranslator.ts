@@ -1,15 +1,16 @@
-import { FunctorBody } from '../../../../modules/domain/functor';
+import { FunctorBody } from '../../../../modules';
 import { FunctorBodyNode, BlockNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
+import { TranslationContext } from '../../TranslationContext';
 
 export type FunctorBodyTranslatorChildren = {
     block: BlockNode;
 };
 
 export class FunctorBodyTranslator extends NodeTranslator<FunctorBody, FunctorBodyTranslatorChildren> {
-    translate(node: FunctorBodyNode, c): FunctorBody {
-        return FunctorBody.create(node, c.parent, {
-            body: this.child.block(node.block, c),
+    translate(node: FunctorBodyNode, context: TranslationContext<any>): FunctorBody {
+        return FunctorBody.create(node, context.parent, {
+            body: this.child.block(node.block, context),
         });
     }
 }

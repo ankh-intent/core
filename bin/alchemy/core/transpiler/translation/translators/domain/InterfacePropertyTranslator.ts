@@ -1,6 +1,7 @@
 import { InterfaceProperty } from '../../../../modules';
 import { ReferenceNode, DomainInterfacePropertyNode, ExpressionNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
+import { TranslationContext } from '../../TranslationContext';
 
 export type InterfacePropertyTranslatorChildren = {
     reference: ReferenceNode;
@@ -8,11 +9,11 @@ export type InterfacePropertyTranslatorChildren = {
 };
 
 export class InterfacePropertyTranslator extends NodeTranslator<InterfaceProperty, InterfacePropertyTranslatorChildren> {
-    translate(node: DomainInterfacePropertyNode, c): InterfaceProperty {
-        return InterfaceProperty.create(node, c.parent, {
+    translate(node: DomainInterfacePropertyNode, context: TranslationContext<any>): InterfaceProperty {
+        return InterfaceProperty.create(node, context.parent, {
             identifier: node.identifier,
-            type: node.type && this.child.reference(node.type, c),
-            expression: node.expression && this.child.expression(node.expression, c),
+            type: node.type && this.child.reference(node.type, context),
+            expression: node.expression && this.child.expression(node.expression, context),
         });
     }
 }

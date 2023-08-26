@@ -7,6 +7,7 @@ import {
     IdentifierNode,
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type IfStatementSerializerChildren = {
     block: BlockNode;
@@ -16,7 +17,7 @@ export type IfStatementSerializerChildren = {
 };
 
 export class IfStatementSerializer extends NodeSerializer<IfStatementNode, IfStatementSerializerChildren> {
-    serialize(node: IfStatementNode, context): string {
+    serialize(node: IfStatementNode, context: SerializingContext): string {
         const sub = context.nest();
         const condition = this.child.statement(node.condition, sub);
         const ifTrue = this.child.block(node.ifTrue, sub);

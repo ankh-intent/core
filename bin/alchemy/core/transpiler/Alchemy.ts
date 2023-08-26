@@ -2,8 +2,8 @@ import { SourceInterface, RangeInterface } from '@intent/source';
 import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
 
 export class Alchemy {
-    public static pure(context: Context, unpure?: boolean) {
-        if (unpure) {
+    public static pure(context: Context, preserveWhitespace?: boolean) {
+        if (preserveWhitespace) {
             return this.tokenizer(context);
         }
 
@@ -41,7 +41,7 @@ export class Alchemy {
         const index = context.pos;
         const char = source.at(index);
 
-        if (char.match(/['"`]/)) {
+        if (char === '\'' || char === '"' || char === '`') {
             const token = this.checkString(source, context);
 
             if (token) {
@@ -101,10 +101,6 @@ export class Alchemy {
     protected static checkString(source: SourceInterface, context: Context): BaseTokenTypes | undefined {
         let index = context.pos;
         const char = source.at(index++);
-
-        if (!char.match(/['"`]/)) {
-            return;
-        }
 
         let at;
 
@@ -219,6 +215,8 @@ export class Alchemy {
 }
 
 export class AlchemyTokenMatcher extends TokenMatcher {
+    protected readonly types = Object.values(BaseTokenTypes) as BaseTokenTypes[];
+
     constructor(source: SourceInterface, range: RangeInterface) {
         super(Alchemy.pure.bind(Alchemy), source, range);
     }

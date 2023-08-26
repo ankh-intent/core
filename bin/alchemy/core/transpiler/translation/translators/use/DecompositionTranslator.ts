@@ -1,6 +1,7 @@
 import { Decomposition } from '../../../../modules';
 import { QualifierNode, DecompositionNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
+import { TranslationContext } from '../../TranslationContext';
 
 export type DecompositionTranslatorChildren = {
     qualifier: QualifierNode;
@@ -8,15 +9,14 @@ export type DecompositionTranslatorChildren = {
 };
 
 export class DecompositionTranslator extends NodeTranslator<Decomposition, DecompositionTranslatorChildren> {
-    translate(node: DecompositionNode, c): Decomposition {
-        return Decomposition.create(node, c.parent, {
+    translate(node: DecompositionNode, context: TranslationContext<any>): Decomposition {
+        return Decomposition.create(node, context.parent, {
             alias: node.alias,
-            qualifier: this.child.qualifier(node.qualifier, c),
-            items: (
+            qualifier: this.child.qualifier(node.qualifier, context),
+            items: Object.fromEntries(
                 Object
                     .entries(node.items)
-                    .map(([key, item]) => [key, this.child.decomposition(item, c)])
-                    .reduce((acc, [key, item]) => (acc[key] = item, acc), {})
+                    .map(([key, item]) => [key, this.child.decomposition(item, context)])
             ),
         });
     }

@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { CallArgsNode, CallNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type CallChildren = {
 };
 
 export class CallBuilder extends BaseBuilder<CallNode, CallChildren> {
-    protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         ensure.symbol('(');
         const args = this.child.call_args(tokens);
         ensure.symbol(')');

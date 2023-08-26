@@ -21,7 +21,7 @@ interface Spawn<T extends Translated<any>> {
 }
 
 export class TranslationContext<P extends Translated<any> | undefined> extends Scope<SerializingScopeInterface<P>> {
-    public static createContext(env: PluginEnvironment<PatchedASTEvent<any, any>>) {
+    public static createContext(_env: PluginEnvironment<PatchedASTEvent<any, any>>) {
         return new this<any>({
             parent: (
                 (new DeclarationRegistry())

@@ -2,7 +2,7 @@ export class Logger {
     static INFO = 0;
     static WARNING = 1;
     static ERROR = 2;
-    private static map = {
+    private static map: Record<number, 'log' | 'warn' | 'error'> = {
         [Logger.INFO]: 'log',
         [Logger.WARNING]: 'warn',
         [Logger.ERROR]: 'error',
@@ -30,7 +30,7 @@ export class Logger {
         return this.constructor.name.replace(/Logger$/, '').toUpperCase();
     }
 
-    static levelToStr(level: number): string {
+    static levelToStr(level: number): 'log' | 'warn' | 'error' {
         return this.map[level] || this.map[this.WARNING];
     }
 

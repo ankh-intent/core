@@ -14,11 +14,15 @@ export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, Transl
         this.translator = new AlchemyTranslator(factory, tree);
     }
 
-    protected createContext(env): TranslationContext<undefined> {
+    protected createContext(env: PluginEnvironment<PatchedASTEvent<any, any>>): TranslationContext<undefined> {
         return TranslationContext.createContext(env);
     }
 
-    protected visitRoot(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>, root, context): boolean | void {
+    protected visitRoot(
+        env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>,
+        root: ModuleNode,
+        context: TranslationContext<undefined>
+    ): boolean | void {
         const module = this.translator.visit(root, context);
 
         // console.log(root, module);

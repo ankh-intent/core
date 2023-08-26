@@ -6,7 +6,7 @@ export interface LogStatData {
     message: object;
 }
 
-export class LogStat implements CoreStatProcessor<'log', LogStatData> {
+export class LogStatProcessor implements CoreStatProcessor<'log', LogStatData> {
     private readonly logger: Logger;
 
     public constructor(logger: Logger) {
@@ -14,6 +14,7 @@ export class LogStat implements CoreStatProcessor<'log', LogStatData> {
     }
 
     public process(event: CoreEvent<CoreStat<'log', LogStatData>>, data: LogStatData) {
+        console.log(data);
         for (const [type, message] of Object.entries(data.message)) {
             this.logger.log(Logger.strToLevel(type), event, message[type]);
         }

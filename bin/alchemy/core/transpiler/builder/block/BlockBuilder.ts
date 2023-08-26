@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { BlockNode, StatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type BlockChildren = {
 };
 
 export class BlockBuilder extends BaseBuilder<BlockNode, BlockChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
         const statements: StatementNode[] = [];
 
         ensure.symbol('{');

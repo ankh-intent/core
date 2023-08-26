@@ -20,7 +20,11 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
         return env.event.data.dependency;
     }
 
-    protected visitRoot(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>, root, node): boolean | void {
+    protected visitRoot(
+        env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>,
+        _root: ModuleNode,
+        node: DependencyNode<ModuleNode, Module>
+    ): boolean | void {
         env.events.stat(new SynchronizeStat(node), env.event);
 
         const uses = this.resolve(node.identifiable);
@@ -86,7 +90,7 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
     }
 
     resolveUsedModules(module: Module, uses: UsesNode): Container<Module> {
-        const links = {};
+        const links: Container<Module> = {};
 
         for (const [alias, use] of uses.entries) {
             const link = this.resolver.resolve(module, use.qualifier);

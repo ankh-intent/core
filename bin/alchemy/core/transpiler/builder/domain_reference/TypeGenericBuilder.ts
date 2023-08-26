@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ReferenceNode, TypeGenericNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type TypeGenericChildren = {
 };
 
 export class TypeGenericBuilder extends BaseBuilder<TypeGenericNode<ReferenceNode>, TypeGenericChildren> {
-    protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
         const types: ReferenceNode[] = [];
 
         while (true) {

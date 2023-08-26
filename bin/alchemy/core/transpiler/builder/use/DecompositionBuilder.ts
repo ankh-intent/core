@@ -1,3 +1,4 @@
+import { Container } from '@intent/utils';
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { QualifierNode, DecompositionNode } from '../../ast';
@@ -10,7 +11,7 @@ export type DecompositionChildren = {
 
 export class DecompositionBuilder extends BaseBuilder<DecompositionNode, DecompositionChildren> {
     protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
-        const children = {};
+        const children: Container<DecompositionNode> = {};
         const qualifier = this.child.qualifier(tokens);
         let alias = qualifier.deepest();
 

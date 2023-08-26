@@ -2,6 +2,7 @@ import { AbstractNode } from '@intent/kernel';
 import { Translated } from '../../../../../../../modules';
 import { PrimitiveNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '../../../../../../ast';
 import { NodeTranslator } from '../../../../../NodeTranslator';
+import { TranslationContext } from '../../../../../TranslationContext';
 
 export type LiteralTranslatorChildren = {
     primitive: PrimitiveNode;
@@ -12,7 +13,7 @@ export type LiteralTranslatorChildren = {
 };
 
 export class LiteralTranslator extends NodeTranslator<Translated<any>, LiteralTranslatorChildren> {
-    translate(node: AbstractNode, context): Translated<any> {
+    translate(node: AbstractNode, context: TranslationContext<any>): Translated<any> {
         if (node instanceof PrimitiveNode) {
             return this.child.primitive(node, context);
         } else if (node instanceof ObjectNode) {

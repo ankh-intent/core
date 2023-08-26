@@ -1,3 +1,5 @@
+import { Container } from '../../utils';
+
 export const regexpify = (r: RegExp | string) => {
     return (typeof r === 'string')
         ? r
@@ -12,8 +14,8 @@ const isMergeable = (o: any) => {
     return (!!(o && (o === Object(o)))) && !((o instanceof Date) || (o instanceof RegExp));
 };
 
-export const merge = (...objects: object[]) => {
-    const target = {};
+export const merge = <T extends object>(...objects: object[]) => {
+    const target: Container<any> = <T>{};
 
     for (const o of objects) {
         for (const [key, value2] of Object.entries(o)) {

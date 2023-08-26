@@ -7,6 +7,7 @@ import {
     IndexedNode, ExpressionNode, PostfixNode,
 } from '../../../../../ast';
 import { NodeTranslator } from '../../../../NodeTranslator';
+import { TranslationContext } from '../../../../TranslationContext';
 
 export type OperationTranslatorChildren = {
     call: CallNode;
@@ -18,22 +19,22 @@ export type OperationTranslatorChildren = {
 };
 
 export class OperationTranslator extends NodeTranslator<Operation, OperationTranslatorChildren> {
-    translate(node: OperationNode, c): Operation {
+    translate(node: OperationNode, context: TranslationContext<any>): Operation {
         if (node instanceof CallNode) {
-            return this.child.call(node, c);
+            return this.child.call(node, context);
         } else if (node instanceof ChainNode) {
-            return this.child.chain(node, c);
+            return this.child.chain(node, context);
         } else if (node instanceof IsDomainNode) {
-            return this.child.is_domain(node, c);
+            return this.child.is_domain(node, context);
         } else if (node instanceof IndexedNode) {
-            return this.child.indexed(node, c);
+            return this.child.indexed(node, context);
         } else if (node instanceof PostfixNode) {
-            return this.child.postfix(node, c);
+            return this.child.postfix(node, context);
         } else if (node.right instanceof ExpressionNode) {
-            return Operation.create(node, c.parent, {
+            return Operation.create(node, context.parent, {
                 operation: node.operation,
                 binary: node.binary,
-                right: this.child.expression(node.right, c),
+                right: this.child.expression(node.right, context),
             });
         }
 

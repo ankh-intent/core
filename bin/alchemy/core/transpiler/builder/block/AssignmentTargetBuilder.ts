@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { AssignmentTargetNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type AssignmentTargetChildren = {
 };
 
 export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, AssignmentTargetChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get }: TypedTokenMatcherInterface) {
         if (get.identifier('let')) {
             tokens.mark('IS_ASSIGNMENT');
 

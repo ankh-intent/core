@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { OperationNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type OperationChildren = {
 }
 
 export class OperationBuilder extends BaseBuilder<OperationNode, OperationChildren> {
-    protected build(tokens, { ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         const operation = ensure.symbol();
         const expression = this.child.expression(tokens);
 

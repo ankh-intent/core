@@ -1,8 +1,9 @@
 import { resolve } from 'path';
-import { usage } from 'yargs';
+import yargs, { usage } from 'yargs';
 import { escapeRegExp } from 'lodash';
 
 import { BubblingFinder } from '../../source';
+import { Container } from '../../utils';
 
 type OptionDescriptor = {
     path?: boolean;
@@ -26,7 +27,7 @@ export abstract class AbstractConfigProvider<O, C> {
         const map = this.options(
             this.defaults(),
         );
-        const options = {};
+        const options: Container<yargs.Options> = {};
 
         for (const group in map) {
             if (!map.hasOwnProperty(group)) {

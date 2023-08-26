@@ -1,8 +1,9 @@
 import { ExpressionNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
+import { TokenMatcher } from '@intent/parser';
 
 export type BooleanChildren = OperableChildren & {
-    comparision: ExpressionNode;
+    comparison: ExpressionNode;
 };
 
 const CMP = ['&', '|', '^'];
@@ -10,7 +11,7 @@ const CMP = ['&', '|', '^'];
 export class BooleanBuilder extends OperableBuilder<BooleanChildren> {
     operands = CMP;
 
-    protected buildBase(tokens): ExpressionNode {
-        return this.child.comparision(tokens);
+    protected buildBase(tokens: TokenMatcher): ExpressionNode {
+        return this.child.comparison(tokens);
     }
 }

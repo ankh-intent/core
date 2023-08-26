@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { UseNode, DecompositionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type UseChildren = {
 };
 
 export class UseBuilder extends BaseBuilder<UseNode, UseChildren> {
-    protected build(tokens, { not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { not, ensure }: TypedTokenMatcherInterface) {
         if (not.identifier('use')) {
             return null;
         }

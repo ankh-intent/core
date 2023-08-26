@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { DomainInterfaceNode, DomainInterfacePropertyNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
@@ -8,7 +8,7 @@ export type DomainInterfaceChildren = {
 };
 
 export class InterfaceBuilder extends BaseBuilder<DomainInterfaceNode, DomainInterfaceChildren> {
-    protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { not, ensure, peek }: TypedTokenMatcherInterface) {
         const properties = new Map<string, DomainInterfacePropertyNode>();
 
         if (!not.symbol('{')) {

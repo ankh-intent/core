@@ -14,7 +14,7 @@ export abstract class OperableBuilder<C extends Container<TreeNode>> extends Bas
 
     protected abstract buildBase(tokens: TokenMatcher): ExpressionNode;
 
-    protected build(tokens, { peek, get }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface) {
         const base = this.buildBase(tokens);
         const operations: OperationNode[] = [];
 

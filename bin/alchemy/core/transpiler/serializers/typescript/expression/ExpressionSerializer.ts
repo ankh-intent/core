@@ -2,6 +2,7 @@ import { AbstractNode } from '@intent/kernel';
 
 import { ExpressionNode, OperationNode } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type ExpressionSerializerChildren = {
     expression: ExpressionNode;
@@ -10,7 +11,7 @@ export type ExpressionSerializerChildren = {
 };
 
 export class ExpressionSerializer extends NodeSerializer<ExpressionNode, ExpressionSerializerChildren> {
-    serialize(node: ExpressionNode, context): string {
+    serialize(node: ExpressionNode, context: SerializingContext): string {
         let code = (
             (node.base instanceof ExpressionNode)
                 ? this.child.expression(node.base, context)

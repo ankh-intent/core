@@ -1,5 +1,4 @@
 import { Strings, Logger } from '@intent/utils';
-import { SourceInterface } from '@intent/source';
 import { CoreEvent, StatEvent, CoreStatProcessor } from '@intent/kernel';
 
 import { EmittedStat } from '../stages';
@@ -13,8 +12,8 @@ export class EmittedStatProcessor implements CoreStatProcessor<'emitted', Emitte
         this.commonPaths = commonPaths;
     }
 
-    public process(event: StatEvent<'emitted', EmittedStat<any, any>>, { identifiable, index, source, start, end }) {
-        const path = (<SourceInterface>source).reference;
+    public process(event: StatEvent<'emitted', EmittedStat<any, any>>, { identifiable, index, source, start, end }: EmittedStat<any, any>) {
+        const path = source.reference;
         const common = Strings.commonPath([path, ...this.commonPaths]);
         let cause = '<root>';
         let parent: CoreEvent | null = event;

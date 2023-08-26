@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import {
     StatementNode,
@@ -18,7 +18,7 @@ export type BlockItemChildren = {
 };
 
 export class BlockItemBuilder extends BaseBuilder<StatementNode, BlockItemChildren> {
-    protected build(tokens, { peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
         if (peek.identifier('if')) {
             return this.child.if_statement(tokens);
         } else if (peek.identifier('each')) {

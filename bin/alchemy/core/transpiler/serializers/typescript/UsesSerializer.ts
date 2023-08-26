@@ -1,12 +1,13 @@
 import { UsesNode, UseNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
+import { SerializingContext } from '../SerializingContext';
 
 export type UsesSerializerChildren = {
     use: UseNode;
 };
 
 export class UsesSerializer extends NodeSerializer<UsesNode, UsesSerializerChildren> {
-    serialize(node: UsesNode, context): string {
+    serialize(node: UsesNode, context: SerializingContext): string {
         return this.wrap([
             node.entries.length && '// uses',
             ...node.entries.map(([alias, use]) => (

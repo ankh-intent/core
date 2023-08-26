@@ -1,8 +1,9 @@
 import { AbstractNode } from '@intent/kernel';
-import { Expression } from '../../../../../../modules/domain/functor/statements/expression';
+import { Expression } from '../../../../../../modules';
 
 import { ExpressionNode, OperationNode, UnaryNode } from '../../../../../ast';
 import { NodeTranslator } from '../../../../NodeTranslator';
+import { TranslationContext } from '../../../../TranslationContext';
 
 export type ExpressionTranslatorChildren = {
     expression: ExpressionNode;
@@ -12,20 +13,20 @@ export type ExpressionTranslatorChildren = {
 };
 
 export class ExpressionTranslator extends NodeTranslator<Expression, ExpressionTranslatorChildren> {
-    translate(node: ExpressionNode, c): Expression {
+    translate(node: ExpressionNode, context: TranslationContext<any>): Expression {
         if (node instanceof UnaryNode) {
-            return this.child.unary(node, c);
+            return this.child.unary(node, context);
         }
 
         const base = (
             (node.base instanceof ExpressionNode)
-                ? this.child.expression(node.base, c)
-                : this.child.literal(node.base, c)
+                ? this.child.expression(node.base, context)
+                : this.child.literal(node.base, context)
         );
 
-        return Expression.create(node, c.parent, {
+        return Expression.create(node, context.parent, {
             base,
-            operations: node.operations.map((operation) => this.child.operation(operation, c)),
+            operations: node.operations.map((operation) => this.child.operation(operation, context)),
         });
     }
 }

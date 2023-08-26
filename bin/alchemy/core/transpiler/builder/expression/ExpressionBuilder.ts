@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TokenMatcher } from '@intent/parser';
 
 import { ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type ExpressionChildren = {
 };
 
 export class ExpressionBuilder extends BaseBuilder<ExpressionNode, ExpressionChildren> {
-    protected build(tokens, { peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher) {
         return this.child.boolean(tokens);
     }
 }

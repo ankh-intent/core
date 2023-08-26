@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { QualifierNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type QualifierChildren = {
 };
 
 export class QualifierBuilder extends BaseBuilder<QualifierNode, QualifierChildren> {
-    protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
         const value = ensure.identifier();
 
         return new QualifierNode(

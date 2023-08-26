@@ -8,6 +8,7 @@ import {
 } from '../../../ast';
 import { Domain, DeclarationRegistry, Qualifier } from '../../../../modules';
 import { NodeTranslator } from '../../NodeTranslator';
+import { TranslationContext } from '../../TranslationContext';
 
 export type DomainTranslatorChildren = {
     reference: ReferenceNode;
@@ -19,31 +20,31 @@ export type DomainTranslatorChildren = {
 };
 
 export class DomainTranslator extends NodeTranslator<Domain, DomainTranslatorChildren> {
-    translate(node: DomainNode, c): Domain {
-        const { node: domain, context } = c.spawn(Domain, node, (domain) => ({
+    translate(node: DomainNode, context: TranslationContext<any>): Domain {
+        const { node: domain, context: inner } = context.spawn(Domain, node, (domain) => ({
             qualifier: Qualifier.create(domain, {
                 name: node.identifier,
             }),
         }));
 
         DeclarationRegistry
-            .search(c.parent)!
+            .search(context.parent)!
             .registerDeclaration(domain);
 
-        domain.uses = this.child.uses(node.uses, context);
-        domain.generics = node.generics.templates.map((g) => this.child.template(g, context));
-        domain.parent = node.parent && this.child.reference(node.parent, context);
+        domain.uses = this.child.uses(node.uses, inner);
+        domain.generics = node.generics.templates.map((g) => this.child.template(g, inner));
+        domain.parent = node.parent && this.child.reference(node.parent, inner);
 
         for (const sub of node.domains.values()) {
-            this.child.domain(sub, context);
+            this.child.domain(sub, inner);
         }
 
         for (const [method, methodNode] of node.methods) {
-            domain.functors.set(method, this.child.functor(methodNode, context));
+            domain.functors.set(method, this.child.functor(methodNode, inner));
         }
 
-        domain.intf = this.child.interface(node.interfaced, context);
-        domain.ctor = node.ctor && this.child.functor(node.ctor, context);
+        domain.intf = this.child.interface(node.interfaced, inner);
+        domain.ctor = node.ctor && this.child.functor(node.ctor, inner);
 
         return domain;
     }

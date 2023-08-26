@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ExpressionNode } from '../../ast';
 import { AssignmentTargetNode, LoopIteratorNode } from '../../ast';
@@ -10,7 +10,7 @@ export type LoopIteratorChildren = {
 };
 
 export class LoopIteratorBuilder extends BaseBuilder<LoopIteratorNode, LoopIteratorChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         const target = this.child.assignment_target(tokens);
 
         ensure.identifier('of');

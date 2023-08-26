@@ -4,9 +4,7 @@ import { Container, Strings } from '@intent/utils';
 import { AbstractConfigProvider } from '@intent/config';
 import { CoreConfig, EmitConfig, EntryConfig, InterpreterConfig, OutputConfig, PathsConfig } from '@intent/config';
 
-import { Core } from './pipeline';
-
-export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider<T, Core<T, any, any>> {
+export class ConfigProvider<T extends CoreConfig, C> extends AbstractConfigProvider<T, C> {
     protected entriesToStrings(entries: Container<EntryConfig>): string[] {
         // -e index=./src/{.int} -e tests=./tests/{.ts,.js}
         return Object.entries(entries).map(([name, e]) => {
@@ -30,7 +28,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
             return {};
         }
 
-        const config = {};
+        const config: Container<EntryConfig> = {};
 
         for (const string of strings) {
             const [, name, pattern] = string.match(/^([^=]+)=(.*)$/) || [null, null, null];
@@ -174,7 +172,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
         return {};
     }
 
-    public build(core: Core<T, any, any>) {
+    public build(_context: C) {
         return <T>{
             paths: this.paths(),
             entry: this.entry(),

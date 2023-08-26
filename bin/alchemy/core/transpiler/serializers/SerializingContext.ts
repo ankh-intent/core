@@ -1,10 +1,15 @@
 import { Container } from '@intent/utils';
-import { DomainNode } from '../ast/domain';
-import { ExpressionNode } from '../ast/expression';
-import { FunctorArgsNode, FunctorNode } from '../ast/functor';
-import { ReferenceNode, QualifierNode, TypeGenericNode } from '../ast/reference';
+import {
+    DomainNode,
+    ExpressionNode,
+    FunctorArgsNode,
+    FunctorNode,
+    ReferenceNode,
+    QualifierNode,
+    TypeGenericNode,
+} from '../ast';
 
-class Scope<T, N extends keyof T = keyof T> {
+class Scope<T extends object, N extends keyof T = keyof T> {
     private readonly parent?: Scope<T, N>;
     protected readonly items: T;
 
@@ -59,9 +64,11 @@ interface SerializingScopeInterface {
 class SerializingScope extends Scope<SerializingScopeInterface> {
     nest(): this {
         return Reflect.construct(this.constructor, [
-            Object
-                .entries(this.items)
-                .reduce(((acc, [name, scope]) => (acc[name] = scope.nest(), acc)), {}),
+            Object.fromEntries(
+                Object
+                    .entries(this.items)
+                    .map(([name, scope]) => [name, scope.nest()])
+            ),
             this,
         ]);
     }
@@ -119,13 +126,13 @@ export class SerializingContext extends SerializingScope {
         );
     }
 
-    inferType(expression: ExpressionNode): ReferenceNode {
+    inferType(_expression: ExpressionNode): ReferenceNode {
         return new ReferenceNode(new QualifierNode('Any'), null);
     }
 
     argsType(node: FunctorArgsNode): InlineType {
         const type = new ReferenceNode(new QualifierNode(`$Arguments${this.types.size}`), null);
-        const definition = {};
+        const definition: Container<ReferenceNode> = {};
         const local = `$args_${this.types.size + 1}`;
 
         for (const arg of node.args) {

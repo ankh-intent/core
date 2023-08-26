@@ -1,16 +1,17 @@
 import { ObjectProperty } from '../../../../../../../modules';
 import { ObjectPropertyNode, ExpressionNode } from '../../../../../../ast';
 import { NodeTranslator } from '../../../../../NodeTranslator';
+import { TranslationContext } from '../../../../../TranslationContext';
 
 export type ObjectLiteralPropertyTranslatorChildren = {
     expression: ExpressionNode;
 };
 
 export class ObjectLiteralPropertyTranslator extends NodeTranslator<ObjectProperty, ObjectLiteralPropertyTranslatorChildren> {
-    translate(node: ObjectPropertyNode, c): ObjectProperty {
-        return ObjectProperty.create(node, c.parent, {
+    translate(node: ObjectPropertyNode, context: TranslationContext<any>): ObjectProperty {
+        return ObjectProperty.create(node, context.parent, {
             identifier: node.identifier,
-            expression: this.child.expression(node.expression, c),
+            expression: this.child.expression(node.expression, context),
         });
     }
 }

@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { BlockNode, LoopStatementNode, LoopIteratorNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type LoopStatementChildren = {
 };
 
 export class LoopStatementBuilder extends BaseBuilder<LoopStatementNode, LoopStatementChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         ensure.identifier('each');
         ensure.symbol('(');
 

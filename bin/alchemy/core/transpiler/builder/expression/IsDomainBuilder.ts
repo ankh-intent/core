@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { IsDomainNode, ReferenceNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type IsDomainChildren = {
 };
 
 export class IsDomainBuilder extends BaseBuilder<IsDomainNode, IsDomainChildren> {
-    protected build(tokens, { ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         ensure.identifier('is');
 
         return new IsDomainNode(this.child.type(tokens));

@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { GenericTemplatesNode, GenericTemplateNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type GenericTemplatesChildren = {
 };
 
 export class GenericTemplatesBuilder extends BaseBuilder<GenericTemplatesNode, GenericTemplatesChildren> {
-    protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, peek, ensure }: TypedTokenMatcherInterface) {
         const templates: GenericTemplateNode[] = [];
 
         if (get.symbol('<')) {

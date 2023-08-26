@@ -1,5 +1,5 @@
 import { AbstractNode } from '@intent/kernel';
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ExpressionNode, OperationNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -14,7 +14,7 @@ export type AccessorChildren = {
 };
 
 export class AccessorBuilder extends BaseBuilder<ExpressionNode, AccessorChildren> {
-    protected build(tokens, { get, ensure, peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface) {
         const base = this.child.accessible(tokens);
         const operations: OperationNode[] = [];
 

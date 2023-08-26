@@ -1,5 +1,5 @@
 import { AbstractNode } from '@intent/kernel';
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import {
     ExpressionNode,
@@ -23,7 +23,7 @@ export type AccessibleChildren = {
 };
 
 export class AccessibleBuilder extends BaseBuilder<AbstractNode, AccessibleChildren> {
-    protected build(tokens, { get, ensure, peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure, peek }: TypedTokenMatcherInterface) {
         if (peek.symbol('(')) {
             const callable = this.lookup('IS_FUNCTOR', tokens, this.child.callable);
 

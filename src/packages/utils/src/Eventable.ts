@@ -1,6 +1,6 @@
 export class Eventable {
     private static _e_uid: number = 0;
-    private _e_listeners?: { [event: string]: { [index: number]: Function } };
+    private _e_listeners?: { [event: string]: { [uid: string]: Function } };
 
     on(event: string, handler: Function): number {
         if (!this._e_listeners) {
@@ -47,7 +47,7 @@ export class Eventable {
     emit(event: string, ...payload: any[]): number {
         let handled = 0;
 
-        const listeners = this._e_listeners && this._e_listeners[event];
+        const listeners = this._e_listeners?.[event];
 
         if (listeners) {
             for (const uid of Object.keys(listeners)) {

@@ -1,16 +1,17 @@
 import { ExpressionNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
+import { TokenMatcher } from '@intent/parser';
 
-export type ComparisionChildren = OperableChildren & {
+export type ComparisonChildren = OperableChildren & {
     additive: ExpressionNode;
 };
 
 const CMP = ['>', '<', '>=', '<=', '!=', '=='];
 
-export class ComparisionBuilder extends OperableBuilder<ComparisionChildren> {
+export class ComparisonBuilder extends OperableBuilder<ComparisonChildren> {
     operands = CMP;
 
-    protected buildBase(tokens): ExpressionNode {
+    protected buildBase(tokens: TokenMatcher): ExpressionNode {
         return this.child.additive(tokens);
     }
 }

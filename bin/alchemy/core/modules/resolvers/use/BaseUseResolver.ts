@@ -1,3 +1,5 @@
+import { dirname, sep } from 'node:path';
+
 import { Strings } from '@intent/utils';
 import { PathsConfig } from '@intent/config';
 import { IdentifiableFactory } from '@intent/consumers';
@@ -45,11 +47,9 @@ export class BaseUseResolver implements UseResolverInterface {
             }
         }
 
-        const common = Strings.longestCommon([this.config.project, from.uri]).pop();
-        const resolved = from.uri
-            .replace(new RegExp(`^${common}`), '')
-            .replace(/\/[^\/]+$/, '/') + search.toLowerCase() + '.alc'
-        ;
+        const common = Strings.longestCommon([this.config.project, dirname(from.uri)]).pop()!;
+        const basename = search.toLowerCase() + '.alc';
+        const resolved = dirname(from.uri.replace(new RegExp(`^${Strings.escapeRegExp(common)}`), '')) + sep + basename;
 
         return this.factory.create(common + resolved);
     }

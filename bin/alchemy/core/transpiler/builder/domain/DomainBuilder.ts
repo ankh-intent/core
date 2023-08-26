@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import {
     DomainNode,
@@ -24,7 +24,7 @@ export type DomainChildren = {
 };
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
-    protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
         if (not.identifier('domain')) {
             return null;
         }

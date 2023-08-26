@@ -9,6 +9,7 @@ import {
     DecoratedStatementNode,
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type StatementSerializerChildren = {
     if_statement: IfStatementNode;
@@ -21,7 +22,7 @@ export type StatementSerializerChildren = {
 };
 
 export class StatementSerializer extends NodeSerializer<StatementNode, StatementSerializerChildren> {
-    serialize(node: StatementNode, context): string {
+    serialize(node: StatementNode, context: SerializingContext): string {
         if (node instanceof DecoratedStatementNode) {
             return this.child.decorated_statement(node, context);
         } else if (node instanceof IfStatementNode) {

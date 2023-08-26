@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ExpressionNode, CallArgNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type CallArgChildren = {
 };
 
 export class CallArgBuilder extends BaseBuilder<CallArgNode, CallArgChildren> {
-    protected build(tokens, { get, peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, peek, ensure }: TypedTokenMatcherInterface) {
         let identifier: string | null = null;
 
         if (peek.identifier() && peek.symbol(':', 1)) {

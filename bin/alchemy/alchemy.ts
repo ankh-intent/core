@@ -1,10 +1,10 @@
 #!/usr/bin/env -S cross-env TS_NODE_PROJECT=tsconfig.json node -r ts-node/register
 
-import * as path from 'path';
+import { resolve } from 'node:path';
 import { register } from 'tsconfig-paths';
 import { compilerOptions } from './tsconfig.json';
 
-const baseUrl = path.resolve(compilerOptions.baseUrl);
+const baseUrl = resolve(compilerOptions.baseUrl);
 const cleanup = register({
     baseUrl,
     paths: compilerOptions.paths,

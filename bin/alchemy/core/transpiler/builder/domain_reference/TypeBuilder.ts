@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ReferenceNode, QualifierNode, TypeGenericNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -10,7 +10,7 @@ export type TypeChildren = {
 };
 
 export class TypeBuilder extends BaseBuilder<ReferenceNode, TypeChildren> {
-    protected build(tokens, { get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
         const qualifier = this.child.qualifier(tokens);
         let generic: TypeGenericNode<ReferenceNode> | null = null;
         let isArray = false;

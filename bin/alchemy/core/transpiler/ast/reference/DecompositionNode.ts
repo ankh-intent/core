@@ -1,4 +1,4 @@
-import { AbstractNode } from '@intent/kernel';
+import { AbstractNode, TreeNode } from '@intent/kernel';
 
 import { QualifierNode } from './QualifierNode';
 
@@ -11,7 +11,7 @@ export class DecompositionNode extends AbstractNode {
         super();
     };
 
-    get children() {
+    get children(): TreeNode[] {
         return [this.qualifier, ...Object.values(this.items)];
     }
 }

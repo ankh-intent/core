@@ -1,9 +1,10 @@
+import { Container } from '@intent/utils';
 import { AbstractNode } from '@intent/ast';
 
 import { OperationNode } from '../../../../../transpiler';
 import { Translated } from '../../../../Translated';
 
-const MAP = {
+const MAP: Container<string> = {
     '&': '&&',
     '|': '||',
 };

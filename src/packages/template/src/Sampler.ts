@@ -1,4 +1,4 @@
-import { Strings } from '../../utils';
+import { Strings } from '@intent/utils';
 
 import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
 

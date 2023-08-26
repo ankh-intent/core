@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ObjectNode, ObjectPropertyNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
@@ -8,7 +8,7 @@ export type ObjectChildren = {
 };
 
 export class ObjectBuilder extends BaseBuilder<ObjectNode, ObjectChildren> {
-    protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, not, ensure }: TypedTokenMatcherInterface) {
         ensure.symbol('{');
 
         const properties = new Map<string, ObjectPropertyNode>();

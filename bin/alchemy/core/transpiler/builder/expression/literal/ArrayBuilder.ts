@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ArrayNode, ExpressionNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
@@ -8,7 +8,7 @@ export type ArrayChildren = {
 };
 
 export class ArrayBuilder extends BaseBuilder<ArrayNode, ArrayChildren> {
-    protected build(tokens, { get, peek, not, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, not, ensure }: TypedTokenMatcherInterface) {
         const items: ExpressionNode[] = [];
 
         ensure.symbol('[');

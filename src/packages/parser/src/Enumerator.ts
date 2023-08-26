@@ -5,7 +5,7 @@ import { BaseTokenTypes, Context, Tokenizer } from './Tokenizer';
 
 export class Enumerator<TT extends BaseTokenTypes, U> extends StackedQueue<any> {
     private readonly tokenizer: Tokenizer<TT, U>;
-    private readonly tokens = new Map<number, Token>();
+    private readonly tokens = new Map<number, Token<TT>>();
 
     private readonly context: Context;
     private tokenized: number = -1;
@@ -32,7 +32,7 @@ export class Enumerator<TT extends BaseTokenTypes, U> extends StackedQueue<any> 
         return (token && token.start) || this.context.range.from;
     }
 
-    public at(index: number, userData?: any): Token | null {
+    public at(index: number, userData?: any): Token<TT> | null {
         let token = this.tokens.get(index);
 
         if (!token) {

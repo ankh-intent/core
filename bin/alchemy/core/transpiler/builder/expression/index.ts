@@ -26,7 +26,7 @@ import { CallArgChildren, CallArgBuilder } from './CallArgBuilder';
 import { CallArgsChildren, CallArgsBuilder } from './CallArgsBuilder';
 import { CallChildren, CallBuilder } from './CallBuilder';
 import { ChainChildren, ChainBuilder } from './ChainBuilder';
-import { ComparisionChildren, ComparisionBuilder } from './ComparisionBuilder';
+import { ComparisonChildren, ComparisonBuilder } from './ComparisonBuilder';
 import { ExpressionChildren, ExpressionBuilder } from './ExpressionBuilder';
 import { IdentifierChildren, IdentifierBuilder } from './IdentifierBuilder';
 import { IdentifierExpressionChildren, IdentifierExpressionBuilder } from './IdentifierExpressionBuilder';
@@ -45,7 +45,7 @@ import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
 export type ExpressionInvokers = {
     expression: ExpressionNode;
     identifier: IdentifierNode;
-    comparision: ExpressionNode;
+    comparison: ExpressionNode;
     chain: ChainNode;
     indexed: IndexedNode;
     postfix: PostfixNode;
@@ -69,7 +69,7 @@ export type ExpressionInvokers = {
 };
 export type ExpressionDependencies =
     OperationChildren &
-    ComparisionChildren &
+    ComparisonChildren &
     CallArgsChildren &
     CallArgChildren &
     IdentifierChildren &
@@ -97,7 +97,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
         expression: new ExpressionBuilder(invokers),
         operation: new OperationBuilder(invokers),
         identifier: new IdentifierBuilder(invokers),
-        comparision: new ComparisionBuilder(invokers),
+        comparison: new ComparisonBuilder(invokers),
         chain: new ChainBuilder(invokers),
         indexed: new IndexedBuilder(invokers),
         postfix: new PostfixBuilder(invokers),

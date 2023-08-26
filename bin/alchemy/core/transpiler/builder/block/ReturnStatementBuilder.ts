@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ReturnStatementNode, ExpressionNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -8,7 +8,7 @@ export type ReturnStatementChildren = {
 };
 
 export class ReturnStatementBuilder extends BaseBuilder<ReturnStatementNode, ReturnStatementChildren> {
-    protected build(tokens, { peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
         ensure.identifier('return');
 
         if (!peek.symbol(';')) {

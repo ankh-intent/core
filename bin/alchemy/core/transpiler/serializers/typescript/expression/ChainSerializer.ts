@@ -6,7 +6,7 @@ export type ChainSerializerChildren = {
 };
 
 export class ChainSerializer extends NodeSerializer<ChainNode, ChainSerializerChildren> {
-    serialize(node: ChainNode, context): string {
+    serialize(node: ChainNode): string {
         return '.' + node.right.name;
     }
 }

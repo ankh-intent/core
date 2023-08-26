@@ -3,7 +3,7 @@ import { WatchdogConfig } from '@intent/watchdog';
 import { TranspilerConfig } from '@intent/pipeline';
 import { ConfigProvider as BaseConfigProvider } from '@intent/ConfigProvider';
 
-export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
+export class ConfigProvider<C> extends BaseConfigProvider<TranspilerConfig, C> {
     protected options(defaults: Partial<TranspilerConfig>): any {
         return merge(super.options(defaults), {
             'Watchdog options': {
@@ -45,9 +45,9 @@ export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
         };
     }
 
-    public build(core) {
+    public build(context: C) {
         return {
-            ...super.build(core),
+            ...super.build(context),
             ...{
                 watch: this.watch(),
             },

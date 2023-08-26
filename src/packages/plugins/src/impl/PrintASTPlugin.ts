@@ -21,7 +21,7 @@ export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> exten
         if (false !== super.visitRoot(env, root, context)) {
             env.events.emit(new StatEvent(env.event, {
                 type: 'log',
-                stat: {
+                message: {
                     ast: context.data.join('\n'),
                 },
             }));

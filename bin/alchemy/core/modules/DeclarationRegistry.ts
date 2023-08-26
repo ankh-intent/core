@@ -22,7 +22,7 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
         return null;
     }
 
-    public get namespace() {
+    public get namespace(): string {
         return makePath(
             DeclarationRegistry.search(this.parentNode)?.namespace,
             this.identifier,
@@ -33,9 +33,9 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
         return this._declarations.values();
     }
 
-    getDeclaration(qualifier: Qualifier): DeclarationInterface | undefined {
-        const found = this.getLocalDeclaration(qualifier) || (
-            this.parentNode && DeclarationRegistry.search(this.parentNode)!.getDeclaration(qualifier)
+    getDeclaration<D>(qualifier: Qualifier): DeclarationInterface & D {
+        const found = this.getLocalDeclaration<D>(qualifier) || (
+            this.parentNode && DeclarationRegistry.search(this.parentNode)!.getDeclaration<D>(qualifier)
         );
 
         if (found) {
@@ -45,18 +45,18 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
         throw new Error(`"${qualifier.path()}" not found in ${this.namespace ? ` namespace "${this.namespace}"` : 'global namespace'}`);
     }
 
-    getLocalDeclaration(qualifier: Qualifier): DeclarationInterface | undefined {
-        const domain = this.getDeclarationByIdentifier(qualifier.name);
+    getLocalDeclaration<D>(qualifier: Qualifier): (DeclarationInterface & D) | undefined {
+        const domain = this.getDeclarationByIdentifier<D>(qualifier.name);
 
         if (domain && qualifier.child) {
-            return domain.getLocalDeclaration(qualifier.child);
+            return domain.getLocalDeclaration<D>(qualifier.child);
         }
 
         return domain;
     }
 
-    getDeclarationByIdentifier(identifier: string): DeclarationInterface | undefined {
-        return this._declarations.get(identifier);
+    getDeclarationByIdentifier<D>(identifier: string): (DeclarationInterface & D) | undefined {
+        return this._declarations.get(identifier) as (DeclarationInterface & D);
     }
 
     registerDeclaration(declaration: DeclarationInterface): this {

@@ -1,3 +1,4 @@
+import { TokenMatcher } from '@intent/parser';
 import { ExpressionNode, UnaryNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
 
@@ -10,7 +11,7 @@ const CMP = ['*', '/', '%', '**'];
 export class MultiplicativeBuilder extends OperableBuilder<MultiplicativeChildren> {
     operands = CMP;
 
-    protected buildBase(tokens): ExpressionNode {
+    protected buildBase(tokens: TokenMatcher): ExpressionNode {
         return this.child.unary(tokens);
     }
 }

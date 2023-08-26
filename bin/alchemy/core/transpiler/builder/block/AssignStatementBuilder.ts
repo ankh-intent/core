@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { AssignmentStatementNode, ExpressionNode, AssignmentTargetNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -11,7 +11,7 @@ export type AssignStatementChildren = {
 const OPS = ['=', '+=', '-=', '/=', '*=', '%=', '**=', '|=', '&=', '^='];
 
 export class AssignStatementBuilder extends BaseBuilder<AssignmentStatementNode, AssignStatementChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         const target = this.child.assignment_target(tokens);
         const operator = ensure.symbol();
 

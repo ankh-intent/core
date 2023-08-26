@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TokenMatcher } from '@intent/parser';
 
 import { StatementNode, AssignmentStatementNode, ExpressionStatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type GenericStatementChildren = {
 };
 
 export class GenericStatementBuilder extends BaseBuilder<StatementNode, GenericStatementChildren> {
-    protected build(tokens, { peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher) {
         let assignment = this.lookup('IS_ASSIGNMENT', tokens, this.child.assignment_statement);
 
         if (assignment) {

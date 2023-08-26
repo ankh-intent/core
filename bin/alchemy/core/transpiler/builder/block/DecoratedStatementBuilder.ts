@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { DecoratedStatementNode, ExpressionNode, StatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type DecoratedStatementChildren = {
 };
 
 export class DecoratedStatementBuilder extends BaseBuilder<StatementNode, DecoratedStatementChildren> {
-    protected build(tokens, { ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         ensure.symbol('@');
 
         const decorator = this.child.expression(tokens);

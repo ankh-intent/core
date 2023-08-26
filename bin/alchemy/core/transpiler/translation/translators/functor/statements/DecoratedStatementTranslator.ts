@@ -1,6 +1,7 @@
 import { DecoratedStatement } from '../../../../../modules';
 import { StatementNode, DecoratedStatementNode, ExpressionNode } from '../../../../ast';
 import { NodeTranslator } from '../../../NodeTranslator';
+import { TranslationContext } from '../../../TranslationContext';
 
 export type DecoratedStatementTranslatorChildren = {
     statement: StatementNode;
@@ -8,10 +9,10 @@ export type DecoratedStatementTranslatorChildren = {
 };
 
 export class DecoratedStatementTranslator extends NodeTranslator<DecoratedStatement, DecoratedStatementTranslatorChildren> {
-    translate(node: DecoratedStatementNode, c): DecoratedStatement {
-        return DecoratedStatement.create(node, c.parent, {
-            decorator: this.child.expression(node.decorator, c),
-            item: this.child.statement(node.item, c),
+    translate(node: DecoratedStatementNode, context: TranslationContext<any>): DecoratedStatement {
+        return DecoratedStatement.create(node, context.parent, {
+            decorator: this.child.expression(node.decorator, context),
+            item: this.child.statement(node.item, context),
         });
     }
 }

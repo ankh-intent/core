@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { ReferenceNode, ExpressionNode, DomainInterfacePropertyNode } from '../../../ast';
 import { BaseBuilder } from '../../BaseBuilder';
@@ -9,7 +9,7 @@ export type DomainInterfacePropertyChildren = {
 }
 
 export class InterfacePropertyBuilder extends BaseBuilder<DomainInterfacePropertyNode, DomainInterfacePropertyChildren> {
-    protected build(tokens, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
         const identifier = ensure.identifier();
         const type: ReferenceNode | null = get.symbol(':')
             ? this.child.type(tokens)

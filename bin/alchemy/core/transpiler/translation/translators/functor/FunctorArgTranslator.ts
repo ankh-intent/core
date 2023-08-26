@@ -1,16 +1,17 @@
-import { FunctorArg } from '../../../../modules/domain/functor';
+import { FunctorArg } from '../../../../modules';
 import { FunctorArgNode, ReferenceNode } from '../../../ast';
 import { NodeTranslator } from '../../NodeTranslator';
+import { TranslationContext } from '../../TranslationContext';
 
 export type FunctorArgTranslatorChildren = {
     reference: ReferenceNode;
 };
 
 export class FunctorArgTranslator extends NodeTranslator<FunctorArg, FunctorArgTranslatorChildren> {
-    translate(node: FunctorArgNode, c): FunctorArg {
-        return FunctorArg.create(node, c.parent, {
+    translate(node: FunctorArgNode, context: TranslationContext<any>): FunctorArg {
+        return FunctorArg.create(node, context.parent, {
             name: node.name,
-            type: this.child.reference(node.type, c),
+            type: this.child.reference(node.type, context),
         });
     }
 }

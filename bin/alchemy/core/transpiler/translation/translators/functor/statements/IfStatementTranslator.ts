@@ -5,6 +5,7 @@ import {
     StatementNode,
 } from '../../../../ast';
 import { NodeTranslator } from '../../../NodeTranslator';
+import { TranslationContext } from '../../../TranslationContext';
 
 export type IfStatementTranslatorChildren = {
     block: BlockNode;
@@ -12,11 +13,11 @@ export type IfStatementTranslatorChildren = {
 };
 
 export class IfStatementTranslator extends NodeTranslator<IfStatement, IfStatementTranslatorChildren> {
-    translate(node: IfStatementNode, c): IfStatement {
-        return IfStatement.create(node, c.parent, {
-            condition: this.child.statement(node.condition, c),
-            ifTrue: this.child.block(node.ifTrue, c),
-            ifFalse: node.ifFalse && this.child.block(node.ifFalse, c),
+    translate(node: IfStatementNode, context: TranslationContext<any>): IfStatement {
+        return IfStatement.create(node, context.parent, {
+            condition: this.child.statement(node.condition, context),
+            ifTrue: this.child.block(node.ifTrue, context),
+            ifFalse: node.ifFalse && this.child.block(node.ifFalse, context),
         });
     }
 }

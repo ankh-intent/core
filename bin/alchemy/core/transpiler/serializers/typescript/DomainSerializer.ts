@@ -1,4 +1,4 @@
-import { DomainNode, FunctorNode, UsesNode, ReferenceNode, ModuleNode } from '../../ast';
+import { DomainNode, FunctorNode, UsesNode, ReferenceNode } from '../../ast';
 import { NodeSerializer } from '../NodeSerializer';
 import { SerializingContext } from '../SerializingContext';
 
@@ -43,7 +43,7 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
         ]);
     }
 
-    serializeReturn(node: DomainNode, context) {
+    serializeReturn(node: DomainNode, _context: SerializingContext) {
         return `return {${this.wrap([
             `name: "${node.identifier}",`,
             node.domains.size && `domains: {${this.wrapInlineList(
@@ -53,7 +53,7 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
         ])}};`;
     }
 
-    serializeConstructor(node: DomainNode, context) {
+    serializeConstructor(node: DomainNode, context: SerializingContext) {
         if (node.parent) {
             if (node.ctor) {
                 return this.wrapStatements([

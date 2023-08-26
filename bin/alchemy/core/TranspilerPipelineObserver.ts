@@ -74,7 +74,7 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     }
 
     resolveUsedModules(module: Module, uses: UsesNode): Container<Module> {
-        const links = {};
+        const links: Container<Module> = {};
 
         for (const [alias, use] of uses.entries) {
             const link = this.useResolver.resolve(module, use.qualifier);

@@ -1,3 +1,4 @@
+import { TokenMatcher } from '@intent/parser';
 import { ExpressionNode } from '../../ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
 
@@ -10,7 +11,7 @@ const CMP = ['+', '-'];
 export class AdditiveBuilder extends OperableBuilder<AdditiveChildren> {
     operands = CMP;
 
-    protected buildBase(tokens): ExpressionNode {
+    protected buildBase(tokens: TokenMatcher): ExpressionNode {
         return this.child.multiplicative(tokens);
     }
 }

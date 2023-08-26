@@ -6,6 +6,7 @@ import {
     IndexedNode, ExpressionNode,
 } from '../../../ast';
 import { NodeSerializer } from '../../NodeSerializer';
+import { SerializingContext } from '../../SerializingContext';
 
 export type OperationSerializerChildren = {
     call: CallNode;
@@ -15,14 +16,14 @@ export type OperationSerializerChildren = {
     expression: ExpressionNode;
 };
 
-const MAP = {
+const MAP: Record<string, string> = {
     '&': '&&',
     '|': '||',
 };
 const mapOperations = (operation: string) => MAP[operation] || operation;
 
 export class OperationSerializer extends NodeSerializer<OperationNode, OperationSerializerChildren> {
-    serialize(node: OperationNode, context): string {
+    serialize(node: OperationNode, context: SerializingContext): string {
         if (node instanceof CallNode) {
             return this.child.call(node, context);
         } else if (node instanceof ChainNode) {

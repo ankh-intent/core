@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
 
 import { BlockNode, StatementNode, IfStatementNode } from '../../ast';
 import { BaseBuilder } from '../BaseBuilder';
@@ -9,7 +9,7 @@ export type IfStatementChildren = {
 };
 
 export class IfStatementBuilder extends BaseBuilder<IfStatementNode, IfStatementChildren> {
-    protected build(tokens, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
         ensure.identifier('if');
         ensure.symbol('(');
 
