@@ -30,7 +30,9 @@ export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, Transl
         env.events.stat({
             type: 'log',
             message: {
-                module: String(module),
+                log: {
+                    module: String(module),
+                },
             },
         });
     }

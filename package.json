@@ -20,7 +20,8 @@
         "chokidar": "^3.5.3",
         "lodash": "^4.17.21",
         "util": "^0.12.4",
-        "yargs": "^17.4.0"
+        "yargs": "^17.4.0",
+        "colorette": "^2.0.20"
     },
     "bin": {
         "intent": "bin/alchemy/alchemy.ts"

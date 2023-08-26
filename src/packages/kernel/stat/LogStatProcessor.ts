@@ -14,9 +14,14 @@ export class LogStatProcessor implements CoreStatProcessor<'log', LogStatData> {
     }
 
     public process(event: CoreEvent<CoreStat<'log', LogStatData>>, data: LogStatData) {
-        console.log(data);
         for (const [type, message] of Object.entries(data.message)) {
-            this.logger.log(Logger.strToLevel(type), event, message[type]);
+            const level = Logger.strToLevel(type);
+
+            if (level) {
+                this.logger.log(level, event, message);
+            } else {
+                this.logger.log(Logger.WARNING, 'Misconfigured log of type "%s": %o', type, message);
+            }
         }
 
         return event;

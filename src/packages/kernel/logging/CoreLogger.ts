@@ -3,13 +3,13 @@ import { Logger } from '@intent/utils';
 import { BaseCoreEvent } from '../event';
 
 export class CoreLogger extends Logger {
-    public classify(args: any[]): [string, any[]] {
+    public classify(klass: string, args: any[]): [string, string, any[]] {
         const event = args[0];
 
-        if (event instanceof BaseCoreEvent) {
-            return [event.type, args.slice(1)];
-        } else {
-            return super.classify(args);
-        }
+        return (
+            (event instanceof BaseCoreEvent)
+                ? super.classify(event.type, args.slice(1))
+                : super.classify(klass, args)
+        );
     }
 }

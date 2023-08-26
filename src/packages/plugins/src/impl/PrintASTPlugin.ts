@@ -22,7 +22,9 @@ export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> exten
             env.events.emit(new StatEvent(env.event, {
                 type: 'log',
                 message: {
-                    ast: context.data.join('\n'),
+                    log: {
+                        ast: context.data.join('\n'),
+                    },
                 },
             }));
         }
