@@ -1,5 +1,4 @@
-import { Strings, Container } from '@intent/utils';
-import { Identifiable, TreeNode } from '@intent/kernel';
+import { Strings, Container, Identifiable, TreeNode } from '@intent/kernel';
 
 import { ModuleNode } from '@alchemy/ast';
 import { Domain, Uses } from './domain';

@@ -16,12 +16,7 @@
         "lib": [
             "es2017"
         ],
-        "baseUrl": ".",
-        "paths": {
-            "@intent/*": [
-                "./src/packages/*"
-            ]
-        }
+        "baseUrl": "."
     },
     "exclude": [
         "./node_modules",

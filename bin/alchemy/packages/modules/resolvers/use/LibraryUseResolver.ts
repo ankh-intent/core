@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 
 import { IdentifiableFactory } from '@intent/consumers';
-import { PathsConfig } from '@intent/config';
+import { PathsConfig } from '@intent/kernel';
 
 import { QualifierNode, ModuleNode } from '@alchemy/ast';
 import { Module } from '../../Module';

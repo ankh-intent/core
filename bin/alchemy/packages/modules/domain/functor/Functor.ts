@@ -1,6 +1,6 @@
+import { Translated } from '@intent/translator';
 import { FunctorNode } from '@alchemy/ast';
 import { ReferenceInterface } from '../../interfaces';
-import { Translated } from '../../Translated';
 import { FunctorArgs } from './FunctorArgs';
 import { FunctorBody } from './FunctorBody';
 

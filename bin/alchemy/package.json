@@ -1,5 +1,14 @@
 {
     "name": "alchemy",
     "version": "0.0.10",
-    "description": "Alchemy language compiler (Intent DSL)"
+    "description": "Alchemy language compiler (Intent DSL)",
+    "license": "ISC",
+    "type": "commonjs",
+    "scripts": {
+        "run": "./alchemy.ts"
+    },
+    "dependencies": {
+        "@intent/kernel": "*",
+        "@intent/serializer": "*"
+    }
 }

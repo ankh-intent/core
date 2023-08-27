@@ -1,6 +1,6 @@
+import { Translated } from '@intent/translator';
 import { DomainInterfacePropertyNode } from '@alchemy/ast';
 import { ReferenceInterface } from '../../interfaces';
-import { Translated } from '../../Translated';
 import { Expression } from '../functor';
 
 export class InterfaceProperty extends Translated<DomainInterfacePropertyNode> {

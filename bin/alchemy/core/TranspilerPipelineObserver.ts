@@ -1,5 +1,5 @@
-import { Container } from '@intent/utils';
-import { SourceInterface } from '@intent/source';
+import { Container } from '@intent/kernel';
+import { SourceInterface } from '@intent/kernel';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
 import { Module, QualifierResolver, BaseUseResolver } from '@alchemy/modules';

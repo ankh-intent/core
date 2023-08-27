@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
 import { BlockNode, LoopStatementNode, LoopIteratorNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';

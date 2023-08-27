@@ -1,4 +1,4 @@
-import { TokenMatcher } from '@intent/parser';
+import { TokenMatcher } from '@intent/kernel';
 
 import { ExpressionStatementNode, ExpressionNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';

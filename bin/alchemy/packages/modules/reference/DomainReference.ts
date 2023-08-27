@@ -1,6 +1,6 @@
 import { ReferenceNode } from '@alchemy/ast';
 import { ReferenceInterface, DomainInterface } from '../interfaces';
-import { Translated } from '../Translated';
+import { Translated } from '@intent/translator';
 import { Qualifier } from './Qualifier';
 
 export class DomainReference extends Translated<ReferenceNode> implements ReferenceInterface {

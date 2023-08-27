@@ -1,5 +1,5 @@
+import { Translated } from '@intent/translator';
 import { FunctorBodyNode } from '@alchemy/ast';
-import { Translated } from '../../Translated';
 import { Block } from './statements';
 
 export class FunctorBody extends Translated<FunctorBodyNode> {

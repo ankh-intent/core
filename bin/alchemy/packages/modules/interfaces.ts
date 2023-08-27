@@ -1,23 +1,4 @@
-/*
-                G    G              RR    R
-domain MapEntry<Key, Value> extends [Key, Value] {}
-
-           G    G              R        R        R    R
-domain Map<Key, Value> extends Iterable<MapEntry<Key, Value>> {
-           R           R
-  add(key: Key, value: Value): this {
-    return this;
-  }
-}
-
-                G   G            R        RR    R
-domain Consumer<In, Out> extends Callable<[In], Out> {}
-
-                      G   R       G            R        R   R
-domain NumberConsumer<In: number, Out> extends Consumer<In, Out> {}
- */
-
-import { TreeNode } from '@intent/ast';
+import { TreeNode } from '@intent/kernel';
 import { DomainNode } from '@alchemy/ast';
 import { Qualifier } from './reference';
 

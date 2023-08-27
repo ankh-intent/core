@@ -1,5 +1,5 @@
-import { SourceInterface, RangeInterface } from '@intent/source';
-import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/parser';
+import { SourceInterface, RangeInterface } from '@intent/kernel';
+import { Token, BaseTokenTypes, Context, TokenMatcher } from '@intent/kernel';
 
 export class Alchemy {
     public static pure(context: Context, preserveWhitespace?: boolean) {

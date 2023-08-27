@@ -1,7 +1,7 @@
 import { dirname, sep } from 'node:path';
 
-import { Strings } from '@intent/utils';
-import { PathsConfig } from '@intent/config';
+import { Strings } from '@intent/kernel';
+import { PathsConfig } from '@intent/kernel';
 import { IdentifiableFactory } from '@intent/consumers';
 
 import { QualifierNode, ModuleNode } from '@alchemy/ast';

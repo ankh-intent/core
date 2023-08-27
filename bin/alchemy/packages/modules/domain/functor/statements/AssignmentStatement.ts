@@ -1,5 +1,5 @@
+import { Translated } from '@intent/translator';
 import { AssignmentStatementNode, ExpressionNode } from '@alchemy/ast';
-import { Translated } from '../../../Translated';
 import { AssignmentTarget } from './AssignmentTarget';
 import { Expression, Identifier } from './expression';
 import { Statement } from './Statement';

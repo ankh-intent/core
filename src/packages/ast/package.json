@@ -1,0 +1,22 @@
+{
+    "name": "@intent/ast",
+    "version": "0.0.10",
+    "description": "Intent language compiler core",
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "keywords": [
+        "intent",
+        "intent-core"
+    ],
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts",
+            "default": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@intent/source": "*",
+        "@intent/parser": "*"
+    }
+}

@@ -1,4 +1,4 @@
-import { Container } from '@intent/utils';
+import { Container } from '@intent/kernel';
 import {
     DomainNode,
     ExpressionNode,
@@ -8,42 +8,7 @@ import {
     QualifierNode,
     TypeGenericNode,
 } from '@alchemy/ast';
-
-class Scope<T extends object, N extends keyof T = keyof T> {
-    private readonly parent?: Scope<T, N>;
-    protected readonly items: T;
-
-    constructor(items: T, parent?: Scope<T, N>) {
-        this.items = items;
-        this.parent = parent;
-    }
-
-    nest(): this {
-        return Reflect.construct(this.constructor, [{}, this]);
-    }
-
-    get depth(): number {
-        return 1 + (this.parent?.depth || 0);
-    }
-
-    get size() {
-        return Object.keys(this.items).length;
-    }
-
-    set(name: N, value: T[N]) {
-        this.items[name] = value;
-
-        return value;
-    }
-
-    delete(name: N) {
-        return delete this.items[name];
-    }
-
-    get(name: N): T[N] | null {
-        return this.items[name] || this.parent?.get(name) || null;
-    }
-}
+import { SerializingScope, Scope, ScopeInterface } from '../../../../../src/packages/translator';
 
 interface Variable {
     local: string;
@@ -57,36 +22,23 @@ interface InlineType {
 }
 
 interface SerializingScopeInterface {
-    variables: Scope<Container<Variable>, string>;
-    types: Scope<Container<InlineType>, string>;
+    variables: ScopeInterface<Container<Variable>>;
+    types: ScopeInterface<Container<InlineType>>;
 }
 
-class SerializingScope extends Scope<SerializingScopeInterface> {
-    nest(): this {
-        return Reflect.construct(this.constructor, [
-            Object.fromEntries(
-                Object
-                    .entries(this.items)
-                    .map(([name, scope]) => [name, scope.nest()])
-            ),
-            this,
-        ]);
-    }
-}
-
-export class SerializingContext extends SerializingScope {
+export class SerializingContext extends SerializingScope<SerializingScopeInterface> {
     public static createContext() {
         return new this({
-            variables: new Scope({}),
-            types: new Scope({}),
+            variables: new Scope(),
+            types: new Scope(),
         });
     }
 
-    get variables(): Scope<Container<Variable>, string> {
+    get variables(): ScopeInterface<Container<Variable>> {
         return this.items.variables;
     }
 
-    get types(): Scope<Container<InlineType>, string> {
+    get types(): ScopeInterface<Container<InlineType>> {
         return this.items.types;
     }
 

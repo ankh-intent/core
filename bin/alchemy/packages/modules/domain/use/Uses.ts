@@ -1,5 +1,5 @@
+import { Translated } from '@intent/translator';
 import { UsesNode } from '@alchemy/ast';
-import { Translated } from '../../Translated';
 import { Use } from './Use';
 
 export class Uses extends Translated<UsesNode> {

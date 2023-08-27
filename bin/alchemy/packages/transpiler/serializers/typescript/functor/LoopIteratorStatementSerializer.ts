@@ -1,4 +1,4 @@
-import { SyntaxError } from '@intent/parser';
+import { SyntaxError } from '@intent/kernel';
 import { LoopIteratorNode, ExpressionNode, AssignmentTargetNode } from '@alchemy/ast';
 import { NodeSerializer } from '../../NodeSerializer';
 import { SerializingContext } from '../../SerializingContext';

@@ -1,5 +1,5 @@
 import { AbstractNode } from '@intent/kernel';
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
 import { ExpressionNode, OperationNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';

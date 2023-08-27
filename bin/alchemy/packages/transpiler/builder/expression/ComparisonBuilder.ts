@@ -1,6 +1,6 @@
 import { ExpressionNode } from '@alchemy/ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
-import { TokenMatcher } from '@intent/parser';
+import { TokenMatcher } from '@intent/kernel';
 
 export type ComparisonChildren = OperableChildren & {
     additive: ExpressionNode;

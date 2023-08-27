@@ -1,9 +1,7 @@
 import { resolve } from 'path';
-import yargs, { usage } from 'yargs';
-import { escapeRegExp } from 'lodash';
 
-import { BubblingFinder } from '../../source';
-import { Container } from '../../utils';
+import { Container, Strings } from '@intent/utils';
+import { BubblingFinder } from '@intent/source';
 
 type OptionDescriptor = {
     path?: boolean;
@@ -11,7 +9,7 @@ type OptionDescriptor = {
     mapper?: (v: any, m: (v: any) => any) => any;
 };
 
-export abstract class AbstractConfigProvider<O, C> {
+export abstract class AbstractConfigProvider<O, Option extends { group?: string }> {
     private _argv: any;
     private readonly _defaults: Partial<O>;
 
@@ -23,21 +21,21 @@ export abstract class AbstractConfigProvider<O, C> {
         return this._defaults;
     }
 
-    protected argv() {
+    protected argv(): O {
         const map = this.options(
             this.defaults(),
         );
-        const options: Container<yargs.Options> = {};
+        const options: Container<Option> = {};
+        const cwd = resolve(process.cwd());
+        const regexp = new RegExp(`^${Strings.escapeRegExp(cwd)}`);
+        const remapPath = (v: unknown) => String(v).replace(regexp, '.');
 
         for (const group in map) {
             if (!map.hasOwnProperty(group)) {
                 continue;
             }
 
-            const cwd = resolve(process.cwd());
-            const regexp = new RegExp(`^${escapeRegExp(cwd)}`);
             const entries: [string, OptionDescriptor][] = Object.entries(map[group]);
-            const remapPath = (v: unknown) => String(v).replace(regexp, '.');
 
             for (const [name, { path, default: d, mapper, ...option }] of entries) {
                 if (path || mapper) {
@@ -46,25 +44,17 @@ export abstract class AbstractConfigProvider<O, C> {
                     (option as any).default = d;
                 }
 
-                options[name] = Object.assign(
+                options[name] = <Option>Object.assign(
                     { group: group + ':' },
                     option,
                 );
             }
         }
 
-        const built = usage(this.usage())
-            .help('help')
-            .version()
-            .alias('help', 'h')
-            .alias('version', 'v')
-            .options(options)
-        ;
-
-        return this.strict()
-            ? built.strict().argv
-            : built.argv;
+        return this.compile(options);
     }
+
+    protected abstract compile(options: Container<Option>): O;
 
     protected strict(): boolean {
         return true;
@@ -97,5 +87,5 @@ export abstract class AbstractConfigProvider<O, C> {
 
     protected abstract options(def: Partial<O>): any;
 
-    public abstract build(core: C): O;
+    public abstract build(): O;
 }

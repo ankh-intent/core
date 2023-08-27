@@ -1,5 +1,5 @@
-import { Container } from '@intent/utils';
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
+import { Container } from '@intent/kernel';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
 import { QualifierNode, DecompositionNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';

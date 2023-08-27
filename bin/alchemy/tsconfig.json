@@ -19,18 +19,14 @@
         ],
         "baseUrl": ".",
         "paths": {
-            "@intent/*": [
-                "../../src/packages/*",
-                "../../src/*"
-            ],
             "@alchemy/*": [
                 "./packages/*"
             ]
         }
     },
     "exclude": [
-        "../node_modules",
-        "doc",
+        "../../node_modules",
+        "../../doc",
         "./build",
         "*.a.ts"
     ]

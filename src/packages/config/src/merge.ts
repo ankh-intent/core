@@ -1,4 +1,4 @@
-import { Container } from '../../utils';
+import { Container } from '@intent/utils';
 
 export const regexpify = (r: RegExp | string) => {
     return (typeof r === 'string')

@@ -1,4 +1,4 @@
-import { PathsConfig } from '@intent/config';
+import { PathsConfig } from '@intent/kernel';
 
 import { QualifierNode } from '@alchemy/ast';
 import { QualifierResolverInterface } from './QualifierResolverInterface';

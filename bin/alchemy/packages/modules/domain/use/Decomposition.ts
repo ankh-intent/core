@@ -1,8 +1,8 @@
-import { Strings } from '@intent/utils';
+import { Strings } from '@intent/kernel';
+import { Translated } from '@intent/translator';
 
 import { DecompositionNode } from '@alchemy/ast';
 import { Qualifier } from '../../reference';
-import { Translated } from '../../Translated';
 
 export class Decomposition extends Translated<DecompositionNode> {
     public qualifier: Qualifier;

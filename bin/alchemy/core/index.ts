@@ -1,9 +1,7 @@
 import { inspect } from 'node:util';
 
-import { Logger } from '@intent/utils';
-import { CoreEvent, ErrorEvent, StatEvent, StopEvent } from '@intent/kernel';
+import { Logger, CoreEvent, ErrorEvent, StatEvent, StopEvent, CoreConfig } from '@intent/kernel';
 import { TranspilerConfig, Core } from '@intent/pipeline';
-import { CoreConfig } from '@intent/config';
 
 import { Module } from '@alchemy/modules';
 import { ModuleNode } from '@alchemy/ast';
@@ -16,7 +14,7 @@ export class AlchemyCore extends Core<TranspilerConfig, ModuleNode, Module> {
     public bootstrap(config: CoreConfig): TranspilerConfig {
         return super.bootstrap(
             config,
-            (core, config) => (new ConfigProvider(config)).build(core),
+            (core, config) => (new ConfigProvider(config)).build(),
             (core, resolved) => new TranspilerPipelineObserver(resolved),
         );
     }

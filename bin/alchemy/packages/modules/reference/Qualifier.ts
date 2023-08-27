@@ -1,5 +1,5 @@
 import { QualifierNode } from '@alchemy/ast';
-import { Translated } from '../Translated';
+import { Translated } from '@intent/translator';
 
 export class Qualifier extends Translated<QualifierNode> {
     public name: string;

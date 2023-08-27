@@ -1,4 +1,4 @@
-import { WatchMatcher } from '../../utils';
+import { WatchMatcher } from '@intent/utils';
 
 import { UnitInterface } from './Unit';
 import { WatchItem } from './WatchItem';

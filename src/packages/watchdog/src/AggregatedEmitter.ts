@@ -1,4 +1,4 @@
-import { ArrayConsumer, Emitter } from '../../utils';
+import { ArrayConsumer, Emitter } from '@intent/utils';
 
 import { Aggregator } from './aggregator/Aggregator';
 

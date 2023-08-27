@@ -1,5 +1,5 @@
+import { Translated } from '@intent/translator';
 import { CallArgsNode } from '@alchemy/ast';
-import { Translated } from '../../../../../Translated';
 
 import { CallArg } from './CallArg';
 

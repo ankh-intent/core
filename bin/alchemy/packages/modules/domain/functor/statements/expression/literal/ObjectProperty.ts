@@ -1,5 +1,5 @@
+import { Translated } from '@intent/translator';
 import { ObjectPropertyNode } from '@alchemy/ast';
-import { Translated } from '../../../../../Translated';
 
 import { Expression } from '../Expression';
 

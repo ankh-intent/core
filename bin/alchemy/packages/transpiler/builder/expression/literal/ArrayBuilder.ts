@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
 import { ArrayNode, ExpressionNode } from '@alchemy/ast';
 import { BaseBuilder } from '../../BaseBuilder';

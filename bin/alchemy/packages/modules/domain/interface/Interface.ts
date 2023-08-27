@@ -1,6 +1,6 @@
-import { Strings } from '@intent/utils';
+import { Strings } from '@intent/kernel';
+import { Translated } from '@intent/translator';
 import { DomainInterfaceNode } from '@alchemy/ast';
-import { Translated } from '../../Translated';
 import { InterfaceProperty } from './InterfaceProperty';
 
 export class Interface extends Translated<DomainInterfaceNode> {

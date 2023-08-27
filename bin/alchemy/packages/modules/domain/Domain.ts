@@ -1,4 +1,4 @@
-import { Strings } from '@intent/utils';
+import { Strings } from '@intent/kernel';
 import { DomainNode } from '@alchemy/ast';
 import { DomainInterface, ReferenceInterface, GenericInterface } from '../interfaces';
 import { DeclarationRegistry } from '../DeclarationRegistry';

@@ -1,6 +1,6 @@
+import { Translated } from '@intent/translator';
 import { GenericTemplateNode } from '@alchemy/ast';
 import { GenericInterface, ReferenceInterface, DomainInterface } from '../interfaces';
-import { Translated } from '../Translated';
 
 export class Generic extends Translated<GenericTemplateNode> implements GenericInterface {
     identifier: string;

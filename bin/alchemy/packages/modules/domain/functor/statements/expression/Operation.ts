@@ -1,8 +1,6 @@
-import { Container } from '@intent/utils';
-import { AbstractNode } from '@intent/ast';
-
+import { Container, AbstractNode } from '@intent/kernel';
+import { Translated } from '@intent/translator';
 import { OperationNode } from '@alchemy/ast';
-import { Translated } from '../../../../Translated';
 
 const MAP: Container<string> = {
     '&': '&&',

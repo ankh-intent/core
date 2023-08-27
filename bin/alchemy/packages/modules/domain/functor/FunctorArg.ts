@@ -1,6 +1,6 @@
+import { Translated } from '@intent/translator';
 import { FunctorArgNode } from '@alchemy/ast';
 import { ReferenceInterface } from '../../interfaces';
-import { Translated } from '../../Translated';
 
 export class FunctorArg extends Translated<FunctorArgNode> {
     public name: string;

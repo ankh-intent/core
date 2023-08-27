@@ -1,4 +1,4 @@
-import { AbstractNode, TreeNode } from '@intent/ast';
+import { AbstractNode, TreeNode } from '@intent/kernel';
 
 import { FunctorNode } from '../functor';
 import { DomainInterfaceNode } from './interface';

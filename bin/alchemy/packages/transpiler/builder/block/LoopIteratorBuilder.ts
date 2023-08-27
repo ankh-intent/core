@@ -1,4 +1,4 @@
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
 import { ExpressionNode } from '@alchemy/ast';
 import { AssignmentTargetNode, LoopIteratorNode } from '@alchemy/ast';

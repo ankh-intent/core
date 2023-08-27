@@ -1,6 +1,6 @@
+import { Translated } from '@intent/translator';
 import { ExpressionNode } from '@alchemy/ast';
 
-import { Translated } from '../../../../Translated';
 import { Operation } from './Operation';
 
 export class Expression<

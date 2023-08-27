@@ -18,10 +18,10 @@
     "dependencies": {
         "@types/jasmine": "^3.0.0",
         "@types/node": "^18.17.9",
-        "jasmine": "^5.1.0",
-        "jasmine-core": "^5.1.1",
         "ts-node": "^10.9.1",
         "cross-env": "^7.0.3",
+        "jasmine": "^5.1.0",
+        "jasmine-core": "^5.1.1",
         "@stryker-mutator/core": "^7.1.1",
         "@stryker-mutator/jasmine-runner": "^7.1.1"
     }

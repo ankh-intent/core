@@ -1,7 +1,7 @@
-import { TreeNode } from '@intent/ast';
+import { TreeNode } from '@intent/kernel';
+import { Translated } from '@intent/translator';
 import { TranslatedInterface, DeclarationRegistryInterface, DeclarationInterface } from './interfaces';
 import { Qualifier } from './reference';
-import { Translated } from './Translated';
 
 const makePath = (...parts: (string | null | undefined | false)[]) => parts.filter(Boolean).join('.');
 

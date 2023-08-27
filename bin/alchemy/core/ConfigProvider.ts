@@ -1,9 +1,9 @@
-import { merge, regexpify, unregexpify } from '@intent/config';
+import { merge, regexpify, unregexpify } from '@intent/kernel';
 import { WatchdogConfig } from '@intent/watchdog';
 import { TranspilerConfig } from '@intent/pipeline';
-import { ConfigProvider as BaseConfigProvider } from '@intent/ConfigProvider';
+import { ConfigProvider as BaseConfigProvider } from '@intent/kernel';
 
-export class ConfigProvider<C> extends BaseConfigProvider<TranspilerConfig, C> {
+export class ConfigProvider extends BaseConfigProvider<TranspilerConfig> {
     protected options(defaults: Partial<TranspilerConfig>): any {
         return merge(super.options(defaults), {
             'Watchdog options': {
@@ -45,9 +45,9 @@ export class ConfigProvider<C> extends BaseConfigProvider<TranspilerConfig, C> {
         };
     }
 
-    public build(context: C) {
+    public build() {
         return {
-            ...super.build(context),
+            ...super.build(),
             ...{
                 watch: this.watch(),
             },

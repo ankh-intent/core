@@ -1,4 +1,4 @@
-import { BaseTokenTypes } from '@intent/parser';
+import { BaseTokenTypes } from '@intent/kernel';
 import { RootBuilder } from '@intent/kernel';
 
 import { ModuleNode } from '@alchemy/ast';

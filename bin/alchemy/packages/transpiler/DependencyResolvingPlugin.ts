@@ -1,4 +1,4 @@
-import { Container } from '@intent/utils';
+import { Container } from '@intent/kernel';
 import { PatchedASTEvent, SynchronizeStat } from '@intent/consumers';
 import { DependencyManager, DependencyNode, UpdateEvent } from '@intent/kernel';
 import { PluginEnvironment, InterpretPlugin } from '@intent/plugins';

@@ -1,7 +1,7 @@
-import { Strings } from '@intent/utils';
-import { BlockNode } from '@alchemy/ast';
+import { Strings } from '@intent/kernel';
+import { Translated } from '@intent/translator';
 
-import { Translated } from '../../../Translated';
+import { BlockNode } from '@alchemy/ast';
 import { ExpressionStatement } from './ExpressionStatement';
 import { ReturnStatement } from './ReturnStatement';
 import { Statement } from './Statement';

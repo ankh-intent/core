@@ -1,6 +1,6 @@
-import { Container } from '@intent/utils';
+import { Container } from '@intent/kernel';
 import { TreeNode } from '@intent/kernel';
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/parser';
+import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
 import { OperationNode, ExpressionNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';

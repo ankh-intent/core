@@ -1,5 +1,5 @@
-import { Container } from '@intent/utils';
-import { BaseTokenTypes, TokenMatcher, TypedTokenMatcherInterface } from '@intent/parser';
+import { Container } from '@intent/kernel';
+import { BaseTokenTypes, TokenMatcher, TypedTokenMatcherInterface } from '@intent/kernel';
 import { TreeNode, BaseBuilder as Builder, BuilderInvokers } from '@intent/kernel';
 
 export abstract class BaseBuilder<

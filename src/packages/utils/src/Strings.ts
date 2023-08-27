@@ -7,6 +7,14 @@ export class Strings {
         return pattern.replace(REGEXP_GUARD, '\\$&');
     }
 
+    public static hyphensToWords(text: string) {
+        return text.split('-').join(' ');
+    }
+
+    public static wordsToCamelCase(text: string) {
+        return text.split(' ').map(Strings.ucFirst).join(' ');
+    }
+
     public static camelCaseToHyphenCase(text: string) {
         return text.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
     }
@@ -152,10 +160,6 @@ export class Strings {
         }
 
         return result;
-    }
-
-    public static getRootSrcPath(): string {
-        return __dirname.replace(/\/src\/(.*?)$/, '/src/');
     }
 
     public static stripLeft(subject: string, needle: string): string {

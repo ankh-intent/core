@@ -1,5 +1,5 @@
+import { Translated } from '@intent/translator';
 import { AssignmentTargetNode, ExpressionNode } from '@alchemy/ast';
-import { Translated } from '../../../Translated';
 import { Expression, Identifier } from './expression';
 
 export class AssignmentTarget<T extends Translated<N> = any, N extends ExpressionNode = any> extends Translated<AssignmentTargetNode<N>> {

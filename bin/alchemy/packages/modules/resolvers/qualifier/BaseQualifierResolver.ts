@@ -1,7 +1,7 @@
 import { sep } from 'path';
-import { startCase } from 'lodash';
 
-import { PathsConfig } from '@intent/config';
+import { Strings } from '@intent/kernel';
+import { PathsConfig } from '@intent/kernel';
 
 import { QualifierNode } from '@alchemy/ast';
 import { QualifierResolverInterface } from './QualifierResolverInterface';
@@ -31,7 +31,7 @@ export class BaseQualifierResolver implements QualifierResolverInterface {
             .replace(/\.[^.]+$/ig, '')
             .split(sep)
             .filter((p) => p.trim() !== '')
-            .map(startCase)
+            .map(Strings.camelCaseToHyphenCase)
         ;
 
         const node = parts.reverse().reduce(
