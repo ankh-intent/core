@@ -6,7 +6,7 @@ interface Options {
     dice: number;
 }
 
-const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const rand = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const pig = async (options: Options): Promise<number> => {
     const scores: number[] = '0'.repeat(options.players).split('').map(Number);
@@ -19,10 +19,12 @@ const pig = async (options: Options): Promise<number> => {
         });
 
         const ask = (question: string): Promise<boolean> => {
-            return (new Promise((rs) => {
-                read.question(question, rs);
-            }))
-                .then((answer: string) => answer.toLowerCase() !== 'h');
+            return (
+                new Promise<string>((rs) => (
+                    read.question(question, rs)
+                ))
+                .then((answer: string) => answer.toLowerCase() !== 'h')
+            );
         };
 
         try {
@@ -77,8 +79,10 @@ const pig = async (options: Options): Promise<number> => {
     return winner;
 };
 
-pig({
-    players: 2,
-    goal: 100,
-    dice: 6,
-});
+(async () =>
+    await pig({
+        players: 2,
+        goal: 100,
+        dice: 6,
+    })
+)();
