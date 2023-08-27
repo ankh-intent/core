@@ -5,7 +5,7 @@ import { CoreEvent, AbstractConsumer, CoreEventBus, ErrorEvent, UpdateEvent } fr
 import { ReadedEvent } from '../../flow-events';
 import { UpdateStat } from './UpdateStat';
 
-export class ReadAfterUpdateStage extends AbstractConsumer<UpdateEvent, any> {
+export class ReadAfterUpdate extends AbstractConsumer<UpdateEvent, any> {
     private readonly reader: FileReader;
 
     public constructor(bus: CoreEventBus) {

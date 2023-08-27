@@ -1,2 +1,2 @@
 export * from './UpdateStat';
-export * from './ReadAfterUpdateStage';
+export * from './ReadAfterUpdate';
