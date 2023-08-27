@@ -61,7 +61,7 @@ export class WatchItem<U extends UnitInterface> extends Eventable {
     public detach(): this {
         if (this.active) {
             if (this.watcher) {
-                this.watcher.close();
+                void this.watcher.close();
                 this.watcher = null;
             }
 
