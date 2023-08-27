@@ -1,8 +1,11 @@
-import { Container } from '@intent/utils';
-import { DummyWriter, FileWriter } from '@intent/source';
-import { BaseTokenTypes, TokensFactory } from '@intent/parser';
 import { UnitInterface, Watchdog, WatchdogConfig } from '@intent/watchdog';
 import {
+    Container,
+    CoreConfig,
+    DummyWriter,
+    FileWriter,
+    BaseTokenTypes,
+    TokensFactory,
     TreeNode,
     Identifiable,
     DependencyManager,
@@ -10,6 +13,7 @@ import {
     StopEvent,
     RootBuilder,
     EmitResolver,
+    CoreEvent,
 } from '@intent/kernel';
 import {
     IdentifiableFactory,
@@ -17,11 +21,9 @@ import {
     EmitAfterInterpreting,
     ParseAfterRead,
     ReadAfterUpdate,
-    DependenciesResolver,
     WatchAfterReadyStage,
     RunPlugins,
 } from '@intent/consumers';
-import { CoreConfig } from '@intent/config';
 
 import { Core } from './Core';
 import { PipelineObserver } from './PipelineObserver';
@@ -36,7 +38,7 @@ export abstract class WatchedTranspilerPipelineObserver<
     C extends TranspilerConfig = TranspilerConfig,
     TT extends BaseTokenTypes = BaseTokenTypes,
 >
-    implements PipelineObserver<C, N, T>, IdentifiableFactory<N, T>, DependenciesResolver<N, T>
+    implements PipelineObserver<C, N, T>, IdentifiableFactory<N, T>
 {
     protected readonly dependencyTree: DependencyManager<N, T>;
     private readonly tokensFactory: TokensFactory<TT>;
@@ -59,12 +61,12 @@ export abstract class WatchedTranspilerPipelineObserver<
             .add(new PatchAfterParse(core.events, this, this.dependencyTree))
             .add(new EmitAfterInterpreting(core.events, new EmitResolver(config), this.writer))
             .add({
-                consume: (event) => {
-                    if (event instanceof ReadyEvent) {
+                consume: (event: CoreEvent) => {
+                    if (event.is(ReadyEvent)) {
                         if (!this.watchdog) {
                             core.stop(event);
                         }
-                    } else if ((event instanceof StopEvent) && this.watchdog) {
+                    } else if (this.watchdog && event.is(StopEvent)) {
                         this.watchdog.stop();
                     }
 

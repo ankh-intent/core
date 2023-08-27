@@ -1,9 +1,15 @@
-import { Watchdog, UnitInterface, WatchItem } from '@intent/watchdog';
 import {
     TreeNode,
-    DependencyNode, Identifiable, DependencyManager,
-    CoreEvent, AbstractConsumer, ReadyEvent, CoreEventBus, UpdateEvent,
+    DependencyNode,
+    Identifiable,
+    DependencyManager,
+    CoreEvent,
+    AbstractConsumer,
+    ReadyEvent,
+    CoreEventBus,
+    UpdateEvent,
 } from '@intent/kernel';
+import { Watchdog, UnitInterface, WatchItem } from '@intent/watchdog';
 
 import { WatchdogStat, WatchdogStatType } from './WatchdogStat';
 

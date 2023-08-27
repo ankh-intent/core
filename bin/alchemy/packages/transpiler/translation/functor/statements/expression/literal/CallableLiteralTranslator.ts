@@ -9,7 +9,7 @@ export type CallableLiteralTranslatorChildren = {
 
 export class CallableLiteralTranslator extends AlchemyNodeTranslator<Callable, CallableLiteralTranslatorChildren> {
     translate(node: CallableNode, context: TranslationContext<any>): Callable {
-        return Callable.create(node, context.parent, {
+        return Callable.create(node, context.parentNode, {
             functor: this.child.functor(node.functor, context),
         });
     }

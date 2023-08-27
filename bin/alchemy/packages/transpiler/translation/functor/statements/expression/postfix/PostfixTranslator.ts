@@ -9,7 +9,7 @@ export type PostfixTranslatorChildren = {
 
 export class PostfixTranslator extends AlchemyNodeTranslator<Postfix, PostfixTranslatorChildren> {
     translate(node: PostfixNode, context: TranslationContext<any>): Postfix {
-        return Postfix.create(node, context.parent, {
+        return Postfix.create(node, context.parentNode, {
             operation: node.operation,
         });
     }

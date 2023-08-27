@@ -9,7 +9,7 @@ export type AssignmentTargetTranslatorChildren = {
 
 export class AssignmentTargetTranslator extends AlchemyNodeTranslator<AssignmentTarget, AssignmentTargetTranslatorChildren> {
     translate(node: AssignmentTargetNode, context: TranslationContext<any>): AssignmentTarget {
-        return AssignmentTarget.create(node, context.parent, {
+        return AssignmentTarget.create(node, context.parentNode, {
             _isDeclaration: node.isDeclaration(),
             target: this.child.expression(node.target, context),
         });

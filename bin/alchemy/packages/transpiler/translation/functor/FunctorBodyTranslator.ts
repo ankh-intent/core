@@ -9,7 +9,7 @@ export type FunctorBodyTranslatorChildren = {
 
 export class FunctorBodyTranslator extends AlchemyNodeTranslator<FunctorBody, FunctorBodyTranslatorChildren> {
     translate(node: FunctorBodyNode, context: TranslationContext<any>): FunctorBody {
-        return FunctorBody.create(node, context.parent, {
+        return FunctorBody.create(node, context.parentNode, {
             body: this.child.block(node.block, context),
         });
     }

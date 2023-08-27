@@ -9,7 +9,7 @@ export type ChainTranslatorChildren = {
 
 export class ChainTranslator extends AlchemyNodeTranslator<Chain, ChainTranslatorChildren> {
     translate(node: ChainNode, context: TranslationContext<any>): Chain {
-        return Chain.create(node, context.parent, {
+        return Chain.create(node, context.parentNode, {
             right: this.child.identifier(node.right, context),
         });
     }

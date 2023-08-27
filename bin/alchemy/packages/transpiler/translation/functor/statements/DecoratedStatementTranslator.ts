@@ -10,7 +10,7 @@ export type DecoratedStatementTranslatorChildren = {
 
 export class DecoratedStatementTranslator extends AlchemyNodeTranslator<DecoratedStatement, DecoratedStatementTranslatorChildren> {
     translate(node: DecoratedStatementNode, context: TranslationContext<any>): DecoratedStatement {
-        return DecoratedStatement.create(node, context.parent, {
+        return DecoratedStatement.create(node, context.parentNode, {
             decorator: this.child.expression(node.decorator, context),
             item: this.child.statement(node.item, context),
         });

@@ -1,18 +1,6 @@
 import { TreeNode } from '@intent/kernel';
 import { Translated } from './Translated';
 
-export interface ScopeInterface<C extends object, N extends keyof C = keyof C> {
-    readonly parent?: ScopeInterface<C, N>;
-    readonly items: C;
-    readonly depth: number;
-    readonly size: number;
-
-    nest(): this;
-    set(name: N, value: C[N]): C[N];
-    delete(name: N): boolean;
-    get(name: N): C[N] | null;
-}
-
 export type TranslatedConstructor<T extends Translated<N, P>, N extends TreeNode = any, P extends TreeNode = any> = {
     new(ast?: N, parentNode?: Translated<P>): T;
 

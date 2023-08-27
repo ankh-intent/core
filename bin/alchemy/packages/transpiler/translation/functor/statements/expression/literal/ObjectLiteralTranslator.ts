@@ -9,7 +9,7 @@ export type ObjectLiteralTranslatorChildren = {
 
 export class ObjectLiteralTranslator extends AlchemyNodeTranslator<ObjectLiteral, ObjectLiteralTranslatorChildren> {
     translate(node: ObjectNode, context: TranslationContext<any>): ObjectLiteral {
-        return ObjectLiteral.create(node, context.parent, {
+        return ObjectLiteral.create(node, context.parentNode, {
             properties: new Map(
                 [...node.properties.entries()]
                     .map(([name, prop]) => [name, this.child.object_property(prop, context)]),

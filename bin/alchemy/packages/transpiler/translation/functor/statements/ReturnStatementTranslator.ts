@@ -9,7 +9,7 @@ export type ReturnStatementTranslatorChildren = {
 
 export class ReturnStatementTranslator extends AlchemyNodeTranslator<ReturnStatement, ReturnStatementTranslatorChildren> {
     translate(node: ReturnStatementNode, context: TranslationContext<any>): ReturnStatement {
-        return ReturnStatement.create(node, context.parent, {
+        return ReturnStatement.create(node, context.parentNode, {
             expression: node.expression && this.child.expression(node.expression, context),
         });
     }

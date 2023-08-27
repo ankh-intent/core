@@ -10,7 +10,7 @@ export type AssignmentStatementTranslatorChildren = {
 
 export class AssignmentStatementTranslator extends AlchemyNodeTranslator<AssignmentStatement, AssignmentStatementTranslatorChildren> {
     translate(node: AssignmentStatementNode, context: TranslationContext<any>): AssignmentStatement {
-        return AssignmentStatement.create(node, context.parent, {
+        return AssignmentStatement.create(node, context.parentNode, {
             target: this.child.assignment_target(node.target, context),
             operator: node.operator,
             expression: this.child.expression(node.expression, context),

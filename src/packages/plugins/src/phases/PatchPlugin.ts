@@ -4,7 +4,7 @@ import { PatchedASTEvent } from '@intent/consumers';
 
 import { Plugin, PluginPhase, PluginEnvironment } from '../Plugin';
 
-export abstract class InterpretPlugin<N extends TreeNode, T extends Identifiable<N>, C> extends Plugin<PatchedASTEvent<N, T>> {
+export abstract class PatchPlugin<N extends TreeNode, T extends Identifiable<N>, C> extends Plugin<PatchedASTEvent<N, T>> {
     public constructor() {
         super(PluginPhase.Patch);
     }

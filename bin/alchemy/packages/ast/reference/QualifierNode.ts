@@ -26,6 +26,10 @@ export class QualifierNode extends AbstractNode {
             : this.name;
     }
 
+    toString(): string {
+        return this.path();
+    }
+
     inspect(): any {
         if (this.child) {
             return this;

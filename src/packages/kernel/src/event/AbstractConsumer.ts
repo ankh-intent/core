@@ -1,6 +1,6 @@
-import { CoreEvent, CoreEventConsumer, CoreStat } from '../../interfaces';
-import { ErrorEvent } from '../events';
-import { CoreEventBus } from '../CoreEventBus';
+import { CoreEvent, CoreEventConsumer, CoreStat } from '../interfaces';
+import { ErrorEvent } from './events';
+import { CoreEventBus } from './CoreEventBus';
 
 export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements CoreEventConsumer<T, E> {
     protected readonly bus: CoreEventBus;
@@ -38,6 +38,6 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
     }
 
     public stat<T, S>(parent: CoreEvent | null, data: CoreStat<T, S>): CoreEvent {
-        return this.bus.stat(data, parent);
+        return this.bus.stat(parent, data);
     }
 }

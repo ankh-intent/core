@@ -1,15 +1,20 @@
-import { StringSource, FileWriter } from '@intent/source';
 import {
-    TreeNode, Identifiable,
-    AbstractConsumer, CoreEvent, CoreEventBus, ErrorEvent,
+    StringSource,
+    FileWriter,
+    TreeNode,
+    Identifiable,
+    AbstractConsumer,
+    CoreEvent,
+    CoreEventBus,
+    ErrorEvent,
     FileEmitResolverInterface,
 } from '@intent/kernel';
 
-import { InterpretedEvent, EmittedEvent } from '../../flow-events';
+import { TranspiledEvent, EmittedEvent } from '../../flow-events';
 import { EmitStat } from './EmitStat';
 import { EmittedStat } from './EmittedStat';
 
-export class EmitAfterInterpreting<N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<InterpretedEvent<N, T>, any> {
+export class EmitAfterInterpreting<N extends TreeNode, T extends Identifiable<N>> extends AbstractConsumer<TranspiledEvent<N, T>, any> {
     private readonly writer: FileWriter;
     private readonly resolver: FileEmitResolverInterface<N, T>;
     private total: number = 0;
@@ -21,10 +26,10 @@ export class EmitAfterInterpreting<N extends TreeNode, T extends Identifiable<N>
     }
 
     public supports(event: CoreEvent): boolean {
-        return event.type === InterpretedEvent.type();
+        return event.type === TranspiledEvent.type();
     }
 
-    public process(event: InterpretedEvent<N, T>) {
+    public process(event: TranspiledEvent<N, T>) {
         const { dependency, content } = event.data;
         const start = +new Date();
         this.stat(event, new EmitStat(dependency.identifiable, start));

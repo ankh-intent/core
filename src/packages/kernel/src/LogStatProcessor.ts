@@ -1,6 +1,6 @@
 import { Logger } from '@intent/utils';
 
-import { CoreStatProcessor, CoreStat, CoreEvent } from '../interfaces';
+import { CoreStatProcessor, CoreStat, CoreEvent } from './interfaces';
 
 export interface LogStatData {
     message: object;

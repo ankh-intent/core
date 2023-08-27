@@ -9,7 +9,7 @@ export type UsesTranslatorChildren = {
 
 export class UsesTranslator extends AlchemyNodeTranslator<Uses, UsesTranslatorChildren> {
     translate(node: UsesNode, context: TranslationContext<any>): Uses {
-        return Uses.create(node, context.parent, {
+        return Uses.create(node, context.parentNode, {
             map: new Map(
                 node.entries.map(([alias, value]) => [alias, this.child.use(value, context)]),
             ),

@@ -7,7 +7,7 @@ export type IdentifierTranslatorChildren = {};
 
 export class IdentifierTranslator extends AlchemyNodeTranslator<Identifier, IdentifierTranslatorChildren> {
     translate(node: IdentifierNode, context: TranslationContext<any>): Identifier {
-        return Identifier.create(node, context.parent, {
+        return Identifier.create(node, context.parentNode, {
             name: node.name,
         });
     }

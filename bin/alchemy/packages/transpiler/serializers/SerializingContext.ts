@@ -1,4 +1,5 @@
-import { Container } from '@intent/kernel';
+import { Container, Scope, ScopeInterface } from '@intent/kernel';
+import { SerializingScope } from '@intent/translator';
 import {
     DomainNode,
     ExpressionNode,
@@ -8,7 +9,6 @@ import {
     QualifierNode,
     TypeGenericNode,
 } from '@alchemy/ast';
-import { SerializingScope, Scope, ScopeInterface } from '../../../../../src/packages/translator';
 
 interface Variable {
     local: string;
@@ -21,12 +21,12 @@ interface InlineType {
     definition: Container<ReferenceNode>;
 }
 
-interface SerializingScopeInterface {
+interface ASerializingScopeInterface {
     variables: ScopeInterface<Container<Variable>>;
     types: ScopeInterface<Container<InlineType>>;
 }
 
-export class SerializingContext extends SerializingScope<SerializingScopeInterface> {
+export class SerializingContext extends SerializingScope<ASerializingScopeInterface> {
     public static createContext() {
         return new this({
             variables: new Scope(),

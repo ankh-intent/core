@@ -10,7 +10,7 @@ export type InterfacePropertyTranslatorChildren = {
 
 export class InterfacePropertyTranslator extends AlchemyNodeTranslator<InterfaceProperty, InterfacePropertyTranslatorChildren> {
     translate(node: DomainInterfacePropertyNode, context: TranslationContext<any>): InterfaceProperty {
-        return InterfaceProperty.create(node, context.parent, {
+        return InterfaceProperty.create(node, context.parentNode, {
             identifier: node.identifier,
             type: node.type && this.child.reference(node.type, context),
             expression: node.expression && this.child.expression(node.expression, context),

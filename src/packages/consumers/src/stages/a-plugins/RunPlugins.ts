@@ -1,5 +1,5 @@
+import { AbstractConsumer, CoreEvent, CoreEventBus, ErrorEvent, CoreStat } from '@intent/kernel';
 import { PluginRegistry } from '@intent/plugins';
-import { AbstractConsumer, CoreEvent, CoreEventBus, ErrorEvent } from '@intent/kernel';
 
 export class RunPlugins<E extends CoreEvent = CoreEvent> extends AbstractConsumer<E, any> {
     private readonly plugins: PluginRegistry;
@@ -14,13 +14,19 @@ export class RunPlugins<E extends CoreEvent = CoreEvent> extends AbstractConsume
     }
 
     public process(event: E) {
+        const env = {
+            stat: (data: CoreStat<any, any>): CoreEvent => this.bus.stat(event, data),
+            events: this.bus,
+            event,
+        };
+
         for (const plugin of this.plugins.getAllSupporting(event)) {
             try {
-                if (plugin.process({ event, events: this.bus })) {
+                if (plugin.process(env)) {
                     return;
                 }
-            } catch (e) {
-                this.emit(new ErrorEvent({ error: e }));
+            } catch (error) {
+                this.emit(new ErrorEvent({ error }, event));
             }
         }
 

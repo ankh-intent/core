@@ -9,7 +9,7 @@ export type IsDomainTranslatorChildren = {
 
 export class IsDomainTranslator extends AlchemyNodeTranslator<IsDomain, IsDomainTranslatorChildren> {
     translate(node: IsDomainNode, context: TranslationContext<any>): IsDomain {
-        return IsDomain.create(node, context.parent, {
+        return IsDomain.create(node, context.parentNode, {
             right: this.child.reference(node.right, context),
         });
     }

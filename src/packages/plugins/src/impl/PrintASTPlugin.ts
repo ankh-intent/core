@@ -1,7 +1,7 @@
 import { Identifiable, StatEvent } from '@intent/kernel';
 import { TreeNode } from '@intent/ast';
 import { PatchedASTEvent } from '@intent/consumers';
-import { InterpretPlugin } from '../phases';
+import { PatchPlugin } from '../phases';
 import { PluginEnvironment } from '../Plugin';
 
 interface PrintContext {
@@ -9,7 +9,7 @@ interface PrintContext {
     data: string[];
 }
 
-export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> extends InterpretPlugin<N, T, PrintContext> {
+export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> extends PatchPlugin<N, T, PrintContext> {
     protected createContext(): PrintContext {
         return {
             depth: -1,

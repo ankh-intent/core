@@ -9,7 +9,7 @@ export type UnaryTranslatorChildren = {
 
 export class UnaryTranslator extends AlchemyNodeTranslator<Unary, UnaryTranslatorChildren> {
     translate(node: UnaryNode, context: TranslationContext<any>): Unary {
-        return Unary.create(node, context.parent, {
+        return Unary.create(node, context.parentNode, {
             operation: node.operation,
             base: this.child.expression(node.base, context),
         });

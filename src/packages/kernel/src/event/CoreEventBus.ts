@@ -5,7 +5,9 @@ export class CoreEventBus {
     private consumers: CoreEventConsumer<any, any>[] = [];
 
     public add(consumer: CoreEventConsumer<any, any>): this {
-        return this.consumers.push(consumer), this;
+        this.consumers.push(consumer);
+
+        return this;
     }
 
     public reset(): this {
@@ -56,7 +58,7 @@ export class CoreEventBus {
         return event;
     }
 
-    public stat<T, S>(data: CoreStat<T, S>, parent: CoreEvent | null = null): CoreEvent {
+    public stat<T, S>(parent: CoreEvent | null, data: CoreStat<T, S>): CoreEvent {
         return this.emit(new StatEvent(parent, data));
     }
 }

@@ -1,12 +1,11 @@
 import { dirname, sep } from 'node:path';
 
-import { Strings } from '@intent/kernel';
-import { PathsConfig } from '@intent/kernel';
+import { Strings, PathsConfig } from '@intent/kernel';
 import { IdentifiableFactory } from '@intent/consumers';
 
 import { QualifierNode, ModuleNode } from '@alchemy/ast';
+import { UseResolverInterface } from '../../interfaces';
 import { Module } from '../../Module';
-import { UseResolverInterface } from './UseResolverInterface';
 import { LibraryUseResolver } from './LibraryUseResolver';
 
 export class BaseUseResolver implements UseResolverInterface {

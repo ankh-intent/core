@@ -24,7 +24,7 @@ export class ExpressionTranslator extends AlchemyNodeTranslator<Expression, Expr
                 : this.child.literal(node.base, context)
         );
 
-        return Expression.create(node, context.parent, {
+        return Expression.create(node, context.parentNode, {
             base,
             operations: node.operations.map((operation) => this.child.operation(operation, context)),
         });

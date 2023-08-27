@@ -14,7 +14,7 @@ export type IfStatementTranslatorChildren = {
 
 export class IfStatementTranslator extends AlchemyNodeTranslator<IfStatement, IfStatementTranslatorChildren> {
     translate(node: IfStatementNode, context: TranslationContext<any>): IfStatement {
-        return IfStatement.create(node, context.parent, {
+        return IfStatement.create(node, context.parentNode, {
             condition: this.child.statement(node.condition, context),
             ifTrue: this.child.block(node.ifTrue, context),
             ifFalse: node.ifFalse && this.child.block(node.ifFalse, context),

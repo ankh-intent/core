@@ -9,7 +9,7 @@ export type ExpressionStatementTranslatorChildren = {
 
 export class ExpressionStatementTranslator extends AlchemyNodeTranslator<ExpressionStatement, ExpressionStatementTranslatorChildren> {
     translate(node: ExpressionStatementNode, context: TranslationContext<any>): ExpressionStatement {
-        return ExpressionStatement.create(node, context.parent, {
+        return ExpressionStatement.create(node, context.parentNode, {
             expression: this.child.expression(node.expression, context),
         });
     }

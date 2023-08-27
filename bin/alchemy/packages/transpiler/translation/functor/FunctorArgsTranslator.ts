@@ -9,7 +9,7 @@ export type FunctorArgsTranslatorChildren = {
 
 export class FunctorArgsTranslator extends AlchemyNodeTranslator<FunctorArgs, FunctorArgsTranslatorChildren> {
     translate(node: FunctorArgsNode, context: TranslationContext<any>): FunctorArgs {
-        return FunctorArgs.create(node, context.parent, {
+        return FunctorArgs.create(node, context.parentNode, {
             args: node.args.map((arg) => this.child.functor_arg(arg, context)),
         });
     }

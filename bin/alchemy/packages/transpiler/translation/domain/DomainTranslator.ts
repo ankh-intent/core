@@ -28,7 +28,7 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
         }));
 
         DeclarationRegistry
-            .search(context.parent)!
+            .search(context.parentNode)!
             .registerDeclaration(domain);
 
         domain.uses = this.child.uses(node.uses, inner);

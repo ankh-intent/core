@@ -31,7 +31,7 @@ export class OperationTranslator extends AlchemyNodeTranslator<Operation, Operat
         } else if (node instanceof PostfixNode) {
             return this.child.postfix(node, context);
         } else if (node.right instanceof ExpressionNode) {
-            return Operation.create(node, context.parent, {
+            return Operation.create(node, context.parentNode, {
                 operation: node.operation,
                 binary: node.binary,
                 right: this.child.expression(node.right, context),

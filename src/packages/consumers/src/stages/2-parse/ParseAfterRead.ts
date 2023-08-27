@@ -1,5 +1,13 @@
-import { BaseTokenTypes, TokensFactory, SyntaxError } from '@intent/parser';
-import { TokenVisitor, TreeNode, CoreEventBus, AbstractConsumer, CoreEvent } from '@intent/kernel';
+import {
+    BaseTokenTypes,
+    TokensFactory,
+    SyntaxError,
+    TokenVisitor,
+    TreeNode,
+    CoreEventBus,
+    AbstractConsumer,
+    CoreEvent,
+} from '@intent/kernel';
 
 import { ReadedEvent, ParsedEvent } from '../../flow-events';
 import { ParseStat } from './ParseStat';

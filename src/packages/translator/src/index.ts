@@ -1,5 +1,4 @@
 export * from './interfaces';
-export * from './Scope';
 export * from './SerializingScope';
 export * from './NodeSerializer';
 export * from './Translated';

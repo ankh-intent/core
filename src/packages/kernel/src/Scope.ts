@@ -3,16 +3,14 @@ import { ScopeInterface } from './interfaces';
 export class Scope<C extends object, N extends keyof C = keyof C> implements ScopeInterface<C, N> {
     public readonly items: C;
     public readonly parent?: ScopeInterface<C, N>;
-    protected _size: number;
 
     constructor(items?: C, parent?: ScopeInterface<C, N>) {
         this.items = items || ({} as C);
         this.parent = parent;
-        this._size = Object.keys(this.items).length;
     }
 
-    nest(): this {
-        return Reflect.construct(this.constructor, [{}, this]);
+    nest<S extends ScopeInterface<K, keyof K>, K extends object>(data?: Partial<K>): S {
+        return Reflect.construct(this.constructor, [data || {}, this]);
     }
 
     get depth(): number {
@@ -20,27 +18,17 @@ export class Scope<C extends object, N extends keyof C = keyof C> implements Sco
     }
 
     get size() {
-        return this._size;
+        return Object.keys(this.items).length;
     }
 
     set(name: N, value: C[N]): C[N] {
-        if (!(name in this.items)) {
-            this._size++;
-        }
-
         this.items[name] = value;
 
         return value;
     }
 
     delete(name: N): boolean {
-        const result = delete this.items[name];
-
-        if (result) {
-            this._size--;
-        }
-
-        return result;
+        return delete this.items[name];
     }
 
     get(name: N): C[N] | null {

@@ -1,10 +1,10 @@
-import { CoreEvent, CoreEventBus, UpdateEvent } from '@intent/kernel';
+import { CoreEvent, CoreEventBus, UpdateEvent, CoreStat } from '@intent/kernel';
 import {
     ReadedEvent,
     ParsedEvent,
     PatchedASTEvent,
     DependencyModifiedEvent,
-    InterpretedEvent,
+    TranspiledEvent,
     EmittedEvent,
 } from '@intent/consumers';
 
@@ -18,9 +18,20 @@ export enum PluginPhase {
     Emit,
 }
 
+const PHASE_TO_EVENT = {
+    [PluginPhase.Update]: UpdateEvent.type(),
+    [PluginPhase.Read]: ReadedEvent.type(),
+    [PluginPhase.Parse]: ParsedEvent.type(),
+    [PluginPhase.Patch]: PatchedASTEvent.type(),
+    [PluginPhase.Sync]: DependencyModifiedEvent.type(),
+    [PluginPhase.Interpret]: TranspiledEvent.type(),
+    [PluginPhase.Emit]: EmittedEvent.type(),
+};
+
 export interface PluginEnvironment<E extends CoreEvent> {
     event: E;
     events: CoreEventBus;
+    stat<T, S>(data: CoreStat<T, S>): CoreEvent;
 }
 
 export abstract class Plugin<E extends CoreEvent = CoreEvent> {
@@ -28,27 +39,8 @@ export abstract class Plugin<E extends CoreEvent = CoreEvent> {
     }
 
     public supports(event: E) {
-        switch (this.phase) {
-            case PluginPhase.Update:
-                return event.type === UpdateEvent.type();
-            case PluginPhase.Read:
-                return event.type === ReadedEvent.type();
-            case PluginPhase.Parse:
-                return event.type === ParsedEvent.type();
-            case PluginPhase.Patch:
-                return event.type === PatchedASTEvent.type();
-            case PluginPhase.Sync:
-                return event.type === DependencyModifiedEvent.type();
-            case PluginPhase.Interpret:
-                return event.type === InterpretedEvent.type();
-            case PluginPhase.Emit:
-                return event.type === EmittedEvent.type();
-            default:
-                return false;
-        }
+        return PHASE_TO_EVENT[this.phase] === event.type;
     }
 
-    public process(_env: PluginEnvironment<E>): boolean | void {
-
-    }
+    public abstract process(_env: PluginEnvironment<E>): boolean | void;
 }

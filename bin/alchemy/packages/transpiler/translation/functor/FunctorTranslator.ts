@@ -11,7 +11,7 @@ export type FunctorTranslatorChildren = {
 
 export class FunctorTranslator extends AlchemyNodeTranslator<Functor, FunctorTranslatorChildren> {
     translate(node: FunctorNode, context: TranslationContext<any>): Functor {
-        return Functor.create(node, context.parent, {
+        return Functor.create(node, context.parentNode, {
             args: this.child.functor_args(node.args, context),
             returns: node.returns && this.child.reference(node.returns, context),
             body: this.child.functor_body(node.body, context),

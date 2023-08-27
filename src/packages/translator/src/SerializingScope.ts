@@ -1,14 +1,14 @@
-import { Scope } from './Scope';
+import { Scope } from '@intent/kernel';
 
 export class SerializingScope<T extends object> extends Scope<T> {
+    // @ts-ignore
     nest(): this {
-        return Reflect.construct(this.constructor, [
+        return super.nest(
             Object.fromEntries(
                 Object
                     .entries(this.items)
                     .map(([name, scope]) => [name, scope.nest()]),
-            ),
-            this,
-        ]);
+            )
+        ) as this;
     }
 }

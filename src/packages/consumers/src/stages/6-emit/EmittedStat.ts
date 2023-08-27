@@ -1,5 +1,4 @@
-import { SourceInterface } from '@intent/source';
-import { TreeNode, Identifiable } from '@intent/kernel';
+import { SourceInterface, TreeNode, Identifiable } from '@intent/kernel';
 
 import { EmitStat } from './EmitStat';
 

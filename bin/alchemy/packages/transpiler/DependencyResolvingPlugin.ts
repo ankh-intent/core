@@ -1,22 +1,21 @@
-import { Container } from '@intent/kernel';
-import { PatchedASTEvent, SynchronizeStat } from '@intent/consumers';
-import { DependencyManager, DependencyNode, UpdateEvent } from '@intent/kernel';
-import { PluginEnvironment, InterpretPlugin } from '@intent/plugins';
+import { SynchronizeStat, DependencyManager, DependencyNode, UpdateEvent } from '@intent/kernel';
+import { PatchedASTEvent } from '@intent/consumers';
+import { PluginEnvironment, PatchPlugin } from '@intent/plugins';
 
-import { Module, UseResolverInterface } from '@alchemy/modules';
-import { ModuleNode, DomainNode, UsesNode } from '@alchemy/ast';
+import { Module, LinkedModulesResolverInterface } from '@alchemy/modules';
+import { ModuleNode } from '@alchemy/ast';
 
-export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Module, DependencyNode<ModuleNode, Module>> {
+export class DependencyResolvingPlugin extends PatchPlugin<ModuleNode, Module, DependencyNode<ModuleNode, Module>> {
     private readonly tree: DependencyManager<ModuleNode, Module>;
-    private readonly resolver: UseResolverInterface;
+    private readonly resolver: LinkedModulesResolverInterface<Module>;
 
-    constructor(tree: DependencyManager<ModuleNode, Module>, resolver: UseResolverInterface) {
+    constructor(resolver: LinkedModulesResolverInterface<Module>, tree: DependencyManager<ModuleNode, Module>) {
         super();
-        this.tree = tree;
         this.resolver = resolver;
+        this.tree = tree;
     }
 
-    protected createContext(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>) {
+    protected createContext(env: PluginEnvironment<PatchedASTEvent<ModuleNode, Module>>): DependencyNode<ModuleNode, Module> {
         return env.event.data.dependency;
     }
 
@@ -25,11 +24,11 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
         _root: ModuleNode,
         node: DependencyNode<ModuleNode, Module>
     ): boolean | void {
-        env.events.stat(new SynchronizeStat(node), env.event);
+        env.stat(new SynchronizeStat(node));
 
-        const uses = this.resolve(node.identifiable);
-
+        const uses = this.resolver.resolve(node.identifiable);
         const nodes = this.tree.all(Object.keys(uses), false);
+
         const unknown: DependencyNode<ModuleNode, Module>[] = [];
         const known: DependencyNode<ModuleNode, Module>[] = [];
 
@@ -58,50 +57,5 @@ export class DependencyResolvingPlugin extends InterpretPlugin<ModuleNode, Modul
             // todo: entry forwarding
             env.events.emit(new UpdateEvent({ event: 'change', path: dependency.uri, entry: '%C' }, env.event));
         }
-    }
-
-    resolve(module: Module): Container<Module> {
-        return (
-            module.ast
-                ? this.mergeUses(
-                    this.resolveUsedModules(module, module.ast.uses),
-                    this.resolveDomainUses(module, module.ast.domain),
-                )
-                : {}
-        );
-    }
-
-    mergeUses(a?: Container<Module>, b?: Container<Module>): Container<Module> {
-        return {
-            ...a,
-            ...b,
-        };
-    }
-
-    resolveDomainUses(module: Module, domain: DomainNode): Container<Module> {
-        const own = this.resolveUsedModules(module, domain.uses);
-        const result: Container<Module>[] = [];
-
-        for (const sub of domain.domains.values()) {
-            result.push(this.resolveUsedModules(module, sub.uses));
-        }
-
-        return result.reduce((a, b) => this.mergeUses(a, b), own);
-    }
-
-    resolveUsedModules(module: Module, uses: UsesNode): Container<Module> {
-        const links: Container<Module> = {};
-
-        for (const [alias, use] of uses.entries) {
-            const link = this.resolver.resolve(module, use.qualifier);
-
-            if (!link) {
-                throw new Error(`Can't resolve module "${use.qualifier.path('.')}" as "${alias}"`);
-            }
-
-            links[link.uri] = link;
-        }
-
-        return links;
     }
 }

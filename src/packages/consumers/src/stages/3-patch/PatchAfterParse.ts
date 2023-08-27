@@ -1,5 +1,5 @@
-import { BaseTokenTypes } from '@intent/parser';
 import {
+    BaseTokenTypes,
     TreeNode,
     Identifiable,
     DependencyNode,

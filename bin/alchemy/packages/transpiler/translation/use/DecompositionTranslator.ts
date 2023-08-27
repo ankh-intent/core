@@ -10,7 +10,7 @@ export type DecompositionTranslatorChildren = {
 
 export class DecompositionTranslator extends AlchemyNodeTranslator<Decomposition, DecompositionTranslatorChildren> {
     translate(node: DecompositionNode, context: TranslationContext<any>): Decomposition {
-        return Decomposition.create(node, context.parent, {
+        return Decomposition.create(node, context.parentNode, {
             alias: node.alias,
             qualifier: this.child.qualifier(node.qualifier, context),
             items: Object.fromEntries(

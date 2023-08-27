@@ -7,7 +7,7 @@ export type BreakStatementTranslatorChildren = {};
 
 export class BreakStatementTranslator extends AlchemyNodeTranslator<BreakStatement, BreakStatementTranslatorChildren> {
     translate(node: BreakStatementNode, context: TranslationContext<any>): BreakStatement {
-        return BreakStatement.create(node, context.parent, {
+        return BreakStatement.create(node, context.parentNode, {
             type: node.type,
         });
     }

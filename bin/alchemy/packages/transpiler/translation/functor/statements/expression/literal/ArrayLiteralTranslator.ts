@@ -9,7 +9,7 @@ export type ArrayLiteralTranslatorChildren = {
 
 export class ArrayLiteralTranslator extends AlchemyNodeTranslator<ArrayLiteral, ArrayLiteralTranslatorChildren> {
     translate(node: ArrayNode, context: TranslationContext<any>): ArrayLiteral {
-        return ArrayLiteral.create(node, context.parent, {
+        return ArrayLiteral.create(node, context.parentNode, {
             items: node.items.map((item) => this.child.expression(item, context)),
         });
     }

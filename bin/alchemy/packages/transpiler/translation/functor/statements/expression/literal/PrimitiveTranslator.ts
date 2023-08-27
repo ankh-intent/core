@@ -7,7 +7,7 @@ export type PrimitiveTranslatorChildren = {};
 
 export class PrimitiveTranslator extends AlchemyNodeTranslator<PrimitiveLiteral, PrimitiveTranslatorChildren> {
     translate(node: PrimitiveNode, context: TranslationContext<any>): PrimitiveLiteral {
-        return PrimitiveLiteral.create(node, context.parent, {
+        return PrimitiveLiteral.create(node, context.parentNode, {
             type: node.type,
             value: node.value,
         });

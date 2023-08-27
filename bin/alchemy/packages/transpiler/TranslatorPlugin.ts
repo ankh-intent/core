@@ -1,6 +1,6 @@
 import { PatchedASTEvent, IdentifiableFactory } from '@intent/consumers';
 import { DependencyManager } from '@intent/kernel';
-import { PluginEnvironment, InterpretPlugin } from '@intent/plugins';
+import { PluginEnvironment, PatchPlugin } from '@intent/plugins';
 import { TranslationContext } from '@intent/translator';
 
 import { ModuleNode } from '@alchemy/ast';
@@ -45,7 +45,7 @@ export const globalRegistry = (new DeclarationRegistry())
         }),
     })));
 
-export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, TranslationContext<any>> {
+export class TranslatorPlugin extends PatchPlugin<ModuleNode, Module, TranslationContext<any>> {
     private readonly translator: AlchemyTranslator;
 
     constructor(factory: IdentifiableFactory<ModuleNode, Module>, tree: DependencyManager<ModuleNode, Module>) {
@@ -68,7 +68,7 @@ export class TranslatorPlugin extends InterpretPlugin<ModuleNode, Module, Transl
 
         // console.log(root, module);
 
-        env.events.stat({
+        env.stat({
             type: 'log',
             message: {
                 log: {

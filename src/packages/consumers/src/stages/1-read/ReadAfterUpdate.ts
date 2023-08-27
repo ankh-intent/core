@@ -1,6 +1,14 @@
-import { SyntaxError } from '@intent/parser';
-import { StringSource, SourceInterface, FileReader } from '@intent/source';
-import { CoreEvent, AbstractConsumer, CoreEventBus, ErrorEvent, UpdateEvent } from '@intent/kernel';
+import {
+    SyntaxError,
+    StringSource,
+    SourceInterface,
+    FileReader,
+    CoreEvent,
+    AbstractConsumer,
+    CoreEventBus,
+    ErrorEvent,
+    UpdateEvent,
+} from '@intent/kernel';
 
 import { ReadedEvent } from '../../flow-events';
 import { UpdateStat } from './UpdateStat';

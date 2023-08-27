@@ -9,7 +9,7 @@ export type CallArgTranslatorChildren = {
 
 export class CallArgTranslator extends AlchemyNodeTranslator<CallArg, CallArgTranslatorChildren> {
     translate(node: CallArgNode, context: TranslationContext<any>): CallArg {
-        return CallArg.create(node, context.parent, {
+        return CallArg.create(node, context.parentNode, {
             identifier: node.identifier,
             expression: this.child.expression(node.expression, context),
         });

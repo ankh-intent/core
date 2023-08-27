@@ -1,1 +1,1 @@
-export * from './InterpretPlugin';
+export * from './PatchPlugin';

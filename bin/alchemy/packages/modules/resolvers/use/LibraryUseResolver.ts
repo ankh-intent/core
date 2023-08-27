@@ -1,11 +1,11 @@
 import { join } from 'node:path';
 
-import { IdentifiableFactory } from '@intent/consumers';
 import { PathsConfig } from '@intent/kernel';
+import { IdentifiableFactory } from '@intent/consumers';
 
 import { QualifierNode, ModuleNode } from '@alchemy/ast';
+import { UseResolverInterface } from '../../interfaces';
 import { Module } from '../../Module';
-import { UseResolverInterface } from './UseResolverInterface';
 
 export class LibraryUseResolver implements UseResolverInterface {
     private config: PathsConfig;

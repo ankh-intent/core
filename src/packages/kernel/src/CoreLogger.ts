@@ -1,6 +1,6 @@
 import { Logger } from '@intent/utils';
 
-import { BaseCoreEvent } from '../event';
+import { BaseCoreEvent } from './event';
 
 export class CoreLogger extends Logger {
     public classify(klass: string, args: any[]): [string, string, any[]] {

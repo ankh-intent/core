@@ -10,7 +10,7 @@ export type LoopIteratorTranslatorChildren = {
 
 export class LoopIteratorTranslator extends AlchemyNodeTranslator<LoopIterator, LoopIteratorTranslatorChildren> {
     translate(node: LoopIteratorNode, context: TranslationContext<any>): LoopIterator {
-        return LoopIterator.create(node, context.parent, {
+        return LoopIterator.create(node, context.parentNode, {
             target: this.child.assignment_target(node.target, context),
             expression: this.child.expression(node.expression, context),
         });

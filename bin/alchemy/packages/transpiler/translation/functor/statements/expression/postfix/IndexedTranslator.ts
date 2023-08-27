@@ -9,7 +9,7 @@ export type IndexedTranslatorChildren = {
 
 export class IndexedTranslator extends AlchemyNodeTranslator<Indexed, IndexedTranslatorChildren> {
     translate(node: IndexedNode, context: TranslationContext<any>): Indexed {
-        return Indexed.create(node, context.parent, {
+        return Indexed.create(node, context.parentNode, {
             right: this.child.expression(node.right, context),
         });
     }

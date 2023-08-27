@@ -2,11 +2,14 @@ import { Container } from '@intent/kernel';
 import { SourceInterface } from '@intent/kernel';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
-import { Module, QualifierResolver, BaseUseResolver } from '@alchemy/modules';
+import { Module, QualifierResolver, BaseUseResolver, LinkedModulesResolverInterface } from '@alchemy/modules';
 import { ModuleNode, DomainNode, UsesNode } from '@alchemy/ast';
 import { AlchemyTokenMatcher, AlchemyBuilder, DependencyResolvingPlugin, TranslatorPlugin } from '@alchemy/transpiler';
 
-export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module> {
+export class TranspilerPipelineObserver
+    extends WatchedTranspilerPipelineObserver<ModuleNode, Module>
+    implements LinkedModulesResolverInterface<Module>
+{
     private readonly qualifierResolver: QualifierResolver;
     private readonly useResolver: BaseUseResolver;
 
@@ -21,7 +24,7 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     }
 
     bootstrap(core: Core<TranspilerConfig, ModuleNode, Module>, config: TranspilerConfig): void {
-        core.registerPlugin(new DependencyResolvingPlugin(this.dependencyTree, this.useResolver));
+        core.registerPlugin(new DependencyResolvingPlugin(this, this.dependencyTree));
         core.registerPlugin(new TranslatorPlugin(this, this.dependencyTree));
 
         super.bootstrap(core, config);
@@ -67,18 +70,18 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     }
 
     resolveUsedModules(module: Module, uses: UsesNode): Container<Module> {
-        const links: Container<Module> = {};
+        const linkedModules: Container<Module> = {};
 
         for (const [alias, use] of uses.entries) {
             const link = this.useResolver.resolve(module, use.qualifier);
 
-            if (!(link && link.qualifier)) {
-                throw new Error(`Can't resolve module "${use.qualifier.path('.')} as ${alias}"`);
+            if (!link?.qualifier) {
+                throw new Error(`Can't resolve module "${use.qualifier}" as "${alias}"`);
             }
 
-            links[link.uri] = link;
+            linkedModules[link.uri] = link;
         }
 
-        return links;
+        return linkedModules;
     }
 }

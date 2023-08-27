@@ -1,5 +1,4 @@
-import { Emitter } from '@intent/utils';
-import { CoreEvent, EventChainInterface } from '@intent/kernel';
+import { Emitter, CoreEvent, EventChainInterface } from '@intent/kernel';
 
 export type EventChainMonitoringConsumer = (data: EventChainInterface) => any;
 

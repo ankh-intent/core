@@ -35,7 +35,7 @@ export class ModuleTranslator extends AlchemyNodeTranslator<Module, ModuleTransl
         const inner = context.nest({
             parent: module,
         });
-        module.parentNode = context.parent;
+        module.parentNode = context.parentNode;
         module.ast = node;
         module.uses = this.child.uses(node.uses, inner);
         module.domain = this.child.domain(node.domain, inner);

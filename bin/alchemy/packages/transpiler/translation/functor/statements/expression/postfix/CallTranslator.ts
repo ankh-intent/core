@@ -9,7 +9,7 @@ export type CallTranslatorChildren = {
 
 export class CallTranslator extends AlchemyNodeTranslator<Call, CallTranslatorChildren> {
     translate(node: CallNode, context: TranslationContext<any>): Call {
-        return Call.create(node, context.parent, (call: Call) => ({
+        return Call.create(node, context.parentNode, (call: Call) => ({
             right: CallArgs.create(node.right, call, {
                 args: node.right.args.map((arg) => this.child.call_arg(arg, context)),
             }),

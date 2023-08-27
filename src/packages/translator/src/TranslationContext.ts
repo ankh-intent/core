@@ -1,5 +1,4 @@
-import { TreeNode } from '@intent/kernel';
-import { Scope } from '@intent/plugins';
+import { TreeNode, Scope } from '@intent/kernel';
 import { TranslatedConstructor, TranslatedFactory } from './interfaces';
 import { Translated } from './Translated';
 
@@ -13,12 +12,8 @@ interface Spawn<T extends Translated<any>> {
 }
 
 export class TranslationContext<P extends Translated<any> | undefined> extends Scope<SerializingScopeInterface<P>> {
-    nest<C extends Translated<any>>(data?: Partial<SerializingScopeInterface<C>>): TranslationContext<C> {
-        return <TranslationContext<C>>super.nest(data);
-    }
-
     spawn<N extends TreeNode, I extends Translated<N>>(klass: TranslatedConstructor<I>, node: N, factory?: TranslatedFactory<I>): Spawn<I> {
-        const spawned = klass.create(node, this.parent, factory);
+        const spawned = klass.create(node, this.parentNode, factory);
 
         return {
             node: spawned,
@@ -28,7 +23,7 @@ export class TranslationContext<P extends Translated<any> | undefined> extends S
         };
     }
 
-    get parent(): P {
+    get parentNode(): P {
         return this.get('parent')!;
     }
 }

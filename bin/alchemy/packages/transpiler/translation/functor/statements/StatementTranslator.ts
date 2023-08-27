@@ -40,7 +40,7 @@ export class StatementTranslator extends AlchemyNodeTranslator<Statement, Statem
             return this.child.expression_statement(node, context);
         }
 
-        return Statement.create(node, context.parent, {
+        return Statement.create(node, context.parentNode, {
             toString(): string {
                 return node.node;
             },
