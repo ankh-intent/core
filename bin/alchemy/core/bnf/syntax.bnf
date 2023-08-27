@@ -100,7 +100,7 @@ call_arg
   ::= (identifier ':')? expression
 
 boolean
-  ::= comparison ((('&' | '|' | '^') expression) | is)*
+  ::= comparison ((('&&' | '||' | '^^') expression) | is)*
 
 is
   ::= 'is' domain_reference
@@ -112,7 +112,10 @@ additive
   ::= multiplicative (('+' | '-') expression)*
 
 multiplicative
-  ::= applicative (('*' | '/' | '%' | '**') expression)*
+  ::= numerative (('*' | '/' | '%' | '**') expression)*
+
+numerative
+  ::= applicative (('&' | '|' | '^') expression)*
 
 applicative
   ::= (unary_function | unary_operator)* unary (is)*
