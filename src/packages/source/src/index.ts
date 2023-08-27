@@ -4,4 +4,4 @@ export * from './Finder';
 export * from './FileReader';
 export * from './FileWriter';
 export * from './DummyWriter';
-export { Region } from './impl';
+export * from './impl';

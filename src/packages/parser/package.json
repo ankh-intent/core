@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@intent/utils": "*",
-        "@intent/source": "*"
+        "@intent/source": "*",
+        "colorette": "^2.0.20"
     }
 }

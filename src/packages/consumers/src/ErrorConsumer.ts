@@ -1,6 +1,9 @@
 import { Logger, Strings } from '@intent/utils';
 import { SyntaxError } from '@intent/parser';
 import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '@intent/kernel';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import process from 'process';
 
 enum RefType {
     NATIVE,
@@ -12,6 +15,7 @@ interface ErrorRef {
     ref: string;
     source: string;
     combined: number;
+    fileName?: string;
 }
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
@@ -116,14 +120,14 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         const stack = this.squashErrors(
             hops
                 .filter(Boolean)
-                .filter(def => !(def.source && def.source.startsWith(internal))),
+                .filter((def) => !def.source?.startsWith(internal)),
         );
-        const max = Strings.max(stack.map(def => def.ref));
+        const max = Strings.max(stack.map((def) => def.ref));
 
         const lines = stack
-            .map((def) => {
-                return `\tat ${Strings.pad(def.ref, max, ' ')} (${def.source})`;
-            })
+            .map((def) => (
+                `\tat ${Strings.pad(def.ref, max, ' ')} (${def.source})${def.fileName ? ` (${def.fileName})` : ''}`
+            ))
             .filter(Boolean)
         ;
 
@@ -131,20 +135,15 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
     }
 
     private describeSyntaxError(error: SyntaxError): ErrorRef[] | undefined {
-        let source: string;
-
-        if (error.source) {
-            const loc = error.source.location(error.pos);
-            source = `${error.source.reference}:${loc.line}:${loc.column}`;
-        } else {
-            source = '';
-        }
+        const source = error.source?.location(error.pos).toString();
+        const fileName = source && pathToFileURL(resolve(process.cwd(), source)).toString() || '';
 
         return [{
             type: RefType.AST,
             ref: error.expectation,
             combined: 1,
             source,
+            fileName,
         }];
     }
 

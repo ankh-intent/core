@@ -10,6 +10,8 @@ export interface LocationInterface {
 
 export interface OriginInterface extends LocationInterface {
     source: SourceInterface;
+
+    toString(): string;
 }
 
 export interface SourceInterface {

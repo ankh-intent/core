@@ -41,7 +41,7 @@ export class Source implements SourceInterface {
     }
 
     public position({ line, column }: LocationInterface): number {
-        if ((line == 1) && (column == 1)) {
+        if ((line === 1) && (column === 1)) {
             return 0;
         }
 
