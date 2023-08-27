@@ -5,7 +5,7 @@ import { TokenVisitor, TreeNode } from '@intent/ast';
 import { BuilderInvokers } from './BaseBuilder';
 
 export type InvokableVisitors<T> = { [name in keyof T]: TokenVisitor<any> };
-export type RootInvokers<TT extends BaseTokenTypes, G extends Container<TreeNode>, N extends TreeNode> = G & {
+export type RootInvokers<G extends Container<TreeNode>, N extends TreeNode> = G & {
     root: N
 };
 
@@ -13,7 +13,7 @@ export class RootBuilder<
     TT extends BaseTokenTypes,
     Grammar extends Container<TreeNode>,
     Node extends TreeNode,
-    Invokers extends RootInvokers<TT, Grammar, Node> = RootInvokers<TT, Grammar, Node>,
+    Invokers extends RootInvokers<Grammar, Node> = RootInvokers<Grammar, Node>,
 > implements TokenVisitor<Node, TT> {
     protected readonly invokers: BuilderInvokers<Invokers, TT>;
 
