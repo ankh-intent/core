@@ -1,9 +1,18 @@
-import { Logger, Strings } from '@intent/utils';
-import { SyntaxError } from '@intent/parser';
-import { CoreEvent, AbstractConsumer, ErrorEvent, CoreEventBus, StatEvent } from '@intent/kernel';
+import { resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { resolve } from 'node:path';
-import process from 'process';
+
+import {
+    Logger,
+    Strings,
+    SyntaxError,
+    CoreEvent,
+    AbstractConsumer,
+    ErrorEvent,
+    CoreEventBus,
+    StatEvent,
+} from '@intent/kernel';
+
+const internal = __dirname.replace(/[\\\/]packages[\\\/][^\\/]+[\\\/]src[\\\/]?.*?$/, sep + 'packages');
 
 enum RefType {
     NATIVE,
@@ -116,7 +125,6 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
             e = e.parent;
         }
 
-        const internal = __dirname.replace(/[\\\/][^\\/]+[\\\/]src[\\\/]?.*?$/, '/src/');
         const stack = this.squashErrors(
             hops
                 .filter(Boolean)
@@ -191,11 +199,13 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
     private extractLocation(urlLike: string) {
         const normalized = urlLike.replace(/[()]/g, '');
 
-        if (normalized.indexOf(':') === -1) {
+        if (normalized.indexOf(':', 2) === -1) {
             return [normalized, normalized];
         }
 
-        return normalized.match(/(.+?)(?::(\d+))?(?::(\d+))?$/);
+        const match = normalized.match(/(.+?)(?::(\d+))?(?::(\d+))?$/);
+
+        return match && [match[1], pathToFileURL(match[0]).toString()];
     }
 
     private squashErrors(descriptors: ErrorRef[]): ErrorRef[] {
