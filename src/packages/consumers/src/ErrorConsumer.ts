@@ -12,6 +12,7 @@ import {
     StatEvent,
 } from '@intent/kernel';
 
+const cwd = process.cwd();
 const internal = __dirname.replace(/[\\\/]packages[\\\/][^\\/]+[\\\/]src[\\\/]?.*?$/, sep + 'packages');
 
 enum RefType {
@@ -133,9 +134,14 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         const max = Strings.max(stack.map((def) => def.ref));
 
         const lines = stack
-            .map((def) => (
-                `\tat ${Strings.pad(def.ref, max, ' ')} (${def.source})${def.fileName ? ` (${def.fileName})` : ''}`
-            ))
+            .map((def) => {
+                const common = Strings.commonPath([cwd, def.source]);
+                const source = common ? def.source.slice(common.length + 1) : def.source;
+
+                return (
+                    `\tat ${Strings.pad(def.ref, max, ' ')} (${source})${def.fileName ? ` (${def.fileName})` : ''}`
+                );
+            })
             .filter(Boolean)
         ;
 
@@ -144,7 +150,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
 
     private describeSyntaxError(error: SyntaxError): ErrorRef[] | undefined {
         const source = error.source?.location(error.pos).toString();
-        const fileName = source && pathToFileURL(resolve(process.cwd(), source)).toString() || '';
+        const fileName = source && pathToFileURL(resolve(cwd, source)).toString() || '';
 
         return [{
             type: RefType.AST,
@@ -205,7 +211,12 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
 
         const match = normalized.match(/(.+?)(?::(\d+))?(?::(\d+))?$/);
 
-        return match && [match[1], pathToFileURL(match[0]).toString()];
+        if (match) {
+            return [
+                match[1],
+                pathToFileURL(match[0]).toString(),
+            ];
+        }
     }
 
     private squashErrors(descriptors: ErrorRef[]): ErrorRef[] {
