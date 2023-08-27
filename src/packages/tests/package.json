@@ -1,0 +1,28 @@
+{
+    "name": "@intent/tests",
+    "version": "0.0.10",
+    "description": "Intent language compiler core",
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "keywords": [
+        "intent",
+        "intent-core"
+    ],
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts",
+            "default": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@types/jasmine": "^3.0.0",
+        "@types/node": "^18.17.9",
+        "ts-node": "^10.9.1",
+        "cross-env": "^7.0.3",
+        "jasmine": "^5.1.0",
+        "jasmine-core": "^5.1.1",
+        "@stryker-mutator/core": "^7.1.1",
+        "@stryker-mutator/jasmine-runner": "^7.1.1"
+    }
+}

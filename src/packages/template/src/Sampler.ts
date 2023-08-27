@@ -1,4 +1,4 @@
-import { Strings } from '../../utils';
+import { Strings } from '@intent/utils';
 
 import { MatchedPlaceholder, SamplerInterface } from './SamplerInterface';
 
@@ -18,6 +18,8 @@ export class Sampler implements SamplerInterface {
 
         this.opener = opener;
         this.closer = closer;
+        this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
     }
 
     public placeholder(key: string): string {
@@ -38,9 +40,13 @@ export class Sampler implements SamplerInterface {
         return cached;
     }
 
-    public next(subject: string, from: number = 0): MatchedPlaceholder | null {
+    public next(subject: string | null, from?: number): MatchedPlaceholder | null {
         if (!subject) {
             return null;
+        }
+
+        if (from === undefined) {
+            from = 0;
         }
 
         let found = undefined;
@@ -66,7 +72,7 @@ export class Sampler implements SamplerInterface {
             return {
                 open,
                 close,
-                key: subject.substring(open + this.opener.length, close - this.closer.length),
+                key: subject.slice(open + this.opener.length, close - this.closer.length),
                 next: (found === undefined) ? close : found,
             };
         }
@@ -74,7 +80,7 @@ export class Sampler implements SamplerInterface {
         return null;
     }
 
-    public prev(subject: string, from?: number): MatchedPlaceholder | null {
+    public prev(subject: string | null, from?: number): MatchedPlaceholder | null {
         if (!subject) {
             return null;
         }
@@ -106,7 +112,7 @@ export class Sampler implements SamplerInterface {
             return {
                 open,
                 close,
-                key: subject.substring(open + this.opener.length, close - this.closer.length),
+                key: subject.slice(open + this.opener.length, close - this.closer.length),
                 next: (found === undefined) ? open : found,
             };
         }

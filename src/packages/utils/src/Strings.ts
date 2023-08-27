@@ -1,10 +1,18 @@
-import * as path from 'path';
+import { sep } from 'node:path';
 
 const REGEXP_GUARD = /[|\\{}()[\]^$+*?.]/g;
 
 export class Strings {
     public static escapeRegExp(pattern: string) {
         return pattern.replace(REGEXP_GUARD, '\\$&');
+    }
+
+    public static hyphensToWords(text: string) {
+        return text.split('-').join(' ');
+    }
+
+    public static wordsToCamelCase(text: string) {
+        return text.split(' ').map(Strings.ucFirst).join(' ');
     }
 
     public static camelCaseToHyphenCase(text: string) {
@@ -16,12 +24,12 @@ export class Strings {
     }
 
     public static ucFirst(text: string) {
-        return text[1].toUpperCase() + text.substr(1);
+        return text[1].toUpperCase() + text.slice(1);
     }
 
     public static shrink(string: string, to: number, left: boolean = false) {
         return (string.length > to)
-            ? string.substr(0, to - 3) + '...'
+            ? string.slice(0, to - 4) + '...'
             : this.pad(string, to, ' ', left);
     }
 
@@ -80,7 +88,7 @@ export class Strings {
             : intersect;
     }
 
-    public static lookup(line, p, s) {
+    public static lookup(line: string, p: number, s: string) {
         while (p < line.length) {
             p = line.indexOf(s, p);
 
@@ -92,9 +100,11 @@ export class Strings {
 
             return p;
         }
+
+        return -1;
     }
 
-    public static lookback(line, p, s) {
+    public static lookback(line: string, p: number, s: string) {
         while (p) {
             p = line.lastIndexOf(s, p);
 
@@ -106,6 +116,8 @@ export class Strings {
 
             return p;
         }
+
+        return -1;
     }
 
     public static unindent(lines: string[]): string[] {
@@ -116,11 +128,11 @@ export class Strings {
             const tab = m[1];
             const len = tab.length;
 
-            lines = lines.map((line) => {
-                return line.startsWith(tab)
-                    ? line.substr(len)
-                    : line;
-            });
+            lines = lines.map((line) => (
+                line.startsWith(tab)
+                    ? line.slice(len)
+                    : line
+            ));
         }
 
         return lines;
@@ -150,10 +162,6 @@ export class Strings {
         return result;
     }
 
-    public static getRootSrcPath(): string {
-        return __dirname.replace(/\/src\/(.*?)$/, '/src/');
-    }
-
     public static stripLeft(subject: string, needle: string): string {
         return (
             (needle && subject.startsWith(needle))
@@ -173,12 +181,11 @@ export class Strings {
     public static commonPath(paths: string[]): string {
         return Strings.stripRight(
             Strings.longestCommon(paths).pop() || '',
-            path.sep,
+            sep,
         );
     }
 
     public static clear(str: string): string {
         return str.length < 12 ? str : (' ' + str).slice(1);
-
     }
 }

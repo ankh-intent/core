@@ -1,0 +1,28 @@
+{
+    "name": "@intent/pipeline",
+    "version": "0.0.10",
+    "description": "Intent language compiler core",
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "keywords": [
+        "intent",
+        "intent-core"
+    ],
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts",
+            "default": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@intent/utils": "*",
+        "@intent/config": "*",
+        "@intent/source": "*",
+        "@intent/parser": "*",
+        "@intent/watchdog": "*",
+        "@intent/consumers": "*",
+        "@intent/plugins": "*",
+        "@intent/kernel": "*"
+    }
+}

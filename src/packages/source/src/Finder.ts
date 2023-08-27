@@ -1,7 +1,7 @@
 import { join, dirname } from 'node:path';
 import { statSync, readdirSync } from 'node:fs';
 
-import { UnitMatcher } from '../../utils';
+import { UnitMatcher } from '@intent/utils';
 
 type PathConsumer<T> = (path: string) => T | undefined;
 

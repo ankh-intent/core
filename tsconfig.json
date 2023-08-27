@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "rootDir": "./src",
+        "inlineSourceMap": true,
+        "noEmit": true,
+        "module": "commonjs",
+        "target": "es2017",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "downlevelIteration": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "noErrorTruncation": true,
+        "lib": [
+            "es2017"
+        ],
+        "baseUrl": "."
+    },
+    "exclude": [
+        "./node_modules",
+        "./bin"
+    ]
+}

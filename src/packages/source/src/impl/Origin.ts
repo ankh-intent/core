@@ -1,4 +1,4 @@
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 import { OriginInterface, SourceInterface } from '../interfaces';
 
 export class Origin implements OriginInterface {

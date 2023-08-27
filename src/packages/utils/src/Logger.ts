@@ -1,23 +1,38 @@
+import { yellow, blue } from 'colorette';
+
+type LogMethod = 'silent' | 'log' | 'warn' | 'error';
+
 export class Logger {
-    static INFO = 0;
-    static WARNING = 1;
-    static ERROR = 2;
-    private static map = {
+    static SILENT = 1;
+    static INFO = 2;
+    static WARNING = 3;
+    static ERROR = 4;
+    private static map: Record<number, LogMethod> = {
+        [Logger.SILENT]: 'silent',
         [Logger.INFO]: 'log',
         [Logger.WARNING]: 'warn',
         [Logger.ERROR]: 'error',
     };
+    private static methods: Record<number, (...args: any[]) => void> = {
+        [Logger.SILENT]: () => {},
+        [Logger.INFO]: console.log.bind(console),
+        [Logger.WARNING]: console.warn.bind(console),
+        [Logger.ERROR]: console.error.bind(console),
+    };
 
-    public classify(args: any[]): [string, any[]] {
-        return ['', args];
+    public classify(klass: string, args: any[]): [string, string, any[]] {
+        return (
+            (typeof args[0] === 'string')
+                ? [klass, args[0], args.slice(1)]
+                : [klass, '', args]
+        );
     }
 
     public log(level: number, ...args: any[]) {
-        const [classifier, out] = this.classify(args);
+        const [classifier, message, out] = this.classify('', args);
 
-        console[Logger.levelToStr(level)].call(
-            console,
-            `[${this.timestamp()}] ${this.name}${classifier ? `/${classifier}` : ''}:`,
+        Logger.methods[level](
+            `[${yellow(this.timestamp())}] ${blue(this.name)}${classifier ? `/${blue(classifier)}` : ''}:${message ? ' ' + message : ''}`,
             ...out,
         );
     }
@@ -30,17 +45,15 @@ export class Logger {
         return this.constructor.name.replace(/Logger$/, '').toUpperCase();
     }
 
-    static levelToStr(level: number): string {
+    static levelToStr(level: number): LogMethod {
         return this.map[level] || this.map[this.WARNING];
     }
 
-    static strToLevel(str: string): number {
-        for (const level in this.map) {
-            if (this.map[level] === str) {
+    static strToLevel(str: string): number | void {
+        for (const [level, method] of Object.entries(this.map)) {
+            if (method === str) {
                 return +level;
             }
         }
-
-        return this.WARNING;
     }
 }

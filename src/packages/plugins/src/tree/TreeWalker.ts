@@ -4,7 +4,7 @@ import { NodeInvokers } from './Walker';
 export type InvokableVisitors<T> = { [N in keyof T]: Visitor<any, any, any> };
 export type RootInvokers<G, N, C, O> = NodeInvokers<Omit<G, 'root'> & { root: N }, C, O>;
 
-export class TreeWalker<
+export abstract class TreeWalker<
     N,
     C,
     O,
@@ -16,10 +16,9 @@ export class TreeWalker<
     protected get invokers() {
         if (!this._invokers) {
             this._invokers = <Invokers>{};
+            const visitors = Object.entries(this.visitors) as [keyof Invokers, Visitor<any, any, any>][];
 
-            for (const builder of Object.keys(this.visitors)) {
-                const visitor = this.visitors[builder];
-
+            for (const [builder, visitor] of visitors) {
                 this._invokers[builder] = visitor.visit.bind(visitor);
             }
         }
@@ -27,9 +26,7 @@ export class TreeWalker<
         return this._invokers;
     }
 
-    protected get visitors(): InvokableVisitors<Invokers> {
-        return <any>{};
-    }
+    protected abstract get visitors(): InvokableVisitors<Invokers>;
 
     public visit(node: N, context: C): O {
         return this.invokers.root(node as any, context);

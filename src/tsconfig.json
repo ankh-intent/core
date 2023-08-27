@@ -12,15 +12,12 @@
         "downlevelIteration": true,
         "strictNullChecks": true,
         "esModuleInterop": true,
+        "noImplicitAny": true,
+        "noErrorTruncation": true,
         "lib": [
             "es2017"
         ],
-        "baseUrl": ".",
-        "paths": {
-            "@intent/*": [
-                "packages/*"
-            ]
-        }
+        "baseUrl": "."
     },
     "exclude": [
         "../node_modules",

@@ -9,22 +9,28 @@ import {
     TokenMatcher,
 } from './TokenMatcher';
 
+const baseOf = <TT extends BaseTokenTypes>(type: TT): MatcherInterface<TT> | null => (
+    (type === BaseTokenTypes.TK_ANY)
+        ? null
+        : { type }
+);
+
 export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements TypedTokenMatcherInterface<TT> {
-    private readonly map: TT;
+    private readonly map: TT[];
     private readonly matcher: TokenMatcher<TT>;
     private _peek: PeekTypeMatcherInterface<TT, string | null>;
     private _get: TypeMatcherInterface<TT, string | null>;
     private _ensure: TypeMatcherInterface<TT, string>;
-    private _except: TypeMatcherInterface<TT, Token | null>;
+    private _except: TypeMatcherInterface<TT, Token<TT> | null>;
     private _not: TypeMatcherInterface<TT, boolean>;
     private _is: IsTypeMatcherInterface<TT, boolean>;
 
-    public constructor(map: TT, matcher: TokenMatcher<TT>) {
+    public constructor(map: TT[], matcher: TokenMatcher<TT>) {
         this.map = map;
         this.matcher = matcher;
     }
 
-    protected reconcile(base: MatcherInterface | null, match?: MatcherInterface | string): MatcherInterface {
+    protected reconcile(base: MatcherInterface<TT> | null, match?: MatcherInterface<TT> | string): MatcherInterface<TT> {
         if (typeof match === 'string') {
             match = {
                 value: match,
@@ -32,18 +38,18 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
         }
 
         return {
-            type: match && match.type || base && base.type || undefined,
-            value: match && match.value || base && base.value || undefined,
+            type: match?.type || base?.type || undefined,
+            value: match?.value || base?.value || undefined,
         };
     }
 
-    protected types<T>(method: (m: MatcherInterface | string) => T, unwrap: boolean): TypeMatcherInterface<TT, T> {
+    protected types<T>(method: (m: MatcherInterface<TT> | string) => T, unwrap: boolean): TypeMatcherInterface<TT, T> {
         const result: TypeMatcherInterface<TT, T> = {} as any;
 
-        for (const type of Object.values(BaseTokenTypes)) {
-            const base = (type === BaseTokenTypes.TK_ANY) ? null : { type };
+        for (const type of this.map) {
+            const base = baseOf(type);
 
-            result[type] = (match?: MatcherInterface | string) => {
+            result[type] = (match?: MatcherInterface<TT> | string) => {
                 const matcher = this.reconcile(base, match);
                 const matched: any = method(matcher);
 
@@ -58,17 +64,17 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
         return result;
     }
 
-    protected peekTypes<T>(method: (m: MatcherInterface | string, offset: number) => T): PeekTypeMatcherInterface<TT, T> {
-        const result: TypeMatcherInterface<TT, T> = {} as any;
+    protected peekTypes<T>(method: (m: MatcherInterface<TT> | string, offset: number) => T): PeekTypeMatcherInterface<TT, T> {
+        const result: PeekTypeMatcherInterface<TT, T> = {} as any;
 
-        for (const type of Object.values(BaseTokenTypes)) {
-            const base = (type === BaseTokenTypes.TK_ANY) ? null : { type };
+        for (const type of this.map) {
+            const base = baseOf(type);
 
-            result[type] = (match?: MatcherInterface | string, offset: number = 0) => {
+            result[type] = (match?: MatcherInterface<TT> | string, offset: number = 0) => {
                 const matcher = this.reconcile(base, match);
                 const matched: any = method(matcher, offset);
 
-                if (matcher.type && matched && matched.type) {
+                if (matcher.type && matched?.type) {
                     return matched.value;
                 }
 
@@ -79,18 +85,16 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
         return result;
     }
 
-    protected isTypes<T>(method: (token: Token, m: MatcherInterface | string) => T): IsTypeMatcherInterface<TT, T> {
-        const result: TypeMatcherInterface<TT, T> = {} as any;
+    protected isTypes<T>(method: (token: Token<TT>, m: MatcherInterface<TT> | string) => T): IsTypeMatcherInterface<TT, T> {
+        const result: IsTypeMatcherInterface<TT, T> = {} as any;
 
-        for (const type of Object.values(BaseTokenTypes)) {
-            const base = (type === BaseTokenTypes.TK_ANY) ? null : { type };
+        for (const type of this.map) {
+            const base = baseOf(type);
 
-            result[type] = (token: Token, match?: MatcherInterface | string) => {
-                return method(
-                    token,
-                    this.reconcile(base, match),
-                );
-            };
+            result[type] = (token: Token<TT>, match?: MatcherInterface<TT> | string) => <any>method(
+                token,
+                this.reconcile(base, match),
+            );
         }
 
         return result;
@@ -109,7 +113,7 @@ export class TypedMatcher<TT extends BaseTokenTypes = BaseTokenTypes> implements
         ));
     }
 
-    public get except(): TypeMatcherInterface<TT, Token | null> {
+    public get except(): TypeMatcherInterface<TT, Token<TT> | null> {
         return this._except || (this._except = this.types(
             this.matcher.except.bind(this.matcher),
             false,

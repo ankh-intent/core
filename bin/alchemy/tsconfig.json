@@ -4,27 +4,29 @@
         "rootDir": "../..",
         "inlineSourceMap": true,
         "noEmit": true,
-        "module": "NodeNext",
+        "module": "CommonJS",
         "target": "ESNext",
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
         "downlevelIteration": true,
         "strictNullChecks": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "noErrorTruncation": true,
         "lib": [
             "ESNext"
         ],
         "baseUrl": ".",
         "paths": {
-            "@intent/*": [
-                "../../src/packages/*",
-                "../../src/*"
+            "@alchemy/*": [
+                "./packages/*"
             ]
         }
     },
     "exclude": [
-        "../node_modules",
-        "doc",
+        "../../node_modules",
+        "../../doc",
         "./build",
         "*.a.ts"
     ]

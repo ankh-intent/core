@@ -1,4 +1,4 @@
-import { Emitter, ArrayConsumer } from '../../../utils';
+import { Emitter, ArrayConsumer } from '@intent/utils';
 
 import { Watch } from './Watch';
 

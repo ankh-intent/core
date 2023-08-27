@@ -1,17 +1,10 @@
-import { Container } from '@intent/utils';
-import { SourceInterface } from '@intent/source';
+import { Container } from '@intent/kernel';
+import { SourceInterface } from '@intent/kernel';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
-import { Module, QualifierResolver, BaseUseResolver } from './modules';
-import {
-    AlchemyTokenMatcher,
-    ModuleNode,
-    DomainNode,
-    UsesNode,
-    AlchemyBuilder,
-    DependencyResolvingPlugin,
-    TranslatorPlugin,
-} from './transpiler';
+import { Module, QualifierResolver, BaseUseResolver } from '@alchemy/modules';
+import { ModuleNode, DomainNode, UsesNode } from '@alchemy/ast';
+import { AlchemyTokenMatcher, AlchemyBuilder, DependencyResolvingPlugin, TranslatorPlugin } from '@alchemy/transpiler';
 
 export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserver<ModuleNode, Module> {
     private readonly qualifierResolver: QualifierResolver;
@@ -74,7 +67,7 @@ export class TranspilerPipelineObserver extends WatchedTranspilerPipelineObserve
     }
 
     resolveUsedModules(module: Module, uses: UsesNode): Container<Module> {
-        const links = {};
+        const links: Container<Module> = {};
 
         for (const [alias, use] of uses.entries) {
             const link = this.useResolver.resolve(module, use.qualifier);

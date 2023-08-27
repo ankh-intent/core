@@ -1,4 +1,4 @@
-import { Strings } from '../../utils';
+import { Strings } from '@intent/utils';
 
 import { TemplateInterface } from './TemplateInterface';
 import { DataResolver, SubstitutorInterface } from './Substitutor';
@@ -28,7 +28,7 @@ export class Template<S> implements TemplateInterface<S, string[]> {
     }
 
     protected consume(lines: string | string[], match: MatchedPlaceholder, data: any): string[] {
-        let str;
+        let str: string;
 
         if (data !== null) {
             if (Array.isArray(data)) {
@@ -51,10 +51,10 @@ export class Template<S> implements TemplateInterface<S, string[]> {
         return (
             (typeof lines === 'string')
                 ? [
-                    lines.substr(0, match.open) + str + lines.substr(match.close),
+                    lines.slice(0, match.open) + str + lines.slice(match.close),
                 ]
                 : lines.map((line: string) => (
-                    line.substr(0, match.open) + str + line.substr(match.close)
+                    line.slice(0, match.open) + str + line.slice(match.close)
                 ))
         );
     }

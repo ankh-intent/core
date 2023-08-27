@@ -3,18 +3,20 @@ module.exports = function (wallaby) {
         name: 'Intent compiler',
 
         files: [
-            'src/**/*.ts',
-            'tests/util/**/*.ts',
+            '**/*.ts',
+            '**/packages/tests/src/**/*.ts',
+            { pattern: '**/alchemy/alchemy.ts', ignore: true },
+            { pattern: '**/*Spec.ts', ignore: true },
         ],
 
         tests: [
-            'tests/**/*Spec.ts',
+            '**/*Spec.ts',
         ],
 
         compilers: {
             '**/*.ts*': wallaby.compilers.typeScript({
-                module: 'commonjs',
-                target: 'es5',
+                module: 'esnext',
+                target: 'es2017',
             }),
         },
 

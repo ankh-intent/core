@@ -1,7 +1,7 @@
 import { TranspilerInterface } from '@intent/kernel';
 
-import { ModuleNode } from './transpiler';
-import { TypescriptSerializer, SerializingContext } from './transpiler/serializers';
+import { ModuleNode } from '@alchemy/ast';
+import { TypescriptSerializer, SerializingContext } from '@alchemy/transpiler';
 
 export class TypescriptTranspiler implements TranspilerInterface<ModuleNode> {
     serializer = new TypescriptSerializer();

@@ -4,7 +4,7 @@
         "**/*Spec.ts"
     ],
     "helpers": [
-        "../tests/util/*.ts"
+        "@intent/tests/index.ts"
     ],
     "stopSpecOnExpectationFailure": false,
     "random": false,

@@ -1,4 +1,4 @@
-import { WatchMatcher } from '../../utils';
+import { WatchMatcher } from '@intent/utils';
 
 import { UnitInterface } from './Unit';
 import { WatchItem } from './WatchItem';
@@ -23,7 +23,7 @@ export class Watchdog<U extends UnitInterface> {
     }
 
     public all(): WatchItem<U>[] {
-        return Object.keys(this.watches).map((key) => this.watches[key]);
+        return Object.values(this.watches);
     }
 
     public start(items?: WatchItem<U>[]) {
@@ -59,7 +59,7 @@ export class Watchdog<U extends UnitInterface> {
     }
 
     public watchAll(pattern: string | RegExp, events: string[]): WatchItem<U>[] {
-        return events.map(event => this.watch({
+        return events.map((event) => this.watch({
             event,
             pattern,
         }));
