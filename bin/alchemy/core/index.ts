@@ -40,7 +40,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
             switch (type) {
                 case StatEvent.type():
                     if (config.emit.stats) {
-                        core.logger.log(Logger.INFO, event, inspect(data.stat, {
+                        core.logger.log(Logger.INFO, event, inspect(data, {
                             depth: null,
                             colors: true,
                             customInspect: true,
