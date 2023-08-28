@@ -53,9 +53,14 @@ export class DependencyResolvingPlugin extends PatchPlugin<ModuleNode, Module, D
             }
         }
 
-        for (const dependency of unknown) {
+        for (const { uri, identifiable } of unknown) {
             // todo: entry forwarding
-            env.events.emit(new UpdateEvent({ event: 'change', path: dependency.uri, entry: '%C' }, env.event));
+            env.events.emit(new UpdateEvent({
+                event: 'change',
+                path: uri,
+                reference: identifiable.qualifier.origin(),
+                entry: '%C'
+            }, env.event));
         }
     }
 }

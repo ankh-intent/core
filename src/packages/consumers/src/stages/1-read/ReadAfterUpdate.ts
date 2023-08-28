@@ -26,7 +26,7 @@ export class ReadAfterUpdate extends AbstractConsumer<UpdateEvent, any> {
     }
 
     public process(event: UpdateEvent) {
-        const { path } = event.data;
+        const { data: { path, reference } } = event;
         this.stat(event, new UpdateStat(path));
 
         this.reader.read(path)
@@ -34,7 +34,10 @@ export class ReadAfterUpdate extends AbstractConsumer<UpdateEvent, any> {
                 this.emit(new ReadedEvent({ source }, event));
             })
             .catch((e: Error) => {
-                this.emit(new ErrorEvent({ error: new SyntaxError(e.message, 'read(source)', new StringSource('', path), 0, e) }, event));
+                const source = reference?.source || new StringSource('', path);
+                const pos = reference?.source.position(reference) || 0;
+
+                this.emit(new ErrorEvent({ error: new SyntaxError(e.message, 'read(source)', source, pos, e) }, event));
             })
         ;
     }

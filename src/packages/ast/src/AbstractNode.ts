@@ -25,7 +25,7 @@ export abstract class AbstractNode implements TreeNode {
         const { astRegion, ...rest } = data;
 
         const inspected = typeof data === 'string' ? data : inspect(
-            astRegion ? rest : data,
+            (astRegion || (data === this)) ? rest : data,
             { ...options, depth }
         );
 

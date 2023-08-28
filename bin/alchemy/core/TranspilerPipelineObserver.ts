@@ -2,7 +2,13 @@ import { Container } from '@intent/kernel';
 import { SourceInterface } from '@intent/kernel';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
-import { Module, QualifierResolver, BaseUseResolver, LinkedModulesResolverInterface } from '@alchemy/modules';
+import {
+    Module,
+    QualifierResolver,
+    BaseUseResolver,
+    LinkedModulesResolverInterface,
+    Qualifier,
+} from '@alchemy/modules';
 import { ModuleNode, DomainNode, UsesNode } from '@alchemy/ast';
 import { AlchemyTokenMatcher, AlchemyBuilder, DependencyResolvingPlugin, TranslatorPlugin } from '@alchemy/transpiler';
 
@@ -31,10 +37,10 @@ export class TranspilerPipelineObserver
     }
 
     create(identifier: string): Module {
-        const qualifier = this.qualifierResolver.resolve(identifier);
+        const qualifierNode = this.qualifierResolver.resolve(identifier);
 
-        if (qualifier) {
-            return new Module(identifier, qualifier);
+        if (qualifierNode) {
+            return new Module(identifier, Qualifier.fromNode(qualifierNode));
         }
 
         throw new Error(`Can't resolve qualifier for "${identifier}"`);
@@ -79,6 +85,7 @@ export class TranspilerPipelineObserver
                 throw new Error(`Can't resolve module "${use.qualifier}" as "${alias}"`);
             }
 
+            link.qualifier.ast = use.qualifier;
             linkedModules[link.uri] = link;
         }
 

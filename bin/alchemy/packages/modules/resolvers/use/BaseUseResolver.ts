@@ -46,10 +46,13 @@ export class BaseUseResolver implements UseResolverInterface {
             }
         }
 
-        const common = Strings.longestCommon([this.config.project, dirname(from.uri)]).pop()!;
+        const common = Strings.commonPath([this.config.project, dirname(from.uri)]);
         const basename = search.toLowerCase() + '.alc';
         const resolved = dirname(from.uri.replace(new RegExp(`^${Strings.escapeRegExp(common)}`), '')) + sep + basename;
+        const created = this.factory.create(common + resolved);
 
-        return this.factory.create(common + resolved);
+        created.qualifier.ast = identifier;
+
+        return created;
     }
 }

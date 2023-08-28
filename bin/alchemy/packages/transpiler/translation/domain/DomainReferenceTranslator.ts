@@ -14,7 +14,7 @@ export class DomainReferenceTranslator extends AlchemyNodeTranslator<DomainRefer
 
         reference.qualifier = this.child.qualifier(node.qualifier, inner);
         reference.generics = node.generic?.genericTypes.map((g) => this.child.reference(g, inner)) || [];
-        reference.domain = DeclarationRegistry.search(reference)!.getDeclaration<DomainInterface>(node.qualifier);
+        reference.domain = DeclarationRegistry.search(reference)!.getDeclaration<DomainInterface>(reference.qualifier);
 
         return reference;
     }
