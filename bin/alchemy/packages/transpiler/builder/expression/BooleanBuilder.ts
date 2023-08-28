@@ -1,6 +1,6 @@
+import { TokenMatcher } from '@intent/kernel';
 import { ExpressionNode } from '@alchemy/ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
-import { TokenMatcher } from '@intent/kernel';
 
 export type BooleanChildren = OperableChildren & {
     comparison: ExpressionNode;

@@ -34,7 +34,6 @@ export interface DeclarationRegistryInterface {
 
 export interface UseResolverInterface {
     supports(from: Module, identifier: QualifierNode): boolean;
-
     resolve(from: Module, identifier: QualifierNode): Module;
 }
 

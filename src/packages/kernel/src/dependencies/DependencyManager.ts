@@ -69,8 +69,8 @@ export class DependencyManager<N extends TreeNode, T extends Identifiable<N>> ex
         const node = new DependencyNode<N, T>(identifiable);
 
         node.relate(
-            Object.keys(identifiable.linked)
-                .map((identifier) => this.buildNode(<T>identifiable.linked[identifier])),
+            Object.values(identifiable.linked)
+                .map((linked: T) => this.buildNode(linked)),
         );
 
         return node;

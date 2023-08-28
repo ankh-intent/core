@@ -6,11 +6,9 @@ import { BaseQualifierResolver } from './BaseQualifierResolver';
 import { LibraryQualifierResolver } from './LibraryQualifierResolver';
 
 export class QualifierResolver implements QualifierResolverInterface {
-    private config: PathsConfig;
     public resolvers: QualifierResolverInterface[];
 
     public constructor(config: PathsConfig) {
-        this.config = config;
         this.resolvers = [
             new LibraryQualifierResolver(config),
             new BaseQualifierResolver(config),

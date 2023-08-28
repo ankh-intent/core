@@ -38,7 +38,7 @@ export class BaseUseResolver implements UseResolverInterface {
 
         const search = identifier.name;
 
-        for (const found of Object.keys(from.linked).map((name) => from.linked[name])) {
+        for (const found of Object.values(from.linked)) {
             if (search === found.uri) {
                 return identifier.child
                     ? this.resolve(found, identifier.child)
