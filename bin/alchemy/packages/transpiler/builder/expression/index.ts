@@ -15,11 +15,12 @@ import {
     CallableNode,
     IsDomainNode,
     UnaryNode,
-    PostfixNode, OperationNode,
+    PostfixNode,
+    OperationNode,
 } from '@alchemy/ast';
 
 import { AccessibleChildren, AccessibleBuilder } from './AccessibleBuilder';
-import { AccessorChildren, AccessorBuilder } from './AccessorBuilder';
+import { AssignableChildren, AssignableBuilder } from './AssignableBuilder';
 import { AdditiveChildren, AdditiveBuilder } from './AdditiveBuilder';
 import { BooleanChildren, BooleanBuilder } from './BooleanBuilder';
 import { CallArgChildren, CallArgBuilder } from './CallArgBuilder';
@@ -41,6 +42,8 @@ import { MultiplicativeChildren, MultiplicativeBuilder } from './MultiplicativeB
 import { OperationChildren, OperationBuilder } from './OperationBuilder';
 import { PostfixChildren, PostfixBuilder } from './PostfixBuilder';
 import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
+import { NumerativeChildren, NumerativeBuilder } from './NumerativeBuilder';
+import { ApplicativeChildren, ApplicativeBuilder } from './ApplicativeBuilder';
 import { factory as matchBuildersFactory, MatchDependencies, MatchInvokers } from './match';
 
 export type ExpressionInvokers = MatchInvokers & {
@@ -58,8 +61,10 @@ export type ExpressionInvokers = MatchInvokers & {
     boolean: ExpressionNode;
     additive: ExpressionNode;
     multiplicative: ExpressionNode;
+    numerative: ExpressionNode;
+    applicative: ExpressionNode;
     unary: UnaryNode;
-    accessor: ExpressionNode;
+    assignable: ExpressionNode;
     accessible: AbstractNode;
     literal: PrimitiveNode;
     callable: CallableNode;
@@ -82,9 +87,11 @@ export type ExpressionDependencies =
     BooleanChildren &
     AdditiveChildren &
     MultiplicativeChildren &
+    NumerativeChildren &
+    ApplicativeChildren &
     UnaryChildren &
     PostfixChildren &
-    AccessorChildren &
+    AssignableChildren &
     AccessibleChildren &
     LiteralChildren &
     ArrayChildren &
@@ -110,8 +117,10 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
         boolean: new BooleanBuilder(invokers),
         additive: new AdditiveBuilder(invokers),
         multiplicative: new MultiplicativeBuilder(invokers),
+        numerative: new NumerativeBuilder(invokers),
+        applicative: new ApplicativeBuilder(invokers),
         unary: new UnaryBuilder(invokers),
-        accessor: new AccessorBuilder(invokers),
+        assignable: new AssignableBuilder(invokers),
         accessible: new AccessibleBuilder(invokers),
         literal: new LiteralBuilder(invokers),
         callable: new CallableBuilder(invokers),

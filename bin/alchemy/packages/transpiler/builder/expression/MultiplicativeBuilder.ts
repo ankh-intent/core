@@ -3,7 +3,7 @@ import { ExpressionNode, UnaryNode } from '@alchemy/ast';
 import { OperableBuilder, OperableChildren } from './OperableBuilder';
 
 export type MultiplicativeChildren = OperableChildren & {
-    unary: UnaryNode;
+    numerative: ExpressionNode;
 };
 
 const CMP = ['*', '/', '%', '**'];
@@ -12,6 +12,6 @@ export class MultiplicativeBuilder extends OperableBuilder<MultiplicativeChildre
     operands = CMP;
 
     protected buildBase(tokens: TokenMatcher): ExpressionNode {
-        return this.child.unary(tokens);
+        return this.child.numerative(tokens);
     }
 }

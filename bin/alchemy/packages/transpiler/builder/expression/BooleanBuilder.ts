@@ -6,10 +6,8 @@ export type BooleanChildren = OperableChildren & {
     comparison: ExpressionNode;
 };
 
-const CMP = ['&', '|', '^'];
-
 export class BooleanBuilder extends OperableBuilder<BooleanChildren> {
-    operands = CMP;
+    operands = ['&&', '||', '^^'];
 
     protected buildBase(tokens: TokenMatcher): ExpressionNode {
         return this.child.comparison(tokens);

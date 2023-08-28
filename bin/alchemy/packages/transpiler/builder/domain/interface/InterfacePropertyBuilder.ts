@@ -9,12 +9,12 @@ export type DomainInterfacePropertyChildren = {
 }
 
 export class InterfacePropertyBuilder extends BaseBuilder<DomainInterfacePropertyNode, DomainInterfacePropertyChildren> {
-    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure, peek }: TypedTokenMatcherInterface) {
         const identifier = ensure.identifier();
         const type: ReferenceNode | null = get.symbol(':')
             ? this.child.type(tokens)
             : null;
-        const expression: ExpressionNode | null = get.symbol('=')
+        const expression: ExpressionNode | null = (get.symbol('=') || peek.symbol('('))
             ? this.child.expression(tokens)
             : null;
 

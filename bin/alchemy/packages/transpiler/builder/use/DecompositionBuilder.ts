@@ -29,11 +29,11 @@ export class DecompositionBuilder extends BaseBuilder<DecompositionNode, Decompo
 
                 children[decomposition.alias] = decomposition;
 
-                ensure.symbol(',');
-
                 if (get.symbol('}')) {
                     break;
                 }
+
+                ensure.symbol(',');
             }
         }
 

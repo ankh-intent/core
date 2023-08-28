@@ -12,14 +12,21 @@ export type OperableChildren = {
 export abstract class OperableBuilder<C extends Container<TreeNode>> extends BaseBuilder<ExpressionNode, C & OperableChildren> {
     operands: string[];
 
-    protected abstract buildBase(tokens: TokenMatcher): ExpressionNode;
+    protected abstract buildBase(tokens: TokenMatcher, matchers: TypedTokenMatcherInterface): ExpressionNode;
 
-    protected build(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface) {
-        const base = this.buildBase(tokens);
-        const operations: OperationNode[] = [];
+    protected consumeOperation(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface): OperationNode | undefined | null {
+        if (this.operands.includes(peek.symbol()!)) {
+            return this.child.operation(tokens);
+        }
+    }
 
-        while (this.operands.includes(peek.symbol()!)) {
-            operations.push(this.child.operation(tokens));
+    protected build(tokens: TokenMatcher, matchers: TypedTokenMatcherInterface) {
+        const base = this.buildBase(tokens, matchers);
+        let operations: OperationNode[] = [];
+        let node: OperationNode | undefined | null;
+
+        while ((node = this.consumeOperation(tokens, matchers))) {
+            operations.push(node);
         }
 
         if (operations.length) {
