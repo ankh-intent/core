@@ -9,3 +9,5 @@ export * from './ExpressionNode';
 export * from './IdentifierNode';
 export * from './UnaryNode';
 export * from './PostfixNode';
+export * from './MatchNode';
+export * from './MatchStatementNode';

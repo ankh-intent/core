@@ -41,8 +41,9 @@ import { MultiplicativeChildren, MultiplicativeBuilder } from './MultiplicativeB
 import { OperationChildren, OperationBuilder } from './OperationBuilder';
 import { PostfixChildren, PostfixBuilder } from './PostfixBuilder';
 import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
+import { factory as matchBuildersFactory, MatchDependencies, MatchInvokers } from './match';
 
-export type ExpressionInvokers = {
+export type ExpressionInvokers = MatchInvokers & {
     expression: ExpressionNode;
     identifier: IdentifierNode;
     comparison: ExpressionNode;
@@ -90,7 +91,8 @@ export type ExpressionDependencies =
     ObjectChildren &
     CallableChildren &
     ObjectPropertyChildren &
-    ExpressionChildren;
+    ExpressionChildren &
+    MatchDependencies;
 
 export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): InvokableVisitors<ExpressionInvokers> => {
     return {
@@ -117,5 +119,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
         object: new ObjectBuilder(invokers),
         object_property: new ObjectPropertyBuilder(invokers),
         identifier_expression: new IdentifierExpressionBuilder(invokers),
+
+        ...matchBuildersFactory(invokers),
     };
 };
