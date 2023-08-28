@@ -1,3 +1,4 @@
+import { inspect, InspectOptionsStylized } from 'node:util';
 import { Strings, Container, Identifiable, TreeNode } from '@intent/kernel';
 
 import { ModuleNode } from '@alchemy/ast';
@@ -30,5 +31,11 @@ export class Module extends DeclarationRegistry<ModuleNode> implements Identifia
         return `${this.uses}\nmodule "${this.identifier}" {\n${
             Strings.indent(String(this.domain).split('\n'), '  ').join('\n')
         }\n}`;
+    }
+
+    [inspect.custom](depth: number, options: InspectOptionsStylized) {
+        const { linked, qualifier, ...rest } = this;
+
+        return options.stylize(this.constructor.name, 'special') + ' ' + inspect(rest, { ...options, depth: options.depth ?? 5 });
     }
 }
