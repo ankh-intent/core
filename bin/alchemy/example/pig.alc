@@ -1,28 +1,28 @@
 domain Pig {
-  use Game;
-  use Types.IO;
+    use Game;
+    use IO;
 
-  () => {
-    let game = Game(
-      players = Players([
-        Player(id: 1, name: 'Player 1'),
-        Player(id: 2, name: 'Player 2'),
-      ]),
-      goal = 50,
-    );
+    () => {
+        let game = Game(
+            players: Players([
+                Player(id: 1, name: 'Player 1'),
+                Player(id: 2, name: 'Player 2'),
+            ]),
+            goal: 50,
+        );
 
-    match (game.play()) {
-      case Game.Win({ player, score }): {
-        IO.print('"${player.name}" won with score ${score}');
-      }
-      case Game.Draw({ scores }): {
-        IO.print('Draw.');
-        IO.print('Final scores:');
+        match (game.play()) => {
+            case Game.Win with { player, score }: {
+                IO.print('"${player.name}" won with score ${score}');
+            }
+            case Game.Draw with { scores }: {
+                IO.print('Draw.');
+                IO.print('Final scores:');
 
-        each (let [player, score] of scores) {
-          IO.print('\t"${player.name}": ${score}');
-        }
-      }
+                each (let entry of scores) {
+                    match (entry) => with { player, score }: IO.print('\t"${player.name}": ${score}');
+                }
+            }
+        };
     }
-  }
 }

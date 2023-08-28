@@ -2,15 +2,15 @@ use Players: { Player };
 use Score;
 
 domain Game {{
-    players: Players;
-    dice: Number.Positive = 6;
-    goal: Number.Positive = 100;
+    players: Players,
+    dice: Number.Positive = 6,
+    goal: Number.Positive = 100,
   }
 
   domain Outcome {
     domain Win is {{
-      player: Player;
-      scored: Score.Winning;
+      player: Player,
+      scored: Score.Winning,
     }}
 
     domain Draw is {{

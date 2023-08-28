@@ -78,7 +78,7 @@ functor_arg
   ::= identifier ':' type_reference ('=' expression)?
 
 // expressions
-expression
+expression // !
   ::= boolean
 
 parenthesis
@@ -99,44 +99,41 @@ call_args
 call_arg
   ::= (identifier ':')? expression
 
-boolean
-  ::= comparison ((('&&' | '||' | '^^') expression) | is)*
+boolean // !
+  ::= comparison (('&&' | '||' | '^^') expression)*
 
-is
-  ::= 'is' domain_reference
-
-comparison
+comparison // !
   ::= additive (('>' | '<' | '>=' | '<=' | '!=' | '==') expression)*
 
-additive
+additive // !
   ::= multiplicative (('+' | '-') expression)*
 
-multiplicative
+multiplicative // !
   ::= numerative (('*' | '/' | '%' | '**') expression)*
 
-numerative
-  ::= applicative (('&' | '|' | '^') expression)*
+numerative // !
+  ::= applicative (('&' | '|' | '^' | '>>' | '<<') expression)*
 
-applicative
-  ::= (unary_function | unary_operator)* unary (is)*
+applicative // !
+  ::= unary is*
 
-unary
-  ::= unary_mutator? assignable unary_mutator? call*
+unary // !
+  ::= unary_operator* unary_mutator? assignable unary_mutator? call*
 
-unary_operator
-  ::= '+' | '-' | '~' | '!'
+unary_operator // !
+  ::= '+' | '-' | '~' | '!' | 'typeof'
 
-unary_mutator
+unary_mutator // !
   ::= '--' | '++'
 
-unary_function
-  ::= 'typeof'
+is // !
+  ::= 'is' domain_reference
 
 assignable
   ::= accessible (call? (chain | indexed))*
 
 accessible
-  ::= identifier | literal | object | array | match | callable | parenthesis
+  ::= literal | object | array | match | callable | parenthesis | identifier
 
 callable
   ::= functor
@@ -179,10 +176,10 @@ declaration
   ::= 'let' identifier (':' type_reference)
 
 match
-  ::= 'match' (expression) '{' match_statement+ default_match_statement? '}'
+  ::= 'match' (expression) '=>' '{' match_statement+ default_match_statement? '}'
 
 match_statement
-  ::= expression ':' (block | decorated_block_item)
+  ::= 'case' expression ('with' object)? ':' (block | decorated_block_item)
 
 default_match_statement
   ::= 'else' (block | decorated_block_item)

@@ -1,3 +1,5 @@
+use IO;
+
 domain Answer of String {{
-    prompt(question: String) => self(IO.prompt(question));
+    prompt(question: String) => self(IO.prompt(question)),
 }}
