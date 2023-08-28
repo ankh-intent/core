@@ -18,23 +18,23 @@ domain Game {{
     }}
   }
 
-  let scores = Map<Player, Score>(players.map((player) => [player, 0]));
-  let withdrawn = Set<Player>();
-  let victory = Score.Winning({ max = goal });
+  let scores = Map(players.map((player) => [player, Score(0)]));
+  let withdrawn: Set<Player> = Set();
+  let victory = Score.Winning({ max: goal });
   let turn = players[0];
 
-  get score[player: Player]: Score {
+  get score[player: Player]: Score => {
     return scores[player];
   }
 
-  get next[player: Player]()?: Player {
-    if (withdrawn.size === players.size) {
+  get next[player: Player]?: Player => {
+    if (withdrawn.size == players.size) {
       return;
     }
 
     let index = players.indexOf(player);
 
-    each (let next = Index((++index) % players.size)) {
+    each (let next of Index((++index) % players.size)) {
       let candidate = players[next];
 
       if (!withdrawn.has(candidate)) {
@@ -44,21 +44,21 @@ domain Game {{
   }
 
   (): Outcome => {
-    each (let { rolled } = Roll.make(dice)) {
+    each (let roll of Roll.make(dice)) match (roll) => with { rolled }: {
       if (rolled is PositiveNumber) {
         let scored = score[turn] + rolled;
 
         if (victory(scored)) {
           return Outcome.Win({
-            player = turn,
+            player: turn,
             scored,
           });
         }
       }
 
-      try (turn = next[turn])
-      else
+      if (!(turn = next[turn])) {
         break;
+      }
     }
 
     return Outcome.Draw(scores);

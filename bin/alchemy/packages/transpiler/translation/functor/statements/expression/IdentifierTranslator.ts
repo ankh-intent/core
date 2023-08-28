@@ -1,7 +1,7 @@
+import { TranslationContext } from '@intent/translator';
 import { Identifier } from '@alchemy/modules';
 import { IdentifierNode } from '@alchemy/ast';
 import { AlchemyNodeTranslator } from '../../../AlchemyNodeTranslator';
-import { TranslationContext } from '@intent/translator';
 
 export type IdentifierTranslatorChildren = {};
 

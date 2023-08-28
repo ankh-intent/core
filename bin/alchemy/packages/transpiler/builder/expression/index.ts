@@ -71,7 +71,7 @@ export type ExpressionInvokers = MatchInvokers & {
     array: ArrayNode;
     object: ObjectNode;
     object_property: ObjectPropertyNode;
-    identifier_expression: ExpressionNode;
+    identifier_expression: ExpressionNode<IdentifierNode>;
 };
 export type ExpressionDependencies =
     OperationChildren &

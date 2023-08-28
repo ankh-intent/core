@@ -1,6 +1,6 @@
 domain Pig {
+    use Alchemy.IO;
     use Game;
-    use IO;
 
     () => {
         let game = Game(
@@ -11,7 +11,7 @@ domain Pig {
             goal: 50,
         );
 
-        match (game.play()) => {
+        match (game) => {
             case Game.Win with { player, score }: {
                 IO.print('"${player.name}" won with score ${score}');
             }

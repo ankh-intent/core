@@ -4,11 +4,11 @@ import { FunctorBodyNode, BlockNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorBodyChildren = {
-    functor_body_block: BlockNode;
+    block_expression: BlockNode;
 };
 
 export class FunctorBodyBuilder extends BaseBuilder<FunctorBodyNode, FunctorBodyChildren> {
     protected build(tokens: TokenMatcher) {
-        return new FunctorBodyNode(this.child.functor_body_block(tokens));
+        return new FunctorBodyNode(this.child.block_expression(tokens));
     }
 }

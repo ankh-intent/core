@@ -6,7 +6,7 @@ import { Qualifier } from './reference';
 const makePath = (...parts: (string | null | undefined | false)[]) => parts.filter(Boolean).join('.');
 
 export class DeclarationRegistry<N extends TreeNode> extends Translated<N> implements DeclarationRegistryInterface {
-    private _declarations = new Map<string, DeclarationInterface>();
+    #_declarations = new Map<string, DeclarationInterface>();
 
     public static search(node?: TranslatedInterface<any>): DeclarationRegistry<any> | undefined {
         while (node) {
@@ -30,7 +30,7 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
     }
 
     [Symbol.iterator]() {
-        return this._declarations.values();
+        return this.#_declarations.values();
     }
 
     getDeclaration<D>(qualifier: Qualifier): DeclarationInterface & D {
@@ -56,7 +56,7 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
     }
 
     getDeclarationByIdentifier<D>(identifier: string): (DeclarationInterface & D) | undefined {
-        return this._declarations.get(identifier) as (DeclarationInterface & D);
+        return this.#_declarations.get(identifier) as (DeclarationInterface & D);
     }
 
     registerDeclaration(declaration: DeclarationInterface): this {
@@ -68,7 +68,7 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
             throw new Error(`Already have locally declared "${declaration.identifier}"`);
         }
 
-        this._declarations.set(declaration.identifier, declaration);
+        this.#_declarations.set(declaration.identifier, declaration);
 
         return this;
     }

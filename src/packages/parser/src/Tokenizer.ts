@@ -10,7 +10,6 @@ export enum BaseTokenTypes {
     TK_IDENTIFIER = 'identifier',
     TK_NUMBER = 'number',
     TK_SYMBOL = 'symbol',
-    TK_EOF = 'eof',
 }
 
 export interface Context {

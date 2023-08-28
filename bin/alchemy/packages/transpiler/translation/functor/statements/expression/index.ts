@@ -8,7 +8,15 @@ import {
     CallArgNode,
     IsDomainNode,
     OperationNode,
-    PrimitiveNode, CallableNode, ArrayNode, ObjectNode, UnaryNode, ObjectPropertyNode, PostfixNode,
+    PrimitiveNode,
+    CallableNode,
+    ArrayNode,
+    ObjectNode,
+    UnaryNode,
+    ObjectPropertyNode,
+    PostfixNode,
+    MatchNode,
+    MatchStatementNode,
 } from '@alchemy/ast';
 
 import { ArrayLiteralTranslatorChildren, ArrayLiteralTranslator } from './literal/ArrayLiteralTranslator';
@@ -30,6 +38,8 @@ import { OperationTranslatorChildren, OperationTranslator } from './OperationTra
 import { PrimitiveTranslatorChildren, PrimitiveTranslator } from './literal/PrimitiveTranslator';
 import { PostfixTranslatorChildren, PostfixTranslator } from './postfix/PostfixTranslator';
 import { UnaryTranslatorChildren, UnaryTranslator } from './unary/UnaryTranslator';
+import { MatchTranslatorChildren, MatchTranslator } from './MatchTranslator';
+import { MatchStatementTranslatorChildren, MatchStatementTranslator } from './MatchStatementTranslator';
 
 export type ExpressionInvokers = {
     expression: ExpressionNode;
@@ -48,6 +58,8 @@ export type ExpressionInvokers = {
     is_domain: IsDomainNode;
     postfix: PostfixNode;
     unary: UnaryNode;
+    match: MatchNode;
+    match_statement: MatchStatementNode;
 };
 
 export type ExpressionDependencies =
@@ -66,7 +78,9 @@ export type ExpressionDependencies =
     PrimitiveTranslatorChildren &
     UnaryTranslatorChildren &
     PostfixTranslatorChildren &
-    ExpressionTranslatorChildren
+    ExpressionTranslatorChildren &
+    MatchTranslatorChildren &
+    MatchStatementTranslatorChildren
     ;
 
 export const factory = (invokers: NodeInvokers<ExpressionDependencies>): InvokableVisitors<ExpressionInvokers> => {
@@ -87,5 +101,7 @@ export const factory = (invokers: NodeInvokers<ExpressionDependencies>): Invokab
         is_domain: new IsDomainTranslator(invokers),
         unary: new UnaryTranslator(invokers),
         postfix: new PostfixTranslator(invokers),
+        match: new MatchTranslator(invokers),
+        match_statement: new MatchStatementTranslator(invokers),
     };
 };

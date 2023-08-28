@@ -1,14 +1,14 @@
-import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
+import { TypedTokenMatcherInterface, TokenMatcher } from '../../../../../../src/packages/kernel';
 
-import { BlockNode, StatementNode } from '@alchemy/ast';
+import { BlockNode, StatementNode } from '../../../ast';
 import { BaseBuilder } from '../BaseBuilder';
 
-export type FunctorBodyBlockChildren = {
+export type BlockExpressionChildren = {
     block: BlockNode;
     expression_statement: StatementNode;
 };
 
-export class FunctorBodyBlockBuilder extends BaseBuilder<BlockNode, FunctorBodyBlockChildren> {
+export class BlockExpressionBuilder extends BaseBuilder<BlockNode, BlockExpressionChildren> {
     protected build(tokens: TokenMatcher, { peek }: TypedTokenMatcherInterface) {
         if (peek.symbol('{')) {
             return this.child.block(tokens);

@@ -1,6 +1,6 @@
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
-import { ReferenceNode, FunctorArgNode } from '@alchemy/ast';
+import { ReferenceNode, FunctorArgNode, QualifierNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorArgChildren = {
@@ -8,20 +8,25 @@ export type FunctorArgChildren = {
 };
 
 export class FunctorArgBuilder extends BaseBuilder<FunctorArgNode, FunctorArgChildren> {
-    protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
         const name = ensure.identifier();
 
-        if (peek.symbol(':')) {
+        if (get.symbol(':')) {
             tokens.mark('IS_FUNCTOR');
+
+            const type = this.child.type(tokens);
+
+            return new FunctorArgNode(
+                name,
+                type,
+            );
         }
-
-        ensure.symbol(':');
-
-        const type = this.child.type(tokens);
 
         return new FunctorArgNode(
             name,
-            type,
+            new ReferenceNode(
+                new QualifierNode('$Call::Arg', new QualifierNode(name)),
+            ),
         );
     }
 }

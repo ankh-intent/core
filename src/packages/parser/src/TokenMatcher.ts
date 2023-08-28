@@ -31,7 +31,6 @@ type AnyRecord<TT extends BaseTokenTypes, Type, AnyType> = {
     [BaseTokenTypes.TK_IDENTIFIER]: Type;
     [BaseTokenTypes.TK_NUMBER]: Type;
     [BaseTokenTypes.TK_SYMBOL]: Type;
-    [BaseTokenTypes.TK_EOF]: Type;
 };
 
 export type TypeMatcherInterface<TT extends BaseTokenTypes, T> = AnyRecord<

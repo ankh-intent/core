@@ -4,7 +4,7 @@ import { BlockNode, LoopStatementNode, LoopIteratorNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type LoopStatementChildren = {
-    block: BlockNode;
+    block_expression: BlockNode;
     loop_iterator: LoopIteratorNode;
 };
 
@@ -17,7 +17,7 @@ export class LoopStatementBuilder extends BaseBuilder<LoopStatementNode, LoopSta
 
         ensure.symbol(')');
 
-        const block = this.child.block(tokens);
+        const block = this.child.block_expression(tokens);
 
         return new LoopStatementNode(
             iterator,

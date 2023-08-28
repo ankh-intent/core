@@ -5,10 +5,12 @@ import { GenericTemplateChildren, GenericTemplateBuilder } from './GenericTempla
 import { GenericTemplatesChildren, GenericTemplatesBuilder } from './GenericTemplatesBuilder';
 import { QualifierChildren, QualifierBuilder } from './QualifierBuilder';
 import { TypeChildren, TypeBuilder } from './TypeBuilder';
+import { MaybeTypeChildren, MaybeTypeBuilder } from './MaybeTypeBuilder';
 import { TypeGenericChildren, TypeGenericBuilder } from './TypeGenericBuilder';
 
 export type DomainReferenceInvokers = {
     qualifier: QualifierNode;
+    maybe_type: ReferenceNode;
     type: ReferenceNode;
     type_generic: TypeGenericNode<ReferenceNode>;
     generic_templates: GenericTemplatesNode;
@@ -17,6 +19,7 @@ export type DomainReferenceInvokers = {
 export type DomainReferenceDependencies =
     QualifierChildren &
     TypeChildren &
+    MaybeTypeChildren &
     TypeGenericChildren &
     GenericTemplatesChildren &
     GenericTemplateChildren;
@@ -24,6 +27,7 @@ export type DomainReferenceDependencies =
 export const factory = (invokers: BuilderInvokers<DomainReferenceDependencies>): InvokableVisitors<DomainReferenceInvokers> => {
     return {
         qualifier: new QualifierBuilder(invokers),
+        maybe_type: new MaybeTypeBuilder(invokers),
         type: new TypeBuilder(invokers),
         type_generic: new TypeGenericBuilder(invokers),
         generic_templates: new GenericTemplatesBuilder(invokers),

@@ -1,5 +1,6 @@
 import { TreeNode } from '@intent/kernel';
 import { TranslatedFactory, TranslatedConstructor } from './interfaces';
+import { inspect, InspectOptionsStylized } from 'node:util';
 
 const isASTNode = <AST extends TreeNode>(node?: any): node is AST => (
     !!(node && node.astRegion)
@@ -69,5 +70,31 @@ export class Translated<N extends TreeNode, P extends TreeNode = any> {
                 ? Object.assign(node, data)
                 : node
         );
+    }
+
+    [inspect.custom](depth: number, options: InspectOptionsStylized) {
+        const { ast, parentNode, ...rest } = this;
+        const set = (options as any).set || new Map();
+
+        if (set.has(this)) {
+            return options.stylize(this.constructor.name, 'special') + ` (#${set.get(this)})`;
+        }
+
+        set.set(this, set.size + 1);
+        const filtered = Object.fromEntries(Object.entries(rest).filter(([, value]) => {
+            if (value && typeof value === 'object') {
+                return !(('length' in (value as any)) && !(value as any).length);
+            }
+
+            return value ?? false;
+        }));
+        const values = Object.values(filtered);
+        const result = (
+            values.length === 1
+                ? '(' + inspect(values[0], { ...options, set } as any) + ')'
+                : ' ' + inspect(filtered, { ...options, set } as any)
+        );
+
+        return options.stylize(this.constructor.name, 'special') + result;
     }
 }

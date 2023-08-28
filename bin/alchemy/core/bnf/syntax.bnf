@@ -175,19 +175,19 @@ assignment_token
 declaration
   ::= 'let' identifier (':' type_reference)
 
-match
+match // !
   ::= 'match' (expression) '=>' '{' match_statement+ default_match_statement? '}'
 
-match_statement
+match_statement // !
   ::= 'case' expression ('with' object)? ':' (block | decorated_block_item)
 
-default_match_statement
+default_match_statement // !
   ::= 'else' (block | decorated_block_item)
 
-loop
+loop // !
   ::= 'each' loop_iterator block
 
-if
+if // !
   ::= 'if' statement block ('else' block)?
 
 break

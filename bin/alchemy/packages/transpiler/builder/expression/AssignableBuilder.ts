@@ -18,14 +18,30 @@ export class AssignableBuilder extends BaseBuilder<ExpressionNode, AssignableChi
         const operations: OperationNode[] = [];
 
         while (true) {
-            if (peek.symbol('(')) {
-                operations.push(this.child.call(tokens));
-            }
+            const index = tokens.current();
+            const state = tokens.pushState();
+
+            let call = peek.symbol('(') && this.child.call(tokens);
+            let operation: OperationNode | null = null;
 
             if (peek.symbol('.')) {
-                operations.push(this.child.chain(tokens));
+                operation = this.child.chain(tokens);
             } else if (peek.symbol('[')) {
-                operations.push(this.child.indexed(tokens));
+                operation = this.child.indexed(tokens);
+            }
+
+            tokens.popState(state);
+
+            if (call) {
+                if (operation) {
+                    operations.push(call);
+                } else {
+                    tokens.goto(index);
+                }
+            }
+
+            if (operation) {
+                operations.push(operation);
             } else {
                 break;
             }

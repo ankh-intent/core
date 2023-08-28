@@ -9,11 +9,13 @@ import {
     CallableNode,
     FunctorArgsNode,
     MatchNode,
+    StatementNode,
 } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type AccessibleChildren = {
     expression: ExpressionNode;
+    statement: StatementNode;
     array: ArrayNode;
     object: ObjectNode;
     literal: PrimitiveNode;
@@ -46,7 +48,9 @@ export class AccessibleBuilder extends BaseBuilder<AbstractNode, AccessibleChild
 
             ensure.symbol('(');
 
-            const expression = this.child.expression(tokens);
+            const expression = new ExpressionNode(
+                this.child.statement(tokens)
+            );
 
             ensure.symbol(')');
 

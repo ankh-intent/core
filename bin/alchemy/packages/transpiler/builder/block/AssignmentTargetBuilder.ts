@@ -1,11 +1,12 @@
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
-import { AssignmentTargetNode, ExpressionNode } from '@alchemy/ast';
+import { AssignmentTargetNode, ExpressionNode, ReferenceNode, IdentifierNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type AssignmentTargetChildren = {
-    identifier_expression: ExpressionNode;
+    identifier_expression: ExpressionNode<IdentifierNode>;
     expression: ExpressionNode;
+    type: ReferenceNode;
 };
 
 export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, AssignmentTargetChildren> {
@@ -13,14 +14,18 @@ export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, A
         if (get.identifier('let')) {
             tokens.mark('IS_ASSIGNMENT');
 
+            const target = this.child.identifier_expression(tokens);
+            const type = get.symbol(':') ? this.child.type(tokens) : null;
+
             return new AssignmentTargetNode(
-                this.child.identifier_expression(tokens),
+                target,
+                type,
+                target.base.name
             );
         }
 
         return new AssignmentTargetNode(
             this.child.expression(tokens),
-            false,
         );
     }
 }

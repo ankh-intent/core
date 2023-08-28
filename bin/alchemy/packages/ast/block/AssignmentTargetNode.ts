@@ -1,23 +1,25 @@
 import { AbstractNode } from '@intent/kernel';
 
 import { ExpressionNode, IdentifierNode } from '../expression';
+import { ReferenceNode } from '../reference';
 
 export class AssignmentTargetNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
-    private readonly _isDeclaration: boolean;
+    private readonly _isDeclaration: string;
 
     constructor(
         public target: ExpressionNode<N>,
-        isDeclaration: boolean = true,
+        public type: ReferenceNode | null = null,
+        isDeclarationOf: string = '',
     ) {
         super();
-        this._isDeclaration = isDeclaration;
+        this._isDeclaration = isDeclarationOf;
     }
 
     get children() {
-        return [this.target];
+        return [this.target, this.type!].filter(Boolean);
     }
 
     isDeclaration(): this is AssignmentTargetNode<IdentifierNode> {
-        return this._isDeclaration;
+        return !!this._isDeclaration;
     }
 }

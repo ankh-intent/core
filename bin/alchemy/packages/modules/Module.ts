@@ -32,10 +32,4 @@ export class Module extends DeclarationRegistry<ModuleNode> implements Identifia
             Strings.indent(String(this.domain).split('\n'), '  ').join('\n')
         }\n}`;
     }
-
-    [inspect.custom](depth: number, options: InspectOptionsStylized) {
-        const { linked, qualifier, ...rest } = this;
-
-        return options.stylize(this.constructor.name, 'special') + ' ' + inspect(rest, { ...options, depth: options.depth ?? 5 });
-    }
 }

@@ -8,7 +8,7 @@ import {
     EnumNode,
     ExpressionNode,
     DomainInterfaceNode,
-    GenericTemplatesNode,
+    GenericTemplatesNode, AssignmentStatementNode,
 } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
@@ -19,6 +19,7 @@ export type DomainChildren = {
     domain: DomainNode;
     uses: UsesNode;
     functor: FunctorNode;
+    assignment_statement: AssignmentStatementNode;
     expression: ExpressionNode;
     domain_interface: DomainInterfaceNode;
 };
@@ -42,6 +43,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         const interfaced = this.child.domain_interface(tokens);
         const domains = new Map<string, DomainNode>();
         const methods = new Map<string, FunctorNode>();
+        const privates = new Map<string, AssignmentStatementNode>();
         const traits = new Set<ExpressionNode>();
 
         while (true) {
@@ -83,21 +85,46 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         }
 
         while (true) {
-            const name = get.identifier();
+            if (peek.identifier('let')) {
+                const name = peek.identifier(undefined, 1)!;
+                const assignment = this.child.assignment_statement(tokens);
+
+                if (name && privates.has(name)) {
+                    throw this.error(tokens, assignment, `Private value with the same name "${name}" already present`);
+                }
+
+                if (assignment) {
+                    privates.set(name, assignment);
+
+                    get.symbol(';');
+
+                    continue;
+                } else {
+                    throw this.error(tokens, 'declaration', `Declaration expected`);
+                }
+            }
+
+            let name = get.identifier();
 
             if (name) {
+                const getter = name === 'get';
+
+                if (getter) {
+                    name = get.identifier()!;
+                }
+
                 const method = this.child.functor(tokens);
 
                 if (method) {
                     if (methods.has(name)) {
-                        throw this.error(tokens, method, `Method with the same name "${name}" already present`);
+                        throw this.error(tokens, method, `${getter ? 'Getter' : 'Method'}} with the same name "${name}" already present`);
                     }
 
                     methods.set(name, method);
 
                     continue;
                 } else {
-                    throw this.error(tokens, 'method', `Method body expected`);
+                    throw this.error(tokens, getter ? 'getter' : 'method', `Method body expected`);
                 }
             }
 
@@ -117,6 +144,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
             uses,
             domains,
             methods,
+            privates,
             ctor,
         );
     }

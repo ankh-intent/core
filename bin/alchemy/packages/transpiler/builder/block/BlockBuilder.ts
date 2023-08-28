@@ -13,7 +13,7 @@ export class BlockBuilder extends BaseBuilder<BlockNode, BlockChildren> {
 
         ensure.symbol('{');
 
-        while (!(peek.eof() || peek.symbol('}'))) {
+        while (!peek.symbol('}')) {
             statements.push(this.child.block_statement(tokens));
         }
 
