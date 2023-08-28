@@ -34,6 +34,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         const parent: ReferenceNode | undefined = get.identifier('of')
             ? this.child.type(tokens)
             : undefined;
+        const inherits = !!get.identifier('is');
 
         ensure.symbol('{');
 
@@ -111,6 +112,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
             identifier,
             generics,
             parent,
+            inherits,
             interfaced,
             uses,
             domains,

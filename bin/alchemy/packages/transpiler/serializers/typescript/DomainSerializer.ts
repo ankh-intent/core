@@ -15,6 +15,7 @@ export class DomainSerializer extends NodeSerializer<DomainNode, DomainSerialize
         const local = `$${node.identifier.toLowerCase()}_domain_${context.depth}_${context.types.size}`;
         const { type, domainType } = context.domainType(node);
 
+        // todo: handle 'is'
         sub.variables.set('this', {
             local,
             type,

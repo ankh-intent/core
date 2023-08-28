@@ -10,6 +10,7 @@ export class DomainNode extends AbstractNode {
         public identifier: string,
         public generics: GenericTemplatesNode,
         public parent: ReferenceNode | undefined,
+        public inherits: boolean,
         public interfaced: DomainInterfaceNode,
         public uses: UsesNode,
         public domains: Map<string, DomainNode> = new Map(),

@@ -10,7 +10,7 @@ export class EnumNode extends DomainNode {
         parent: ReferenceNode | undefined,
         public values: Map<QualifierNode, ExpressionNode> = new Map(),
     ) {
-        super(identifier, new GenericTemplatesNode(), parent, new DomainInterfaceNode(), new UsesNode());
+        super(identifier, new GenericTemplatesNode(), parent, false, new DomainInterfaceNode(), new UsesNode());
     }
 
     get children() {
