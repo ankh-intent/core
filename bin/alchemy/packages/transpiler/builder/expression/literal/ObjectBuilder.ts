@@ -13,7 +13,7 @@ export class ObjectBuilder extends BaseBuilder<ObjectNode, ObjectChildren> {
 
         const properties = new Map<string, ObjectPropertyNode>();
 
-        while (!peek.symbol('}')) {
+        while (!(peek.eof() || peek.symbol('}'))) {
             const property = this.child.object_property(tokens);
 
             if (properties.has(property.identifier)) {
