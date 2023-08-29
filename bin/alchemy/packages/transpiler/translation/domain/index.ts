@@ -9,6 +9,7 @@ import {
     DomainInterfaceNode,
     TraitNode,
     ConstraintNode,
+    DomainModifierNode,
 } from '@alchemy/ast';
 
 import { DomainReferenceTranslatorChildren, DomainReferenceTranslator } from './DomainReferenceTranslator';
@@ -19,8 +20,10 @@ import { InterfaceTranslatorChildren, InterfaceTranslator } from './InterfaceTra
 import { QualifierTranslatorChildren, QualifierTranslator } from './QualifierTranslator';
 import { TraitTranslatorChildren, TraitTranslator } from './TraitTranslator';
 import { ConstraintTranslatorChildren, ConstraintTranslator } from './ConstraintTranslator';
+import { DomainModifierTranslatorChildren, DomainModifierTranslator } from './DomainModifierTranslator';
 
 export type DomainInvokers = {
+    domain_modifier: DomainModifierNode,
     domain: DomainNode;
     interface: DomainInterfaceNode;
     interface_property: DomainInterfacePropertyNode;
@@ -32,6 +35,7 @@ export type DomainInvokers = {
 };
 
 export type DomainDependencies =
+    DomainModifierTranslatorChildren &
     InterfaceTranslatorChildren &
     InterfacePropertyTranslatorChildren &
     DomainTranslatorChildren &
@@ -44,6 +48,7 @@ export type DomainDependencies =
 
 export const factory = (invokers: NodeInvokers<DomainDependencies>): InvokableVisitors<DomainInvokers> => {
     return {
+        domain_modifier: new DomainModifierTranslator(invokers),
         domain: new DomainTranslator(invokers),
         interface: new InterfaceTranslator(invokers),
         interface_property: new InterfacePropertyTranslator(invokers),

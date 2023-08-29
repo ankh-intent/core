@@ -8,8 +8,10 @@ import { Functor, AssignmentStatement } from './functor';
 import { Uses } from './use';
 import { Trait } from './Trait';
 import { Constraint } from './Constraint';
+import { DomainModifier } from './DomainModifier';
 
 export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
+    public modifier: DomainModifier;
     public qualifier: Qualifier;
     public parent?: ReferenceInterface;
     public generics: GenericInterface[] = [];
@@ -54,7 +56,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
         const uses = Strings.indent(String(this.uses).split('\n'), '  ').join('\n');
         const body = Strings.indent(String(parts.join('\n')).split('\n'), '  ').join('\n');
 
-        return `domain ${this.qualifier}${
+        return `${this.modifier}domain ${this.qualifier}${
             this.generics.length ? `<${this.generics.join(', ')}>` : ''
         }${
             this.parent ? ` extends ${this.parent}` : ''

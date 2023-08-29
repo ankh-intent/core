@@ -7,10 +7,12 @@ import { UsesNode } from '../use';
 import { AssignmentStatementNode } from '../block';
 import { TraitNode } from './TraitNode';
 import { ConstraintNode } from './ConstraintNode';
+import { DomainModifierNode } from './DomainModifierNode';
 
 export class DomainNode extends AbstractNode {
     constructor(
         public identifier: string,
+        public modifier: DomainModifierNode,
         public generics: GenericTemplatesNode,
         public parent: ReferenceNode | undefined,
         public inherits: boolean,
@@ -28,6 +30,7 @@ export class DomainNode extends AbstractNode {
 
     get children(): TreeNode[] {
         return [
+            this.modifier,
             this.generics,
             this.parent!,
             this.interfaced,
@@ -42,9 +45,10 @@ export class DomainNode extends AbstractNode {
     }
 
     inspect(): any {
-        const { domains, methods, traits, constraints, privates, uses, parent, ctor, generics, interfaced, ...rest } = this;
+        const { modifier, domains, methods, traits, constraints, privates, uses, parent, ctor, generics, interfaced, ...rest } = this;
 
         return {
+            ...(modifier.isSpecial && { modifier }),
             ...(uses.map.size && { uses }),
             ...(traits.size && { traits }),
             ...(constraints.size && { constraints }),

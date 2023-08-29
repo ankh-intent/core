@@ -1,3 +1,4 @@
+export * from './DomainModifier';
 export * from './Domain';
 export * from './Generic';
 export * from './Trait';

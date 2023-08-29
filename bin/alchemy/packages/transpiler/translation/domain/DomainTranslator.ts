@@ -9,11 +9,13 @@ import {
     AssignmentStatementNode,
     TraitNode,
     ConstraintNode,
+    DomainModifierNode,
 } from '@alchemy/ast';
 import { Domain, DeclarationRegistry, Qualifier } from '@alchemy/modules';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
 
 export type DomainTranslatorChildren = {
+    domain_modifier: DomainModifierNode;
     reference: ReferenceNode;
     template: GenericTemplateNode;
     interface: DomainInterfaceNode;
@@ -28,6 +30,7 @@ export type DomainTranslatorChildren = {
 export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTranslatorChildren> {
     translate(node: DomainNode, context: TranslationContext<any>): Domain {
         const { node: domain, context: inner } = context.spawn(Domain, node, (domain) => ({
+            modifier: this.child.domain_modifier(node.modifier, context),
             inherits: node.inherits,
             qualifier: Qualifier.create(domain, {
                 name: node.identifier,

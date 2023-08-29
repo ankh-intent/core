@@ -12,10 +12,12 @@ import {
     AssignmentStatementNode,
     TraitNode,
     ConstraintNode,
+    DomainModifierNode,
 } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type DomainChildren = {
+    domain_modifier: DomainModifierNode;
     type: ReferenceNode;
     generic_templates: GenericTemplatesNode;
     enum: EnumNode;
@@ -31,6 +33,8 @@ export type DomainChildren = {
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     protected build(tokens: TokenMatcher, { not, get, ensure, peek }: TypedTokenMatcherInterface) {
+        const modifier = this.child.domain_modifier(tokens);
+
         if (not.identifier('domain')) {
             return null;
         }
@@ -157,6 +161,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
         return new DomainNode(
             identifier,
+            modifier,
             generics,
             parent,
             inherits,

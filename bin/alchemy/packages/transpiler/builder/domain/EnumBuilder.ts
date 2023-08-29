@@ -1,9 +1,10 @@
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
-import { ReferenceNode, EnumNode, ExpressionNode, QualifierNode } from '@alchemy/ast';
+import { ReferenceNode, EnumNode, ExpressionNode, QualifierNode, DomainModifierNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type EnumChildren = {
+    domain_modifier: DomainModifierNode;
     type: ReferenceNode;
     qualifier: QualifierNode;
     expression: ExpressionNode;
@@ -11,6 +12,8 @@ export type EnumChildren = {
 
 export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
     protected build(tokens: TokenMatcher, { peek, not, get, ensure }: TypedTokenMatcherInterface) {
+        const modifier = this.child.domain_modifier(tokens);
+
         if (not.identifier('enum')) {
             return null;
         }
@@ -60,6 +63,7 @@ export class EnumBuilder extends BaseBuilder<EnumNode, EnumChildren> {
         return new EnumNode(
             identifier,
             parent,
+            modifier,
             values,
         );
     }

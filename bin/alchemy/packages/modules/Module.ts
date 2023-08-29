@@ -1,4 +1,3 @@
-import { inspect, InspectOptionsStylized } from 'node:util';
 import { Strings, Container, Identifiable, TreeNode } from '@intent/kernel';
 
 import { ModuleNode } from '@alchemy/ast';
@@ -28,7 +27,7 @@ export class Module extends DeclarationRegistry<ModuleNode> implements Identifia
     }
 
     toString() {
-        return `${this.uses}\nmodule "${this.identifier}" {\n${
+        return `${this.uses}module "${this.identifier}" {\n${
             Strings.indent(String(this.domain).split('\n'), '  ').join('\n')
         }\n}`;
     }
