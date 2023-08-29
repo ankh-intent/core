@@ -76,10 +76,13 @@ type_reference
 
 // domain lookup
 domain_reference
-  ::= qualifier domain_reference_generic? ('[' ']')?
+  ::= tuple_reference | (qualifier domain_reference_generic? ('[' ']')?)
+
+tuple_reference
+  ::= '[' (type_reference (',' type_reference)*)? ']'
 
 domain_reference_generic
-  ::= '<' domain_reference (',' domain_reference)* '>'
+  ::= '<' type_reference (',' type_reference)* '>'
 
 // generic definitions
 generic_definition

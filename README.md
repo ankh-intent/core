@@ -4,6 +4,16 @@ Intent language compiler.
 
 ### Progress
 
+- [x] Syntax
+    - [x] Basic syntax
+    - [ ] Todo:
+        - [ ] Type referencing
+            - [ ] Tuples
+        - [ ] Domains
+            - [ ] 'abstract' modifier
+            - [ ] 'augment' modifier
+        - [ ] Functors / getters
+            - [ ] 'abstract' modifier
 - [x] Watchdog
     - [x] Watch FS events by path or regexp (use [chokidar](https://github.com/paulmillr/chokidar))
     - [x] Debounce
