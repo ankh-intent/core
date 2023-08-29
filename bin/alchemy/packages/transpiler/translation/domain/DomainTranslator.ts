@@ -36,11 +36,12 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
 
         domain.uses = this.child.uses(node.uses, inner);
         domain.generics = node.generics.templates.map((g) => this.child.template(g, inner));
-        domain.parent = node.parent && this.child.reference(node.parent, inner);
 
         for (const sub of node.domains.values()) {
             this.child.domain(sub, inner);
         }
+
+        domain.parent = node.parent && this.child.reference(node.parent, inner);
 
         for (const [identifier, assignmentNode] of node.privates) {
             domain.privates.set(identifier, this.child.assignment_statement(assignmentNode, inner));
