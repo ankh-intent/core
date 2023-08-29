@@ -1,6 +1,6 @@
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
-import { ReferenceNode, ExpressionNode, DomainInterfacePropertyNode } from '@alchemy/ast';
+import { ReferenceNode, ExpressionNode, DomainInterfacePropertyNode, DecoratedStatementNode } from '@alchemy/ast';
 import { BaseBuilder } from '../../BaseBuilder';
 
 export type DomainInterfacePropertyChildren = {
@@ -11,6 +11,8 @@ export type DomainInterfacePropertyChildren = {
 
 export class InterfacePropertyBuilder extends BaseBuilder<DomainInterfacePropertyNode, DomainInterfacePropertyChildren> {
     protected build(tokens: TokenMatcher, { get, ensure, peek }: TypedTokenMatcherInterface) {
+        const decorator: ExpressionNode | null = get.symbol('@') ? this.child.expression(tokens) : null;
+
         const identifier = ensure.identifier();
         const optional = !!get.symbol('?');
         const type: ReferenceNode | null = get.symbol(':')
@@ -22,6 +24,7 @@ export class InterfacePropertyBuilder extends BaseBuilder<DomainInterfacePropert
 
         return new DomainInterfacePropertyNode(
             identifier,
+            decorator,
             expression,
             type,
         );

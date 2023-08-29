@@ -6,6 +6,7 @@ import { ReferenceNode } from '../../reference';
 export class DomainInterfacePropertyNode extends AbstractNode {
     constructor(
         public identifier: string,
+        public decorator: ExpressionNode | null,
         public expression: ExpressionNode | null,
         public type: ReferenceNode | null,
     ) {
@@ -13,6 +14,6 @@ export class DomainInterfacePropertyNode extends AbstractNode {
     }
 
     get children() {
-        return [this.expression!, this.type!].filter(Boolean);
+        return [this.decorator!, this.expression!, this.type!].filter(Boolean);
     }
 }

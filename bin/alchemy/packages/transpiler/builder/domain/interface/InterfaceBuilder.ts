@@ -12,7 +12,7 @@ export class InterfaceBuilder extends BaseBuilder<DomainInterfaceNode, DomainInt
         const properties = new Map<string, DomainInterfacePropertyNode>();
 
         if (!not.symbol('{')) {
-            while (peek.identifier()) {
+            while (peek.identifier() || peek.symbol('@')) {
                 const property = this.child.domain_interface_property(tokens);
 
                 if (properties.has(property.identifier)) {
