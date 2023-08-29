@@ -10,7 +10,7 @@ export type DecompositionChildren = {
 };
 
 export class DecompositionBuilder extends BaseBuilder<DecompositionNode, DecompositionChildren> {
-    protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { get, peek, ensure }: TypedTokenMatcherInterface) {
         const children: Container<DecompositionNode> = {};
         const qualifier = this.child.qualifier(tokens);
         let alias = qualifier.deepest();
@@ -20,7 +20,7 @@ export class DecompositionBuilder extends BaseBuilder<DecompositionNode, Decompo
         } else if (get.symbol(':')) {
             ensure.symbol('{');
 
-            while (true) {
+            while (peek.identifier()) {
                 const decomposition = this.child.decomposition(tokens);
 
                 if (children[decomposition.alias]) {
@@ -29,9 +29,11 @@ export class DecompositionBuilder extends BaseBuilder<DecompositionNode, Decompo
 
                 children[decomposition.alias] = decomposition;
 
-                if (!get.symbol(',')) {
+                if (!peek.symbol(',')) {
                     break;
                 }
+
+                ensure.symbol(',');
             }
 
             ensure.symbol('}');

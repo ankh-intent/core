@@ -21,9 +21,11 @@ export class InterfaceBuilder extends BaseBuilder<DomainInterfaceNode, DomainInt
 
                 properties.set(property.identifier, property);
 
-                if (!get.symbol(',')) {
+                if (!peek.symbol(',')) {
                     break;
                 }
+
+                ensure.symbol(',');
             }
 
             ensure.symbol('}');
