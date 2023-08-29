@@ -1,13 +1,13 @@
 import { InspectOptionsStylized, inspect } from 'node:util';
 import { AbstractNode } from '@intent/kernel';
+import { DereferenceNode } from '../spread';
 import { ExpressionNode } from './ExpressionNode';
-import { ObjectNode } from '../literal';
 
 export class MatchStatementNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
     constructor(
         public body: N,
         public expression?: ExpressionNode,
-        public destruct?: ObjectNode,
+        public destruct?: DereferenceNode,
     ) {
         super();
     }

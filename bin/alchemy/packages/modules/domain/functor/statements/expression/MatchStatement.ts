@@ -2,12 +2,12 @@ import { Translated } from '@intent/translator';
 import { MatchStatementNode, BlockNode } from '@alchemy/ast';
 import { Block } from '../Block';
 import { Expression } from './Expression';
-import { ObjectLiteral } from './literal';
+import { Dereference } from './spread';
 
 export class MatchStatement extends Translated<MatchStatementNode<BlockNode>> {
     public body: Block;
     public expression?: Expression;
-    public destructor?: ObjectLiteral;
+    public destructor?: Dereference;
 
     toString() {
         const expression = this.expression ? `case (${this.expression || 'true'}) ` : '';

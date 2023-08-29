@@ -1,18 +1,15 @@
 import { AbstractNode } from '@intent/kernel';
 
-import { ExpressionNode, IdentifierNode } from '../expression';
+import { ExpressionNode } from '../expression';
 import { ReferenceNode } from '../reference';
+import { DereferenceNode } from '../spread';
 
 export class AssignmentTargetNode<N extends AbstractNode = AbstractNode> extends AbstractNode {
-    private readonly _isDeclaration: string;
-
     constructor(
         public target: ExpressionNode<N>,
         public type: ReferenceNode | null = null,
-        isDeclarationOf: string = '',
     ) {
         super();
-        this._isDeclaration = isDeclarationOf;
     }
 
     get children() {
@@ -20,10 +17,10 @@ export class AssignmentTargetNode<N extends AbstractNode = AbstractNode> extends
     }
 
     get declaredAs(): string {
-        return this._isDeclaration;
+        return this.isDeclaration() && this.target.base.identifier || '';
     }
 
-    isDeclaration(): this is AssignmentTargetNode<IdentifierNode> {
-        return !!this._isDeclaration;
+    isDeclaration(): this is AssignmentTargetNode<DereferenceNode> {
+        return this.target.base instanceof DereferenceNode;
     }
 }

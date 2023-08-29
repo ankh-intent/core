@@ -13,7 +13,11 @@ export class DereferenceNode extends AbstractNode {
         return [this.spread!].filter(Boolean);
     }
 
-    isSpread(): this is DereferenceNode & { spread: ObjectSpreadNode } {
+    isIdentifier(): this is this & { identifier: string } {
+        return !this.spread;
+    }
+
+    isSpread(): this is this & { spread: ObjectSpreadNode } {
         return !!this.spread;
     }
 }

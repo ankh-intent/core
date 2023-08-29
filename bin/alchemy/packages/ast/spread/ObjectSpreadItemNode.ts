@@ -17,7 +17,7 @@ export class ObjectSpreadItemNode<N extends AbstractNode> extends AbstractNode {
         return [this.spread!].filter(Boolean);
     }
 
-    isSpread<N extends AbstractNode>(): this is ObjectSpreadItemNode<N> {
+    isSpread(): this is this & { spread: N } {
         return !!this.spread;
     }
 }
