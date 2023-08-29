@@ -10,6 +10,7 @@ import {
     DomainInterfaceNode,
     GenericTemplatesNode,
     AssignmentStatementNode,
+    TraitNode,
 } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
@@ -23,6 +24,7 @@ export type DomainChildren = {
     assignment_statement: AssignmentStatementNode;
     expression: ExpressionNode;
     domain_interface: DomainInterfaceNode;
+    trait: TraitNode;
 };
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
@@ -45,7 +47,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         const domains = new Map<string, DomainNode>();
         const methods = new Map<string, FunctorNode>();
         const privates = new Map<string, AssignmentStatementNode>();
-        const traits = new Set<ExpressionNode>();
+        const traits = new Map<string, TraitNode>();
 
         while (true) {
             const domain = this.child.domain(tokens);
@@ -72,10 +74,14 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
                 continue;
             }
 
-            if (get.identifier('is')) {
-                const trait = this.child.expression(tokens);
+            if (get.identifier('trait')) {
+                const trait = this.child.trait(tokens);
 
-                traits.add(trait);
+                if (traits.has(trait.identifier)) {
+                    throw this.error(tokens, trait, `Trait with the same name "${trait.identifier}" already present`);
+                }
+
+                traits.set(trait.identifier, trait);
 
                 ensure.symbol(';');
 
@@ -145,6 +151,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
             uses,
             domains,
             methods,
+            traits,
             privates,
             ctor,
         );

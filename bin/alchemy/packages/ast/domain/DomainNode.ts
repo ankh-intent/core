@@ -5,6 +5,7 @@ import { ReferenceNode, GenericTemplatesNode } from '../reference';
 import { DomainInterfaceNode } from './interface';
 import { UsesNode } from '../use';
 import { AssignmentStatementNode } from '../block';
+import { TraitNode } from './TraitNode';
 
 export class DomainNode extends AbstractNode {
     constructor(
@@ -16,6 +17,7 @@ export class DomainNode extends AbstractNode {
         public uses: UsesNode,
         public domains: Map<string, DomainNode> = new Map(),
         public methods: Map<string, FunctorNode> = new Map(),
+        public traits: Map<string, TraitNode> = new Map(),
         public privates: Map<string, AssignmentStatementNode> = new Map(),
         public ctor: FunctorNode | null = null,
     ) {
@@ -29,6 +31,7 @@ export class DomainNode extends AbstractNode {
             this.interfaced,
             this.uses,
             this.ctor!,
+            ...this.traits.values(),
             ...this.domains.values(),
             ...this.privates.values(),
             ...this.methods.values(),
@@ -36,10 +39,11 @@ export class DomainNode extends AbstractNode {
     }
 
     inspect(): any {
-        const { domains, methods, privates, uses, parent, ctor, generics, interfaced, ...rest } = this;
+        const { domains, methods, traits, privates, uses, parent, ctor, generics, interfaced, ...rest } = this;
 
         return {
             ...(uses.map.size && { uses }),
+            ...(traits.size && { traits }),
             ...(domains.size && { domains }),
             ...(privates.size && { privates }),
             ...(methods.size && { methods }),
