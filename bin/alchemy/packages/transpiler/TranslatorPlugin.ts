@@ -43,6 +43,11 @@ export const globalRegistry = (new DeclarationRegistry())
         qualifier: Qualifier.create(domain, {
             name: 'Callable',
         }),
+    })))
+    .registerDeclaration(Domain.create((domain) => ({
+        qualifier: Qualifier.create(domain, {
+            name: 'Maybe',
+        }),
     })));
 
 export class TranslatorPlugin extends PatchPlugin<ModuleNode, Module, TranslationContext<any>> {
