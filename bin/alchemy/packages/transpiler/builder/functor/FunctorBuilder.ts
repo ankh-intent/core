@@ -23,10 +23,6 @@ export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
         const optional = !!get.symbol('?');
         const returns = get.symbol(':') ? (optional ? this.child.maybe_type(tokens) : this.child.type(tokens)) : null;
 
-        ensure.symbol('=>');
-
-        tokens.mark('IS_FUNCTOR');
-
         const body = this.child.functor_body(tokens);
 
         return new FunctorNode(

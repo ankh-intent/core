@@ -26,9 +26,11 @@ import { IfStatementChildren, IfStatementBuilder } from './IfStatementBuilder';
 import { LoopIteratorChildren, LoopIteratorBuilder } from './LoopIteratorBuilder';
 import { LoopStatementChildren, LoopStatementBuilder } from './LoopStatementBuilder';
 import { ReturnStatementChildren, ReturnStatementBuilder } from './ReturnStatementBuilder';
+import { EmptyBlockBuilder } from './EmptyBlockBuilder';
 
 export type BlockInvokers = {
     block_expression: BlockNode;
+    empty_block: BlockNode;
     block: BlockNode;
     block_item: StatementNode;
     block_statement: StatementNode;
@@ -63,6 +65,7 @@ export const factory = (invokers: BuilderInvokers<BlockDependencies>): Invokable
     return {
         block_expression: new BlockExpressionBuilder(invokers),
         block: new BlockBuilder(invokers),
+        empty_block: new EmptyBlockBuilder(invokers),
         block_item: new BlockItemBuilder(invokers),
         block_statement: new BlockStatementBuilder(invokers),
         decorated_statement: new DecoratedStatementBuilder(invokers),
