@@ -148,7 +148,7 @@ const checkComment = (source: SourceInterface, context: Context): BaseTokenTypes
             let char: string;
 
             while ((char = source.at(index++))) {
-                if ((char === '*') && (source.at(index + 1) === '/')) {
+                if ((char === '*') && (source.at(index) === '/')) {
                     context.pos = index + 1;
 
                     return BaseTokenTypes.TK_COMMENT;
