@@ -1,5 +1,5 @@
 import { Strings } from '@intent/kernel';
-import { DomainNode } from '@alchemy/ast';
+import { DomainNode, AssignmentStatementNode } from '@alchemy/ast';
 import { DomainInterface, ReferenceInterface, GenericInterface } from '../interfaces';
 import { DeclarationRegistry } from '../DeclarationRegistry';
 import { Qualifier } from '../reference';
@@ -15,6 +15,8 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public uses: Uses;
     public ctor?: Functor;
     public functors: Map<string, Functor> = new Map();
+    public privates: Map<string, AssignmentStatementNode> = new Map();
+    public inherits: boolean = false;
 
     public get identifier() {
         return this.qualifier.name;
@@ -24,6 +26,10 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
         const parts: string[] = [];
 
         parts.push(...[...this].map((d) => String(d)));
+
+        if (this.privates.size) {
+            parts.push(...[...this.privates].map(([n, v]) => `let ${n}${v};`));
+        }
 
         if (this.functors.size) {
             parts.push(...[...this.functors].map(([n, v]) => `${n}${v}`));

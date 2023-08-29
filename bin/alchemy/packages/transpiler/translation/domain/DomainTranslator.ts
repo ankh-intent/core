@@ -6,6 +6,7 @@ import {
     ReferenceNode,
     GenericTemplateNode,
     DomainInterfaceNode,
+    AssignmentStatementNode,
 } from '@alchemy/ast';
 import { Domain, DeclarationRegistry, Qualifier } from '@alchemy/modules';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
@@ -17,11 +18,13 @@ export type DomainTranslatorChildren = {
     domain: DomainNode;
     uses: UsesNode;
     functor: FunctorNode;
+    assignment_statement: AssignmentStatementNode;
 };
 
 export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTranslatorChildren> {
     translate(node: DomainNode, context: TranslationContext<any>): Domain {
         const { node: domain, context: inner } = context.spawn(Domain, node, (domain) => ({
+            inherits: node.inherits,
             qualifier: Qualifier.create(domain, {
                 name: node.identifier,
             }),
@@ -37,6 +40,10 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
 
         for (const sub of node.domains.values()) {
             this.child.domain(sub, inner);
+        }
+
+        for (const [identifier, assignmentNode] of node.privates) {
+            domain.privates.set(identifier, this.child.assignment_statement(assignmentNode, inner));
         }
 
         for (const [method, methodNode] of node.methods) {

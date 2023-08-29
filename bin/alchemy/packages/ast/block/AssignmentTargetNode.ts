@@ -19,6 +19,10 @@ export class AssignmentTargetNode<N extends AbstractNode = AbstractNode> extends
         return [this.target, this.type!].filter(Boolean);
     }
 
+    get declaredAs(): string {
+        return this._isDeclaration;
+    }
+
     isDeclaration(): this is AssignmentTargetNode<IdentifierNode> {
         return !!this._isDeclaration;
     }
