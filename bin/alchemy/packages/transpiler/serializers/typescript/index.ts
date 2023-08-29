@@ -38,11 +38,17 @@ import { LoopIteratorSerializer, LoopIteratorSerializerChildren } from './functo
 import { LoopStatementSerializer, LoopStatementSerializerChildren } from './functor/LoopStatementSerializer';
 import { ReturnStatementSerializer, ReturnStatementSerializerChildren } from './functor/ReturnStatementSerializer';
 import { StatementSerializer, StatementSerializerChildren } from './functor/StatementSerializer';
+import { DereferenceSerializer, DereferenceSerializerChildren } from './functor/DereferenceSerializer';
+import { ObjectSpreadSerializer, ObjectSpreadSerializerChildren } from './functor/ObjectSpreadSerializer';
+import { ObjectSpreadItemSerializer, ObjectSpreadItemSerializerChildren } from './functor/ObjectSpreadItemSerializer';
 import { ModuleSerializer, ModuleNodeSerializerChildren } from './ModuleSerializer';
 import { UsesSerializer, UsesSerializerChildren } from './UsesSerializer';
 import { UseSerializer, UseSerializerChildren } from './UseSerializer';
 
 type AlchemyGrammar =
+    DereferenceSerializerChildren &
+    ObjectSpreadSerializerChildren &
+    ObjectSpreadItemSerializerChildren &
     UseSerializerChildren &
     UsesSerializerChildren &
     FunctorSerializerChildren &
@@ -112,6 +118,9 @@ export class TypescriptSerializer extends RootSerializer<AlchemyGrammar> {
             chain: new ChainSerializer(this.invokers),
             indexed: new IndexedSerializer(this.invokers),
             is_domain: new IsDomainSerializer(this.invokers),
+            dereference: new DereferenceSerializer(this.invokers),
+            object_spread: new ObjectSpreadSerializer(this.invokers),
+            object_spread_item: new ObjectSpreadItemSerializer(this.invokers),
         };
     }
 }

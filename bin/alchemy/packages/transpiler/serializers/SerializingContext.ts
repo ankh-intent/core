@@ -1,4 +1,4 @@
-import { Container, Scope, ScopeInterface } from '@intent/kernel';
+import { Container, Scope, ScopeInterface, AbstractNode } from '@intent/kernel';
 import { SerializingScope } from '@intent/translator';
 import {
     DomainNode,
@@ -10,12 +10,12 @@ import {
     TypeGenericNode,
 } from '@alchemy/ast';
 
-interface Variable {
+export interface Variable {
     local: string;
     type: ReferenceNode;
 }
 
-interface InlineType {
+export interface InlineType {
     local: string;
     type: ReferenceNode;
     definition: Container<ReferenceNode>;
@@ -78,7 +78,15 @@ export class SerializingContext extends SerializingScope<ASerializingScopeInterf
         );
     }
 
-    inferType(_expression: ExpressionNode): ReferenceNode {
+    anyType(node: AbstractNode): ReferenceNode {
+        return Object.assign(new ReferenceNode(Object.assign(new QualifierNode('Any'), {
+            astRegion: node.astRegion,
+        }), null), {
+            astRegion: node.astRegion,
+        });
+    }
+
+    inferExpressionType(_expression: ExpressionNode): ReferenceNode {
         return new ReferenceNode(new QualifierNode('Any'), null);
     }
 

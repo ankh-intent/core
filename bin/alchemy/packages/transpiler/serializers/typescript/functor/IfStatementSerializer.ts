@@ -4,7 +4,7 @@ import {
     StatementNode,
     AssignmentStatementNode,
     ExpressionNode,
-    IdentifierNode,
+    IdentifierNode, DereferenceNode,
 } from '@alchemy/ast';
 import { NodeSerializer } from '../../NodeSerializer';
 import { SerializingContext } from '../../SerializingContext';
@@ -13,6 +13,7 @@ export type IfStatementSerializerChildren = {
     block: BlockNode;
     statement: StatementNode;
     identifier: IdentifierNode;
+    dereference: DereferenceNode;
     expression: ExpressionNode;
 };
 
@@ -28,7 +29,7 @@ export class IfStatementSerializer extends NodeSerializer<IfStatementNode, IfSta
             return `{${this.wrap([
                 condition + ';',
                 '',
-                `if (${this.child.identifier(node.condition.targetBase, sub)}) ${body}`,
+                `if (${this.child.dereference(node.condition.targetBase, sub)}) ${body}`,
             ])}}`;
         }
 
