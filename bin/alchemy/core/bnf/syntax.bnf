@@ -13,24 +13,12 @@ use_alias
   ::= 'as' identifier
 
 use_decomposition
-  ::= ':' '{' (use_decomposition_item ',')+ '}'
+  ::= ':' '{' use_decomposition_item (',' use_decomposition_item)* '}'
 
 use_decomposition_item
   ::= qualifier use_decomposition?
 
 // domain
-domain
-  ::= 'domain' identifier generic_definition? ('of' domain_reference)? '{' domain_body '}'
-
-domain_body
-  ::= constructor_properties? use? domain_clause* domain_method* constructor_method?
-
-domain_clause
-  ::= domain | enum
-
-domain_method
-  ::= identifier functor
-
 enum
   ::= 'enum' identifier? ('of' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
 
@@ -40,6 +28,33 @@ enum_clause
 enum_inheritor
   ::= ':' qualifier
 
+domain
+  ::= 'domain' identifier generic_definition? ('of' domain_reference)? '{' domain_body '}'
+
+domain_body ::=
+  constructor_properties?
+  use?
+  (domain_trait | domain_constraint)*
+  domain_clause*
+  domain_getter*
+  domain_method*
+  constructor_method?
+
+domain_trait
+  ::= 'native'? 'trait' identifier 'is' expression
+
+domain_constraint
+  ::= 'is' (identifier | callable | expression)
+
+domain_clause
+  ::= 'native'? (domain | enum)
+
+domain_getter
+  ::= 'native'? 'get' functor
+
+domain_method
+  ::= 'native'? identifier functor
+
 constructor_properties
   ::= '{' (constructor_property (',' constructor_property)* ','?)? '}'
 
@@ -47,7 +62,7 @@ constructor_property
   ::= identifier (':' type_reference ('=' expression)) | ('=' expression)
 
 constructor_method
-  ::= 'do'? functor
+  ::= functor
 
 // types
 type_reference
@@ -65,14 +80,11 @@ generic_definition
   ::= '<' identifier (',' identifier)* ','? '>'
 
 // functor
-functor
-  ::= '(' functor_args? ')' (':' type_reference)? '=>' functor_body
+functor // !
+  ::= (('(' functor_args? ')') | ('[' functor_args? ']')) ('?'? ':' type_reference)? '=>' block_expression
 
-functor_args
+functor_args // !
   ::= functor_arg (',' functor_arg)*
-
-functor_body
-  ::= block | expression
 
 functor_arg
   ::= identifier ':' type_reference ('=' expression)?
@@ -150,7 +162,11 @@ object_entry
 literal
   ::= string | number
 
-// functor body
+// blocks / statements / expressions
+
+block_expression
+  ::= block | expression
+
 block
   ::= '{' decorated_block_item* '}'
 

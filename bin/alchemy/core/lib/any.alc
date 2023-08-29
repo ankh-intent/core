@@ -1,4 +1,4 @@
-domain Any {
+native domain Any {
     trait Is is (other: Any) => this === other;
     trait Not is (other: Any) => !other;
     trait Void is Equal(@void);

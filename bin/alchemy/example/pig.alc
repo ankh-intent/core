@@ -1,4 +1,5 @@
 domain Pig {
+    use Alchemy.Number;
     use Alchemy.IO;
     use Game;
 

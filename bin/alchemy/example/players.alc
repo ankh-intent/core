@@ -1,15 +1,13 @@
-use Intent.Types: {
-  Math: {
-    PositiveNumber,
-  },
+use Alchemy: {
+  Number,
   Sure,
 };
 
 domain Players of Sure.Collection<Player> {
-  is (size > 1);
+  is () => (size > 1);
 
   domain Player {{
-    id: PositiveNumber;
-    name: Sure.String;
+    id: Number.Positive,
+    name: Sure.String,
   }}
 }

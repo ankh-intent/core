@@ -1,0 +1,12 @@
+domain Alchemy {
+    use Any;
+    use Number;
+    use String;
+    use Boolean;
+    use Callable;
+    use Collection;
+    use Iterator;
+    use Stream;
+    use Maybe;
+    use Sure;
+}
