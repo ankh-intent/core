@@ -4,51 +4,20 @@ import { PluginEnvironment, PatchPlugin } from '@intent/plugins';
 import { TranslationContext } from '@intent/translator';
 
 import { ModuleNode } from '@alchemy/ast';
-import { Module, DeclarationRegistry, Domain, Qualifier } from '@alchemy/modules';
+import { Module, DeclarationRegistry, Domain } from '@alchemy/modules';
 
 import { AlchemyTranslator } from './translation';
 
 export const globalRegistry = (new DeclarationRegistry())
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Number',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Boolean',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'String',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Set',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Map',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Array',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Callable',
-        }),
-    })))
-    .registerDeclaration(Domain.create((domain) => ({
-        qualifier: Qualifier.create(domain, {
-            name: 'Maybe',
-        }),
-    })));
+    .registerDeclaration(Domain.stub('Number'))
+    .registerDeclaration(Domain.stub('Boolean'))
+    .registerDeclaration(Domain.stub('String'))
+    .registerDeclaration(Domain.stub('Set'))
+    .registerDeclaration(Domain.stub('Map'))
+    .registerDeclaration(Domain.stub('Array'))
+    .registerDeclaration(Domain.stub('Callable'))
+    .registerDeclaration(Domain.stub('Maybe'))
+;
 
 export class TranslatorPlugin extends PatchPlugin<ModuleNode, Module, TranslationContext<any>> {
     private readonly translator: AlchemyTranslator;

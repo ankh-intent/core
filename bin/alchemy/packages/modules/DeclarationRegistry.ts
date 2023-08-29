@@ -46,13 +46,13 @@ export class DeclarationRegistry<N extends TreeNode> extends Translated<N> imple
     }
 
     getLocalDeclaration<D>(qualifier: Qualifier): (DeclarationInterface & D) | undefined {
-        const domain = this.getDeclarationByIdentifier<D>(qualifier.name);
+        const declaration = this.getDeclarationByIdentifier<D>(qualifier.name);
 
-        if (domain && qualifier.child) {
-            return domain.getLocalDeclaration<D>(qualifier.child);
+        if (declaration && qualifier.child) {
+            return declaration.getLocalDeclaration<D>(qualifier.child);
         }
 
-        return domain;
+        return declaration;
     }
 
     getDeclarationByIdentifier<D>(identifier: string): (DeclarationInterface & D) | undefined {

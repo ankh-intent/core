@@ -28,6 +28,15 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
         return this.qualifier.name;
     }
 
+    static stub(name: string): Domain {
+        return this.create((domain) => ({
+            modifier: DomainModifier.create(domain),
+            qualifier: Qualifier.create(domain, {
+                name,
+            }),
+        }))
+    }
+
     inspectId(): boolean {
         return true;
     }
