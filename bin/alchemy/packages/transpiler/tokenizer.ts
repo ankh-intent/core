@@ -23,7 +23,7 @@ export const pure = <TT extends BaseTokenTypes>(context: Context, preserveWhites
     let token: Token<TT> | undefined;
 
     while ((token = tokenizer(context))) {
-        if (token.type !== BaseTokenTypes.TK_WHITESPACE) {
+        if ((token.type !== BaseTokenTypes.TK_WHITESPACE) && (token.type !== BaseTokenTypes.TK_COMMENT)) {
             break;
         }
     }
