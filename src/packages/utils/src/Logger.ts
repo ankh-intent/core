@@ -3,10 +3,10 @@ import { yellow, blue } from 'colorette';
 type LogMethod = 'silent' | 'log' | 'warn' | 'error';
 
 export class Logger {
-    static SILENT = 1;
-    static INFO = 2;
-    static WARNING = 3;
-    static ERROR = 4;
+    static INFO = 1;
+    static WARNING = 2;
+    static ERROR = 3;
+    static SILENT = 4;
     private static map: Record<number, LogMethod> = {
         [Logger.SILENT]: 'silent',
         [Logger.INFO]: 'log',
@@ -20,6 +20,12 @@ export class Logger {
         [Logger.ERROR]: console.error.bind(console),
     };
 
+    public level: number;
+
+    public constructor(level: number = Logger.INFO) {
+        this.level = level;
+    }
+
     public classify(klass: string, args: any[]): [string, string, any[]] {
         return (
             (typeof args[0] === 'string')
@@ -29,6 +35,10 @@ export class Logger {
     }
 
     public log(level: number, ...args: any[]) {
+        if (level < this.level) {
+            return;
+        }
+
         const [classifier, message, out] = this.classify('', args);
 
         Logger.methods[level](

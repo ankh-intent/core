@@ -16,6 +16,7 @@ export interface EmitConfig {
     stats: boolean;
     config: boolean;
     verbose: boolean;
+    silent: boolean;
 }
 
 export interface OutputConfig {

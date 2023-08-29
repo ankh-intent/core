@@ -153,6 +153,12 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
                     'default': defaults.emit!.verbose,
                     'requiresArg': false,
                 },
+                'silent': {
+                    'type': 'boolean',
+                    'describe': 'Disable logging',
+                    'default': defaults.emit!.silent,
+                    'requiresArg': false,
+                },
             },
         };
     }
@@ -175,6 +181,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
             stats: this.get('output-emit-stats'),
             config: this.get('output-emit-config'),
             verbose: this.get('verbose'),
+            silent: this.get('silent'),
         };
     }
 

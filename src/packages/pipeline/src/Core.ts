@@ -45,6 +45,13 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
 
     public bootstrap(config: CoreConfig, configFactory: ConfigFactory<C, N, T>, observerFactory: PipelineObserverFactory<C, N, T>): C {
         const resolved = configFactory(this, config);
+
+        if (resolved.emit.silent) {
+            this.logger.level = Logger.SILENT;
+        } else if (resolved.emit.verbose) {
+            this.logger.level = Logger.INFO;
+        }
+
         const observer = observerFactory(this, resolved);
 
         this.events
