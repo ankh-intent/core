@@ -1,15 +1,16 @@
 abstract domain Collection<E, Context> {
-    to Iterator<E> is () => Iterator<E>.cast(this);
+    to Iterator<E> is () => iterate();
     to Boolean is () => this is NonEmpty;
     to Number is () => Number.parse(this);
     to String is () => this;
 
     trait Sized is () => with size;
     trait IsEmpty is () => !(this is Sized && size); // would cause reconciliation error on non-sized domains
-    trait Iterable<E> is () => Iterator<E>(this);
+    trait Iterable<E> is () => with iterate;
 
     abstract get size: Size;
 
+    abstract iterate(): Iterator<E>;
     abstract has(element: E): Boolean;
     abstract add(element: E): Size;
     abstract remove(element: E)?: Size;

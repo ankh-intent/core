@@ -1,6 +1,9 @@
+use Alchemy.Iterable;
+
 native domain Iterator<E> {{
         value?: E,
-        cast(iterable: Iterable<E>): self,
+        done(iterator: Iterator<E>): Boolean,
+        value(iterator: Iterator<E>)?: E,
     }
 
     trait IsDone is Void;
@@ -9,6 +12,6 @@ native domain Iterator<E> {{
 
     domain Value is {{
         value: E,
-        next(): Iterator<E>,
+        next()?: Iterator<E>,
     }}
 }

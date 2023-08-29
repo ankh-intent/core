@@ -20,8 +20,8 @@ domain Pig {
                 IO.print('Draw.');
                 IO.print('Final scores:');
 
-                each (let entry of scores) {
-                    match (entry) => with { player, score }: IO.print('\t"${player.name}": ${score}');
+                each (let { player, score } of scores) {
+                    IO.print('\t"${player.name}": ${score}');
                 }
             }
         };

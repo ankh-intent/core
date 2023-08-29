@@ -44,7 +44,7 @@ domain Game {{
   }
 
   (): Outcome => {
-    each (let roll of Roll.make(dice)) match (roll) => with { rolled }: {
+    each (let { rolled } of Roll.make(dice)) {
       if (rolled is PositiveNumber) {
         let scored = score[turn] + rolled;
 
