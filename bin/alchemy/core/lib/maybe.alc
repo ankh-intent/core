@@ -1,4 +1,4 @@
-native domain Maybe<E> {{ value: E | Void }
+native domain Maybe<E> {{ value?: E }
     trait NonEmpty is Not(Void);
 
     domain Value<E> is NonEmpty;

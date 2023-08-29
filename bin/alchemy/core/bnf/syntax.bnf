@@ -59,7 +59,7 @@ constructor_properties
   ::= '{' (constructor_property (',' constructor_property)* ','?)? '}'
 
 constructor_property
-  ::= identifier (':' type_reference ('=' expression)) | ('=' expression)
+  ::= identifier ('?'? ':' type_reference ('=' expression)) | ('=' expression)
 
 constructor_method
   ::= functor
