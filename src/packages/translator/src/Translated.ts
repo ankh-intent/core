@@ -72,15 +72,20 @@ export class Translated<N extends TreeNode, P extends TreeNode = any> {
         );
     }
 
+    inspectId(): boolean {
+        return false;
+    }
+
     [inspect.custom](depth: number, options: InspectOptionsStylized) {
         const { ast, parentNode, ...rest } = this;
         const set = (options as any).set || new Map();
 
         if (set.has(this)) {
-            return options.stylize(this.constructor.name, 'special') + ` (#${set.get(this)})`;
+            return options.stylize(this.constructor.name, 'special') + ` #${set.get(this)}`;
         }
 
-        set.set(this, set.size + 1);
+        const id = set.size + 1;
+        set.set(this, id);
         const filtered = Object.fromEntries(Object.entries(rest).filter(([, value]) => {
             if (value && typeof value === 'object') {
                 return !(('length' in (value as any)) && !(value as any).length);
@@ -95,6 +100,6 @@ export class Translated<N extends TreeNode, P extends TreeNode = any> {
                 : ' ' + inspect(filtered, { ...options, set } as any)
         );
 
-        return options.stylize(this.constructor.name, 'special') + result;
+        return (this.inspectId() ? `<#${id}> ` : '') + options.stylize(this.constructor.name, 'special') + result;
     }
 }

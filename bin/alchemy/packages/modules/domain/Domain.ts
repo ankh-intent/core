@@ -28,6 +28,10 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
         return this.qualifier.name;
     }
 
+    inspectId(): boolean {
+        return true;
+    }
+
     toString() {
         const parts: string[] = [];
 
