@@ -1,0 +1,8 @@
+native domain Math {{
+        sqrt(value: Number): Number;
+        pow(value: Number, base: Number): Number;
+        min(numbers: Iterator<Number>): Number;
+        max(numbers: Iterator<Number>): Number;
+        sum(numbers: Iterator<Number>): Number;
+    }
+}

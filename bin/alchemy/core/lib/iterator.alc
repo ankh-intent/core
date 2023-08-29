@@ -1,9 +1,7 @@
-use Alchemy.Iterable;
-
 native domain Iterator<E> {{
         value?: E,
         done(iterator: Iterator<E>): Boolean,
-        value(iterator: Iterator<E>)?: E,
+        current(iterator: Iterator<E>)?: E,
     }
 
     trait IsDone is Void;

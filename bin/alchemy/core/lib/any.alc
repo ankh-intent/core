@@ -1,11 +1,11 @@
 native domain Any {
-    trait Is is (other: Any) => this == other;
-    trait Not is (other: Any) => !other;
+    trait Is is (other: Any);
+    trait Not is (other: Any);
     trait Void is Equal();
 
     native domain Type<T> is {{
-            type: T;
-            native cast(value: Any)?: T;
+            type: T,
+            cast(value: Any)?: T,
         }
 
         to String;

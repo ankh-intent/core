@@ -1,4 +1,4 @@
 native domain IO {{
-    prompt(query: String): String;
-    print(text: String): Number;
+    prompt(query: String): String,
+    print(text: String): Number,
 }}

@@ -1,27 +1,21 @@
 native domain Number {{
-        @number value: self;
-        native parse(string: String, radix: Number): Number;
+        @number value: self,
+        parse(string: String, radix: Number): Number,
     }
 
     to String;
     to Boolean;
 
-    domain Random is {{
-        native (min: Number, max: Number): self;
-    }}
+    trait Equal is (other: Number) => value === other.value;
+    trait LessThan is (max: Number) => value < max;
+    trait GreaterThan is (min: Number) => value > min;
+    trait LessThanOrEqual is (max: Number) => (value < max) || Equal(max);
+    trait GreaterThanOrEqual is (min: Number) => (value > min) || Equal(min);
+    trait InRange is (min: Number, max: Number) => GreaterThanOrEqual(min) && LessThanOrEqual(max);
 
-    domain Math {
-        trait Equal is (other: Number) => value === other.value;
-        trait LessThan is (max: Number) => value < max;
-        trait GreaterThan is (min: Number) => value > min;
-        trait LessThanOrEqual is (max: Number) => (value < max) || Equal(max);
-        trait GreaterThanOrEqual is (min: Number) => (value > min) || Equal(min);
-        trait InRange is (min: Number, max: Number) => GreaterThanOrEqual(min) && LessThanOrEqual(max);
+    native domain Random is { (min: Number, max: Number): self }
 
-        augment domain Number {{
-            Natural is GreaterThanOrEqual(0);
-            Positive is GreaterThan(0);
-            Negative is LessThan(0);
-        }};
-    }
+    domain Natural is GreaterThanOrEqual(0);
+    domain Positive is GreaterThan(0);
+    domain Negative is LessThan(0);
 }

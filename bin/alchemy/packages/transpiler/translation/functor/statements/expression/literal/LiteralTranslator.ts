@@ -1,6 +1,6 @@
 import { AbstractNode } from '@intent/kernel';
 import { TranslationContext, Translated } from '@intent/translator';
-import { PrimitiveNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode } from '@alchemy/ast';
+import { PrimitiveNode, ObjectNode, ArrayNode, CallableNode, IdentifierNode, DereferenceNode } from '@alchemy/ast';
 import { AlchemyNodeTranslator } from '../../../../AlchemyNodeTranslator';
 
 export type LiteralTranslatorChildren = {
@@ -9,6 +9,7 @@ export type LiteralTranslatorChildren = {
     array_literal: ArrayNode;
     callable: CallableNode;
     identifier: IdentifierNode;
+    dereference: DereferenceNode;
 };
 
 export class LiteralTranslator extends AlchemyNodeTranslator<Translated<any>, LiteralTranslatorChildren> {
@@ -23,6 +24,8 @@ export class LiteralTranslator extends AlchemyNodeTranslator<Translated<any>, Li
             return this.child.callable(node, context);
         } else if (node instanceof IdentifierNode) {
             return this.child.identifier(node, context);
+        } else if (node instanceof DereferenceNode) {
+            return this.child.dereference(node, context);
         }
 
         throw new Error(`Unknown literal "${node.node}"`);
