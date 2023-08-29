@@ -18,6 +18,6 @@ export class AssignmentStatement<T extends Translated<N> = any, N extends Expres
     }
 
     toString() {
-        return `${this.isDeclaration() ? 'let ' : ''}}${this.target} ${this.operator} ${this.expression}`;
+        return `${this.target} ${this.operator} ${this.expression}`;
     }
 }

@@ -13,6 +13,6 @@ export class MatchStatement extends Translated<MatchStatementNode<BlockNode>> {
         const expression = this.expression ? `case (${this.expression || 'true'}) ` : '';
         const destructor = this.destructor ? `match ${this.destructor}` : '';
 
-        return `${expression}${String(destructor).split('\n').map((line) => line.trim()).join(' ')}${(expression || destructor) ? ': ' : 'else '}${this.body}}`;
+        return `${expression}${String(destructor).split('\n').map((line) => line.trim()).join(' ')}${(expression || destructor) ? ': ' : 'else '}${this.body}`;
     }
 }

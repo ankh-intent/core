@@ -14,7 +14,7 @@ export class InterfaceProperty extends Translated<DomainInterfacePropertyNode> {
         }${
             this.type ? `: ${this.type}` : ''
         }${
-            this.expression ? `= ${this.expression}` : ''
+            this.expression ? ` = ${this.expression}` : ''
         }`;
     }
 }

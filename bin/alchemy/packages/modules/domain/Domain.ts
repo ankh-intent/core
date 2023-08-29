@@ -11,13 +11,13 @@ import { Constraint } from './Constraint';
 import { DomainModifier } from './DomainModifier';
 
 export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
-    public modifier: DomainModifier;
     public qualifier: Qualifier;
     public parent?: ReferenceInterface;
-    public generics: GenericInterface[] = [];
-    public intf: Interface;
-    public uses: Uses;
+    public uses?: Uses;
     public ctor?: Functor;
+    public intf?: Interface;
+    public generics: GenericInterface[] = [];
+    public modifier: DomainModifier = DomainModifier.create(this);
     public functors: Map<string, Functor> = new Map();
     public traits: Map<string, Trait> = new Map();
     public constraints: Set<Constraint> = new Set();
@@ -30,10 +30,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
 
     static stub(name: string): Domain {
         return this.create((domain) => ({
-            modifier: DomainModifier.create(domain),
-            qualifier: Qualifier.create(domain, {
-                name,
-            }),
+            qualifier: Qualifier.create(domain, { name }),
         }))
     }
 
@@ -51,8 +48,17 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
 
     toString() {
         const parts: string[] = [];
+        const intf = (this.intf && String(this.intf) || '').trim();
 
-        parts.push(...[...this].map((d) => String(d)));
+        parts.push(...[...this].map((d) => String(d).trim()));
+
+        if (this.uses) {
+            const uses = Strings.indentStr(String(this.uses).trim(), '  ');
+
+            if (uses) {
+                parts.push(uses);
+            }
+        }
 
         if (this.traits.size) {
             parts.push(...[...this.traits].map(([, v]) => `${v};`));
@@ -63,7 +69,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
         }
 
         if (this.privates.size) {
-            parts.push(...[...this.privates].map(([n, v]) => `${v};`));
+            parts.push(...[...this.privates].map(([, v]) => `${v};`));
         }
 
         if (this.functors.size) {
@@ -74,19 +80,11 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
             parts.push(String(this.ctor));
         }
 
-        const uses = Strings.indent(String(this.uses).split('\n'), '  ').join('\n');
-        const body = Strings.indent(String(parts.join('\n')).split('\n'), '  ').join('\n');
+        const joined = Strings.indentStr(parts.join('\n').trim(), '  ');
+        const generics = this.generics.length ? `<${this.generics.join(', ')}>` : '';
+        const parent = this.parent ? ` extends ${this.parent}` : '';
+        const body = this.inherits ? joined.trim() : `{${intf}${joined.trim() ? `\n${joined}\n` : ''}}`;
 
-        return `${this.modifier}domain ${this.qualifier}${
-            this.generics.length ? `<${this.generics.join(', ')}>` : ''
-        }${
-            this.parent ? ` extends ${this.parent}` : ''
-        } {${
-            this.intf
-        }${
-            uses.trim() ? `\n${uses}\n` : ''
-        }${
-            body.trim() ? `\n${body}\n` : ''
-        }}`;
+        return `${this.modifier}domain ${this.qualifier}${generics}${parent} ${body}`;
     }
 }
