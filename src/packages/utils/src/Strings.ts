@@ -142,6 +142,10 @@ export class Strings {
         return lines.map((line) => pad + line);
     }
 
+    public static indentStr(str: string, pad: string): string {
+        return str.split('\n').map((line) => pad + line).join('\n');
+    }
+
     public static fold(a: (string | string[])[] | string): string[] {
         if (typeof a === 'string') {
             return [a];

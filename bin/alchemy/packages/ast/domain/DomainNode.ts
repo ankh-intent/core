@@ -1,8 +1,8 @@
 import { AbstractNode, TreeNode } from '@intent/kernel';
 
 import { FunctorNode } from '../functor';
-import { DomainInterfaceNode } from './interface';
 import { ReferenceNode, GenericTemplatesNode } from '../reference';
+import { DomainInterfaceNode } from './interface';
 import { UsesNode } from '../use';
 import { AssignmentStatementNode } from '../block';
 
@@ -16,7 +16,6 @@ export class DomainNode extends AbstractNode {
         public uses: UsesNode,
         public domains: Map<string, DomainNode> = new Map(),
         public methods: Map<string, FunctorNode> = new Map(),
-        // todo: transpile
         public privates: Map<string, AssignmentStatementNode> = new Map(),
         public ctor: FunctorNode | null = null,
     ) {
@@ -31,8 +30,8 @@ export class DomainNode extends AbstractNode {
             this.uses,
             this.ctor!,
             ...this.domains.values(),
-            ...this.methods.values(),
             ...this.privates.values(),
+            ...this.methods.values(),
         ].filter(Boolean);
     }
 

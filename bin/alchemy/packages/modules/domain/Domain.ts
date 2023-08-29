@@ -4,7 +4,7 @@ import { DomainInterface, ReferenceInterface, GenericInterface } from '../interf
 import { DeclarationRegistry } from '../DeclarationRegistry';
 import { Qualifier } from '../reference';
 import { Interface } from './interface';
-import { Functor } from './functor';
+import { Functor, AssignmentStatement } from './functor';
 import { Uses } from './use';
 
 export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
@@ -15,7 +15,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public uses: Uses;
     public ctor?: Functor;
     public functors: Map<string, Functor> = new Map();
-    public privates: Map<string, AssignmentStatementNode> = new Map();
+    public privates: Map<string, AssignmentStatement> = new Map();
     public inherits: boolean = false;
 
     public get identifier() {
@@ -28,7 +28,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
         parts.push(...[...this].map((d) => String(d)));
 
         if (this.privates.size) {
-            parts.push(...[...this.privates].map(([n, v]) => `let ${n}${v};`));
+            parts.push(...[...this.privates].map(([n, v]) => `${v};`));
         }
 
         if (this.functors.size) {
