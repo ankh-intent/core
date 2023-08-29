@@ -1,7 +1,6 @@
 native domain Boolean {{
-        @boolean value: self;
-
-        parse(str: String): self;
+        @boolean value: self,
+        parse(str: String): self,
     }
 
     to Number;

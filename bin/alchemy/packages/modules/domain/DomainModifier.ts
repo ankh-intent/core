@@ -29,6 +29,6 @@ export class DomainModifier extends Translated<DomainModifierNode> {
             parts.push('augment');
         }
 
-        return parts.join(' ');
+        return parts.join(' ') + ' ';
     }
 }

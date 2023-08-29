@@ -1,6 +1,6 @@
 import { Strings } from '@intent/kernel';
 import { DomainNode } from '@alchemy/ast';
-import { DomainInterface, ReferenceInterface, GenericInterface } from '../interfaces';
+import { DomainInterface, ReferenceInterface, GenericInterface, DeclarationInterface } from '../interfaces';
 import { DeclarationRegistry } from '../DeclarationRegistry';
 import { Qualifier } from '../reference';
 import { Interface } from './interface';
@@ -35,6 +35,14 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
                 name,
             }),
         }))
+    }
+
+    getLocalDeclaration<D>(qualifier: Qualifier): (DeclarationInterface & D) | undefined {
+        if (qualifier.name === 'self') {
+            return this as this & D;
+        }
+
+        return super.getLocalDeclaration(qualifier);
     }
 
     inspectId(): boolean {
