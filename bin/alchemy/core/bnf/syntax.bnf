@@ -197,14 +197,23 @@ statement
 assignment_token
   ::= '=' | '+=' | '-=' | '/=' | '*=' | '%=' | '**=' | '|=' | '&=' | '^='
 
+object_spread
+  ::= '{' (object_spread_item (',' object_spread_item)*) '}'
+
+object_spread_item
+  ::= ('...'? identifier) | (identifier (':' object_spread)?)
+
 declaration
-  ::= 'let' identifier (':' type_reference)
+  ::= 'let' dereference (':' type_reference)
+
+dereference
+  ::= identifier | object_spread
 
 match // !
   ::= 'match' (expression) '=>' '{' match_statement+ default_match_statement? '}'
 
 match_statement // !
-  ::= 'case' expression ('with' object)? ':' (block | decorated_block_item)
+  ::= 'case' expression ('with' dereference)? ':' (block | decorated_block_item)
 
 default_match_statement // !
   ::= 'else' (block | decorated_block_item)
