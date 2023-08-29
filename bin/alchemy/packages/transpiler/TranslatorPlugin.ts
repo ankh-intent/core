@@ -71,10 +71,8 @@ export class TranslatorPlugin extends PatchPlugin<ModuleNode, Module, Translatio
         env.stat({
             type: 'log',
             message: {
-                log: {
-                    module,
-                    moduleString: String(module),
-                },
+                log: String(module),
+                warn: module,
             },
         });
     }

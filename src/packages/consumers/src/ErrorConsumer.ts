@@ -1,5 +1,6 @@
 import { resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { yellow } from 'colorette';
 
 import {
     Logger,
@@ -14,6 +15,45 @@ import {
 
 const cwd = process.cwd();
 const internal = __dirname.replace(/[\\\/]packages[\\\/][^\\/]+[\\\/]src[\\\/]?.*?$/, sep + 'packages');
+
+const paths = [
+    ['identifier'],
+    ['reference'],
+    ['source', 'reference'],
+    ['dependency', 'identifiable', 'uri'],
+    ['path'],
+];
+const get = (data: any, path: string[]): any => {
+    for (const part of path) {
+        data = data[part];
+
+        if (!data) {
+            break;
+        }
+    }
+
+    return data;
+};
+const dereference = (data: any) => {
+    for (const path of paths) {
+        const found = get(data, path);
+
+        if (found) {
+            const ref = String(found);
+
+            if (ref) {
+                return cut(ref);
+            }
+        }
+    }
+
+    return '';
+};
+const cut = (path: string) => {
+    const common = Strings.commonPath([cwd, path]);
+
+    return common ? path.slice(common.length + 1) : path;
+}
 
 enum RefType {
     NATIVE,
@@ -71,13 +111,27 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
     }
 
     protected flushCauses(causes: CoreEvent<any>[]) {
-        const cause = causes.reduce(
-            ((str, { type, data: { identifier } }) => ((type + (identifier ? `(${identifier})` : '')) + '->' + str)),
-            '',
+        const [cause] = causes.reduceRight<[string, string]>(
+            (([str, ref], { type, data }) => {
+                const reference = dereference(data);
+                const deref = reference.replace(/(:\d+)+$/, '') || ref;
+
+                if (deref && ref !== deref) {
+                    str += `\n${yellow(deref) + ': '}`;
+                }
+
+                let result = str + ' -> ' + type;
+
+                return [
+                    result,
+                    deref,
+                ];
+            }),
+            ['', ''],
         );
         causes.splice(0, causes.length);
 
-        this.logger.log(Logger.ERROR, ' caused by:', cause);
+        this.logger.log(Logger.ERROR, ' caused by: %s', Strings.indentStr(cause, '  '));
     }
 
     protected report(error: Error) {
@@ -133,17 +187,13 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         );
         const max = Strings.max(stack.map((def) => def.ref));
 
-        const lines = stack
-            .map((def) => {
-                const common = Strings.commonPath([cwd, def.source]);
-                const source = common ? def.source.slice(common.length + 1) : def.source;
+        const lines = stack.map((def: ErrorRef) => {
+            const source = cut(def.source);
 
-                return (
-                    `\tat ${Strings.pad(def.ref, max, ' ')} (${source})${def.fileName ? ` (${def.fileName})` : ''}`
-                );
-            })
-            .filter(Boolean)
-        ;
+            return (
+                `\tat ${Strings.pad(def.ref, max, ' ')} (${source})${def.fileName ? ` (${def.fileName})` : ''}`
+            );
+        });
 
         return [e.message].concat(lines);
     }
@@ -171,13 +221,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
             .filter((line) => !!line.match(/^\s+at /i))
             .map(line => line.trim())
             .filter(Boolean)
-            .map((line) => {
-                return {
-                    type: RefType.NATIVE,
-                    combined: 1,
-                    ...this.parseFrame(line),
-                };
-            });
+            .map((line) => this.parseFrame(line));
     }
 
     /** @copyright https://github.com/stacktracejs/error-stack-parser */
@@ -196,6 +240,8 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         const ref = tokens.join(' ') || '';
 
         return {
+            type: RefType.NATIVE,
+            combined: 1,
             ref,
             source,
             fileName: (['eval', '<anonymous>'].indexOf(fileName) > -1) ? undefined : fileName,
@@ -236,7 +282,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
                 }
 
                 return acc;
-            }, [] as ErrorRef[])
+            }, [])
             .map((def) => (
                 (def.type === RefType.AST)
                     ? { ...def, ref: `AST::${def.ref}` }
