@@ -7,6 +7,7 @@ import { Interface } from './interface';
 import { Functor, AssignmentStatement } from './functor';
 import { Uses } from './use';
 import { Trait } from './Trait';
+import { Constraint } from './Constraint';
 
 export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
     public qualifier: Qualifier;
@@ -17,6 +18,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public ctor?: Functor;
     public functors: Map<string, Functor> = new Map();
     public traits: Map<string, Trait> = new Map();
+    public constraints: Set<Constraint> = new Set();
     public privates: Map<string, AssignmentStatement> = new Map();
     public inherits: boolean = false;
 
@@ -31,6 +33,10 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
 
         if (this.traits.size) {
             parts.push(...[...this.traits].map(([, v]) => `${v};`));
+        }
+
+        if (this.constraints.size) {
+            parts.push(...[...this.constraints].map((v) => `${v};`));
         }
 
         if (this.privates.size) {

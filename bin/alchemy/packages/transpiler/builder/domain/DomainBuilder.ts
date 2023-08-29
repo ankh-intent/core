@@ -11,6 +11,7 @@ import {
     GenericTemplatesNode,
     AssignmentStatementNode,
     TraitNode,
+    ConstraintNode,
 } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
@@ -25,6 +26,7 @@ export type DomainChildren = {
     expression: ExpressionNode;
     domain_interface: DomainInterfaceNode;
     trait: TraitNode;
+    constraint: ConstraintNode;
 };
 
 export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
@@ -48,6 +50,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         const methods = new Map<string, FunctorNode>();
         const privates = new Map<string, AssignmentStatementNode>();
         const traits = new Map<string, TraitNode>();
+        const constraints = new Set<ConstraintNode>();
 
         while (true) {
             const domain = this.child.domain(tokens);
@@ -82,6 +85,16 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
                 }
 
                 traits.set(trait.identifier, trait);
+
+                ensure.symbol(';');
+
+                continue;
+            }
+
+            if (get.identifier('is')) {
+                const constraint = this.child.constraint(tokens);
+
+                constraints.add(constraint);
 
                 ensure.symbol(';');
 
@@ -152,6 +165,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
             domains,
             methods,
             traits,
+            constraints,
             privates,
             ctor,
         );

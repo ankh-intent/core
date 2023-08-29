@@ -8,6 +8,7 @@ import {
     DomainInterfaceNode,
     AssignmentStatementNode,
     TraitNode,
+    ConstraintNode,
 } from '@alchemy/ast';
 import { Domain, DeclarationRegistry, Qualifier } from '@alchemy/modules';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
@@ -21,6 +22,7 @@ export type DomainTranslatorChildren = {
     functor: FunctorNode;
     assignment_statement: AssignmentStatementNode;
     trait: TraitNode;
+    constraint: ConstraintNode;
 };
 
 export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTranslatorChildren> {
@@ -47,6 +49,10 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
 
         for (const [identifier, traitNode] of node.traits) {
             domain.traits.set(identifier, this.child.trait(traitNode, inner));
+        }
+
+        for (const constraintNode of node.constraints) {
+            domain.constraints.add(this.child.constraint(constraintNode, inner));
         }
 
         for (const [identifier, assignmentNode] of node.privates) {
