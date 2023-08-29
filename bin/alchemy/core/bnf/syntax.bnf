@@ -1,7 +1,7 @@
 
 // module
 module
-  ::= use* domain
+  ::= use* domain_clause
 
 qualifier
   ::= identifier ('.' qualifier)?
@@ -20,7 +20,7 @@ use_decomposition_item
 
 // domain
 enum
-  ::= 'enum' identifier? ('of' domain_reference) '{' (enum_clause (',' enum_clause)*)? '}'
+  ::= 'enum' identifier? ('of' domain_reference) '{' (enum_clause (',' enum_clause)*) '}'
 
 enum_clause
   ::= (enum_inheritor | identifier) '=' expression
@@ -41,28 +41,34 @@ domain_body ::=
   constructor_method?
 
 domain_trait
-  ::= 'native'? 'trait' identifier 'is' expression
+  ::= decorator? modifier? 'trait' identifier 'is' expression
 
 domain_constraint
-  ::= 'is' (identifier | callable | expression)
+  ::= decorator? 'is' (identifier | callable | expression)
+
+modifier
+  ::= 'native' | 'abstract'
+
+domain_modifier
+  ::= decorator? (modifier | 'augment')
 
 domain_clause
-  ::= 'native'? (domain | enum)
+  ::= domain_modifier* (domain | enum)
 
 domain_getter
-  ::= 'native'? 'get' functor
+  ::= decorator? modifier? 'get' functor
 
 domain_method
-  ::= 'native'? identifier functor
+  ::= decorator? modifier? identifier functor
 
 constructor_properties
   ::= '{' (constructor_property (',' constructor_property)* ','?)? '}'
 
 constructor_property
-  ::= identifier ('?'? ':' type_reference ('=' expression)) | ('=' expression)
+  ::= decorator? identifier ('?'? ':' type_reference ('=' expression)) | ('=' expression)
 
 constructor_method
-  ::= functor
+  ::= decorator? functor
 
 // types
 type_reference
@@ -210,7 +216,7 @@ break
   ::= ('break' | 'continue') (('@' identifier) | expression)?
 
 return
-  ::= 'return' expression
+  ::= 'return' expression?
 
 loop_iterator
   ::= declaration 'of' expression
