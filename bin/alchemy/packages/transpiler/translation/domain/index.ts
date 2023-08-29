@@ -9,12 +9,12 @@ import {
     DomainInterfaceNode,
 } from '@alchemy/ast';
 
-import { DomainReferenceTranslator, DomainReferenceTranslatorChildren } from './DomainReferenceTranslator';
-import { DomainTranslator, DomainTranslatorChildren } from './DomainTranslator';
-import { GenericTemplateTranslator, GenericTemplateTranslatorChildren } from './GenericTemplateTranslator';
+import { DomainReferenceTranslatorChildren, DomainReferenceTranslator } from './DomainReferenceTranslator';
+import { DomainTranslatorChildren, DomainTranslator } from './DomainTranslator';
+import { GenericTemplateTranslatorChildren, GenericTemplateTranslator } from './GenericTemplateTranslator';
 import { InterfacePropertyTranslatorChildren, InterfacePropertyTranslator } from './InterfacePropertyTranslator';
 import { InterfaceTranslatorChildren, InterfaceTranslator } from './InterfaceTranslator';
-import { QualifierTranslator, QualifierTranslatorChildren } from './QualifierTranslator';
+import { QualifierTranslatorChildren, QualifierTranslator } from './QualifierTranslator';
 
 export type DomainInvokers = {
     domain: DomainNode;

@@ -8,7 +8,8 @@ import {
     EnumNode,
     ExpressionNode,
     DomainInterfaceNode,
-    GenericTemplatesNode, AssignmentStatementNode,
+    GenericTemplatesNode,
+    AssignmentStatementNode,
 } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 

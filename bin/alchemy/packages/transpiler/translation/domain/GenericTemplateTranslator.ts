@@ -9,9 +9,10 @@ export type GenericTemplateTranslatorChildren = {
 
 export class GenericTemplateTranslator extends AlchemyNodeTranslator<Generic, GenericTemplateTranslatorChildren> {
     translate(node: GenericTemplateNode, context: TranslationContext<any>): Generic {
-        const { node: generic, context: inner } = context.spawn(Generic, node);
+        const { node: generic, context: inner } = context.spawn(Generic, node, {
+            identifier: node.identifier.name,
+        });
 
-        generic.identifier = node.identifier.name;
         generic.domain = Domain.create(generic, (domain) => ({
             qualifier: Qualifier.create(domain, {
                 name: generic.identifier,
