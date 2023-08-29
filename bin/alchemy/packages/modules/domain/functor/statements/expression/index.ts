@@ -6,3 +6,4 @@ export * from './MatchStatement';
 export * from './literal';
 export * from './postfix';
 export * from './unary';
+export * from './spread';
