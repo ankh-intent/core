@@ -3,8 +3,8 @@ import { ObjectSpreadNode } from './ObjectSpreadNode';
 
 export class DereferenceNode extends AbstractNode {
     constructor(
-        public identifier: string,
-        public spread?: ObjectSpreadNode,
+        public identifier: string | null = null,
+        public spread: ObjectSpreadNode | null = null,
     ) {
         super();
     }

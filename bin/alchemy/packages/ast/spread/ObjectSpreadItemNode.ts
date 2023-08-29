@@ -3,8 +3,8 @@ import { AbstractNode } from '@intent/kernel';
 export class ObjectSpreadItemNode<N extends AbstractNode> extends AbstractNode {
     constructor(
         public identifier: string,
-        public isRest: boolean,
-        public spread?: N,
+        public spread: N | null = null,
+        public isRest: boolean = false,
     ) {
         super();
 

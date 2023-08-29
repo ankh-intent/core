@@ -45,8 +45,9 @@ import { UnaryChildren, UnaryBuilder } from './UnaryBuilder';
 import { NumerativeChildren, NumerativeBuilder } from './NumerativeBuilder';
 import { ApplicativeChildren, ApplicativeBuilder } from './ApplicativeBuilder';
 import { factory as matchBuildersFactory, MatchDependencies, MatchInvokers } from './match';
+import { factory as dereferenceBuildersFactory, DereferenceDependencies, DereferenceInvokers } from './spread';
 
-export type ExpressionInvokers = MatchInvokers & {
+export type ExpressionInvokers = {
     expression: ExpressionNode;
     identifier: IdentifierNode;
     comparison: ExpressionNode;
@@ -72,7 +73,11 @@ export type ExpressionInvokers = MatchInvokers & {
     object: ObjectNode;
     object_property: ObjectPropertyNode;
     identifier_expression: ExpressionNode<IdentifierNode>;
-};
+} &
+    MatchInvokers &
+    DereferenceInvokers
+    ;
+
 export type ExpressionDependencies =
     OperationChildren &
     ComparisonChildren &
@@ -99,6 +104,7 @@ export type ExpressionDependencies =
     CallableChildren &
     ObjectPropertyChildren &
     ExpressionChildren &
+    DereferenceDependencies &
     MatchDependencies;
 
 export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): InvokableVisitors<ExpressionInvokers> => {
@@ -129,6 +135,7 @@ export const factory = (invokers: BuilderInvokers<ExpressionDependencies>): Invo
         object_property: new ObjectPropertyBuilder(invokers),
         identifier_expression: new IdentifierExpressionBuilder(invokers),
 
+        ...dereferenceBuildersFactory(invokers),
         ...matchBuildersFactory(invokers),
     };
 };
