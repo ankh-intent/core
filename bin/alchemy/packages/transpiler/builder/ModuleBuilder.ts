@@ -14,7 +14,7 @@ export class ModuleBuilder extends BaseBuilder<ModuleNode, ModuleChildren> {
         const domain = this.child.domain(tokens);
 
         if (!domain) {
-            this.error(tokens, 'module', 'Domain declaration expected');
+            throw this.error(tokens, 'module', 'Domain declaration expected');
         }
 
         return new ModuleNode(
