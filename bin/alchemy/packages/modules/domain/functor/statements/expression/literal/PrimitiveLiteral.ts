@@ -6,6 +6,6 @@ export class PrimitiveLiteral extends Translated<PrimitiveNode> {
     public type: PrimitiveType;
 
     toString() {
-        return `${this.value}`;
+        return this.type === PrimitiveType.String ? `\`${this.value}\`` : `${this.value}`;
     }
 }

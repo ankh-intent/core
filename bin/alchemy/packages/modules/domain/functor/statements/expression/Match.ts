@@ -1,3 +1,4 @@
+import { Strings } from '@intent/kernel';
 import { Translated } from '@intent/translator';
 import { ExpressionNode, MatchNode } from '@alchemy/ast';
 
@@ -8,6 +9,8 @@ export class Match extends Translated<MatchNode> {
     public statements: MatchStatement[] = [];
 
     toString() {
-        return `match (${this.expression}) => {\n${this.statements.join('\n')}\n}`;
+        return `match (${this.expression}) => {\n${
+            Strings.indent(this.statements.join('\n').split('\n'), '  ').join('\n')
+        }\n}`;
     }
 }
