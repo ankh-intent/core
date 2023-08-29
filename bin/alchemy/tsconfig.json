@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": ".",
-        "rootDir": "../..",
+        "rootDir": ".",
         "inlineSourceMap": true,
         "noEmit": true,
         "module": "CommonJS",
@@ -17,12 +17,7 @@
         "lib": [
             "ESNext"
         ],
-        "baseUrl": ".",
-        "paths": {
-            "@alchemy/*": [
-                "./packages/*"
-            ]
-        }
+        "baseUrl": "."
     },
     "exclude": [
         "../../node_modules",

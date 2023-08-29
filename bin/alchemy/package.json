@@ -1,4 +1,5 @@
 {
+    "private": true,
     "name": "alchemy",
     "version": "0.0.10",
     "description": "Alchemy language compiler (Intent DSL)",
@@ -8,7 +9,11 @@
         "run": "./alchemy.ts"
     },
     "dependencies": {
-        "@intent/kernel": "*",
-        "@intent/serializer": "*"
+        "@intent/kernel": "workspace:*",
+        "@intent/watchdog": "workspace:*",
+        "@intent/pipeline": "workspace:*",
+        "@alchemy/ast": "workspace:*",
+        "@alchemy/modules": "workspace:*",
+        "@alchemy/transpiler": "workspace:*"
     }
 }

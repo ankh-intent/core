@@ -1,7 +1,7 @@
-import { Container } from '@intent/kernel';
-import { SourceInterface } from '@intent/kernel';
+import { Container, SourceInterface } from '@intent/kernel';
 import { TranspilerConfig, WatchedTranspilerPipelineObserver, Core } from '@intent/pipeline';
 
+import { ModuleNode, DomainNode, UsesNode } from '@alchemy/ast';
 import {
     Module,
     QualifierResolver,
@@ -9,7 +9,6 @@ import {
     LinkedModulesResolverInterface,
     Qualifier,
 } from '@alchemy/modules';
-import { ModuleNode, DomainNode, UsesNode } from '@alchemy/ast';
 import { AlchemyTokenMatcher, AlchemyBuilder, DependencyResolvingPlugin, TranslatorPlugin } from '@alchemy/transpiler';
 
 export class TranspilerPipelineObserver
