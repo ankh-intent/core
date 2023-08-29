@@ -10,9 +10,15 @@ export abstract class PatchPlugin<N extends TreeNode, T extends Identifiable<N>,
     }
 
     process(env: PluginEnvironment<PatchedASTEvent<N, T>>) {
+        const ast = env.event.data.dependency.identifiable.ast;
+
+        if (!ast) {
+            throw new Error(`Patch plugin received PatchedASTEvent with null ast dependency!`);
+        }
+
         return this.visitRoot(
             env,
-            env.event.data.dependency.identifiable.ast!,
+            ast,
             this.createContext(env),
         );
     }
