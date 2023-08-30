@@ -9,7 +9,7 @@ export type UnaryChildren = {
 
 const OPS = ['+', '-', '++', '--', '!'];
 const INC = ['++', '--'];
-const COM = ['typeof'];
+const COM = ['typeof', 'with'];
 
 export class UnaryBuilder extends BaseBuilder<ExpressionNode, UnaryChildren> {
     protected build(tokens: TokenMatcher, { peek, ensure }: TypedTokenMatcherInterface) {
