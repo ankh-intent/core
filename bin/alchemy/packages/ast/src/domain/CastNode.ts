@@ -1,15 +1,16 @@
 import { AbstractNode, TreeNode } from '@intent/kernel';
-import { ExpressionNode } from '../expression';
+import { FunctorNode } from '../functor';
+import { ReferenceNode } from '../reference';
 
 export class CastNode extends AbstractNode {
     constructor(
-        public identifier: string,
-        public expression: ExpressionNode,
+        public type: ReferenceNode,
+        public functor: FunctorNode | null,
     ) {
         super();
     }
 
     get children(): TreeNode[] {
-        return [this.expression];
+        return [this.functor!].filter(Boolean);
     }
 }

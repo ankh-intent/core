@@ -12,6 +12,10 @@ export class ReferenceNode extends AbstractNode {
         super();
     }
 
+    toString() {
+        return `${this.qualifier.path()}${this.generic ? String(this.generic) : ''}${this.isArray ? '[]' : ''}`;
+    }
+
     public get children() {
         return [this.qualifier, this.generic!].filter(Boolean);
     }

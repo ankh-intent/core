@@ -9,6 +9,7 @@ import { Uses } from './use';
 import { Trait } from './Trait';
 import { Constraint } from './Constraint';
 import { DomainModifier } from './DomainModifier';
+import { Cast } from './Cast';
 
 export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
     public qualifier: Qualifier;
@@ -19,6 +20,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public generics: GenericInterface[] = [];
     public modifier: DomainModifier = DomainModifier.create(this);
     public functors: Map<string, Functor> = new Map();
+    public casts: Map<string, Cast> = new Map();
     public traits: Map<string, Trait> = new Map();
     public constraints: Set<Constraint> = new Set();
     public privates: Map<string, AssignmentStatement> = new Map();
@@ -63,6 +65,10 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
 
         if (this.traits.size) {
             parts.push(...[...this.traits].map(([, v]) => `${v};`));
+        }
+
+        if (this.casts.size) {
+            parts.push(...[...this.casts].map(([, v]) => `${v};`));
         }
 
         if (constraints.length && !this.inherits) {

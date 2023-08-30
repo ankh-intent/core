@@ -7,6 +7,10 @@ export class TypeGenericNode<T extends AbstractNode> extends AbstractNode {
         super();
     }
 
+    toString() {
+        return this.genericTypes.join(', ');
+    }
+
     public get children() {
         return this.genericTypes;
     }

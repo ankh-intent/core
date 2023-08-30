@@ -1,13 +1,13 @@
 import { Translated } from '@intent/translator';
 import { CastNode } from '@alchemy/ast';
-import { Expression } from './functor';
 import { ReferenceInterface } from '../interfaces';
+import { Functor } from './functor';
 
 export class Cast extends Translated<CastNode> {
     public type: ReferenceInterface;
-    public expression?: Expression;
+    public functor: Functor | null;
 
     toString() {
-        return `to ${this.type} ${this.expression ? `is ${this.expression}` : ''}`;
+        return `to ${this.type}${this.functor ? ` is ${this.functor}` : ''}`;
     }
 }

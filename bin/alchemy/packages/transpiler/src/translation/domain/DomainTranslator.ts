@@ -1,5 +1,6 @@
 import { TranslationContext } from '@intent/translator';
 import {
+    CastNode,
     DomainNode,
     FunctorNode,
     UsesNode,
@@ -25,6 +26,7 @@ export type DomainTranslatorChildren = {
     assignment_statement: AssignmentStatementNode;
     trait: TraitNode;
     constraint: ConstraintNode;
+    cast: CastNode;
 };
 
 export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTranslatorChildren> {
@@ -49,6 +51,10 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
         }
 
         domain.parent = node.parent && this.child.reference(node.parent, inner);
+
+        for (const [identifier, castNode] of node.casts) {
+            domain.casts.set(identifier, this.child.cast(castNode, inner));
+        }
 
         for (const [identifier, traitNode] of node.traits) {
             domain.traits.set(identifier, this.child.trait(traitNode, inner));
