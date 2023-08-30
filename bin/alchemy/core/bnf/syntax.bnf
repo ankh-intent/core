@@ -142,7 +142,7 @@ unary // !
   ::= unary_operator* unary_mutator? assignable unary_mutator? call*
 
 unary_operator // !
-  ::= '+' | '-' | '~' | '!' | 'typeof'
+  ::= '+' | '-' | '~' | '!' | 'typeof' | 'with'
 
 unary_mutator // !
   ::= '--' | '++'
