@@ -49,6 +49,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     toString() {
         const parts: string[] = [];
         const intf = (this.intf && String(this.intf) || '').trim();
+        const constraints = (this.constraints.size ? [...this.constraints].map((v) => String(v)) : []);
 
         parts.push(...[...this].map((d) => String(d).trim()));
 
@@ -64,8 +65,8 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
             parts.push(...[...this.traits].map(([, v]) => `${v};`));
         }
 
-        if (this.constraints.size) {
-            parts.push(...[...this.constraints].map((v) => `${v};`));
+        if (constraints.length && !this.inherits) {
+            parts.push(constraints.map((v) => `${v};`).join('\n'));
         }
 
         if (this.privates.size) {
@@ -80,11 +81,12 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
             parts.push(String(this.ctor));
         }
 
-        const joined = Strings.indentStr(parts.join('\n').trim(), '  ');
         const generics = this.generics.length ? `<${this.generics.join(', ')}>` : '';
         const parent = this.parent ? ` extends ${this.parent}` : '';
-        const body = this.inherits ? joined.trim() : `{${intf}${joined.trim() ? `\n${joined}\n` : ''}}`;
+        const joined = Strings.indentStr(parts.join('\n').trim(), '  ');
+        const body = `{${intf}${joined.trim() ? `\n${joined}\n` : ''}}`;
+        const decl = this.inherits ? constraints.join(', ') + ' ' + body : body;
 
-        return `${this.modifier}domain ${this.qualifier}${generics}${parent} ${body}`;
+        return `${this.modifier}domain ${this.qualifier}${generics}${parent} ${decl}`;
     }
 }
