@@ -34,7 +34,7 @@ export class ParseAfterRead<N extends TreeNode, TT extends BaseTokenTypes> exten
         const ast = this.parser.visit(tokens);
 
         if (!ast) {
-            throw new SyntaxError('parse(source)', `Can't parse source`, source, 0);
+            throw new SyntaxError('parse(source)', `Can't parse source`, source.positional(0));
         }
 
         return new ParsedEvent({

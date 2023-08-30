@@ -154,7 +154,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
                         '2 - error-only',
                         '3 - sparse',
                         '4 - normal',
-                        '5 - with native errors stacks in stack-traces',
+                        '5 - with native error stacks in stack-traces',
                         '6 - with traces'].join(', ') +
                         ')',
                     'default': defaults.emit!.verbosity,

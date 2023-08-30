@@ -35,9 +35,9 @@ export class ReadAfterUpdate extends AbstractConsumer<UpdateEvent, any> {
             })
             .catch((e: Error) => {
                 const source = reference?.source || new StringSource('', path);
-                const pos = reference?.source.position(reference) || 0;
+                const pos = source.positional(reference || 0);
 
-                this.emit(new ErrorEvent({ error: new SyntaxError(e.message, 'read(source)', source, pos, e) }, event));
+                this.emit(new ErrorEvent({ error: new SyntaxError(e.message, 'read(source)', pos, e) }, event));
             })
         ;
     }

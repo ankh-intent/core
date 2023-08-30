@@ -142,7 +142,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
     }
 
     private describeSyntaxError(error: SyntaxError): ErrorRef[] | undefined {
-        const source = error.source?.location(error.pos).toString();
+        const source = error.pos.origin.toString();
         const fileName = resolveRelative(source);
 
         return [{

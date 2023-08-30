@@ -165,8 +165,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
         return new SyntaxError(
             message,
             expectation,
-            this.source,
-            this.last,
+            this.source.positional(this.last),
             parent,
         );
     }

@@ -19,8 +19,7 @@ export class DereferenceSerializer extends NodeSerializer<DereferenceNode, Deref
                 throw new SyntaxError(
                     `Variable "${identifier}" already exists in the scope`,
                     node.node,
-                    node.astRegion.source,
-                    node.astRegion.position,
+                    node.astRegion.positional,
                 );
             }
 
@@ -35,8 +34,7 @@ export class DereferenceSerializer extends NodeSerializer<DereferenceNode, Deref
         throw new SyntaxError(
             `Dereference is neither an identifier, nor an object spread`,
             node.node,
-            node.astRegion.source,
-            node.astRegion.position,
+            node.astRegion.positional,
         );
     }
 }

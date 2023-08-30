@@ -1,4 +1,4 @@
-import { OriginInterface, SourceInterface, RegionInterface } from '../interfaces';
+import { OriginInterface, SourceInterface, RegionInterface, PositionalInterface } from '../interfaces';
 
 export class Region implements RegionInterface {
     public from: OriginInterface;
@@ -15,6 +15,14 @@ export class Region implements RegionInterface {
 
     get position() {
         return this.source.position(this.from);
+    }
+
+    get positional(): PositionalInterface {
+        return {
+            source: this.source,
+            pos: this.position,
+            origin: this.from,
+        };
     }
 
     extract(): string {

@@ -1,6 +1,12 @@
 import { inspect } from 'node:util';
 
-import { SourceInterface, RangeInterface, OriginInterface, LocationInterface } from '../interfaces';
+import {
+    SourceInterface,
+    RangeInterface,
+    OriginInterface,
+    LocationInterface,
+    PositionalInterface,
+} from '../interfaces';
 import { Origin } from './Origin';
 
 export class Source implements SourceInterface {
@@ -38,6 +44,24 @@ export class Source implements SourceInterface {
             line,
             col,
         );
+    }
+
+    public line(line: number): string {
+        const start = this.position({ line, column: 1 });
+        const end = this.position({ line, column: Infinity });
+
+        return this.extract(start, end).replace(/(^\n+|\n+$)/, '');
+    }
+
+    public positional(position: number | LocationInterface): PositionalInterface {
+        const pos = typeof position === 'number' ? position : this.position(position);
+        const origin = this.location(pos);
+
+        return {
+            source: this,
+            pos,
+            origin,
+        };
     }
 
     public position({ line, column }: LocationInterface): number {

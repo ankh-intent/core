@@ -20,8 +20,7 @@ export class ObjectSpreadItemSerializer extends NodeSerializer<ObjectSpreadItemN
             throw new SyntaxError(
                 `Variable "${identifier}" already exists in the scope`,
                 node.node,
-                node.astRegion.source,
-                node.astRegion.position,
+                node.astRegion.positional,
             );
         }
 

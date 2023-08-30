@@ -8,8 +8,7 @@ export class TranslationError extends SyntaxError {
         super(
             message,
             node.node,
-            node.astRegion.source,
-            node.astRegion.position,
+            node.astRegion.positional,
             parent,
         );
     }
