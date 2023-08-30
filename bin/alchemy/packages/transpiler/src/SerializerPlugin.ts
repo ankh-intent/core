@@ -30,14 +30,9 @@ export class SerializerPlugin extends PatchPlugin<ModuleNode, Module, Serializin
 
         // console.log(root, module);
 
-        env.stat({
-            type: 'log',
-            message: {
-                log: {
-                    module,
-                    moduleString: String(module),
-                },
-            },
+        env.log({
+            warn: String(module),
+            error: module,
         });
     }
 }

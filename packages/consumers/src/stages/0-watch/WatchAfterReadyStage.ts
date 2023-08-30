@@ -44,12 +44,7 @@ export class WatchAfterReadyStage<U extends UnitInterface, N extends TreeNode, T
     public process(event: ReadyEvent) {
         this.watchdog.start();
 
-        this.stat(event, {
-            type: 'log',
-            message: {
-                log: 'Watching for changes...',
-            },
-        });
+        this.log(event, { log: 'Watching for changes...' });
 
         return event;
     }

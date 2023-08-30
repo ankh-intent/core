@@ -33,7 +33,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
 
     public constructor() {
         super();
-        this.logger = new CoreLogger();
+        this.logger = new CoreLogger(Logger.LOG);
         this.events = new CoreEventBus();
         this.plugins = new PluginRegistry();
         this.eventChainMonitor = new EventChainMonitor(this.events);

@@ -1,4 +1,4 @@
-import { Identifiable, StatEvent, TreeNode, PatchedASTEvent } from '@intent/kernel';
+import { Identifiable, PatchedASTEvent, TreeNode } from '@intent/kernel';
 import { PatchPlugin } from '../phases';
 import { PluginEnvironment } from '../Plugin';
 
@@ -17,14 +17,11 @@ export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> exten
 
     protected visitRoot(env: PluginEnvironment<PatchedASTEvent<N, T>>, root: N, context: PrintContext) {
         if (false !== super.visitRoot(env, root, context)) {
-            env.events.emit(new StatEvent(env.event, {
-                type: 'log',
-                message: {
-                    log: {
-                        ast: context.data.join('\n'),
-                    },
+            env.log({
+                warn: {
+                    ast: context.data.join('\n'),
                 },
-            }));
+            });
         }
     }
 
