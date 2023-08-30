@@ -32,7 +32,7 @@ export type DomainInvokers = {
     reference: ReferenceNode;
     template: GenericTemplateNode;
     qualifier: QualifierNode;
-    trait: TraitNode;
+    trait: TraitNode<DomainNode>;
     constraint: ConstraintNode;
     cast: CastNode;
 };

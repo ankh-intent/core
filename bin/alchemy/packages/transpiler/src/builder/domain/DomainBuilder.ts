@@ -28,7 +28,7 @@ export type DomainChildren = {
     assignment_statement: AssignmentStatementNode;
     expression: ExpressionNode;
     domain_interface: DomainInterfaceNode;
-    trait: TraitNode;
+    trait: TraitNode<DomainNode>;
     constraint: ConstraintNode;
     cast: CastNode;
 };
@@ -50,7 +50,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         const methods = new Map<string, FunctorNode>();
         const privates = new Map<string, AssignmentStatementNode>();
         const casts = new Map<string, CastNode>();
-        const traits = new Map<string, TraitNode>();
+        const traits: TraitNode<DomainNode>[] = [];
         const constraints = new Set<ConstraintNode>();
         const identifier = ensure.identifier();
         const generics = this.child.generic_templates(tokens);
@@ -121,11 +121,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
                 if (get.identifier('trait')) {
                     const trait = this.child.trait(tokens);
 
-                    if (traits.has(trait.identifier)) {
-                        throw this.error(tokens, trait, `Trait with the same name "${trait.identifier}" already present`);
-                    }
-
-                    traits.set(trait.identifier, trait);
+                    traits.push(trait);
 
                     ensure.symbol(';');
 

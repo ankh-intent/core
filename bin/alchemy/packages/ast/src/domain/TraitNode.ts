@@ -1,15 +1,13 @@
 import { AbstractNode, TreeNode } from '@intent/kernel';
-import { ExpressionNode } from '../expression';
 
-export class TraitNode extends AbstractNode {
+export class TraitNode<N extends AbstractNode> extends AbstractNode {
     constructor(
-        public identifier: string,
-        public expression: ExpressionNode,
+        public domain: N,
     ) {
         super();
     }
 
     get children(): TreeNode[] {
-        return [this.expression];
+        return [this.domain];
     }
 }

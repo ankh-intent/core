@@ -13,7 +13,7 @@ export type DomainInvokers = DomainInterfaceInvokers & {
     domain_modifier: DomainModifierNode;
     domain: DomainNode;
     enum: EnumNode;
-    trait: TraitNode;
+    trait: TraitNode<DomainNode>;
     constraint: ConstraintNode;
     cast: CastNode;
 };

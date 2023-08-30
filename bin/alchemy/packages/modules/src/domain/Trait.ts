@@ -1,12 +1,15 @@
 import { Translated } from '@intent/translator';
-import { TraitNode } from '@alchemy/ast';
-import { Expression } from './functor';
+import { TraitNode, DomainNode } from '@alchemy/ast';
+import { DomainInterface } from '../interfaces';
 
-export class Trait extends Translated<TraitNode> {
-    public identifier: string;
-    public expression: Expression;
+export class Trait extends Translated<TraitNode<DomainNode>> {
+    public domain: DomainInterface;
+
+    toTypeString() {
+        return this.domain.toTypeString();
+    }
 
     toString() {
-        return `trait ${this.identifier} is ${this.expression}`;
+        return `trait ${this.domain}`;
     }
 }

@@ -26,6 +26,10 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public privates: Map<string, AssignmentStatement> = new Map();
     public inherits: boolean = false;
 
+    public toTypeString(): string {
+        return `${this.qualifier.path()}${this.generics.length ? `<${this.generics.join(', ')}>` : ''}`
+    }
+
     public get identifier() {
         return this.qualifier.name;
     }

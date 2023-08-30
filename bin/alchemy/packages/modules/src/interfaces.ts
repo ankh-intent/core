@@ -15,6 +15,7 @@ export interface DeclarationInterface extends DeclarationRegistryInterface {
 export interface DomainInterface extends TranslatedInterface<DomainNode>, DeclarationInterface {
     parent?: ReferenceInterface;
     generics: GenericInterface[];
+    toTypeString(): string;
 }
 
 export interface ReferenceInterface {
@@ -24,7 +25,7 @@ export interface ReferenceInterface {
 
 export interface GenericInterface {
     identifier: string; // template name
-    parent?: ReferenceInterface;
+    domain?: DomainInterface;
     defaultsTo?: ReferenceInterface;
 }
 

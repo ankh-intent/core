@@ -12,7 +12,7 @@ import {
     ConstraintNode,
     DomainModifierNode,
 } from '@alchemy/ast';
-import { Domain, DeclarationRegistry, Qualifier } from '@alchemy/modules';
+import { Domain, DeclarationRegistry, Qualifier, Trait } from '@alchemy/modules';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
 
 export type DomainTranslatorChildren = {
@@ -24,7 +24,7 @@ export type DomainTranslatorChildren = {
     uses: UsesNode;
     functor: FunctorNode;
     assignment_statement: AssignmentStatementNode;
-    trait: TraitNode;
+    trait: TraitNode<DomainNode>;
     constraint: ConstraintNode;
     cast: CastNode;
 };
@@ -56,8 +56,15 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
             domain.casts.set(identifier, this.child.cast(castNode, inner));
         }
 
-        for (const [identifier, traitNode] of node.traits) {
-            domain.traits.set(identifier, this.child.trait(traitNode, inner));
+        for (const traitNode of node.traits) {
+            const trait: Trait = this.child.trait(traitNode, inner);
+            const type = trait.toTypeString();
+
+            if (domain.traits.has(type)) {
+                throw new Error(`Trait with the same type "${type}" already present`);
+            }
+
+            domain.traits.set(type, trait);
         }
 
         for (const constraintNode of node.constraints) {
