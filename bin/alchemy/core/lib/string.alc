@@ -3,10 +3,10 @@
   Can be referenced as `String` (as it is a @native domain) or as `Any.String` (but only within it's own declaration).
 */
 native domain String {{ @string value: self }
-    to Boolean is () => !!size;
-    to Number is () => Number.parse(this);
+    to Boolean;
+    to Number;
 
-    native get size: Number;
+    get size: Number;
 
     augment domain Sure {{
         domain String is NotEmpty of Any.String; // `String` here is shadowed, so use `Any.String` instead

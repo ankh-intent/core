@@ -1,12 +1,9 @@
-import { PatchedASTEvent, IdentifiableFactory } from '@intent/consumers';
-import { DependencyManager } from '@intent/kernel';
+import { IdentifiableFactory } from '@intent/consumers';
+import { DependencyManager, PatchedASTEvent } from '@intent/kernel';
 import { PluginEnvironment, PatchPlugin } from '@intent/plugins';
-import { TranslationContext } from '@intent/translator';
 
 import { ModuleNode } from '@alchemy/ast';
-import { Module, DeclarationRegistry, Domain, Qualifier } from '@alchemy/modules';
-
-import { AlchemyTranslator } from './translation';
+import { Module } from '@alchemy/modules';
 import { TypescriptSerializer, SerializingContext } from './serializers';
 
 export class SerializerPlugin extends PatchPlugin<ModuleNode, Module, SerializingContext> {

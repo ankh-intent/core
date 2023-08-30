@@ -6,12 +6,12 @@ native domain Number {{
     to String;
     to Boolean;
 
-    trait Equal is (other: Number) => value === other.value;
-    trait LessThan is (max: Number) => value < max;
-    trait GreaterThan is (min: Number) => value > min;
-    trait LessThanOrEqual is (max: Number) => (value < max) || Equal(max);
-    trait GreaterThanOrEqual is (min: Number) => (value > min) || Equal(min);
-    trait InRange is (min: Number, max: Number) => GreaterThanOrEqual(min) && LessThanOrEqual(max);
+    trait Equal is (other: Number);
+    trait LessThan is (max: Number);
+    trait GreaterThan is (min: Number);
+    trait LessThanOrEqual is (max: Number);
+    trait GreaterThanOrEqual is (min: Number);
+    trait InRange is (min: Number, max: Number);
 
     native domain Random is { (min: Number, max: Number): self }
 
