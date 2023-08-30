@@ -1,4 +1,4 @@
-import { LogMethodName } from '@intent/utils';
+import { LogTypeName } from '@intent/utils';
 import { CoreEvent, CoreEventConsumer, CoreStat } from '../interfaces';
 import { ErrorEvent } from './events';
 import { CoreEventBus } from './CoreEventBus';
@@ -42,7 +42,7 @@ export abstract class AbstractConsumer<E extends CoreEvent<T>, T> implements Cor
         return this.bus.stat(parent, data);
     }
 
-    public log(parent: CoreEvent | null, message: Partial<Record<LogMethodName, any>>): CoreEvent {
+    public log(parent: CoreEvent | null, message: Partial<Record<LogTypeName, any>>): CoreEvent {
         return this.bus.log(parent, message);
     }
 }

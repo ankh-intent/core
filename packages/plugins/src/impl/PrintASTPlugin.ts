@@ -18,7 +18,7 @@ export class PrintASTPlugin<N extends TreeNode, T extends Identifiable<N>> exten
     protected visitRoot(env: PluginEnvironment<PatchedASTEvent<N, T>>, root: N, context: PrintContext) {
         if (false !== super.visitRoot(env, root, context)) {
             env.log({
-                warn: {
+                debug: {
                     ast: context.data.join('\n'),
                 },
             });

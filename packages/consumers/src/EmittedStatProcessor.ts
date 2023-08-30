@@ -35,7 +35,7 @@ export class EmittedStatProcessor implements CoreStatProcessor<'emitted', Emitte
         const pathS = Strings.shrink(Strings.stripLeft(path, `${common}/`), 60);
         const timeS = Strings.shrink(`~${String(end - start)}`, 6, true);
 
-        this.logger.log(Logger.INFO, `${indexS} [${causeS}] ${pathS} ${timeS} ms`);
+        this.logger.log(Logger.LOG, `${indexS} [${causeS}] ${pathS} ${timeS} ms`);
 
         return event;
     }

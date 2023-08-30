@@ -1,5 +1,3 @@
-import { resolve, sep } from 'node:path';
-import { pathToFileURL } from 'node:url';
 import { yellow } from 'colorette';
 
 import {
@@ -11,71 +9,16 @@ import {
     ErrorEvent,
     CoreEventBus,
     StatEvent,
+    LogType,
 } from '@intent/kernel';
-
-const cwd = process.cwd();
-const internal = __dirname.replace(/[\\\/]packages[\\\/][^\\/]+[\\\/]src[\\\/]?.*?$/, sep + 'packages');
-
-const paths = [
-    ['identifier'],
-    ['reference'],
-    ['source', 'reference'],
-    ['dependency', 'identifiable', 'uri'],
-    ['path'],
-];
-const get = (data: any, path: string[]): any => {
-    for (const part of path) {
-        data = data[part];
-
-        if (!data) {
-            break;
-        }
-    }
-
-    return data;
-};
-const dereference = (data: any) => {
-    for (const path of paths) {
-        const found = get(data, path);
-
-        if (found) {
-            const ref = String(found);
-
-            if (ref) {
-                return cut(ref);
-            }
-        }
-    }
-
-    return '';
-};
-const cut = (path: string) => {
-    const common = Strings.commonPath([cwd, path]);
-
-    return common ? path.slice(common.length + 1) : path;
-}
-
-enum RefType {
-    NATIVE,
-    AST,
-}
-
-interface ErrorRef {
-    type: RefType;
-    ref: string;
-    source: string;
-    combined: number;
-    fileName?: string;
-}
+import { dereference, ErrorRef, cut, RefType, resolveRelative, isInternal, resolveUrl } from './utils';
 
 export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
     private readonly logger: Logger;
-    private readonly verbose: boolean;
 
-    public constructor(bus: CoreEventBus, logger: Logger, verbose: boolean) {
+    public constructor(bus: CoreEventBus, logger: Logger) {
         super(bus);
         this.logger = logger;
-        this.verbose = verbose;
     }
 
     public supports(event: CoreEvent): boolean {
@@ -183,7 +126,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         const stack = this.squashErrors(
             hops
                 .filter(Boolean)
-                .filter((def) => !def.source?.startsWith(internal)),
+                .filter((def) => !isInternal(def.source)),
         );
         const max = Strings.max(stack.map((def) => def.ref));
 
@@ -200,7 +143,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
 
     private describeSyntaxError(error: SyntaxError): ErrorRef[] | undefined {
         const source = error.source?.location(error.pos).toString();
-        const fileName = source && pathToFileURL(resolve(cwd, source)).toString() || '';
+        const fileName = resolveRelative(source);
 
         return [{
             type: RefType.AST,
@@ -212,7 +155,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
     }
 
     private describeNativeError(error: Error): ErrorRef[] | undefined {
-        if (!this.verbose) {
+        if (!this.logger.is(LogType.DEBUG)) {
             return;
         }
 
@@ -260,7 +203,7 @@ export class ErrorConsumer extends AbstractConsumer<ErrorEvent, any> {
         if (match) {
             return [
                 match[1],
-                pathToFileURL(match[0]).toString(),
+                resolveUrl(match[0]),
             ];
         }
     }

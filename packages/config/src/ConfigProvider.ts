@@ -147,17 +147,18 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
                     'default': defaults.output!.extension,
                     'requiresArg': true,
                 },
-                'verbose': {
-                    'type': 'boolean',
-                    'describe': 'Print native errors stack in stack-traces',
-                    'default': defaults.emit!.verbose,
-                    'requiresArg': false,
-                },
-                'silent': {
-                    'type': 'boolean',
-                    'describe': 'Disable logging',
-                    'default': defaults.emit!.silent,
-                    'requiresArg': false,
+                'verbosity': {
+                    'type': 'number',
+                    'describe': 'Logging level (' + [
+                        '1 - silent',
+                        '2 - error-only',
+                        '3 - sparse',
+                        '4 - normal',
+                        '5 - with native errors stacks in stack-traces',
+                        '6 - with traces'].join(', ') +
+                        ')',
+                    'default': defaults.emit!.verbosity,
+                    'requiresArg': true,
                 },
             },
         };
@@ -180,8 +181,7 @@ export class ConfigProvider<T extends CoreConfig> extends AbstractConfigProvider
             files: this.get('output-emit-files'),
             stats: this.get('output-emit-stats'),
             config: this.get('output-emit-config'),
-            verbose: this.get('verbose'),
-            silent: this.get('silent'),
+            verbosity: this.get('verbose'),
         };
     }
 

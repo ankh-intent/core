@@ -1,4 +1,4 @@
-import { LogMethodName } from '@intent/utils';
+import { LogTypeName } from '@intent/utils';
 import { CoreEventConsumer, CoreEvent, CoreStat } from '../interfaces';
 import { StatEvent } from './events';
 
@@ -63,7 +63,7 @@ export class CoreEventBus {
         return this.emit(new StatEvent(parent, data));
     }
 
-    public log(parent: CoreEvent | null, message: Partial<Record<LogMethodName, any>>): CoreEvent {
+    public log(parent: CoreEvent | null, message: Partial<Record<LogTypeName, any>>): CoreEvent {
         return this.emit(new StatEvent(parent, { type: 'log', message }));
     }
 }

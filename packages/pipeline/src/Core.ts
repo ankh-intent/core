@@ -1,4 +1,4 @@
-import { Emitter, Logger, UnitMatcher } from '@intent/utils';
+import { Emitter, Logger, UnitMatcher, LogLevel } from '@intent/utils';
 import { PluginRegistry, Plugin } from '@intent/plugins';
 import { RecursiveFinder } from '@intent/source';
 import {
@@ -33,7 +33,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
 
     public constructor() {
         super();
-        this.logger = new CoreLogger(Logger.LOG);
+        this.logger = new CoreLogger(Logger.NORMAL);
         this.events = new CoreEventBus();
         this.plugins = new PluginRegistry();
         this.eventChainMonitor = new EventChainMonitor(this.events);
@@ -46,10 +46,8 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
     public bootstrap(config: CoreConfig, configFactory: ConfigFactory<C, N, T>, observerFactory: PipelineObserverFactory<C, N, T>): C {
         const resolved = configFactory(this, config);
 
-        if (resolved.emit.silent) {
-            this.logger.level = Logger.SILENT;
-        } else if (resolved.emit.verbose) {
-            this.logger.level = Logger.INFO;
+        if (resolved.emit.verbosity) {
+            this.logger.level = Logger.inverse(resolved.emit.verbosity);
         }
 
         const observer = observerFactory(this, resolved);
@@ -61,7 +59,7 @@ export class Core<C extends CoreConfig, N extends TreeNode, T extends Identifiab
         observer.bootstrap(this, resolved);
 
         this.events
-            .add(new ErrorConsumer(this.events, this.logger, resolved.emit.verbose))
+            .add(new ErrorConsumer(this.events, this.logger))
             .add(new StatConsumer(this.events, this.logger, [resolved.paths.project, resolved.paths.internal]))
             .add(this.eventChainMonitor)
             .add({

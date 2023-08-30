@@ -1,4 +1,4 @@
-import { AbstractConsumer, CoreEvent, CoreEventBus, CoreStat, ErrorEvent, LogMethodName } from '@intent/kernel';
+import { AbstractConsumer, CoreEvent, CoreEventBus, CoreStat, ErrorEvent, LogTypeName } from '@intent/kernel';
 import { PluginRegistry } from '@intent/plugins';
 
 export class RunPlugins<E extends CoreEvent = CoreEvent> extends AbstractConsumer<E, any> {
@@ -16,7 +16,7 @@ export class RunPlugins<E extends CoreEvent = CoreEvent> extends AbstractConsume
     public process(event: E) {
         const env = {
             stat: (data: CoreStat<any, any>): CoreEvent => this.bus.stat(event, data),
-            log: (message: Partial<Record<LogMethodName, any>>) => this.bus.log(event, message),
+            log: (message: Partial<Record<LogTypeName, any>>) => this.bus.log(event, message),
             events: this.bus,
             event,
         };

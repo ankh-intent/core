@@ -43,8 +43,8 @@ export class TranslatorPlugin extends PatchPlugin<ModuleNode, Module, Translatio
         // console.log(root, module);
 
         env.log({
-            warn: String(module),
-            error: module,
+            trace: module,
+            debug: String(module),
         });
     }
 }

@@ -28,8 +28,8 @@ export class SerializerPlugin extends PatchPlugin<ModuleNode, Module, Serializin
         // console.log(root, module);
 
         env.log({
-            warn: String(module),
-            error: module,
+            trace: module,
+            debug: String(module),
         });
     }
 }

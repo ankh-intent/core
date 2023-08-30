@@ -4,7 +4,7 @@ import {
     UpdateEvent,
     CoreStat,
     ReadedEvent,
-    LogMethodName,
+    LogTypeName,
     ParsedEvent,
     PatchedASTEvent,
     DependencyModifiedEvent,
@@ -36,7 +36,7 @@ export interface PluginEnvironment<E extends CoreEvent> {
     event: E;
     events: CoreEventBus;
     stat<T, S>(data: CoreStat<T, S>): CoreEvent;
-    log(data: Partial<Record<LogMethodName, any>>): CoreEvent;
+    log(data: Partial<Record<LogTypeName, any>>): CoreEvent;
 }
 
 export abstract class Plugin<E extends CoreEvent = CoreEvent> {

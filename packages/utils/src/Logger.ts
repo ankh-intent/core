@@ -1,43 +1,65 @@
 import { yellow, blue } from 'colorette';
 
-export type LogMethodName = 'info' | 'log' | 'warn' | 'error';
-type LogLevelName = 'silent' | LogMethodName;
+export type LogTypeName = 'trace' | 'debug' | 'log' | 'warning' | 'error';
+type LogLevelName = 'silent' | LogTypeName;
 
 export enum LogLevel {
-    INFO = 1,
-    LOG = 2,
-    WARNING = 3,
-    ERROR = 4,
-    SILENT = 5,
+    ANNOYING = 1,
+    VERBOSE = 2,
+    NORMAL = 3,
+    SPARSE = 4,
+    CRITICAL = 5,
+    SILENT = 6,
+
+    MAX = SILENT,
+}
+
+export enum LogType {
+    TRACE = LogLevel.ANNOYING,
+    DEBUG = LogLevel.VERBOSE,
+    LOG = LogLevel.NORMAL,
+    WARNING = LogLevel.SPARSE,
+    ERROR = LogLevel.CRITICAL,
 }
 
 export class Logger {
+    static ANNOYING = LogLevel.ANNOYING;
+    static VERBOSE = LogLevel.VERBOSE;
+    static NORMAL = LogLevel.NORMAL;
+    static SPARSE = LogLevel.SPARSE;
+    static CRITICAL = LogLevel.CRITICAL;
     static SILENT = LogLevel.SILENT;
-    static INFO = LogLevel.INFO;
-    static LOG = LogLevel.LOG;
-    static WARNING = LogLevel.WARNING;
-    static ERROR = LogLevel.ERROR;
 
-    private static map: Record<number, LogLevelName> = {
-        [Logger.INFO]: 'info',
-        [Logger.LOG]: 'log',
-        [Logger.WARNING]: 'warn',
-        [Logger.ERROR]: 'error',
-        [Logger.SILENT]: 'silent',
+    private static map: Record<LogType, LogTypeName> = {
+        [LogType.TRACE]: 'trace',
+        [LogType.DEBUG]: 'debug',
+        [LogType.LOG]: 'log',
+        [LogType.WARNING]: 'warning',
+        [LogType.ERROR]: 'error',
     };
 
-    private static methods: Record<number, (...args: any[]) => void> = {
-        [Logger.SILENT]: () => {},
-        [Logger.INFO]: console.info.bind(console),
-        [Logger.LOG]: console.log.bind(console),
-        [Logger.WARNING]: console.warn.bind(console),
-        [Logger.ERROR]: console.error.bind(console),
+    private static methods: Record<LogType, (...args: any[]) => void> = {
+        [LogType.TRACE]: console.trace.bind(console),
+        [LogType.DEBUG]: console.info.bind(console),
+        [LogType.LOG]: console.log.bind(console),
+        [LogType.WARNING]: console.warn.bind(console),
+        [LogType.ERROR]: console.error.bind(console),
     };
 
-    public level: LogLevel = LogLevel.INFO;
+    static TRACE = this.map[LogType.TRACE];
+    static DEBUG = this.map[LogType.DEBUG];
+    static LOG = this.map[LogType.LOG];
+    static WARNING = this.map[LogType.WARNING];
+    static ERROR = this.map[LogType.ERROR];
+
+    public level: LogLevel;
 
     public constructor(level: LogLevel) {
         this.level = level;
+    }
+
+    public is(level?: LogType): level is LogType {
+        return !!level && (this.level <= level);
     }
 
     public classify(klass: string, args: any[]): [string, string, any[]] {
@@ -48,15 +70,17 @@ export class Logger {
         );
     }
 
-    public log(level: LogLevel, ...args: any[]) {
-        console.log({ level, this: this.level, skip: level < this.level });
-        if (level < this.level) {
+    public log(type: LogTypeName, ...args: any[]) {
+        const level = Logger.strToLevel(type);
+
+        if (!this.is(level)) {
             return;
         }
 
+        const method = Logger.methods[level];
         const [classifier, message, out] = this.classify('', args);
 
-        Logger.methods[level](
+        method(
             `[${yellow(this.timestamp())}] ${blue(this.name)}${classifier ? `/${blue(classifier)}` : ''}:${message ? ' ' + message : ''}`,
             ...out,
         );
@@ -70,11 +94,15 @@ export class Logger {
         return this.constructor.name.replace(/Logger$/, '').toUpperCase();
     }
 
-    static levelToStr(level: LogLevel): LogLevelName {
-        return this.map[level] || this.map[this.WARNING];
+    static inverse(level: LogLevel): LogLevel {
+        return (LogLevel.MAX - level) % LogLevel.MAX + 1;
     }
 
-    static strToLevel(str: string): LogLevel | void {
+    static levelToStr(level: LogType): LogLevelName | undefined {
+        return this.map[level];
+    }
+
+    static strToLevel(str: LogLevelName): LogType | undefined {
         for (const [level, method] of Object.entries(this.map)) {
             if (method === str) {
                 return +level;
