@@ -18,6 +18,7 @@
     "dependencies": {
         "@intent/plugins": "workspace:*",
         "@intent/watchdog": "workspace:*",
-        "@intent/kernel": "workspace:*"
+        "@intent/kernel": "workspace:*",
+        "colorette": "^2.0.20"
     }
 }

@@ -14,6 +14,7 @@
         "@intent/pipeline": "workspace:*",
         "@alchemy/ast": "workspace:*",
         "@alchemy/modules": "workspace:*",
-        "@alchemy/transpiler": "workspace:*"
+        "@alchemy/transpiler": "workspace:*",
+        "cross-env": "^7.0.3"
     }
 }

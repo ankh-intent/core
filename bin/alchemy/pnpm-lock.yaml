@@ -26,6 +26,9 @@ importers:
       '@intent/watchdog':
         specifier: workspace:*
         version: link:../../packages/watchdog
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
 
   ../../packages/ast:
     dependencies:
@@ -63,6 +66,9 @@ importers:
       '@intent/watchdog':
         specifier: workspace:*
         version: link:../watchdog
+      colorette:
+        specifier: ^2.0.20
+        version: 2.0.20
 
   ../../packages/kernel:
     dependencies:
@@ -190,6 +196,9 @@ importers:
 
   ../../packages/watchdog:
     dependencies:
+      '@intent/utils':
+        specifier: workspace:*
+        version: link:../utils
       chokidar:
         specifier: ^3.5.3
         version: 3.5.3

@@ -16,6 +16,7 @@
         }
     },
     "dependencies": {
+        "@intent/utils": "workspace:*",
         "chokidar": "^3.5.3"
     }
 }

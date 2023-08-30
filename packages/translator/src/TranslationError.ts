@@ -1,5 +1,4 @@
-import { TreeNode } from '@intent/kernel';
-import { SyntaxError } from '@intent/parser';
+import { SyntaxError, TreeNode } from '@intent/kernel';
 
 export class TranslationError extends SyntaxError {
     public readonly node: TreeNode;
