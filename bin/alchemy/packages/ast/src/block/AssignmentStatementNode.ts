@@ -17,6 +17,10 @@ export class AssignmentStatementNode<N extends AbstractNode = AbstractNode> exte
         return [this.target, this.expression];
     }
 
+    get declaredAs(): string {
+        return this.target.declaredAs;
+    }
+
     isDeclaration(): this is AssignmentStatementNode<DereferenceNode> {
         return this.target.isDeclaration();
     }

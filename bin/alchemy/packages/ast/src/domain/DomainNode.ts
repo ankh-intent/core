@@ -19,11 +19,11 @@ export class DomainNode extends AbstractNode {
         public inherits: boolean,
         public interfaced: DomainInterfaceNode,
         public uses: UsesNode,
+        public constraints: Set<ConstraintNode> = new Set(),
         public domains: Map<string, DomainNode> = new Map(),
         public methods: Map<string, FunctorNode> = new Map(),
         public casts: Map<string, CastNode> = new Map(),
         public traits: TraitNode<DomainNode>[] = [],
-        public constraints: Set<ConstraintNode> = new Set(),
         public privates: Map<string, AssignmentStatementNode> = new Map(),
         public ctor: FunctorNode | null = null,
     ) {
