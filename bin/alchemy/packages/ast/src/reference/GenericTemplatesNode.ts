@@ -9,6 +9,10 @@ export class GenericTemplatesNode extends AbstractNode {
         super();
     }
 
+    isEmpty() {
+        return !this.templates.length;
+    }
+
     get children() {
         return this.templates;
     }

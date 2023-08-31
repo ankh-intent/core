@@ -1,6 +1,6 @@
 import { Strings } from '@intent/kernel';
 import { DomainNode } from '@alchemy/ast';
-import { DomainInterface, ReferenceInterface, GenericInterface, DeclarationInterface } from '../interfaces';
+import { DomainInterface, ReferenceInterface, DeclarationInterface, GenericsInterface } from '../interfaces';
 import { DeclarationRegistry } from '../DeclarationRegistry';
 import { Qualifier } from '../reference';
 import { Interface } from './interface';
@@ -17,7 +17,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public uses?: Uses;
     public ctor?: Functor;
     public intf?: Interface;
-    public generics: GenericInterface[] = [];
+    public generic: GenericsInterface;
     public modifier: DomainModifier = DomainModifier.create(this);
     public functors: Map<string, Functor> = new Map();
     public casts: Map<string, Cast> = new Map();
@@ -27,7 +27,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     public inherits: boolean = false;
 
     public toTypeString(): string {
-        return `${this.qualifier.path()}${this.generics.length ? `<${this.generics.join(', ')}>` : ''}`
+        return `${this.qualifier.path()}${this.generic}`
     }
 
     public get identifier() {
@@ -91,7 +91,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
             parts.push(String(this.ctor));
         }
 
-        const generics = this.generics.length ? `<${this.generics.join(', ')}>` : '';
+        const generics = this.generic.toString();
         const parent = this.parent ? ` extends ${this.parent}` : '';
         const joined = Strings.indentStr(parts.join('\n').trim(), '  ');
         const body = `{${intf}${joined.trim() ? `\n${joined}\n` : ''}}`;

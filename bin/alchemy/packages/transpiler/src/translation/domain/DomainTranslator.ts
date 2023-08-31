@@ -10,7 +10,7 @@ import {
     AssignmentStatementNode,
     TraitNode,
     ConstraintNode,
-    DomainModifierNode,
+    DomainModifierNode, GenericTemplatesNode,
 } from '@alchemy/ast';
 import { Domain, DeclarationRegistry, Qualifier, Trait } from '@alchemy/modules';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
@@ -18,7 +18,7 @@ import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
 export type DomainTranslatorChildren = {
     domain_modifier: DomainModifierNode;
     reference: ReferenceNode;
-    template: GenericTemplateNode;
+    generics: GenericTemplatesNode;
     interface: DomainInterfaceNode;
     domain: DomainNode;
     uses: UsesNode;
@@ -44,7 +44,7 @@ export class DomainTranslator extends AlchemyNodeTranslator<Domain, DomainTransl
             .registerDeclaration(domain);
 
         domain.uses = this.child.uses(node.uses, inner);
-        domain.generics = node.generics.templates.map((g) => this.child.template(g, inner));
+        domain.generic = this.child.generics(node.generics, inner);
 
         for (const sub of node.domains.values()) {
             this.child.domain(sub, inner);

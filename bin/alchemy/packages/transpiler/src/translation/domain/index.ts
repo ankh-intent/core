@@ -11,11 +11,13 @@ import {
     ConstraintNode,
     DomainModifierNode,
     CastNode,
+    GenericTemplatesNode,
 } from '@alchemy/ast';
 
 import { DomainReferenceTranslatorChildren, DomainReferenceTranslator } from './DomainReferenceTranslator';
 import { DomainTranslatorChildren, DomainTranslator } from './DomainTranslator';
 import { GenericTemplateTranslatorChildren, GenericTemplateTranslator } from './GenericTemplateTranslator';
+import { GenericsTranslatorChildren, GenericsTranslator } from './GenericsTranslator';
 import { InterfacePropertyTranslatorChildren, InterfacePropertyTranslator } from './InterfacePropertyTranslator';
 import { InterfaceTranslatorChildren, InterfaceTranslator } from './InterfaceTranslator';
 import { QualifierTranslatorChildren, QualifierTranslator } from './QualifierTranslator';
@@ -30,6 +32,7 @@ export type DomainInvokers = {
     interface: DomainInterfaceNode;
     interface_property: DomainInterfacePropertyNode;
     reference: ReferenceNode;
+    generics: GenericTemplatesNode;
     template: GenericTemplateNode;
     qualifier: QualifierNode;
     trait: TraitNode<DomainNode>;
@@ -44,6 +47,7 @@ export type DomainDependencies =
     InterfacePropertyTranslatorChildren &
     DomainTranslatorChildren &
     GenericTemplateTranslatorChildren &
+    GenericsTranslatorChildren &
     QualifierTranslatorChildren &
     DomainReferenceTranslatorChildren &
     TraitTranslatorChildren &
@@ -58,6 +62,7 @@ export const factory = (invokers: NodeInvokers<DomainDependencies>): InvokableVi
         interface_property: new InterfacePropertyTranslator(invokers),
         reference: new DomainReferenceTranslator(invokers),
         template: new GenericTemplateTranslator(invokers),
+        generics: new GenericsTranslator(invokers),
         qualifier: new QualifierTranslator(invokers),
         trait: new TraitTranslator(invokers),
         constraint: new ConstraintTranslator(invokers),
