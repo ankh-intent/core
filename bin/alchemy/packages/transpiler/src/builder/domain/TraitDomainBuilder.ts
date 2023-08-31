@@ -24,8 +24,6 @@ export class TraitDomainBuilder extends BaseBuilder<DomainNode, TraitDomainChild
         const identifier = ensure.identifier();
         const generics = this.child.generic_templates(tokens);
 
-        console.log('trait', identifier, hasBody ? '' : 'abstract')
-
         ensure.identifier('is');
 
         const constraints = new Set<ConstraintNode>([this.child.constraint(tokens)]);

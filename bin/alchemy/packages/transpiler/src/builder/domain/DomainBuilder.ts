@@ -177,8 +177,6 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     readDecl(decls: Map<string, AssignmentStatementNode>, tokens: TokenMatcher) {
         const { peek, ensure } = tokens.matcher;
 
-        console.log('decl', !!peek.identifier('let'));
-
         if (!peek.identifier('let')) {
             return;
         }
@@ -197,9 +195,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
     }
 
     readGetter(methods: Map<string, FunctorNode>, tokens: TokenMatcher, isAbstract: boolean) {
-        const { get, ensure, peek } = tokens.matcher;
-
-        console.log('get', !!peek.identifier('get'), 'abstract', isAbstract);
+        const { get, ensure } = tokens.matcher;
 
         if (!get.identifier('get')) {
             return;
@@ -221,8 +217,6 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
     readMethod(methods: Map<string, FunctorNode>, tokens: TokenMatcher, isAbstract: boolean) {
         const { peek, ensure } = tokens.matcher;
-
-        console.log('method', peek.identifier(),  'abstract', isAbstract);
 
         if (!peek.identifier()) {
             return;
