@@ -36,6 +36,7 @@ export interface SourceInterface {
 export interface RegionInterface {
     readonly source: SourceInterface;
     readonly position: number;
+    readonly end: number;
     readonly positional: PositionalInterface;
 
     from: OriginInterface;

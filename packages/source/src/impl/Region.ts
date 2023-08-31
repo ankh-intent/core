@@ -17,6 +17,10 @@ export class Region implements RegionInterface {
         return this.source.position(this.from);
     }
 
+    get end() {
+        return this.source.position(this.to);
+    }
+
     get positional(): PositionalInterface {
         return {
             source: this.source,
