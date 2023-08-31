@@ -88,7 +88,7 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
     protected readonly types: TT[];
     private _matcher: TypedTokenMatcherInterface<TT>;
 
-    public lookup<R>(marker: string, invoker: TokenizedLookup<R, TT>): R | null {
+    public marked<R>(marker: string, invoker: TokenizedLookup<R, TT>): R | null {
         const mark = { marker };
 
         try {
