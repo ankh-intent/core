@@ -10,6 +10,7 @@ import { Trait } from './Trait';
 import { Constraint } from './Constraint';
 import { DomainModifier } from './DomainModifier';
 import { Cast } from './Cast';
+import { Generics } from './Generics';
 
 export class Domain extends DeclarationRegistry<DomainNode> implements DomainInterface {
     public qualifier: Qualifier;
@@ -37,6 +38,7 @@ export class Domain extends DeclarationRegistry<DomainNode> implements DomainInt
     static stub(name: string): Domain {
         return this.create((domain) => ({
             qualifier: Qualifier.create(domain, { name }),
+            generic: Generics.create(domain),
         }))
     }
 

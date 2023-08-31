@@ -17,6 +17,7 @@ export const globalRegistry = (new DeclarationRegistry())
     .registerDeclaration(Domain.stub('Array'))
     .registerDeclaration(Domain.stub('Callable'))
     .registerDeclaration(Domain.stub('Maybe'))
+    .registerDeclaration(Domain.stub('Tuple'))
 ;
 
 export class TranslatorPlugin extends PatchPlugin<ModuleNode, Module, TranslationContext<any>> {

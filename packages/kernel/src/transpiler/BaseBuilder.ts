@@ -58,6 +58,12 @@ export abstract class BaseBuilder<
         }
     }
 
+    protected ast<N extends TreeNode>(node: N, tokens: TokenMatcher<TT>): N {
+        node.astRegion = this.narrowRegion(tokens);
+
+        return node;
+    }
+
     protected narrowRegion(tokens: TokenMatcher<TT>, start?: number, end?: number): RegionInterface {
         const source = tokens.source;
         const current = tokens.current();

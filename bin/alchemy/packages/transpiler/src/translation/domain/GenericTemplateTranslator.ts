@@ -1,5 +1,5 @@
 import { TranslationContext } from '@intent/translator';
-import { Generic, Domain, Qualifier, DeclarationRegistry, DomainModifier, Interface } from '@alchemy/modules';
+import { Generic, Domain, Qualifier, DeclarationRegistry, DomainModifier, Interface, Generics } from '@alchemy/modules';
 import { ReferenceNode, GenericTemplateNode } from '@alchemy/ast';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';
 
@@ -18,6 +18,7 @@ export class GenericTemplateTranslator extends AlchemyNodeTranslator<Generic, Ge
                 name: generic.identifier,
             }),
             parent: node.parent && this.child.reference(node.parent, inner),
+            generic: Generics.create(node),
         }));
         generic.defaultsTo = node.def && this.child.reference(node.def, inner);
 

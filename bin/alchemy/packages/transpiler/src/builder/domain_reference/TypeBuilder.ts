@@ -6,29 +6,46 @@ import { BaseBuilder } from '../BaseBuilder';
 export type TypeChildren = {
     qualifier: QualifierNode;
     type: ReferenceNode;
+    qualified_type: ReferenceNode;
     type_generic: TypeGenericNode<ReferenceNode>;
 };
 
 export class TypeBuilder extends BaseBuilder<ReferenceNode, TypeChildren> {
     protected build(tokens: TokenMatcher, { get, ensure }: TypedTokenMatcherInterface) {
-        const qualifier = this.child.qualifier(tokens);
-        let generic: TypeGenericNode<ReferenceNode> | null = null;
-        let isArray = false;
-
-        if (get.symbol('<')) {
-            generic = this.child.type_generic(tokens);
-            ensure.symbol('>');
-        }
+        let type: ReferenceNode;
 
         if (get.symbol('[')) {
-            isArray = true;
+            const types: ReferenceNode[] = [];
+
+            while (true) {
+                const type = this.child.type(tokens);
+
+                types.push(type);
+
+                if (!get.symbol(',')) {
+                    break;
+                }
+            }
+
             ensure.symbol(']');
+
+            type = new ReferenceNode(
+                this.ast(new QualifierNode('Tuple'), tokens),
+                this.ast(new TypeGenericNode(types), tokens)
+            );
+        } else {
+            type = this.child.qualified_type(tokens);
         }
 
-        return new ReferenceNode(
-            qualifier,
-            generic,
-            isArray,
-        );
+        while (get.symbol('[')) {
+            ensure.symbol(']');
+
+            type = new ReferenceNode(
+                this.ast(new QualifierNode('Array'), tokens),
+                this.ast(new TypeGenericNode([type]), tokens)
+            );
+        }
+
+        return type;
     }
 }

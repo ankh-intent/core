@@ -3,7 +3,7 @@ import { GenericTemplatesNode } from '@alchemy/ast';
 import { GenericInterface, GenericsInterface } from '../interfaces';
 
 export class Generics extends Translated<GenericTemplatesNode> implements GenericsInterface {
-    templates: GenericInterface[];
+    templates: GenericInterface[] = [];
 
     get isEmpty() {
         return !this.templates.length;
