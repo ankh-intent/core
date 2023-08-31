@@ -8,7 +8,7 @@ export type DomainInterfaceChildren = {
 };
 
 export class InterfaceBuilder extends BaseBuilder<DomainInterfaceNode, DomainInterfaceChildren> {
-    protected build(tokens: TokenMatcher, { get, not, ensure, peek }: TypedTokenMatcherInterface) {
+    protected build(tokens: TokenMatcher, { not, ensure, peek }: TypedTokenMatcherInterface) {
         const properties = new Map<string, DomainInterfacePropertyNode>();
 
         if (!not.symbol('{')) {

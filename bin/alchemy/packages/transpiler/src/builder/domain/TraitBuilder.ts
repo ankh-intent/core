@@ -4,13 +4,13 @@ import { TraitNode, DomainNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type TraitChildren = {
-    domain: DomainNode;
+    trait_domain: DomainNode;
 };
 
 export class TraitBuilder extends BaseBuilder<TraitNode<DomainNode>, TraitChildren> {
     protected build(tokens: TokenMatcher) {
         return new TraitNode(
-            this.child.domain(tokens),
+            this.child.trait_domain(tokens),
         );
     }
 }
