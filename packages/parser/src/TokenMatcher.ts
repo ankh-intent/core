@@ -60,6 +60,9 @@ export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenType
     is: IsTypeMatcherInterface<TT, boolean>;
 }
 
+export type TryVariant<R, Ctx, TT extends BaseTokenTypes> = (tokens: TokenMatcher<TT>, context: Ctx) => R | void;
+export type TryVariants<R, Ctx, TT extends BaseTokenTypes = BaseTokenTypes> = TryVariant<R, Ctx, TT>[];
+
 export interface TokenizedLookup<R, TT extends BaseTokenTypes> {
     (tokens: TokenMatcher<TT>): R;
 }
@@ -84,6 +87,16 @@ const matcherToString = (matcher: MatcherInterface) => {
     return `@${matcher.type}("${matcher.value}")`;
 };
 
+const roll = <R, Ctx, TT extends BaseTokenTypes>(tokens: TokenMatcher<TT>, variants: TryVariants<R, Ctx, TT>, context: Ctx) => {
+    for (const variant of variants) {
+        const result = variant(tokens, context);
+
+        if (result) {
+            return result;
+        }
+    }
+};
+
 export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> extends Enumerator<TT, U> {
     protected readonly types: TT[];
     private _matcher: TypedTokenMatcherInterface<TT>;
@@ -104,6 +117,27 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
             return null;
         }
     }
+
+    try<R, Ctx>(variants: TryVariants<R, Ctx, TT>, getContext: () => Ctx | null) {
+        const start = this.current();
+        const state = this.pushState();
+        let result: R | null = null;
+
+        try {
+            result = roll(this, variants, getContext()) || null;
+
+            if (result) {
+                return result;
+            }
+        } finally {
+            this.popState(state);
+
+            if (!result) {
+                console.log('restore');
+                this.goto(start);
+            }
+        }
+    };
 
     public peek(matcher: MatcherInterface<TT>, offset: number = 0): Token<TT> | null {
         const token = this.at(this.current() + offset + 1);
