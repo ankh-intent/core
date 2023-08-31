@@ -98,11 +98,11 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
                     continue;
                 }
 
-                break;
-            }
+                if (this.withModifier(modifier.isNative, tokens, rolls2)) {
+                    continue;
+                }
 
-            while (this.withModifier(modifier.isNative, tokens, rolls2)) {
-                //
+                break;
             }
 
             if (peek.symbol('(')) {
@@ -132,7 +132,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
 
     withModifier<R extends AbstractNode>(isNative: boolean, tokens: TokenMatcher, variants: TryVariants<R, boolean>) {
         return tokens.try(variants, () => {
-            const isAbstract = !isNative && this.child.domain_modifier(tokens).isAbstract;
+            const isAbstract = isNative || this.child.domain_modifier(tokens).isAbstract;
 
             if (isAbstract) {
                 tokens.mark(Markers.ABSTRACT);
@@ -208,7 +208,7 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
             throw this.error(tokens, method, `Getter with the same name "${name}" already present`);
         }
 
-        if (isAbstract) {
+        if (isAbstract || method.isExpressionStatement) {
             ensure.symbol(';');
         }
 

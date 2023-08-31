@@ -14,6 +14,10 @@ export class FunctorNode extends AbstractNode {
         super();
     }
 
+    get isExpressionStatement() {
+        return this.body.isExpressionStatement;
+    }
+
     get children() {
         return [this.generic!, this.args, this.returns!, this.body].filter(Boolean);
     }
