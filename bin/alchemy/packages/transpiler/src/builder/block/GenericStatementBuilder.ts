@@ -10,7 +10,7 @@ export type GenericStatementChildren = {
 
 export class GenericStatementBuilder extends BaseBuilder<StatementNode, GenericStatementChildren> {
     protected build(tokens: TokenMatcher) {
-        let assignment = tokens.lookup(Markers.ASSIGNMENT, this.child.assignment_statement);
+        let assignment = tokens.marked(Markers.ASSIGNMENT, this.child.assignment_statement);
 
         if (assignment) {
             return assignment;

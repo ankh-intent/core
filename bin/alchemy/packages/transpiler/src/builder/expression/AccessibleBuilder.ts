@@ -40,7 +40,7 @@ export class AccessibleBuilder extends BaseBuilder<AbstractNode, AccessibleChild
         } else if (peek.identifier('match')) {
             return this.child.match(tokens);
         } else if (peek.symbol('(')) {
-            const callable = tokens.lookup(Markers.FUNCTOR, this.child.callable);
+            const callable = tokens.marked(Markers.FUNCTOR, this.child.callable);
 
             if (callable) {
                 return callable;
