@@ -11,8 +11,7 @@ export type CastChildren = {
 export class CastBuilder extends BaseBuilder<CastNode, CastChildren> {
     protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
         const type = this.child.type(tokens);
-
-        const hasBody = tokens.has('IS_ABSTRACT') < 0;
+        const hasBody = this.notAbstract(tokens);
 
         if (hasBody) {
             ensure.identifier('is');

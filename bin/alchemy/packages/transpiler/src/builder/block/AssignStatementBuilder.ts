@@ -19,7 +19,7 @@ export class AssignStatementBuilder extends BaseBuilder<AssignmentStatementNode,
             throw this.error(tokens, target, `Expected assignment operator, got "${operator}"`);
         }
 
-        tokens.mark('IS_ASSIGNMENT');
+        this.setAssignment(tokens);
 
         const expression = this.child.expression(tokens);
 

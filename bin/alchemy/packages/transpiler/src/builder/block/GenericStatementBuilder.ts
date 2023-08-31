@@ -1,7 +1,7 @@
 import { TokenMatcher } from '@intent/kernel';
 
 import { StatementNode, AssignmentStatementNode, ExpressionStatementNode } from '@alchemy/ast';
-import { BaseBuilder } from '../BaseBuilder';
+import { BaseBuilder, Markers } from '../BaseBuilder';
 
 export type GenericStatementChildren = {
     assignment_statement: AssignmentStatementNode;
@@ -10,7 +10,7 @@ export type GenericStatementChildren = {
 
 export class GenericStatementBuilder extends BaseBuilder<StatementNode, GenericStatementChildren> {
     protected build(tokens: TokenMatcher) {
-        let assignment = this.lookup('IS_ASSIGNMENT', tokens, this.child.assignment_statement);
+        let assignment = tokens.lookup(Markers.ASSIGNMENT, this.child.assignment_statement);
 
         if (assignment) {
             return assignment;

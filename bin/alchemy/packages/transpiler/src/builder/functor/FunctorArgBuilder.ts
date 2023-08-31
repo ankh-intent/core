@@ -12,7 +12,7 @@ export class FunctorArgBuilder extends BaseBuilder<FunctorArgNode, FunctorArgChi
         const name = ensure.identifier();
 
         if (get.symbol(':')) {
-            tokens.mark('IS_FUNCTOR');
+            this.setFunctor(tokens);
 
             const type = this.child.type(tokens);
 

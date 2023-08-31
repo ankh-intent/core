@@ -60,6 +60,10 @@ export type TypedTokenMatcherInterface<TT extends BaseTokenTypes = BaseTokenType
     is: IsTypeMatcherInterface<TT, boolean>;
 }
 
+export interface TokenizedLookup<R, TT extends BaseTokenTypes> {
+    (tokens: TokenMatcher<TT>): R;
+}
+
 export interface TokensFactory<TT extends BaseTokenTypes> {
     (source: SourceInterface): TokenMatcher<TT>;
 }
@@ -83,6 +87,23 @@ const matcherToString = (matcher: MatcherInterface) => {
 export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> extends Enumerator<TT, U> {
     protected readonly types: TT[];
     private _matcher: TypedTokenMatcherInterface<TT>;
+
+    public lookup<R>(marker: string, invoker: TokenizedLookup<R, TT>): R | null {
+        const mark = { marker };
+
+        try {
+            this.mark(mark);
+
+            return invoker(this);
+        } catch (e) {
+            if (this.has(marker) > this.has(mark)) {
+                // relative marker found
+                throw e;
+            }
+
+            return null;
+        }
+    }
 
     public peek(matcher: MatcherInterface<TT>, offset: number = 0): Token<TT> | null {
         const token = this.at(this.current() + offset + 1);

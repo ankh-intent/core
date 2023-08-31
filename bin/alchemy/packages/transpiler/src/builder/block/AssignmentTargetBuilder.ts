@@ -12,7 +12,7 @@ export type AssignmentTargetChildren = {
 export class AssignmentTargetBuilder extends BaseBuilder<AssignmentTargetNode, AssignmentTargetChildren> {
     protected build(tokens: TokenMatcher, { get }: TypedTokenMatcherInterface) {
         if (get.identifier('let')) {
-            tokens.mark('IS_ASSIGNMENT');
+            this.setAssignment(tokens);
 
             const target = this.child.dereference(tokens);
             const type = get.symbol(':') ? this.child.type(tokens) : null;

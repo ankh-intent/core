@@ -42,8 +42,8 @@ export class DomainBuilder extends BaseBuilder<DomainNode, DomainChildren> {
         }
 
         if (modifier.isNative) {
-            tokens.mark('IS_NATIVE');
-            tokens.mark('IS_ABSTRACT');
+            this.setNative(tokens);
+            this.setAbstract(tokens);
         }
 
         const domains = new Map<string, DomainNode>();

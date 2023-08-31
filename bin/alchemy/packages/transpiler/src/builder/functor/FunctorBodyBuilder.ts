@@ -10,12 +10,12 @@ export type FunctorBodyChildren = {
 
 export class FunctorBodyBuilder extends BaseBuilder<FunctorBodyNode, FunctorBodyChildren> {
     protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
-        const hasBody = tokens.has('IS_ABSTRACT') < 0;
+        const hasBody = this.notAbstract(tokens);
 
         if (hasBody) {
             ensure.symbol('=>');
 
-            tokens.mark('IS_FUNCTOR');
+            this.setFunctor(tokens);
         }
 
         return new FunctorBodyNode(

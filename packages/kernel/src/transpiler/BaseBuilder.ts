@@ -6,13 +6,12 @@ import {
     TokenMatcher,
     SyntaxError,
     TypedTokenMatcherInterface,
+    TokenizedLookup,
 } from '@intent/parser';
 
 import { TreeNode, TokenVisitor } from '@intent/ast';
 
-export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> {
-    (tokens: TokenMatcher<TT>): N;
-}
+export interface BuildInvoker<N extends TreeNode, TT extends BaseTokenTypes = any> extends TokenizedLookup<N, TT> {}
 
 export type BuilderInvokers<T extends Container<TreeNode>, TT extends BaseTokenTypes = BaseTokenTypes> = {
     [name in keyof T]: BuildInvoker<T[name], TT>;
@@ -56,23 +55,6 @@ export abstract class BaseBuilder<
             tokens.goto(index);
 
             throw this.error(tokens, this.name, `Failed @${this.name}`, e);
-        }
-    }
-
-    protected lookup<T extends TreeNode>(marker: string, tokens: TokenMatcher<TT>, invoker: BuildInvoker<T>): T | null {
-        const mark = { marker };
-
-        try {
-            tokens.mark(mark);
-
-            return invoker(tokens);
-        } catch (e) {
-            if (tokens.has(marker) > tokens.has(mark)) {
-                // relative marker found
-                throw e;
-            }
-
-            return null;
         }
     }
 

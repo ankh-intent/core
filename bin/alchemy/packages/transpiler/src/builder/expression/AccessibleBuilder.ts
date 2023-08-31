@@ -11,7 +11,7 @@ import {
     MatchNode,
     StatementNode,
 } from '@alchemy/ast';
-import { BaseBuilder } from '../BaseBuilder';
+import { BaseBuilder, Markers } from '../BaseBuilder';
 
 export type AccessibleChildren = {
     expression: ExpressionNode;
@@ -40,7 +40,7 @@ export class AccessibleBuilder extends BaseBuilder<AbstractNode, AccessibleChild
         } else if (peek.identifier('match')) {
             return this.child.match(tokens);
         } else if (peek.symbol('(')) {
-            const callable = this.lookup('IS_FUNCTOR', tokens, this.child.callable);
+            const callable = tokens.lookup(Markers.FUNCTOR, this.child.callable);
 
             if (callable) {
                 return callable;

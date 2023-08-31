@@ -28,7 +28,7 @@ export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgs
             }
         }
 
-        tokens.mark('IS_FUNCTOR');
+        this.setFunctor(tokens);
 
         return new FunctorArgsNode(
             args,
