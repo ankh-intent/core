@@ -58,11 +58,14 @@ export abstract class BaseBuilder<
         }
     }
 
-    protected narrowRegion(tokens: TokenMatcher<TT>, start: number, end?: number): RegionInterface {
+    protected narrowRegion(tokens: TokenMatcher<TT>, start?: number, end?: number): RegionInterface {
         const source = tokens.source;
         const current = tokens.current();
+        start = start ?? current;
+        end = end ?? current + 1;
+
         const before = this.seek(tokens, start, +1);
-        const after = (current !== start) && this.seek(tokens, end ?? current + 1, -1);
+        const after = (current !== start) && this.seek(tokens, end, -1);
 
         const from = before ? before.start : 0;
         const to = after ? after.end : from;
