@@ -64,22 +64,8 @@ export abstract class BaseBuilder<
         const before = this.seek(tokens, start, +1);
         const after = (current !== start) && this.seek(tokens, end ?? current + 1, -1);
 
-        let from = 0;
-        let to = 0;
-
-        if (before) {
-            from = before.start;
-        }
-
-        if (after) {
-            to = after.end;
-        } else {
-            to = from;
-        }
-
-        if (to < from) {
-            debugger;
-        }
+        const from = before ? before.start : 0;
+        const to = after ? after.end : from;
 
         return new Region(
             source.location(from),
