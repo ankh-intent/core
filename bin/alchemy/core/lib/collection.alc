@@ -21,22 +21,22 @@ abstract domain Collection<E, Context> {
     abstract replace(predicate: Matcher<E, Context>, replacement?: Collection<E>)?: Size;
     abstract each(consumer: Matcher<E, Context>): Size;
 
-    augment domain Sure {{
-        domain Collection is NonEmpty of Any.Collection;
+    augment domain Sure {
+        domain Collection of Any.Collection is NonEmpty;
     }
 
-    augment domain Number {{
-        domain Index is {{
-            domain Valid is GreaterThanOrEqual(0)
+    augment domain Number {
+        domain Index is {
+            domain Valid is GreaterThanOrEqual(0);
             domain Invalid is LessThan(0);
-        }}
+        }
 
-        domain Size is {{
+        domain Size is {
             is GreaterThanOrEqual(0);
-        }}
-    }}
+        }
+    }
 
-    domain Range {{ start?: Index; end?: Index }
+    domain Range {{ start?: Index, end?: Index }
         trait Left is () => start is Index.Valid;
         trait Right is () => end is Index.Valid;
         trait Valid is () => (isLeft ^^ isRight) || (end > start);
@@ -57,9 +57,9 @@ abstract domain Collection<E, Context> {
         }
     }
 
-    native domain Array<E, Index.Valid> is <E, Index.Valid> {{ @array value: self = [] }
+    native domain Array<E, Index.Valid> is {{ @array value: self = [] }
         is Sized;
-        is Iterable;
+        is Iterable<E>;
 
         augment domain Matcher {{
             domain Slice<E> of Range {{
