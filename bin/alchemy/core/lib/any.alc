@@ -1,7 +1,7 @@
 native domain Any {
-    trait Is is (other: Any);
-    trait Not is (other: Any);
-    trait Void is Equal();
+    trait Is<T> is (other: Any): Boolean;
+    trait Not<T> is (other: Any): Boolean;
+    trait Void<T> is Equal(): Boolean;
 
     native domain Type<T> is {{
             type: T,

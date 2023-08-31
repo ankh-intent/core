@@ -4,11 +4,11 @@ abstract domain Collection<E, Context> {
     to Number is () => Number.parse(this);
     to String is () => this;
 
-    trait Sized is () => with size;
-    trait IsEmpty is () => !(this is Sized && size); // would cause reconciliation error on non-sized domains
-    trait Iterable<E> is () => with iterate;
+    abstract trait Sized is (): Boolean;
+    abstract trait IsEmpty is (): Boolean;
+    abstract trait Iterable<E> is (): Boolean;
 
-    abstract get size: Size;
+    abstract get size(): Size;
 
     abstract iterate(): Iterator<E>;
     abstract has(element: E): Boolean;
@@ -20,8 +20,6 @@ abstract domain Collection<E, Context> {
     abstract match(predicate: Matcher<E, Context>)?: E;
     abstract replace(predicate: Matcher<E, Context>, replacement?: Collection<E>)?: Size;
     abstract each(consumer: Matcher<E, Context>): Size;
-
-    abstract get size(): Number;
 
     augment domain Sure {{
         domain Collection is NonEmpty of Any.Collection;
