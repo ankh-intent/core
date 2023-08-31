@@ -1,9 +1,10 @@
 import { TypedTokenMatcherInterface, TokenMatcher } from '@intent/kernel';
 
-import { FunctorNode, ReferenceNode, FunctorArgsNode, FunctorBodyNode } from '@alchemy/ast';
+import { FunctorNode, ReferenceNode, FunctorArgsNode, FunctorBodyNode, GenericTemplatesNode } from '@alchemy/ast';
 import { BaseBuilder } from '../BaseBuilder';
 
 export type FunctorChildren = {
+    generic_templates: GenericTemplatesNode;
     type: ReferenceNode;
     maybe_type: ReferenceNode;
     functor_args: FunctorArgsNode;
@@ -12,6 +13,8 @@ export type FunctorChildren = {
 
 export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
     protected build(tokens: TokenMatcher, { peek, get, ensure }: TypedTokenMatcherInterface) {
+        const generics = this.child.generic_templates(tokens);
+
         const indexer = peek.symbol('[');
 
         ensure.symbol(indexer ? '[' : '(');
@@ -28,6 +31,7 @@ export class FunctorBuilder extends BaseBuilder<FunctorNode, FunctorChildren> {
         return new FunctorNode(
             args,
             returns,
+            generics,
             body,
         );
     }

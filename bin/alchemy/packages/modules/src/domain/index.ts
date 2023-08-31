@@ -1,6 +1,7 @@
 export * from './DomainModifier';
 export * from './Domain';
 export * from './Generic';
+export * from './Generics';
 export * from './Cast';
 export * from './Trait';
 export * from './Constraint';
