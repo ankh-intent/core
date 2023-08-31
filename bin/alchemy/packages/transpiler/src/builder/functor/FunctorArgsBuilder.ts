@@ -23,6 +23,10 @@ export class FunctorArgsBuilder extends BaseBuilder<FunctorArgsNode, FunctorArgs
 
             args.push(arg);
 
+            if (peek.symbol(',')) {
+                this.setFunctor(tokens);
+            }
+
             if (not.symbol(',')) {
                 break;
             }
