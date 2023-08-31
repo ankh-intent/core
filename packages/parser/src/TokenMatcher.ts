@@ -133,7 +133,6 @@ export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> e
             this.popState(state);
 
             if (!result) {
-                console.log('restore');
                 this.goto(start);
             }
         }
