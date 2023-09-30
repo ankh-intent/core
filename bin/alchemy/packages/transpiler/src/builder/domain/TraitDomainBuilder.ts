@@ -19,8 +19,6 @@ export type TraitDomainChildren = {
 
 export class TraitDomainBuilder extends BaseBuilder<DomainNode, TraitDomainChildren> {
     protected build(tokens: TokenMatcher, { ensure }: TypedTokenMatcherInterface) {
-        const hasBody = this.notAbstract(tokens);
-
         const identifier = ensure.identifier();
         const generics = this.child.generic_templates(tokens);
 

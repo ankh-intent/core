@@ -1,4 +1,5 @@
-import { SourceInterface } from '@intent/source';
+import { blue, red } from 'colorette';
+import { SourceInterface, RegionInterface } from '@intent/source';
 
 import { SyntaxError } from './SyntaxError';
 import { Token } from './Token';
@@ -100,6 +101,25 @@ const roll = <R, Ctx, TT extends BaseTokenTypes>(tokens: TokenMatcher<TT>, varia
 export class TokenMatcher<TT extends BaseTokenTypes = BaseTokenTypes, U = any> extends Enumerator<TT, U> {
     protected readonly types: TT[];
     private _matcher: TypedTokenMatcherInterface<TT>;
+    private _reports: Map<string, RegionInterface> = new Map();
+
+    public report(name: string, region: RegionInterface) {
+        const key = `${region.source.reference}[${region.position}-{${region.end}]`;
+
+        if (this._reports.has(key)) {
+            return;
+        }
+
+        const code = region.extract().trim();
+
+        if (!code) {
+            return;
+        }
+
+        this._reports.set(key, region);
+
+        console.log(blue(`done (${red(name)})>`), code);
+    }
 
     public marked<R>(marker: string, invoker: TokenizedLookup<R, TT>): R | null {
         const mark = { marker };

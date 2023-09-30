@@ -57,7 +57,7 @@ abstract domain Collection<E, Context> {
         }
     }
 
-    native domain Array<E, Index.Valid> is {{ @array value: self = [] }
+    native domain Array<E> of Collection<E, Index.Valid> is {{ @array value: self = [] }
         is Sized;
         is Iterable<E>;
 

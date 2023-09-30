@@ -9,6 +9,6 @@ native domain String {{ @string value: self }
     get size(): Number;
 
     augment domain Sure {
-        domain String is NotEmpty of Any.String; // `String` here is shadowed, so use `Any.String` instead
+        domain String of Any.String is NotEmpty; // `String` here is shadowed, so use `Any.String` instead
     }
 }

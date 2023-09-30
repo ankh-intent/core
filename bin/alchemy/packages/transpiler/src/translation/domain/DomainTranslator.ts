@@ -5,12 +5,12 @@ import {
     FunctorNode,
     UsesNode,
     ReferenceNode,
-    GenericTemplateNode,
     DomainInterfaceNode,
     AssignmentStatementNode,
     TraitNode,
     ConstraintNode,
-    DomainModifierNode, GenericTemplatesNode,
+    DomainModifierNode,
+    GenericTemplatesNode,
 } from '@alchemy/ast';
 import { Domain, DeclarationRegistry, Qualifier, Trait } from '@alchemy/modules';
 import { AlchemyNodeTranslator } from '../AlchemyNodeTranslator';

@@ -44,6 +44,7 @@ export abstract class BaseBuilder<
 
             if (node) {
                 node.astRegion = this.narrowRegion(tokens, index);
+                // tokens.report(node.node, node.astRegion);
             } else {
                 tokens.goto(index);
             }

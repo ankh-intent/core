@@ -4,7 +4,7 @@ use Alchemy: {
 };
 
 domain Players of Sure.Collection<Player> {
-  is () => (size > 1);
+  is IsMultiple as () => (size > 1);
 
   domain Player {{
     id: Number.Positive,
