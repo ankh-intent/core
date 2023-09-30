@@ -21,13 +21,10 @@
     "bin": {
         "intent": "bin/alchemy/alchemy.ts"
     },
-    "workspaces": {
-        "packages": ["./src/packages/*"]
-    },
     "devDependencies": {
         "@types/node": "^18.17.9",
         "@types/yargs": "^17.0.24",
-        "@intent/tests": "*",
+        "@intent/tests": "workspace:*",
         "ts-node": "^10.9.1",
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.2.2",

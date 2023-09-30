@@ -1,0 +1,21 @@
+native domain Number {{
+        @number value: self,
+        parse(string: String, radix: Number): Number,
+    }
+
+    to String;
+    to Boolean;
+
+    trait Equal is (other: Number);
+    trait LessThan is (max: Number);
+    trait GreaterThan is (min: Number);
+    trait LessThanOrEqual is (max: Number);
+    trait GreaterThanOrEqual is (min: Number);
+    trait InRange is (min: Number, max: Number);
+
+    native domain Random is { (min: Number, max: Number): self }
+
+    domain Natural is GreaterThanOrEqual(0);
+    domain Positive is GreaterThan(0);
+    domain Negative is LessThan(0);
+}

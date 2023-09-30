@@ -1,0 +1,14 @@
+/**
+  Implicitly inherits `Any` domain.
+  Can be referenced as `String` (as it is a @native domain) or as `Any.String` (but only within it's own declaration).
+*/
+native domain String {{ @string value: self }
+    to Boolean;
+    to Number;
+
+    get size(): Number;
+
+    augment domain Sure {
+        domain String of Any.String is NotEmpty; // `String` here is shadowed, so use `Any.String` instead
+    }
+}

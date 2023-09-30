@@ -1,0 +1,13 @@
+use Alchemy: {
+  Number,
+  Sure,
+};
+
+domain Players of Sure.Collection<Player> {
+  is IsMultiple as () => (size > 1);
+
+  domain Player {{
+    id: Number.Positive,
+    name: Sure.String,
+  }}
+}

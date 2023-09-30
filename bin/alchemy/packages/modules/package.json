@@ -1,0 +1,24 @@
+{
+    "name": "@alchemy/modules",
+    "version": "0.0.10",
+    "description": "Alchemy compiler core nodes",
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "keywords": [
+        "intent-alchemy",
+        "intent"
+    ],
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts",
+            "default": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@intent/kernel": "workspace:*",
+        "@intent/translator": "workspace:*",
+        "@intent/consumers": "workspace:*",
+        "@alchemy/ast": "workspace:*"
+    }
+}

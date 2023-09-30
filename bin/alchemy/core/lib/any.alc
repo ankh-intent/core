@@ -1,0 +1,13 @@
+native domain Any {
+    trait Is<T> is (other: Any): Boolean;
+    trait Not<T> is (other: Any): Boolean;
+    trait Void<T> is Equal();
+
+    native domain Type<T> is {{
+            type: T,
+            cast(value: Any)?: T,
+        }
+
+        to String;
+    }
+}

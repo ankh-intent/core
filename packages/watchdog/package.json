@@ -1,0 +1,22 @@
+{
+    "name": "@intent/watchdog",
+    "version": "0.0.10",
+    "description": "Intent language compiler core",
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "keywords": [
+        "intent",
+        "intent-core"
+    ],
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts",
+            "default": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@intent/utils": "workspace:*",
+        "chokidar": "^3.5.3"
+    }
+}

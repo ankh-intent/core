@@ -1,3 +1,0 @@
-domain Answer of String {{
-    protected prompt(question: String) => self(IO.prompt(question));
-}}

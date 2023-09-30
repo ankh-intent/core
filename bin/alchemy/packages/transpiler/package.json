@@ -1,0 +1,26 @@
+{
+    "name": "@alchemy/transpiler",
+    "version": "0.0.10",
+    "description": "Alchemy compiler core AST -> nodes transpiler",
+    "author": "ankhzet@gmail.com",
+    "license": "ISC",
+    "keywords": [
+        "intent-alchemy",
+        "intent"
+    ],
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "import": "./index.ts",
+            "default": "./index.ts"
+        }
+    },
+    "dependencies": {
+        "@intent/kernel": "workspace:*",
+        "@intent/consumers": "workspace:*",
+        "@intent/plugins": "workspace:*",
+        "@intent/translator": "workspace:*",
+        "@alchemy/ast": "workspace:*",
+        "@alchemy/modules": "workspace:*"
+    }
+}

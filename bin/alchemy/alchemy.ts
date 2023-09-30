@@ -1,18 +1,8 @@
-#!/usr/bin/env -S cross-env NODE_NO_WARNINGS=1 TS_NODE_PROJECT=tsconfig.json node -r ts-node/register
+#!/usr/bin/env -S pnpm cross-env NODE_NO_WARNINGS=1 TS_NODE_PROJECT=tsconfig.json node -r ts-node/register
 
-import { resolve } from 'node:path';
-import { register } from 'tsconfig-paths';
-import { compilerOptions } from './tsconfig.json';
-
-const baseUrl = resolve(compilerOptions.baseUrl);
-const cleanup = register({
-    baseUrl,
-    paths: compilerOptions.paths,
-});
+import { factory }  from './core';
 
 (async () => {
-    const { factory } = await import('./core');
-
     try {
         await factory();
 
@@ -21,7 +11,5 @@ const cleanup = register({
         console.error(e);
 
         process.exit(1);
-    } finally {
-        cleanup();
     }
 })();

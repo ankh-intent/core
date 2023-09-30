@@ -1,5 +1,6 @@
 import { join, resolve } from 'path';
 
+import { LogLevel, Logger } from '@intent/kernel';
 import { TranspilerConfig } from '@intent/pipeline';
 
 const cwd = process.cwd();
@@ -26,7 +27,7 @@ const config: TranspilerConfig = {
         files: false,
         stats: false,
         config: false,
-        verbose: false,
+        verbosity: Logger.inverse(LogLevel.NORMAL),
     },
     watch: {
         root: cwd,

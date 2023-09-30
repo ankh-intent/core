@@ -1,0 +1,66 @@
+use Players: { Player };
+use Score;
+
+domain Game {{
+    players: Players,
+    dice: Number.Positive = 6,
+    goal: Number.Positive = 100,
+  }
+
+  domain Outcome {
+    domain Win is {{
+      player: Player,
+      scored: Score.Winning,
+    }}
+
+    domain Draw is {{
+      scores: Map<Player, Score>,
+    }}
+  }
+
+  let scores = Map(players.map((player) => [player, Score(0)]));
+  let withdrawn: Set<Player> = Set();
+  let victory = Score.Winning({ max: goal });
+  let turn = players[0];
+
+  get score[player: Player]: Score => {
+    return scores[player];
+  }
+
+  get next[player: Player]?: Player => {
+    if (withdrawn.size == players.size) {
+      return;
+    }
+
+    let index = players.indexOf(player);
+
+    each (let next of Index((++index) % players.size)) {
+      let candidate = players[next];
+
+      if (!withdrawn.has(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
+  (): Outcome => {
+    each (let { rolled } of Roll.make(dice)) {
+      if (rolled is PositiveNumber) {
+        let scored = score[turn] + rolled;
+
+        if (victory(scored)) {
+          return Outcome.Win({
+            player: turn,
+            scored,
+          });
+        }
+      }
+
+      if (!(turn = next[turn])) {
+        break;
+      }
+    }
+
+    return Outcome.Draw(scores);
+  }
+}

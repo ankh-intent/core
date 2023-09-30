@@ -1,0 +1,5 @@
+native domain Maybe<E> {{ value: self }
+    trait NonEmpty is Not(Void);
+
+    domain Value<E> is NonEmpty;
+}

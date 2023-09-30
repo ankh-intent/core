@@ -29,7 +29,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
     });
 
     if (config.emit.config) {
-        core.logger.log(Logger.INFO, inspect(config, { depth: null }));
+        core.logger.log(Logger.LOG, inspect(config, { depth: null }));
         process.exit(0);
     }
 
@@ -40,7 +40,7 @@ export const factory = (configOverride?: Partial<TranspilerConfig>): Promise<Cor
             switch (type) {
                 case StatEvent.type():
                     if (config.emit.stats) {
-                        core.logger.log(Logger.INFO, event, inspect(data.stat, {
+                        core.logger.log(Logger.LOG, event, inspect(data, {
                             depth: null,
                             colors: true,
                             customInspect: true,

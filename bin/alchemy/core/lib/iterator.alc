@@ -1,0 +1,15 @@
+native domain Iterator<E> {{
+        value?: E,
+        done(iterator: Iterator<E>): Boolean,
+        current(iterator: Iterator<E>)?: E,
+    }
+
+    trait IsDone is Void;
+
+    domain Done is IsDone;
+
+    domain Value is {{
+        value: E,
+        next()?: Iterator<E>,
+    }}
+}
